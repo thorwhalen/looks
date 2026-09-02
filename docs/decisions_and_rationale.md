@@ -363,7 +363,8 @@ Every row is `(provider, realisation, component)`. The tier is **derived** by `c
 | `opencv-python-headless` bundled ffmpeg | `pypi:*, macosx_14_0_x86_64` | **no FFmpeg at all** (`FFMPEG: NO`; 4 vendored dylibs, all permissive) | wheel inspection | `PERMISSIVE` |
 | `opencv-python-headless` bundled ffmpeg | `pypi:*, manylinux` | LGPL-2.1-or-later; **no** x264/x265 | wheel inspection | `WEAK_COPYLEFT` |
 | `ultralytics` | `pypi:ultralytics` | AGPL-3.0 (three distributions: `ultralytics`, `-thop`, `-platform`) | metadata; paces ADR-0005 §3 | `FORBIDDEN` for our use |
-| `argh` 0.31.3 | `pypi:argh` | classifier reads LGPL | metadata | `WEAK_COPYLEFT` — **do not use for the CLI** |
+| `argh` 0.31.3 | `pypi:argh` | LGPL-3.0 — and the PyPI metadata `License:` field is **empty**; only the shipped `COPYING`/`COPYING.LESSER` pair says so | file (2026-09-02) | `WEAK_COPYLEFT` — **do not use for the CLI** |
+| `cw` 0.1.2 | `pypi:cw` | MIT; `dependencies = []`, and `import cw` verified to pull in **nothing** beyond stdlib — its `argcomplete`/`i2` imports are lazy | file + run (2026-09-02) | `PERMISSIVE` — **this is the CLI** |
 | `colour-science` 0.4.7 | `pypi:colour-science` | BSD-3-Clause; the only surveyed lib that **writes** an Iridas `.cube` | metadata + source | `PERMISSIVE` |
 | `moderngl` + `glcontext` | `pypi` | MIT, 488 KB, bundles nothing | metadata + wheel | `PERMISSIVE` |
 | AnimeGANv2 (upstream) | weights | **NO LICENSE FILE**; GitHub API returns `license: null`; README prose only | API + repo | **`UNKNOWN`** — not "non-commercial" |
@@ -423,9 +424,11 @@ Verified: `needs_gpl(['nosuchfilter'])` -> `()`, and `needs_gpl(['EQ'])` -> `()`
 
 ## 7. The two owner questions
 
-### 7.1 Should `burns` become a `looks` backend? `[OWNER]`
+### 7.1 Should `burns` become a `looks` backend? `[RATIFIED 2026-09-02]`
 
-> **RECOMMENDATION: no. `burns` stays separate; `looks` never grows a second geometry-over-time type; `burns` gains a `looks`-backed ffmpeg backend.**
+> **RATIFIED by the owner, 2026-09-02: no. `burns` stays separate; `looks` never grows a second geometry-over-time type; `burns` gains a `looks`-backed ffmpeg backend.**
+>
+> Consequence for this repo: `looks` builds the **compile** side — normalised keyframes to an ffmpeg fragment — and `burns` registers the backend that samples a `BurnsPath` into those keyframes and runs the argv. The dependency points `burns -> looks`, which is legal because `looks` is stdlib-only; the reverse stays forbidden.
 
 **The rule that draws the line — and it is not "geometry versus pixels":**
 
@@ -449,16 +452,28 @@ Rule G predicts every case already in the code, including the one that breaks th
 
 Two research notes told the `burns` owner to use `crop=` and avoid `zoompan`, inheriting a docstring from `muvid/footage/assemble.py`. **Both halves of that advice are wrong on ffmpeg 8.1, verified today:**
 
-- **`crop` cannot zoom.** Its `w`/`h` are evaluated once at filter configuration — they set the output frame size, which cannot vary within a stream. Verified: a time-ramped `crop=w=...:h=...` over 60 frames produced 60 frames of unchanged full size. `crop` expresses a **pan** at constant window size, which is exactly what muvid's `_crop_filter` does and all it does.
-- **`zoompan` has time variables and does not duplicate frames.** Verified on 8.1: `in_time` is accepted and functional; with `d=1` a 60-frame input yields exactly 60 frames. Frame duplication is entirely the `d=90` default. `pon` — which muvid's docstring claims the filter *has* — raises "Undefined constant". `zoompan_filter_deps="swscale"`: **not GPL-gated**.
+- **`crop` cannot zoom, and it does not fail quietly.** An earlier pass recorded this as "`w`/`h` are evaluated once at configuration", which understates it: `t` is **not in scope** for those parameters and the filter **refuses to configure** — `Error when evaluating the expression` followed by `Failed to configure input pad`, reproduced today in all three forms (`-vf` over a file, `-vf` over `lavfi`, and `movie=`), and with only `w` ramped as well as both. Nothing renders. The distinction matters because "evaluated once" invites the reading that you get a frozen-but-working crop; you get no output at all. `crop` expresses a **pan** at constant window size, which is exactly what muvid's `_crop_filter` does and all it does.
+- **`zoompan` has time variables and does not duplicate frames.** `in_time` and `it` are both accepted and functional; `t` raises `Undefined constant`. With `d=1` a 20-frame input yields exactly 20 frames, against 1800 at this build's `d=90` default — so the duplication is entirely the default. `zoompan_filter_deps="swscale"`: **not GPL-gated**.
 
-So the fast path for a varying `Rect` is `zoompan` with `d=1` and an explicit `fps`, driven by `in_time`. **Correct muvid's docstring at its source**; it is currently steering a design decision on a fact that does not hold.
+**Three further `zoompan` facts, measured 2026-09-02 while building the compiler, none of which was in the notes** — each is a silent wrong answer rather than an error, which is why each is now a refusal in code:
+
+| fact | measurement | what `looks.motion` does |
+|---|---|---|
+| `x`/`y` are in **original input pixels**, not zoomed ones | the two readings score **60.5 dB** and **6.3 dB** against a `crop`+`scale` reference for the same window | emits the correct one; a caller never chooses |
+| `fps` **silently retimes** | `fps=25` on a 10 fps source keeps all 20 frames and makes a 2.0 s clip **0.8 s** — a frame-count check passes | `fps` is required, never defaulted |
+| `zoom` is **clamped at 10**, silently | z=10 scores 54.4 dB, z=12 scores **13.2 dB** — a different framing, not a worse one | refuses a window below 1/10 of the frame |
+
+So the fast path for a varying `Rect` is `zoompan` with `d=1`, an explicit `fps` equal to the source's rate, expressions in `in_time`, and a window that keeps the source's aspect ratio. **All four are compiled by `looks.motion`, so an adapter has to remember none of them.** Full transcript: `docs/research/00f_motion_filters_evidence.md`. **Correct muvid's docstring at its source**; it is currently steering a design decision on a fact that does not hold.
+
+**Status: the compile side is BUILT** — `looks/motion.py`, exported as `compile_motion` / `Keyframe` / `Window` and reachable as `looks motion T:X,Y,W,H ...`. It picks the filter from what the path *does* (size varies → `zoompan`, else `crop`), because that is not a matter of taste. Easing stays on burns' side of the seam: a path arrives here already sampled into keyframes and is interpolated linearly between them, which is what lets `looks` never learn what `ease_in_out_cubic` means and `burns` never learn what `in_time` is. What remains is the `burns`-side adapter, which is not this repo's to write.
 
 **Caveat on the letterbox row:** `cropdetect` is GPL-gated *and* it prints to the log rather than cropping, so performing it is a subprocess plus a measurement — both of which `looks` forbids itself. Letterbox *detection* is a `Probe`-side capability the caller runs; only the resulting rectangle is a `looks` effect. [11][R11][2]
 
-### 7.2 Does `looks` own normalisation as well as stylization? `[OWNER]`
+### 7.2 Does `looks` own normalisation as well as stylization? `[RATIFIED 2026-09-02]`
 
-> **RECOMMENDATION: yes. One package, one vocabulary, one registry, one tier system, one insertion point. The API difference is two RESOLVERS, not two `Effect` types.**
+> **RATIFIED by the owner, 2026-09-02: yes. One package, one vocabulary, one registry, one tier system, one insertion point. The API difference is two RESOLVERS, not two `Effect` types.**
+>
+> Shipped as `Look.target = EXTERNAL | SET_RELATIVE` in `looks.spec`, with `resolve` / `resolve_across` and the refusal that a `SET_RELATIVE` Look cannot be resolved against a single clip.
 
 **The case for.** They compile to the same place — not analogously, *literally*: `_render_part`'s `vf` string is one comma-chain and both a continuity grade and an extreme look go into it. Two packages would mean two compilers writing into one string, with ordering negotiated across a package boundary. The Que Calor measurement makes them **mutually dependent**: the right rule normalises the output across sources, so you cannot compute the continuity grade without knowing what the stylization does to the clip — splitting them puts a measurement loop across a package boundary, which is the one thing a boundary must not do. And the tier system bites *harder* on normalisation, because `eq` — the natural grade filter — is the gated one while the whole Que Calor stylization chain is LGPL-clean.
 
@@ -513,7 +528,7 @@ resolve_across(look, probes) -> tuple[Look, ...]      # target = the set's own d
 
 - **A neural backend, and a neural SEAM.** [9] The house rule is that a seam is declared only when its eventual replacement exists somewhere you can point at. It does not. The one commercially-clean CPU-runnable stylizer (ONNX Model Zoo `fast_neural_style`, BSD-3 code **and** weights) fails the flicker bar by measurement — 1.20-2.82x the source's own frame-to-frame change against the shipped chain's 0.70x — and the ratio *grows as the source gets calmer* (mosaic-9: 1.69x -> 2.77x -> 4.02x), which is flicker's signature and means the failure is worst exactly where an editor notices most. It also costs 2.991 s/frame at 1080p on CPU, i.e. 71.8 CPU-seconds per second of 24 fps output. The licence-clean 2026 video models that would clear the flicker bar natively (ByteDance Bernini-R, plain Apache-2.0) need Hopper-class GPUs. Nothing occupies the intersection. **The hosted neural route is `falaw`'s job**, through falaw#16's `(model, backend)` ledger — and falaw's registry today holds 40 models with **no `video_to_video` category at all**, so even that is a future integration.
 - **`av`, `imageio-ffmpeg`, `moviepy`, `ultralytics`, `opencv-contrib-python`.** Each with its recorded reason (§5.7); a prohibition without a stated reason gets relitigated.
-- **`argh`** for the CLI (LGPL). Stdlib `argparse`; `typer` only behind a `[cli]` extra, because it pulls six packages into a distribution that declares stdlib only. [2][R2]
+- **`argh`** for the CLI (LGPL-3.0, and its PyPI metadata `License:` field is **empty** — only the shipped `COPYING`/`COPYING.LESSER` pair says so, which is exactly the class of fact this package exists to catch). **The CLI is `cw`** (`$PP/i/cw`, MIT, `dependencies = []`, on PyPI): verified 2026-09-02 that `import cw` pulls in **nothing** beyond stdlib — its `argcomplete` and `i2` imports are lazy, inside the functions that need them. It is the fleet's own `argh` replacement, so `looks` neither reaches for the LGPL package nor hand-rolls `argparse`. `typer` stays refused: it pulls six packages into a distribution that declares stdlib only. [2][R2]
 - **Any dependency added without inspecting what its wheel SHIPS.** Three of the most obvious media dependencies in Python declare permissive licences while shipping GPL binaries. That is not three coincidences; it is what the packaging ecosystem normally does, because wheel metadata describes the project's own source and nobody's tooling looks inside `.dylibs/`.
 
 ---
@@ -601,7 +616,7 @@ Each step names what it unblocks. Steps 1-3 are independent of each other after 
 
 **12. File the `muvid` `eq=` issue.** `muvid/visualize/canvas.py:224` emits `eq=brightness=-<dim>:saturation=<sat>` — the single `eq=` in the whole muvid tree, against nine uses of `colorchannelmixer` elsewhere in the same package. It is GPL-only, and `brightness` is the additive offset rule 13 forbids. Replacement: a scaled `colorchannelmixer` matrix. **One filter call quietly raising a shipped product's licence tier for a cosmetic dim, with a better replacement available, is the concrete case for this package existing** — use it as the worked example in the docs.
 
-**13. The `burns` adapter** — gated on §7.1's ratification. Correct `muvid/footage/assemble.py`'s `zoompan` docstring in the same pass, whatever the owner decides, because it is currently wrong and steering design.
+**13. The `burns` adapter** — §7.1 ratified and the `looks` half **built** (`looks/motion.py`). What remains is on `burns`: register an `"ffmpeg"` backend that samples a `BurnsPath` into keyframes, calls `looks.compile_motion`, and runs the argv. Correct `muvid/footage/assemble.py`'s `zoompan` docstring in the same pass — it is wrong and it steered this design for two research notes.
 
 ---
 

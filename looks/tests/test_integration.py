@@ -153,19 +153,56 @@ class TestTheInvariantHoldsAcrossTheStack:
         with pytest.raises(InvariantViolation):
             check_analysis_only(["ffmpeg", "-i", "a.mp4", "-vf", "scale=2:2", "out.mp4"])
 
-    def test_the_package_still_declares_nothing(self):
-        """A composition test is where a stray dependency would first show up,
-        because this is the file that imports everything at once."""
+    def test_importing_looks_reaches_nothing_third_party(self):
+        """The claim, in the form that is actually checkable.
+
+        An earlier version of this test forbade *any* third-party name in the
+        source, which was too strong the moment an optional extra arrived: the
+        CLI imports `cw` **inside** `main`, so `import looks` never reaches it.
+        What matters is not whether a name appears in the tree but whether
+        importing the library pulls it in — so this asks the interpreter.
+        """
+        import subprocess
+        import sys
+
+        src = (
+            "import sys\n"
+            "before = set(sys.modules)\n"
+            "import looks\n"
+            "new = {m.split('.')[0] for m in set(sys.modules) - before}\n"
+            "third = sorted(m for m in new\n"
+            "               if m not in sys.stdlib_module_names\n"
+            "               and not m.startswith('_') and m != 'looks')\n"
+            "print(','.join(third))\n"
+        )
+        out = subprocess.run(
+            [sys.executable, "-c", src], capture_output=True, text=True
+        )
+        pulled = [m for m in out.stdout.strip().split(",") if m]
+        assert not pulled, f"importing looks pulled in: {pulled}"
+
+    def test_any_third_party_name_in_the_source_is_a_declared_extra(self):
+        """The other half: a name may appear only if it is *declared* as an
+        extra and imported lazily. That keeps the zero-dependency claim honest
+        without banning optional capability — and it means adding a dependency
+        forces a `pyproject.toml` edit, which the licence ledger's own coverage
+        test then forces into the ledger."""
         import ast
         import pathlib
         import sys
 
+        from looks.tests._pyproject import distribution_names, optional_dependencies
+
         root = pathlib.Path(looks.__file__).parent
-        third = set()
+        declared = distribution_names(
+            spec for specs in optional_dependencies().values() for spec in specs
+        )
+        undeclared = {}
         for path in root.rglob("*.py"):
             if "tests" in path.parts:
                 continue
-            for node in ast.walk(ast.parse(path.read_text())):
+            tree = ast.parse(path.read_text())
+            for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     mods = [a.name for a in node.names]
                 elif isinstance(node, ast.ImportFrom):
@@ -174,7 +211,14 @@ class TestTheInvariantHoldsAcrossTheStack:
                     continue
                 for m in mods:
                     top = m.split(".")[0]
-                    if top and top not in ("looks", "__future__"):
-                        if top not in sys.stdlib_module_names:
-                            third.add(top)
-        assert not third, f"third-party imports in the package: {sorted(third)}"
+                    if not top or top in ("looks", "__future__"):
+                        continue
+                    if top in sys.stdlib_module_names:
+                        continue
+                    if top in declared and node.col_offset > 0:
+                        continue  # a declared extra, imported lazily
+                    undeclared[f"{path.name}:{node.lineno}"] = top
+        assert not undeclared, (
+            f"third-party imports that are neither stdlib nor a lazily-imported "
+            f"declared extra: {undeclared}"
+        )

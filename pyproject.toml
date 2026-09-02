@@ -22,8 +22,19 @@ Homepage = "https://github.com/thorwhalen/looks"
 Repository = "https://github.com/thorwhalen/looks"
 Documentation = "https://thorwhalen.github.io/looks"
 
+[project.scripts]
+looks = "looks.cli:main"
+
 [project.optional-dependencies]
+# `cw` (MIT, dependencies = []) turns the command table into an argparse parser.
+# An EXTRA and not a dependency: `import looks` must stay stdlib-only, so the
+# library cannot require its own CLI. Verified 2026-09-02 that `import cw` pulls
+# in nothing beyond stdlib — its argcomplete/i2 imports are lazy.
+cli = [
+    "cw",
+]
 dev = [
+    "cw",
     "pytest>=7.0",
     "pytest-cov>=4.0",
     "ruff>=0.1.0",

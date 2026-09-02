@@ -1,6 +1,6 @@
 # `looks` — research notes
 
-Thirteen investigations plus five first-hand evidence notes, all dated **2026-09-02**. The decisions taken from them are in [`../decisions_and_rationale.md`](../decisions_and_rationale.md) — **read that first**; these are the working, not the ruling.
+Thirteen investigations plus six first-hand evidence notes, all dated **2026-09-02**. The decisions taken from them are in [`../decisions_and_rationale.md`](../decisions_and_rationale.md) — **read that first**; these are the working, not the ruling.
 
 **Every numbered note carries an appended `## Adversarial review` section**, written by a second reader who re-ran every command rather than taking it on trust. **Where a review refuted a claim, the correction wins over the note's body text.** Three of the refutations ran in the *permissive* direction, which is the direction that matters for a package built on refusal.
 
@@ -13,6 +13,7 @@ Thirteen investigations plus five first-hand evidence notes, all dated **2026-09
 | [`00c_the_insertion_point_evidence.md`](00c_the_insertion_point_evidence.md) | Where a Look actually attaches, read off `muvid.footage.assemble`'s bounded-memory invariant: one `-vf` fragment per part — which dissolves the "which source is on screen at *t*" problem. |
 | [`00d_forbidden_deps_evidence.md`](00d_forbidden_deps_evidence.md) | `av`, `imageio-ffmpeg` and `opencv-contrib-python` verified on disk. For `av`, three layers disagree and the two easy ones both look reassuring. |
 | [`00e_the_flatten_tension.md`](00e_the_flatten_tension.md) | A cross-note synthesis: the flagship look's flattener has a **platform-dependent** tier, so no static declaration can tell the truth about it. |
+| [`00f_motion_filters_evidence.md`](00f_motion_filters_evidence.md) | Which filter compiles a camera path — and a **recorded fleet fact corrected**: `zoompan`'s two recorded objections are both true and its conclusion is wrong, while the filter the notes recommended instead cannot express a zoom at all. Three further traps measured, each a silent wrong answer. |
 | [`ffmpeg_n81_licence_gates.json`](ffmpeg_n81_licence_gates.json) | Machine-readable companion to `00`. Superseded in-package by `looks/data/ffmpeg_gates.json` (schema v2, direct and indirect stored separately). |
 
 ## The thirteen investigations
