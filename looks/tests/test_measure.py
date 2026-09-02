@@ -249,3 +249,70 @@ class TestTheProbeBudget:
 class TestLumaSummary:
     def test_spread_is_p10_to_p90(self):
         assert LumaSummary(low=41.0, mean=106.0, high=170.0).spread == 129.0
+
+
+class TestTwoLumaSpacesInOneMeasurement:
+    """The module's own thesis, failing inside its own dataclass — and fixed.
+
+    `signalstats` reports CODED values; `siti` converts limited-to-full range
+    before its Sobel, so its output is a FULL-RANGE quantity. Verified on a real
+    clip by changing nothing but the range tag:
+
+        siti.si     untagged 107.21 | tv 107.21 | pc 92.15   (ratio 1.163 = 255/219)
+        signalstats YAVG unchanged at 121.884 under both
+
+    So one `luma_space` field cannot describe a `ClipStats`, and for `siti`
+    "untagged" is NOT a third state — `vf_siti.c`'s `is_full_range()` treats an
+    unspecified range as limited for yuv420p, which is the opposite of the rule
+    that holds for a colour operation.
+    """
+
+    def test_sharpness_space_is_separate_from_luma_space(self):
+        s = ClipStats(source_id="c", sharpness=100.0, **IDENTITY)
+        assert s.luma_space == "coded_y"
+        assert s.sharpness_space == "full_y"
+        assert s.luma_space != s.sharpness_space
+
+    def test_sharpness_space_is_part_of_identity(self):
+        a = ClipStats(source_id="c01", **IDENTITY)
+        b = ClipStats(source_id="c02", **{**IDENTITY, "sharpness_space": "coded_y"})
+        with pytest.raises(Incomparable, match="sharpness_space"):
+            compare(a, b)
+
+    def test_siti_really_is_range_sensitive(self, clip):
+        """The measurement behind the design. If this stops holding, the
+        instrument no longer needs the range tag and this whole guard can go."""
+        _ffmpeg_or_skip()
+        got = {}
+        for label, tag in [("untagged", ""), ("pc", "setparams=range=pc,")]:
+            rows = probe_frames(str(clip), vf=tag.rstrip(","), frames=4)
+            got[label] = float(rows[1]["lavfi.siti.si"])
+        ratio = got["untagged"] / got["pc"]
+        assert 1.10 < ratio < 1.22, (
+            f"siti.si moved by {ratio:.3f}x on a range-tag change alone; "
+            f"expected ~1.164 (255/219)"
+        )
+
+    def test_signalstats_is_NOT_range_sensitive(self, clip):
+        """The other half of the same fact — which is why the two quantities
+        need different space labels rather than one shared one."""
+        _ffmpeg_or_skip()
+        got = {}
+        for label, tag in [("untagged", ""), ("pc", "setparams=range=pc")]:
+            rows = probe_frames(str(clip), vf=tag, frames=4)
+            got[label] = float(rows[1]["lavfi.signalstats.YAVG"])
+        assert got["untagged"] == got["pc"]
+
+    def test_the_range_tag_reaches_the_instrument(self, clip):
+        """So two differently-tagged clips are INCOMPARABLE rather than
+        silently comparable — a 16% metadata artefact becomes a refusal instead
+        of a picture difference."""
+        _ffmpeg_or_skip()
+        s = measure(str(clip), source_id="p", ffmpeg_version="8.1")
+        assert "@range=" in s.instrument
+        tagged = ClipStats(
+            source_id="other",
+            **{**IDENTITY, "instrument": s.instrument.replace("untagged", "full")},
+        )
+        with pytest.raises(Incomparable, match="instrument"):
+            compare(s, tagged)

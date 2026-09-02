@@ -62,11 +62,27 @@ per-source flattening lesson came from — the number that governs the outcome i
 the post-effect one.
 """
 
-LumaSpace = Literal["coded_y", "bgr2gray", "linear_y", "lstar"]
+LumaSpace = Literal["coded_y", "full_y", "bgr2gray", "linear_y", "lstar"]
 """Which luma a threshold or average was taken in.
 
 Part of a measurement's identity, not a footnote: the same nominal threshold
 gives a crushed-black share of 0.6% in ``coded_y`` and 17.4% in ``bgr2gray``.
+
+**And one field cannot describe a whole measurement.** ``signalstats`` reports
+*coded* values; ``siti`` converts limited-to-full range before its Sobel, so its
+output is a *full-range* quantity. Measured on one clip, changing nothing but
+the range tag: ``siti.si`` reads 107.21 untagged, 107.21 tagged ``tv``, and
+**92.15** tagged ``pc`` — a ratio of 1.163, which is 255/219 to within rounding
+— while ``signalstats.YAVG`` does not move at all. So :class:`ClipStats` carries
+:attr:`~ClipStats.luma_space` for the coded quantities and
+:attr:`~ClipStats.sharpness_space` for the sharpness, and they are different
+values.
+
+The corollary is sharper still: **for ``siti``, ``untagged`` is not a third
+state.** It collapses to ``limited``, because ``vf_siti.c``'s ``is_full_range()``
+treats an unspecified range as limited for yuv420p. That is the opposite of the
+rule that holds for a colour operation, and it is why the resolved range tag
+enters :attr:`~ClipStats.instrument`.
 """
 
 ColorRange = Literal["limited", "full", "untagged"]
@@ -159,6 +175,10 @@ class ClipStats:
         n_frames: How many frames were actually measured.
         sharpness: Higher is sharper, in the instrument's own units.
         sharpness_unit: What those units are.
+        sharpness_space: Which luma the sharpness was computed in — **not
+            necessarily** :attr:`luma_space`. ``siti`` works in full range,
+            ``signalstats`` in coded, and conflating them makes a 16% metadata
+            artefact look like a picture difference.
         luma: The luma distribution.
         saturation_mean: Mean chroma magnitude.
         temporal_delta: Mean frame-to-frame change. The flicker check as one
@@ -176,7 +196,7 @@ class ClipStats:
         >>> s.sharpness
         38.4
         >>> s.identity
-        ('post_effect', 'ffmpeg-8.1/siti', 'coded_y', 'uniform:5')
+        ('post_effect', 'ffmpeg-8.1/siti', 'coded_y', 'full_y', 'uniform:5')
     """
 
     source_id: str
@@ -188,6 +208,7 @@ class ClipStats:
 
     sharpness: Optional[float] = None
     sharpness_unit: str = ""
+    sharpness_space: LumaSpace = "full_y"
     luma: Optional[LumaSummary] = None
     saturation_mean: Optional[float] = None
     temporal_delta: Optional[float] = None
@@ -196,9 +217,15 @@ class ClipStats:
     extra: Mapping[str, float] = field(default_factory=dict)
 
     @property
-    def identity(self) -> tuple[str, str, str, str]:
-        """The four fields two measurements must share to be comparable."""
-        return (self.stage, self.instrument, self.luma_space, self.sample_spec)
+    def identity(self) -> tuple[str, str, str, str, str]:
+        """The five fields two measurements must share to be comparable."""
+        return (
+            self.stage,
+            self.instrument,
+            self.luma_space,
+            self.sharpness_space,
+            self.sample_spec,
+        )
 
 
 def compare(a: ClipStats, b: ClipStats) -> None:
@@ -233,7 +260,13 @@ def compare(a: ClipStats, b: ClipStats) -> None:
         ...
         looks.measure.Incomparable: ...luma_space 'coded_y' vs 'bgr2gray'...
     """
-    fields = ("stage", "instrument", "luma_space", "sample_spec")
+    fields = (
+        "stage",
+        "instrument",
+        "luma_space",
+        "sharpness_space",
+        "sample_spec",
+    )
     differences = [
         f"{name} {getattr(a, name)!r} vs {getattr(b, name)!r}"
         for name in fields
@@ -430,11 +463,21 @@ def measure(
         if None not in (low, mean, high)
         else None
     )
+    declared = color_range(source, ffprobe=ffprobe)
+    # The range TAG enters the instrument, because `siti` reads it: the same
+    # pixels tagged `pc` rather than left untagged move `si` by 16%, which is
+    # the same order as the improvements a resolver chooses between. Putting it
+    # here makes two differently-tagged clips INCOMPARABLE rather than silently
+    # comparable, so a metadata difference surfaces as a refusal instead of as
+    # a picture difference.
     return ClipStats(
         source_id=source_id or source,
         stage="post_effect" if vf else "source",
-        instrument=f"{INSTRUMENT_PREFIX}-{ffmpeg_version}/{INSTRUMENT_CHAIN}",
+        instrument=(
+            f"{INSTRUMENT_PREFIX}-{ffmpeg_version}/{INSTRUMENT_CHAIN}@range={declared}"
+        ),
         luma_space="coded_y",
+        sharpness_space="full_y",
         sample_spec=f"fps={fps}:first={frames}",
         n_frames=len(tags),
         sharpness=si,
@@ -443,7 +486,7 @@ def measure(
         saturation_mean=_median([_tag(t, "lavfi.signalstats.SATAVG") for t in tags]),
         temporal_delta=ti,
         blur=_median([_tag(t, "lavfi.blur") for t in tags]),
-        color_range=color_range(source, ffprobe=ffprobe),
+        color_range=declared,
     )
 
 
