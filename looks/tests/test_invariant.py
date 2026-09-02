@@ -296,6 +296,21 @@ class TestTheCuratedNamespace:
             "looks is not installed; run `pip install -e . --no-deps`"
         )
 
+    def test_the_classify_collision_is_resolved_deliberately(self):
+        """Two modules define `classify`. At the top level the LICENCE one wins
+        the bare name — a caller reaching for `looks.classify` wants the licence
+        question — and the frame-dependency one is `classify_dependency`.
+
+        Pinned because a silent re-export order change would swap them, and both
+        return an object with a `.verdict`-ish shape, so the mistake would not
+        announce itself.
+        """
+        import looks
+        import looks.licence
+
+        assert looks.classify is looks.licence.classify
+        assert looks.classify_dependency is looks.frame_dependency.classify
+
     def test_the_headline_call_works_from_the_top_level(self):
         """The one call the README leads with."""
         import looks

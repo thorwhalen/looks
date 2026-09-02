@@ -20,8 +20,14 @@ binary on your machine runs it fine — and ``curves`` / ``colorlevels`` /
 
 This namespace is **curated**: it carries the surface a caller uses, not
 everything the package defines. Reach into a submodule for the rest —
-:mod:`looks.environment`, :mod:`looks.geometry`, :mod:`looks.lut`,
-:mod:`looks.measure`, :mod:`looks.frame_dependency`.
+:mod:`looks.environment`, :mod:`looks.licence`, :mod:`looks.geometry`,
+:mod:`looks.lut`, :mod:`looks.measure`, :mod:`looks.frame_dependency`.
+
+One rename happens at this boundary and nowhere else: ``frame_dependency``'s
+``classify`` is exported as :func:`classify_dependency`, because
+``licence.classify`` has the better claim to the bare name here — a caller
+reaching for ``looks.classify`` wants the licence question. Inside the
+submodule it keeps its own short name.
 
 Two names are deliberately absent, and a test asserts it: there is no
 ``render`` and no ``apply``. Every ffmpeg process this package starts ends in
@@ -42,7 +48,32 @@ from looks.frame_dependency import (
     Dependency,
     DependencyReport,
     assert_flicker_free,
+)
+from looks.frame_dependency import classify as classify_dependency
+from looks.licence import (
+    DFLT_POLICY,
+    DISCLAIMER,
+    Assessment,
+    Conveyance,
+    Coupling,
+    FieldOfUse,
+    LicenceCeilingExceeded,
+    LicenceFieldRestricted,
+    LicenceForbidden,
+    LicenceUnknown,
+    LooksLicenceError,
+    Policy,
+    Reach,
+    Terms,
+    Tier,
+    Verdict,
+    assess,
+    assess_ffmpeg_chain,
+    check,
     classify,
+    ffmpeg_terms,
+    terms_for,
+    unverified_claims,
 )
 from looks.geometry import (
     Blurred,
@@ -88,6 +119,30 @@ __all__ = [
     "needs_gpl",
     "known_filters",
     "gpl_only_filters",
+    # the licence tier: the facts, the policy projection, and the refusals
+    "Terms",
+    "Coupling",
+    "Reach",
+    "Conveyance",
+    "FieldOfUse",
+    "Tier",
+    "Verdict",
+    "Assessment",
+    "Policy",
+    "DFLT_POLICY",
+    "DISCLAIMER",
+    "terms_for",
+    "ffmpeg_terms",
+    "classify",
+    "assess",
+    "assess_ffmpeg_chain",
+    "check",
+    "unverified_claims",
+    "LooksLicenceError",
+    "LicenceForbidden",
+    "LicenceFieldRestricted",
+    "LicenceCeilingExceeded",
+    "LicenceUnknown",
     # geometry: where a source frame lands inside a target frame
     "Size",
     "Box",
@@ -123,7 +178,7 @@ __all__ = [
     # can this effect flicker?
     "Dependency",
     "DependencyReport",
-    "classify",
+    "classify_dependency",
     "assert_flicker_free",
 ]
 
