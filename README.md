@@ -43,6 +43,17 @@ stats = [measure(clip, source_id=name, vf='lut3d=look.cube') for name, clip in s
 dispersion(stats)       # 2.98 -> the spread you are trying to close
 ```
 
+```python
+# a Look whose flattening scale must be MEASURED per clip, not guessed
+look = looks.Look(
+    name="que_calor",
+    target=looks.Target.SET_RELATIVE,          # the target is the set's own spread
+    steps=(looks.Effect(name="flatten", params={"scale": looks.Ref("flatten_scale")}),),
+)
+looks.resolve(look, {"flatten_scale": 0.5})    # -> refused: one clip cannot answer it
+looks.resolve_across(look, probes)             # -> one resolved Look per clip
+```
+
 ## Why it exists
 
 PyPI has a dozen ffmpeg wrappers. Surveyed, **none of them carries a named-effect registry, and none carries any licence awareness at all** — not a field, not a check, not a warning. Meanwhile the licence facts are genuinely surprising:
@@ -72,6 +83,7 @@ Building. Shipped so far:
 
 | module | what it does |
 |---|---|
+| `looks.spec` | `Effect` / `Look` / `Ref` / `Step` / `LookPlan` — what a stylization *is*, before anything runs |
 | `looks.environment` | probe an ffmpeg build's licence and capabilities; FFmpeg's own gate table |
 | `looks.licence` | four axes, a ladder that is an explicitly replaceable policy, a 33-row evidence ledger, and refusals that name the alternative |
 | `looks.geometry` | fit / fill / stretch, crop, pad, social presets — pure arithmetic, compiles to any backend |
@@ -80,9 +92,9 @@ Building. Shipped so far:
 | `looks.frame_dependency` | "can this effect flicker?", decided by four ffmpeg probes |
 | `looks._run` | the single process chokepoint, and the invariant guard |
 
-**474 tests.** They compose — `looks/tests/test_integration.py` walks the whole stack through the public surface: probe the environment, check the chain against the default ceiling, place a vertical clip into 16:9, verify the look cannot flicker, measure at source and post-effect, and confirm the two are correctly *incomparable*.
+**548 tests.** They compose — `looks/tests/test_integration.py` walks the whole stack through the public surface: probe the environment, check the chain against the default ceiling, place a vertical clip into 16:9, verify the look cannot flicker, measure at source and post-effect, and confirm the two are correctly *incomparable*.
 
-Next: the `Effect` / `Look` types, the licence-tier ladder, and the compiler.
+Next: the registry, the compiler, and the effect catalogue — see [looks#2](https://github.com/thorwhalen/looks/issues/2).
 
 The design of record is [`docs/decisions_and_rationale.md`](docs/decisions_and_rationale.md), backed by the research notes in [`docs/research/`](docs/research/) — thirteen investigations, each adversarially reviewed by a second reader who re-ran every command rather than taking it on trust. That review found a **false permission** in the first version of the gate table (five filters are GPL-gated *indirectly*, through `EXTERNAL_LIBRARY_GPL_LIST`, with no `gpl` token on their own line), which is the kind of error this package exists to prevent and is therefore worth reading about.
 

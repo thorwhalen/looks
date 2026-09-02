@@ -84,6 +84,12 @@ From building the first real look (Que Calor V2), and independently reproduced h
 - **There is not one ffmpeg on a machine.** Measured here: PATH is 8.1/GPL-3/481 filters; `imageio-ffmpeg`'s bundled binary is 7.1/GPL-2/484, with **non-nested** filter sets. So the environment is an **argument**; nothing downstream may call `probe()` for itself.
 - **No neural backend, and no neural seam.** The one commercially-clean CPU-runnable stylizer fails the flicker bar by measurement (1.20–2.82× the source's own change, against the shipped chain's 0.70×), and FFmpeg's `gpl/nonfree/version3` vocabulary cannot express the four things that bind a model: the code/weights split, non-commercial (≠ `nonfree`, which means *unredistributable*), patent encumbrance, and whether the licence binds *us* or the host. The hosted route is `falaw`'s job.
 
+## The types, in one paragraph
+
+`Effect` is what the caller **asks for** and carries **no tier** — if it could, the refusal would be theatre. `Look` is an ordered stack plus a `Policy`; `a + b` takes the **stricter** of the two, per field. `Ref` is a parameter that must be measured, and one with no default that the probe does not answer **raises**. `ImplRef` declares `Terms`, never a tier. A tier appears for the first time in a compiled `Step`, *read* off the selected implementation. Three identity levels: `look_hash` (intent — policy-independent), `plan_hash` (pixels — includes the clip's colour state and the env fingerprint), `output_key` (content-addressed — takes a digest of **bytes** and refuses a path).
+
+`_admits` **delegates** to `licence.check` rather than comparing tiers itself, and a test asserts its body has no comparison operator. The one place a tier meets a ceiling must stay one place.
+
 ## Tests
 
 `pytest` from the repo root runs what CI runs.
