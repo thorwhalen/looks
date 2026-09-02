@@ -1284,7 +1284,9 @@ def plan_hash(plan: LookPlan) -> str:
     clip = plan.clip
     payload = {
         "clip": (
-            None if clip is None else [clip.width, clip.height, clip.fps, clip.duration_s]
+            None
+            if clip is None
+            else [clip.width, clip.height, clip.fps, clip.duration_s]
         ),
         "steps": [
             {
@@ -1686,8 +1688,11 @@ def _frames(clip: ClipSpec, at) -> Optional[int]:
 # 1280x720 -> 0.582 s/frame; 640x360 (scale 0.5) -> 0.232; 960x540 (0.75) -> 0.695.
 # Deliberately NOT a per-megapixel rate: the observed rates are 0.63, 1.01 and
 # 1.34 s/Mpx, so a linear model would be a fiction. A table, and None off it.
-_MEANSHIFT_S_PER_FRAME = {(1280, 720, 0.5): 0.232, (1280, 720, 0.75): 0.695,
-                          (1280, 720, 1.0): 0.582}
+_MEANSHIFT_S_PER_FRAME = {
+    (1280, 720, 0.5): 0.232,
+    (1280, 720, 0.75): 0.695,
+    (1280, 720, 1.0): 0.582,
+}
 
 register_effect(
     EffectDef(
@@ -1768,3 +1773,84 @@ def _gate(fragment: str, at) -> str:
     return f"{fragment}:enable='between(t,{lo},{hi})'"
 ```
 
+Driving it with the Que Calor look, against the real output geometry (1280×720, 30 fps, 156.968 s = 4709 frames):
+
+```
+c01/c02  total=1138.5 CPU-s  rt=7.25x   ['flatten=1092.5', 'lut3d=41.0', 'posterize=5.0']  plan=427355af58a0
+c03      total=3318.8 CPU-s  rt=21.14x  ['flatten=3272.8', 'lut3d=41.0', 'posterize=5.0']  plan=8cd3abc98d92
+one look_hash for both: b767465ae062
+```
+
+That output is the design's whole argument in three lines. **One Look, one `look_hash`** — the Que Calor look is a single shippable artifact. **Two plans, two `plan_hash`es** — because the same look resolves differently against different clips, exactly as the measured constraint demands, and each gets its own cache identity so neither can serve the other's frames. And **the cost is known before anything runs**: 7.25 CPU-seconds per output second at the shipped setting, 21.14 for the clip that needed the gentler flattening. On eight workers those are roughly 2.4 and 6.9 wall-clock minutes; that is the difference between a coffee and a lunch, and you get to know which before you commit.
+
+Two refusals, from the same run:
+
+```
+>>> compile_look(QUE_CALOR.with_max_tier(Tier.PERMISSIVE), clip, probe=...)
+looks.spec.LicenceRefusal: no implementation of 'lut3d' is within the 'permissive' ceiling.
+Rejected: lut3d.ffmpeg.cube (copyleft-tool).
+Raise it deliberately with look.with_max_tier(Tier.COPYLEFT_TOOL), or pick another effect.
+
+>>> compile_look(QUE_CALOR, clip)          # no probe
+looks.spec.UnresolvedParameter: step 0 ('flatten') parameter 'scale' needs probe key 'flatten_scale',
+which was not supplied and has no default. Measure it, pass probe={'flatten_scale': ...},
+or give the Ref an explicit default.
+```
+
+---
+
+## 13. What this note does not settle
+
+- **The tier vocabulary itself.** Five rungs are proposed and given an ordering that makes the non-negotiables fall out as comparisons, but the mapping from real licences onto rungs — and whether five is the right number — belongs to the licence-tier note. `TIER_ORDER` is one tuple; changing it is a one-line edit plus a schema decision about the stored strings.
+- **Whether geometry belongs here at all.** The kickoff's own open question — should `burns` become a backend, or does geometry-over-time stay in `burns` and only *pixel* effects live here? — is not answered by this design, but it is not blocked by it either. `ImplRef.timeline=False` already exists because `scale` needs it, and a `burns` implementation would be an `external` or `ffmpeg` backend like any other. The `mixing/video/video_util.py` geometry tier can arrive as effects (`fit`, `fill`, `social`) without a second spec type; the tension the kickoff names — that `video_util.py` is moviepy-through-and-through while `looks` declares zero dependencies — is an *implementation* problem for that backend, not a spec problem, because the moviepy import would live behind an `ImplRef` in an optional extra.
+- **Whether normalisation and stylization share one vocabulary.** They compile to the same insertion point and the type system does not distinguish them, which is the tempting answer and probably right — but that should be said deliberately somewhere, not inferred from the absence of a field.
+- **`EffectDef` parameter validation.** The sketch refuses an undeclared parameter against a `defaults` mapping, which is the `z.strictObject` lesson (an undeclared key silently stripped is worse than an error). Whether that is enough, or whether a schema is eventually wanted, is unresolved — but any schema must stay stdlib, so pydantic is out.
+- **Whether `LookPlan.__add__` should exist at all.** It is there for symmetry with `falaw.Plan` and it refuses to concatenate plans compiled against different clips. It has no demonstrated caller.
+
+---
+
+## 14. Verification log
+
+Every claim in this note about the local environment was produced by running something. What follows is what I ran.
+
+| Claim | How verified |
+|---|---|
+| The proposed `spec.py` is importable, stdlib-only, and its doctests pass | `doctest.testmod(looks.spec, optionflags=doctest.ELLIPSIS)` → `TestResults(failed=0, attempted=80)` on CPython **3.12.12** and **3.10.13**. Deliberately run *without* `IGNORE_EXCEPTION_DETAIL` (which the repo's `pyproject.toml` enables and which would have hidden every exception-message mismatch); one mismatch was found that way and fixed. |
+| It satisfies the repo's lint config | `ruff check --select D100 --ignore D203,E501,B905 --target-version py310` → clean. (`D100` is the only rule the repo selects.) |
+| `pyrMeanShiftFiltering` cost figures | Direct `time.perf_counter()` around single calls on one 1280×720 frame from the Que Calor source, `opencv-python-headless` **4.13.0.92**, numpy 2.2.6. Single-threaded. |
+| `lut3d` / `lutrgb` cost figures | `/usr/bin/time -p ffmpeg -v error -threads 1 -filter_threads 1 -i t.mp4 -vf <chain> -f null -` over 300 frames of `testsrc2` at 1280×720; `user` time differenced against a decode-only baseline. ffmpeg **8.1**. |
+| Timeline (`T`) flags on ffmpeg filters | `ffmpeg -hide_banner -filters` on **8.1**; the legend in its own header defines `T.. = Timeline support`. `scale` shows `..`; `lut3d`, `lutrgb`, `curves`, `gblur`, `unsharp`, `colorchannelmixer` show `TS`; `eq`, `hue` show `T.`. |
+| The local ffmpeg is GPL-configured | `ffmpeg -version` → `configuration: ... --enable-gpl --enable-version3 ... --enable-libx264 --enable-libx265`. |
+| Que Calor output geometry and duration | `ffprobe -show_entries format=duration` on the delivered renders → 156.968005 s; the renderer's own constants are `W, H, FPS = 1280, 720, 30`. |
+| `opencv-python` ships `libx264` and a GPL-configured FFmpeg | `RECORD` of both dist-infos; `otool -L` on `libavcodec.61.19.101.dylib` and on `cv2.abi3.so`; `strings` on `libavcodec`/`libavutil` for the build configuration; `head` of `LICENSE.txt` and `grep` of `LICENSE-3RD-PARTY.txt`. |
+| The end-to-end compile figures in §12 | Ran the appendix module and printed the plans. Reproducible from the two code blocks in this note plus the cost table in §6. |
+
+**Explicitly not verified in this session, and inherited from the shared kickoff context** — each is load-bearing somewhere in the design and each should be independently confirmed by the licence-tier note before anything ships on it:
+
+- That **AnimeGANv2 and White-box Cartoonization are non-commercial**. Used as the illustrative `NONCOMMERCIAL` examples in `Tier`'s docstring. **Unverified here.**
+- That **`av`'s wheel bundles libx264/libx265 GPL dylibs under BSD-3 metadata** and that **`imageio-ffmpeg` bundles an `--enable-gpl` binary**. Used to place both at `COPYLEFT_LINK`. **Unverified here** — though the OpenCV finding in §11 is direct evidence that this class of defect is real and common.
+- That **`pip install burns` already redistributes a GPL ffmpeg via moviepy → imageio-ffmpeg**. **Unverified here.**
+- That the effective licence of the OpenCV wheel's *combination* is GPL. I verified the constituent facts in §11; the legal conclusion is **not** mine to draw and is marked as such there.
+
+One further caveat on the measurements: the `pyrMeanShiftFiltering` timings are three points, on one machine, on one image. They are enough to establish that a linear per-megapixel model is unsafe — which is the design-relevant conclusion — and are **not** a characterisation of the operator. Any cost table shipped in the package should be measured per machine, or the estimate should return `None`.
+
+---
+
+## REFERENCES
+
+1. falaw — `Plan` / `CallPlan` / `plan_hash` / `plan_to_dict`. Local source: `$PP/t/falaw/falaw/plan.py`; canonicalisation in `$PP/t/falaw/falaw/canonical.py`.
+2. muvid — `VisualPlan`, `register_visual`, `resolve_visual`. Local source: `$PP/t/muvid/muvid/visualize/visuals.py`.
+3. burns — `BurnsPath`, `evaluate`, `to_dict` / `from_dict`, `SPEC_VERSION`. Local source: `$PP/t/burns/burns/path.py`.
+4. nw — `Transform` Protocol, `BaseTransform`, `register_transform`, `stamp_transform_identity`, `cache_key`, `DFLT_IMPL_VERSION`. Local source: `$PP/t/nw/nw/transforms/__init__.py`.
+5. lacing — `register_migration` / `migrate`, single-step chained body-schema migrations. Local source: `$PP/t/lacing/lacing/schema.py`.
+6. an — per-document-kind migration registry and the an#77 namespace-conflation lesson. Local source: `$PP/t/an/an/ir/migrate.py`.
+7. artful — "THE MIGRATION-REQUIRED RULE": the federation's carve-out from *clean shape over backward compatibility*, and `tests/test_body_schema_stability.py`. Local source: `$PP/t/artful/CLAUDE.md`.
+8. FFmpeg documentation — [Timeline editing](https://ffmpeg.org/ffmpeg-filters.html#Timeline-editing) and the filter list. Verified against the locally installed **ffmpeg 8.1**; the `T` flag is defined in `ffmpeg -filters`' own header.
+9. OpenCV — [`pyrMeanShiftFiltering`](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga9fabdce9543bd602445f5db3827e4cc0), image-filtering module. Behaviour measured against `opencv-python-headless` **4.13.0.92**.
+10. Que Calor V2 stylizer — the validated chain and the per-source `MS_PARAMS` table. Local source: `~/Downloads/que_calor/work/style/render_v2c.py`, with `mklut.py` (the gradient-map LUT), `tonematch.py` (the L\* histogram match) and `stylize.py`.
+11. thorwhalen/muvid — [issue #63](https://github.com/thorwhalen/muvid/issues/63), the `looks` proposal and the comment recording the measured per-source flattening constraint.
+12. reelee — the unknown-cost / approval-gate rules, the estimate-twin "free door" mechanism, and the cassette-key lesson. Local source: `$PP/tt/reelee/CLAUDE.md`.
+13. reelee-web — "the licence TEXT is the authority; the `package.json` field is not", and the build-time notice generator that enforces it. Local source: `$PP/tt/reelee-web/CLAUDE.md`, `scripts/licenses/`.
+14. looks — the kickoff: non-negotiables, the two things to keep out, the measured Que Calor findings. Local source: `$PP/t/looks/KICKOFF.md`.
+15. VideoLAN — [x264](https://www.videolan.org/developers/x264.html), GPL-2.0-or-later. Referenced for the §11 finding; the licence statement itself is **not** re-verified here.
+16. Python — [`dataclasses`](https://docs.python.org/3/library/dataclasses.html): `frozen`, `slots` (3.10+), `kw_only` (3.10+), `replace`. Verified working on 3.10.13.

@@ -456,8 +456,14 @@ class Measurer(Protocol):
     """
 
     def __call__(
-        self, media: str, *, intervals: Sequence[tuple[float, float]],
-        source_id: str, stage: str, n_frames: int, seed: int,
+        self,
+        media: str,
+        *,
+        intervals: Sequence[tuple[float, float]],
+        source_id: str,
+        stage: str,
+        n_frames: int,
+        seed: int,
     ) -> ClipStats: ...
 
 
@@ -472,9 +478,15 @@ class Prober(Protocol):
     """
 
     def __call__(
-        self, media: str, *, source_id: str,
-        intervals: Sequence[tuple[float, float]], effect: str, params: Params,
-        n_frames: int, seed: int,
+        self,
+        media: str,
+        *,
+        source_id: str,
+        intervals: Sequence[tuple[float, float]],
+        effect: str,
+        params: Params,
+        n_frames: int,
+        seed: int,
     ) -> ClipStats: ...
 
 
@@ -508,22 +520,22 @@ class Resolution:
 
     verdict: Verdict
     per_source: Mapping[str, Params]
-    achieved: Mapping[str, float]          # post-effect statistic per source
-    baseline: Mapping[str, float]          # pre-effect, for the record only
-    spread: float                          # max/min of `achieved`
-    uniform_spread: float                  # the best single-setting alternative
-    uncertainty: Mapping[str, tuple[float, float]]   # bootstrap CI per source
+    achieved: Mapping[str, float]  # post-effect statistic per source
+    baseline: Mapping[str, float]  # pre-effect, for the record only
+    spread: float  # max/min of `achieved`
+    uniform_spread: float  # the best single-setting alternative
+    uncertainty: Mapping[str, tuple[float, float]]  # bootstrap CI per source
     n_probes: int
     instrument: str
-    note: str                              # why this verdict, in one sentence
+    note: str  # why this verdict, in one sentence
 
 
 def resolve(
     request: ResolutionRequest,
-    sources: Mapping[str, str],                 # source_id -> media path
+    sources: Mapping[str, str],  # source_id -> media path
     source_map: "SourceMap | None" = None,
     *,
-    prober: Prober | None = None,               # None -> the ffmpeg default
+    prober: Prober | None = None,  # None -> the ffmpeg default
     measurer: Measurer | None = None,
 ) -> Resolution:
     """Probe, then pick per-source parameters that minimise the OUTPUT spread."""
@@ -552,7 +564,10 @@ def narrowest_window(
 def _spans(edl_path):
     cfg = json.load(open(edl_path))
     t0 = cfg["edl"][0]["song_start"]
-    return [(e["song_start"] - t0, e["song_end"] - t0, e["clip_id"]) for e in cfg["edl"]]
+    return [
+        (e["song_start"] - t0, e["song_end"] - t0, e["clip_id"]) for e in cfg["edl"]
+    ]
+
 
 def _clip_at(spans, t):
     for a, b, c in spans:

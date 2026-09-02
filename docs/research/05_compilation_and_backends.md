@@ -17,10 +17,10 @@ muvid's `VisualPlan` [4] is the shape to extract:
 ```python
 @dataclass
 class VisualPlan:
-    inputs: list[list[str]]      # extra ffmpeg input argument groups, numbered from 1
-    filters: list[str]           # filter_complex chains, joined with ';' by the renderer
-    video: str = "vbg"           # label of the video stream the chains emit
-    still: Path | None = None    # escape hatch: the video IS this image
+    inputs: list[list[str]]  # extra ffmpeg input argument groups, numbered from 1
+    filters: list[str]  # filter_complex chains, joined with ';' by the renderer
+    video: str = "vbg"  # label of the video stream the chains emit
+    still: Path | None = None  # escape hatch: the video IS this image
 ```
 
 Three of those four fields survive the generalisation from audio→video to video→video, and one must not.
@@ -302,7 +302,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Literal, Mapping, Protocol, Sequence, runtime_checkable
+from typing import (
+    Any,
+    Callable,
+    Literal,
+    Mapping,
+    Protocol,
+    Sequence,
+    runtime_checkable,
+)
 
 # ---------------------------------------------------------------- vocabulary
 
@@ -323,11 +331,11 @@ class ColorContract:
     fixing one and not the other leaves 19-20/255 of the 27/255 error in place.
     """
 
-    matrix: str | None = None      # "bt709", "bt470bg", ...  (ffprobe color_space)
-    range: str | None = None       # "tv" | "pc"              (ffprobe color_range)
-    transfer: str | None = None    # ffprobe color_transfer
-    primaries: str | None = None   # ffprobe color_primaries
-    assumed: bool = False          # True when a human asserted it via assume=
+    matrix: str | None = None  # "bt709", "bt470bg", ...  (ffprobe color_space)
+    range: str | None = None  # "tv" | "pc"              (ffprobe color_range)
+    transfer: str | None = None  # ffprobe color_transfer
+    primaries: str | None = None  # ffprobe color_primaries
+    assumed: bool = False  # True when a human asserted it via assume=
 
     @property
     def known_for_rgb(self) -> bool:
@@ -355,7 +363,7 @@ class ClipContext:
     duration: float
     pix_fmt: str
     color: ColorContract
-    origin: float = 0.0            # source time of this part's frame 0; see Sec. 1.5
+    origin: float = 0.0  # source time of this part's frame 0; see Sec. 1.5
     measurements: Mapping[str, float] = field(default_factory=dict)
 
 
@@ -365,7 +373,7 @@ class Effect:
 
     name: str
     params: Mapping[str, Any] = field(default_factory=dict)
-    at: tuple[float, float] | None = None   # WHERE the look applies. Never a CUT.
+    at: tuple[float, float] | None = None  # WHERE the look applies. Never a CUT.
 
 
 @dataclass(frozen=True)
@@ -395,7 +403,9 @@ class FilterStage:
     """
 
     chains: tuple[str, ...]
-    requires_filters: tuple[str, ...] = ()   # gate with has_filter(); zscale may be absent
+    requires_filters: tuple[
+        str, ...
+    ] = ()  # gate with has_filter(); zscale may be absent
     input_color: ColorContract | None = None
     output_color: ColorContract | None = None
 
@@ -421,10 +431,10 @@ class FrameStage:
     """
 
     apply: Callable[["FrameBuffer", "FrameContext"], "FrameBuffer"]
-    pix_fmt: str = "bgr24"                  # what ``apply`` wants; drives the pipe argv
-    size: tuple[int, int] | None = None     # None = the clip's own size
+    pix_fmt: str = "bgr24"  # what ``apply`` wants; drives the pipe argv
+    size: tuple[int, int] | None = None  # None = the clip's own size
     per_frame_ms: float | None = None
-    requires: tuple[str, ...] = ()          # import names, e.g. ("cv2",)
+    requires: tuple[str, ...] = ()  # import names, e.g. ("cv2",)
 
 
 @dataclass(frozen=True)
@@ -441,9 +451,9 @@ class RenderedStage:
     rather than discovered.
     """
 
-    render: Callable[[Path, Path], Path]    # (input, output) -> output
+    render: Callable[[Path, Path], Path]  # (input, output) -> output
     tier: Tier = "unknown"
-    realtime_factor: float | None = None    # None = unknown, never 1.0-by-default
+    realtime_factor: float | None = None  # None = unknown, never 1.0-by-default
 
 
 Stage = FilterStage | FrameStage | RenderedStage
@@ -476,9 +486,7 @@ class Backend(Protocol):
         """Can this backend implement ``effect``? Pure, cheap, no I/O."""
         ...
 
-    def compile(
-        self, run: Sequence[ResolvedEffect], clip: ClipContext
-    ) -> Stage:
+    def compile(self, run: Sequence[ResolvedEffect], clip: ClipContext) -> Stage:
         """Compile a maximal run of claimed effects into one stage.
 
         Given a RUN rather than one effect on purpose: an ffmpeg backend must

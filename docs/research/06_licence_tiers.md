@@ -459,12 +459,30 @@ from datetime import date
 from typing import Iterable, Mapping, Protocol, Sequence
 
 __all__ = [
-    "Coupling", "Reach", "Conveyance", "FieldOfUse", "Tier", "Verdict",
-    "Evidence", "Terms", "Assessment", "Policy",
-    "LooksLicenceError", "LicenceCeilingExceeded", "LicenceForbidden",
-    "LicenceFieldRestricted", "LicenceUnknown",
-    "reach_of", "classify", "assess", "check", "probe_ffmpeg",
-    "DEFAULT_ORDER", "DFLT_MAX_TIER", "SPDX_LICENSE_LIST_VERSION", "DISCLAIMER",
+    "Coupling",
+    "Reach",
+    "Conveyance",
+    "FieldOfUse",
+    "Tier",
+    "Verdict",
+    "Evidence",
+    "Terms",
+    "Assessment",
+    "Policy",
+    "LooksLicenceError",
+    "LicenceCeilingExceeded",
+    "LicenceForbidden",
+    "LicenceFieldRestricted",
+    "LicenceUnknown",
+    "reach_of",
+    "classify",
+    "assess",
+    "check",
+    "probe_ffmpeg",
+    "DEFAULT_ORDER",
+    "DFLT_MAX_TIER",
+    "SPDX_LICENSE_LIST_VERSION",
+    "DISCLAIMER",
 ]
 
 #: The SPDX License List release :data:`REACH_BY_SPDX` is written against.
@@ -502,21 +520,22 @@ _SEE_DISCLAIMER = (
 # The four axes. These are the facts; the ladder below is a projection of them.
 # --------------------------------------------------------------------------
 
+
 class Coupling(enum.Enum):
     """How an effect reaches its implementation."""
 
-    NONE = "none"              # no external implementation at all
+    NONE = "none"  # no external implementation at all
     IN_PROCESS = "in_process"  # imported / linked into our address space
     SUBPROCESS = "subprocess"  # executed as a separate program
-    SERVICE = "service"        # called over a network
+    SERVICE = "service"  # called over a network
     UNKNOWN = "unknown"
 
 
 class Reach(enum.Enum):
     """How far the implementation's copyleft extends."""
 
-    NONE = "none"        # permissive
-    FILE = "file"        # MPL-2.0 and friends
+    NONE = "none"  # permissive
+    FILE = "file"  # MPL-2.0 and friends
     LIBRARY = "library"  # LGPL
     PROGRAM = "program"  # GPL
     NETWORK = "network"  # AGPL
@@ -527,7 +546,7 @@ class Conveyance(enum.Enum):
     """Whether *we* redistribute the implementation, or find one in place."""
 
     NONE = "none"
-    FINDS = "finds"      # resolved from the caller's machine
+    FINDS = "finds"  # resolved from the caller's machine
     CONVEYS = "conveys"  # our declared dependency closure ships it
     UNKNOWN = "unknown"
 
@@ -545,6 +564,7 @@ class FieldOfUse(enum.Enum):
 # --------------------------------------------------------------------------
 # The ladder: a POLICY PROJECTION of three axes. Not a fact about licences.
 # --------------------------------------------------------------------------
+
 
 class Tier(enum.Enum):
     """A rung. Deliberately a plain ``Enum``: the ordering belongs to
@@ -591,19 +611,42 @@ DFLT_MAX_TIER = Tier.COPYLEFT_TOOL
 #: excluded explicitly rather than by oversight. Anything unlisted is UNKNOWN,
 #: which refuses — in both directions.
 REACH_BY_SPDX: Mapping[str, Reach] = {
-    **{k: Reach.NONE for k in (
-        "MIT", "MIT-0", "BSD-2-Clause", "BSD-3-Clause", "0BSD", "ISC",
-        "Apache-2.0", "CC0-1.0", "Unlicense", "BlueOak-1.0.0", "Python-2.0",
-    )},
+    **{
+        k: Reach.NONE
+        for k in (
+            "MIT",
+            "MIT-0",
+            "BSD-2-Clause",
+            "BSD-3-Clause",
+            "0BSD",
+            "ISC",
+            "Apache-2.0",
+            "CC0-1.0",
+            "Unlicense",
+            "BlueOak-1.0.0",
+            "Python-2.0",
+        )
+    },
     **{k: Reach.FILE for k in ("MPL-2.0", "EPL-2.0", "CDDL-1.0")},
-    **{k: Reach.LIBRARY for k in (
-        "LGPL-2.1-only", "LGPL-2.1-or-later",
-        "LGPL-3.0-only", "LGPL-3.0-or-later",
-    )},
-    **{k: Reach.PROGRAM for k in (
-        "GPL-2.0-only", "GPL-2.0-or-later",
-        "GPL-3.0-only", "GPL-3.0-or-later", "SSPL-1.0",
-    )},
+    **{
+        k: Reach.LIBRARY
+        for k in (
+            "LGPL-2.1-only",
+            "LGPL-2.1-or-later",
+            "LGPL-3.0-only",
+            "LGPL-3.0-or-later",
+        )
+    },
+    **{
+        k: Reach.PROGRAM
+        for k in (
+            "GPL-2.0-only",
+            "GPL-2.0-or-later",
+            "GPL-3.0-only",
+            "GPL-3.0-or-later",
+            "SSPL-1.0",
+        )
+    },
     **{k: Reach.NETWORK for k in ("AGPL-3.0-only", "AGPL-3.0-or-later")},
 }
 
@@ -630,13 +673,14 @@ def reach_of(spdx: str) -> Reach:
 # Evidence and terms: a row records an OBSERVATION; the tier is derived.
 # --------------------------------------------------------------------------
 
+
 @dataclass(frozen=True, kw_only=True, slots=True)
 class Evidence:
     """One observation, with enough context to be re-checked or disbelieved."""
 
-    method: str            # "probe" | "inspect" | "read" | "resolve"
+    method: str  # "probe" | "inspect" | "read" | "resolve"
     observed: str
-    observed_on: str       # ISO-8601 date
+    observed_on: str  # ISO-8601 date
     command: str | None = None
     source_url: str | None = None
 
@@ -709,33 +753,52 @@ def classify(terms: Terms) -> Assessment:
     reach = terms.resolved_reach
     strong = (Reach.PROGRAM, Reach.NETWORK)
 
-    if (Coupling.UNKNOWN in (terms.coupling,) or reach is Reach.UNKNOWN
-            or terms.conveyance is Conveyance.UNKNOWN
-            or terms.field_of_use is FieldOfUse.UNKNOWN):
-        return Assessment(terms=terms, tier=None, verdict=Verdict.UNKNOWN,
-                          reasons=("an axis is UNKNOWN; unknown is a refusal",))
+    if (
+        Coupling.UNKNOWN in (terms.coupling,)
+        or reach is Reach.UNKNOWN
+        or terms.conveyance is Conveyance.UNKNOWN
+        or terms.field_of_use is FieldOfUse.UNKNOWN
+    ):
+        return Assessment(
+            terms=terms,
+            tier=None,
+            verdict=Verdict.UNKNOWN,
+            reasons=("an axis is UNKNOWN; unknown is a refusal",),
+        )
 
     if terms.coupling is Coupling.IN_PROCESS and reach in strong:
         return Assessment(
-            terms=terms, tier=None, verdict=Verdict.FORBIDDEN,
-            reasons=("strong copyleft linked in-process: no ceiling admits it",))
+            terms=terms,
+            tier=None,
+            verdict=Verdict.FORBIDDEN,
+            reasons=("strong copyleft linked in-process: no ceiling admits it",),
+        )
 
     if terms.field_of_use is not FieldOfUse.UNRESTRICTED:
         return Assessment(
-            terms=terms, tier=None, verdict=Verdict.FIELD_RESTRICTED,
-            reasons=(f"field of use is {terms.field_of_use.value}; "
-                     "this is not a rung and max_tier cannot grant it",))
+            terms=terms,
+            tier=None,
+            verdict=Verdict.FIELD_RESTRICTED,
+            reasons=(
+                f"field of use is {terms.field_of_use.value}; "
+                "this is not a rung and max_tier cannot grant it",
+            ),
+        )
 
     if terms.coupling is Coupling.NONE:
         tier = Tier.PURE
-    elif reach in strong:                       # subprocess/service by now
-        tier = (Tier.COPYLEFT_SHIPPED
-                if terms.conveyance is Conveyance.CONVEYS
-                else Tier.COPYLEFT_TOOL)
+    elif reach in strong:  # subprocess/service by now
+        tier = (
+            Tier.COPYLEFT_SHIPPED
+            if terms.conveyance is Conveyance.CONVEYS
+            else Tier.COPYLEFT_TOOL
+        )
     elif reach in (Reach.FILE, Reach.LIBRARY):
-        tier = (Tier.COPYLEFT_SHIPPED
-                if terms.conveyance is Conveyance.CONVEYS
-                else Tier.WEAK_COPYLEFT)
+        tier = (
+            Tier.COPYLEFT_SHIPPED
+            if terms.conveyance is Conveyance.CONVEYS
+            else Tier.WEAK_COPYLEFT
+        )
     else:
         tier = Tier.PERMISSIVE
     return Assessment(terms=terms, tier=tier, verdict=Verdict.ADMITTED)
@@ -743,9 +806,13 @@ def classify(terms: Terms) -> Assessment:
 
 #: Refusals ordered by how loudly they must be reported. A provider bundling
 #: several components takes the WORST verdict among them.
-_VERDICT_SEVERITY = (Verdict.ADMITTED, Verdict.OVER_CEILING,
-                     Verdict.FIELD_RESTRICTED, Verdict.UNKNOWN,
-                     Verdict.FORBIDDEN)
+_VERDICT_SEVERITY = (
+    Verdict.ADMITTED,
+    Verdict.OVER_CEILING,
+    Verdict.FIELD_RESTRICTED,
+    Verdict.UNKNOWN,
+    Verdict.FORBIDDEN,
+)
 
 
 def assess(terms: Iterable[Terms]) -> Assessment:
@@ -773,7 +840,9 @@ def assess(terms: Iterable[Terms]) -> Assessment:
     if worst.verdict is Verdict.ADMITTED:
         worst = max(parts, key=lambda a: DEFAULT_ORDER.index(a.tier))
     return Assessment(
-        terms=worst.terms, tier=worst.tier, verdict=worst.verdict,
+        terms=worst.terms,
+        tier=worst.tier,
+        verdict=worst.verdict,
         reasons=tuple(r for p in parts for r in p.reasons),
     )
 
@@ -781,6 +850,7 @@ def assess(terms: Iterable[Terms]) -> Assessment:
 # --------------------------------------------------------------------------
 # Policy: the one simple knob, and the escape hatch under it.
 # --------------------------------------------------------------------------
+
 
 @dataclass(frozen=True, kw_only=True, slots=True)
 class Policy:
@@ -801,7 +871,8 @@ class Policy:
             raise LicenceUnknown(
                 f"tier {tier!r} has no rung in this policy's ladder "
                 f"({[t.name for t in self.order]}). An off-ladder verdict must "
-                "be handled by check(), never compared against a ceiling.")
+                "be handled by check(), never compared against a ceiling."
+            )
         return self.order.index(tier)
 
     def admits(self, tier: Tier | None) -> bool:
@@ -812,6 +883,7 @@ class Policy:
 # --------------------------------------------------------------------------
 # Refusals. Four types, because the REMEDIES differ.
 # --------------------------------------------------------------------------
+
 
 class LooksLicenceError(Exception):
     """Base for every licence refusal."""
@@ -849,11 +921,14 @@ def check(
     """
     a, t = assessment, assessment.terms
     where = f"{t.provider_id} ({t.realisation})"
-    why = "\n".join(
-        f"       Observed {e.observed_on} by `{e.command or e.method}`: {e.observed}"
-        + (f"\n       See {e.source_url}" if e.source_url else "")
-        for e in t.evidence
-    ) or "       (no evidence recorded — this itself is a defect)"
+    why = (
+        "\n".join(
+            f"       Observed {e.observed_on} by `{e.command or e.method}`: {e.observed}"
+            + (f"\n       See {e.source_url}" if e.source_url else "")
+            for e in t.evidence
+        )
+        or "       (no evidence recorded — this itself is a defect)"
+    )
     tail = f"\n\n  {_SEE_DISCLAIMER}"
 
     if a.verdict is Verdict.UNKNOWN:
@@ -861,15 +936,21 @@ def check(
             f"effect {effect_name!r}: cannot determine a licence tier for {where}.\n\n"
             f"  Why: {'; '.join(a.reasons)}\n{why}\n\n"
             "  looks refuses rather than guessing. Supply evidence for this "
-            "provider, or select one that can be probed." + tail)
+            "provider, or select one that can be probed." + tail
+        )
 
     if a.verdict is Verdict.FORBIDDEN:
         raise LicenceForbidden(
             f"effect {effect_name!r}: {where} is forbidden outright "
             f"({'; '.join(a.reasons)}).\n\n{why}\n\n"
             "  There is no opt-in: max_tier does not reach this region. "
-            + (f"Alternatives: {', '.join(alternatives)}." if alternatives
-               else "Use a different effect.") + tail)
+            + (
+                f"Alternatives: {', '.join(alternatives)}."
+                if alternatives
+                else "Use a different effect."
+            )
+            + tail
+        )
 
     if a.verdict is Verdict.FIELD_RESTRICTED:
         fou = t.field_of_use
@@ -881,19 +962,25 @@ def check(
                 "agreeing to run a GPL binary is not agreeing to non-commercial "
                 "terms. Opt in separately and deliberately:\n"
                 f"       Policy(allow_field_restricted={{FieldOfUse.{fou.name}}})"
-                + tail)
+                + tail
+            )
         return
 
     assert a.tier is not None
     if not policy.admits(a.tier):
-        alt = (f"\n\n  A provider under your ceiling would satisfy this effect:\n"
-               f"       {', '.join(alternatives)}" if alternatives else "")
+        alt = (
+            f"\n\n  A provider under your ceiling would satisfy this effect:\n"
+            f"       {', '.join(alternatives)}"
+            if alternatives
+            else ""
+        )
         raise LicenceCeilingExceeded(
             f"effect {effect_name!r} needs tier {a.tier.name}; "
             f"the ceiling in force is {policy.max_tier.name}.\n\n"
             f"  Why: resolved provider {where}\n{why}{alt}\n\n"
             "  Or opt in deliberately:\n"
-            f"       Look(..., max_tier=Tier.{a.tier.name})" + tail)
+            f"       Look(..., max_tier=Tier.{a.tier.name})" + tail
+        )
 
 
 # --------------------------------------------------------------------------
@@ -904,21 +991,35 @@ def check(
 #: FFmpeg's ``EXTERNAL_LIBRARY_GPL_LIST`` (release/8.1). A build enabling any of
 #: these MUST also carry ``--enable-gpl``; FFmpeg's own configure dies otherwise.
 #: A build that claims not to is contradicting itself.
-FFMPEG_GPL_COMPONENTS = frozenset({
-    "avisynth", "frei0r", "libcdio", "libdavs2", "libdvdnav", "libdvdread",
-    "librubberband", "libvidstab", "libx264", "libx265", "libxavs",
-    "libxavs2", "libxvid",
-})
+FFMPEG_GPL_COMPONENTS = frozenset(
+    {
+        "avisynth",
+        "frei0r",
+        "libcdio",
+        "libdavs2",
+        "libdvdnav",
+        "libdvdread",
+        "librubberband",
+        "libvidstab",
+        "libx264",
+        "libx265",
+        "libxavs",
+        "libxavs2",
+        "libxvid",
+    }
+)
 
 #: Video filters FFmpeg release/8.1 guards behind ``gpl``. 32 of the 33 were
 #: measured absent from an LGPL build on 2026-09-02; the 33rd, ``boxblur_opencl``,
 #: needs OpenCL. ``eq`` being here is why the tier cannot be a constant.
-FFMPEG_GPL_ONLY_FILTERS = frozenset("""
+FFMPEG_GPL_ONLY_FILTERS = frozenset(
+    """
 blackframe boxblur boxblur_opencl colormatrix cover_rect cropdetect delogo eq
 find_rect fspp histeq hqdn3d interlace kerndeint mcdeint mpdecimate mptestsrc
 nnedi owdenoise perspective phase pp7 pullup repeatfields sab signature
 smartblur spp stereo3d super2xsai tinterlace uspp vaguedenoiser
-""".split())
+""".split()
+)
 
 _CONFIG_RE = re.compile(r"^\s*configuration:\s*(.*)$", re.M)
 
@@ -984,12 +1085,21 @@ def probe_ffmpeg(
     """
     stamp = (today or date.today()).isoformat()
     unknown = Terms(
-        provider_id="ffmpeg", realisation=realisation, spdx="LicenseRef-UNPROBED",
-        coupling=Coupling.UNKNOWN, conveyance=Conveyance.UNKNOWN,
-        field_of_use=FieldOfUse.UNKNOWN, reach=Reach.UNKNOWN,
-        evidence=(Evidence(method="probe", command=f"{exe} -version",
-                           observed="probe failed or binary absent",
-                           observed_on=stamp),),
+        provider_id="ffmpeg",
+        realisation=realisation,
+        spdx="LicenseRef-UNPROBED",
+        coupling=Coupling.UNKNOWN,
+        conveyance=Conveyance.UNKNOWN,
+        field_of_use=FieldOfUse.UNKNOWN,
+        reach=Reach.UNKNOWN,
+        evidence=(
+            Evidence(
+                method="probe",
+                command=f"{exe} -version",
+                observed="probe failed or binary absent",
+                observed_on=stamp,
+            ),
+        ),
     )
     if shutil.which(exe) is None and realisation == "system":
         return unknown
@@ -999,21 +1109,35 @@ def probe_ffmpeg(
         return unknown
     configuration = m.group(1)
     spdx = ffmpeg_spdx_from_configuration(configuration)
-    ev = Evidence(method="probe", command=f"{exe} -version",
-                  observed=f"configuration: {configuration}",
-                  source_url="https://ffmpeg.org/legal.html", observed_on=stamp)
+    ev = Evidence(
+        method="probe",
+        command=f"{exe} -version",
+        observed=f"configuration: {configuration}",
+        source_url="https://ffmpeg.org/legal.html",
+        observed_on=stamp,
+    )
     if spdx is None:
-        return Terms(provider_id="ffmpeg", realisation=realisation,
-                     spdx="LicenseRef-CONTRADICTORY", coupling=Coupling.SUBPROCESS,
-                     conveyance=Conveyance.UNKNOWN, field_of_use=FieldOfUse.UNKNOWN,
-                     reach=Reach.UNKNOWN, evidence=(ev,),
-                     note="self-contradictory build; looks does not adjudicate")
+        return Terms(
+            provider_id="ffmpeg",
+            realisation=realisation,
+            spdx="LicenseRef-CONTRADICTORY",
+            coupling=Coupling.SUBPROCESS,
+            conveyance=Conveyance.UNKNOWN,
+            field_of_use=FieldOfUse.UNKNOWN,
+            reach=Reach.UNKNOWN,
+            evidence=(ev,),
+            note="self-contradictory build; looks does not adjudicate",
+        )
     return Terms(
-        provider_id="ffmpeg", realisation=realisation, spdx=spdx,
+        provider_id="ffmpeg",
+        realisation=realisation,
+        spdx=spdx,
         coupling=Coupling.SUBPROCESS,
-        conveyance=(Conveyance.FINDS if realisation == "system"
-                    else Conveyance.CONVEYS),
-        field_of_use=FieldOfUse.UNRESTRICTED, evidence=(ev,),
+        conveyance=(
+            Conveyance.FINDS if realisation == "system" else Conveyance.CONVEYS
+        ),
+        field_of_use=FieldOfUse.UNRESTRICTED,
+        evidence=(ev,),
     )
 ```
 

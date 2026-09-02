@@ -288,11 +288,31 @@ class LicenceRefusal(RuntimeError):
 
 
 _LICENCE_PATTERNS: Sequence[Tuple[re.Pattern, Tier, str]] = (
-    (re.compile(r"nonfree parts compiled in", re.I), Tier.NONFREE, "nonfree-and-unredistributable"),
-    (re.compile(r"Lesser General Public\s+License.{0,80}?version 3", re.I | re.S), Tier.LGPL_3, "LGPL-3.0-or-later"),
-    (re.compile(r"Lesser General Public\s+License.{0,80}?version 2\.1", re.I | re.S), Tier.LGPL_2_1, "LGPL-2.1-or-later"),
-    (re.compile(r"General Public License.{0,80}?version 3", re.I | re.S), Tier.GPL_3, "GPL-3.0-or-later"),
-    (re.compile(r"General Public License.{0,80}?version 2", re.I | re.S), Tier.GPL_2, "GPL-2.0-or-later"),
+    (
+        re.compile(r"nonfree parts compiled in", re.I),
+        Tier.NONFREE,
+        "nonfree-and-unredistributable",
+    ),
+    (
+        re.compile(r"Lesser General Public\s+License.{0,80}?version 3", re.I | re.S),
+        Tier.LGPL_3,
+        "LGPL-3.0-or-later",
+    ),
+    (
+        re.compile(r"Lesser General Public\s+License.{0,80}?version 2\.1", re.I | re.S),
+        Tier.LGPL_2_1,
+        "LGPL-2.1-or-later",
+    ),
+    (
+        re.compile(r"General Public License.{0,80}?version 3", re.I | re.S),
+        Tier.GPL_3,
+        "GPL-3.0-or-later",
+    ),
+    (
+        re.compile(r"General Public License.{0,80}?version 2", re.I | re.S),
+        Tier.GPL_2,
+        "GPL-2.0-or-later",
+    ),
 )
 
 
@@ -316,7 +336,10 @@ def _run(binary: str, args: Sequence[str], *, timeout_s: int = DFLT_TIMEOUT_S) -
     try:
         p = subprocess.run(
             [binary, "-hide_banner", *args],
-            capture_output=True, text=True, timeout=timeout_s, check=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout_s,
+            check=False,
         )
     except (OSError, subprocess.SubprocessError) as e:
         raise LicenceRefusal(f"cannot probe {binary!r}: {e}") from e
@@ -334,8 +357,7 @@ def _parse_licence(text: str) -> Tuple[Tier, str]:
 def _parse_buildconf(text: str) -> Optional[Tuple[str, ...]]:
     """Configure tokens from ``-buildconf``. ``None`` when absent or stripped."""
     toks = tuple(
-        line.strip() for line in text.splitlines()
-        if line.strip().startswith("--")
+        line.strip() for line in text.splitlines() if line.strip().startswith("--")
     )
     return toks or None
 
@@ -363,7 +385,9 @@ def _parse_filters(text: str) -> FrozenSet[str]:
     return frozenset(names)
 
 
-def probe_ffmpeg(binary: str = DFLT_FFMPEG, *, timeout_s: int = DFLT_TIMEOUT_S) -> FfmpegProbe:
+def probe_ffmpeg(
+    binary: str = DFLT_FFMPEG, *, timeout_s: int = DFLT_TIMEOUT_S
+) -> FfmpegProbe:
     """Probe ``binary``. Raises :class:`LicenceRefusal` if it cannot be run at all."""
     lic_text = _run(binary, ["-L"], timeout_s=timeout_s)
     tier, spdx = _parse_licence(lic_text)
@@ -374,7 +398,9 @@ def probe_ffmpeg(binary: str = DFLT_FFMPEG, *, timeout_s: int = DFLT_TIMEOUT_S) 
         version=m.group(1) if m else None,
         tier=tier,
         spdx=spdx,
-        configuration=_parse_buildconf(_run(binary, ["-buildconf"], timeout_s=timeout_s)),
+        configuration=_parse_buildconf(
+            _run(binary, ["-buildconf"], timeout_s=timeout_s)
+        ),
         filters=_parse_filters(_run(binary, ["-filters"], timeout_s=timeout_s)),
     )
 
@@ -385,13 +411,15 @@ def probe_ffmpeg(binary: str = DFLT_FFMPEG, *, timeout_s: int = DFLT_TIMEOUT_S) 
 
 TABLE_ANCHOR = "FFmpeg n8.1 (+ the one 7.x-only entry noted below)"
 
-GPL_ONLY_VIDEO_FILTERS: FrozenSet[str] = frozenset("""
+GPL_ONLY_VIDEO_FILTERS: FrozenSet[str] = frozenset(
+    """
 blackframe boxblur boxblur_opencl colormatrix cover_rect cropdetect delogo eq
 find_rect fspp histeq hqdn3d interlace kerndeint mcdeint mpdecimate mptestsrc
 nnedi owdenoise perspective phase pp7 pullup repeatfields sab signature
 smartblur spp stereo3d super2xsai tinterlace uspp vaguedenoiser
 pp
-""".split())
+""".split()
+)
 # `pp` is the single 7.x-only entry: it wrapped libpostproc, which was removed
 # in FFmpeg 8.0. Keeping it means an older binary on PATH is still classified
 # correctly. It is also the reason this table carries an anchor at all -- the
