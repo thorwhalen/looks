@@ -73,10 +73,14 @@ Building. Shipped so far:
 | module | what it does |
 |---|---|
 | `looks.environment` | probe an ffmpeg build's licence and capabilities; FFmpeg's own gate table |
+| `looks.licence` | four axes, a ladder that is an explicitly replaceable policy, a 33-row evidence ledger, and refusals that name the alternative |
 | `looks.geometry` | fit / fill / stretch, crop, pad, social presets — pure arithmetic, compiles to any backend |
 | `looks.lut` | gradient-map `.cube` generation, at zero dependencies |
 | `looks.measure` | clip statistics via `ffprobe`, with identity fields that refuse a wrong comparison |
+| `looks.frame_dependency` | "can this effect flicker?", decided by four ffmpeg probes |
 | `looks._run` | the single process chokepoint, and the invariant guard |
+
+**474 tests.** They compose — `looks/tests/test_integration.py` walks the whole stack through the public surface: probe the environment, check the chain against the default ceiling, place a vertical clip into 16:9, verify the look cannot flicker, measure at source and post-effect, and confirm the two are correctly *incomparable*.
 
 Next: the `Effect` / `Look` types, the licence-tier ladder, and the compiler.
 
