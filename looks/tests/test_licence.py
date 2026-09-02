@@ -973,28 +973,32 @@ class TestTheLedger:
         the install closure of ``pip install looks``, so nothing about them is
         conveyed to a user. Every *runtime* extra is, and each one is a
         conveyance decision.
+
+        This used to skip itself on Python 3.10 for want of ``tomllib``, which
+        made a licence guard report "skipped" on half of CI — and a skip reads
+        as a pass. It now reads the declaration through
+        :mod:`looks.tests._pyproject`, which runs on both legs and is checked
+        against ``tomllib`` on the leg that has one.
         """
-        try:
-            import tomllib
-        except ImportError:  # Python 3.10
-            pytest.skip("tomllib needs Python 3.11+")
-        root = LEDGER_PATH.parent.parent.parent / "pyproject.toml"
-        config = tomllib.loads(root.read_text())
-        extras = config["project"].get("optional-dependencies", {})
+        from looks.tests._pyproject import (
+            distribution_names,
+            optional_dependencies,
+            tables,
+        )
+
         runtime = {
             name: specs
-            for name, specs in extras.items()
+            for name, specs in optional_dependencies().items()
             if name not in ("dev", "docs", "test")
         }
         providers = {t.provider for t in ledger()}
         for name, specs in runtime.items():
-            for spec in specs:
-                dist = spec.split("[")[0].split(">")[0].split("=")[0].strip()
+            for dist in distribution_names(specs):
                 assert dist in providers, (
                     f"extra {name!r} conveys {dist!r}, which has no ledger row. "
                     "An extra is a conveyance decision, not a convenience list."
                 )
-        assert config["project"]["dependencies"] == []
+        assert tables()["project"]["dependencies"] == []
 
 
 class TestLedgerRowValidation:

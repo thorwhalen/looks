@@ -190,17 +190,13 @@ class TestTheInvariantHoldsAcrossTheStack:
         import ast
         import pathlib
         import sys
-        import tomllib
+
+        from looks.tests._pyproject import distribution_names, optional_dependencies
 
         root = pathlib.Path(looks.__file__).parent
-        pyproject = tomllib.loads((root.parent / "pyproject.toml").read_text())
-        declared = {
-            spec.split("[")[0].split(">")[0].split("=")[0].strip()
-            for specs in pyproject["project"]
-            .get("optional-dependencies", {})
-            .values()
-            for spec in specs
-        }
+        declared = distribution_names(
+            spec for specs in optional_dependencies().values() for spec in specs
+        )
         undeclared = {}
         for path in root.rglob("*.py"):
             if "tests" in path.parts:
