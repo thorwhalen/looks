@@ -78,18 +78,27 @@ class TestAgainstTheRealBinary:
         )
 
     def test_the_gate_table_agrees_with_a_gpl_build(self):
-        """Every filter the committed table calls GPL-only must be present in a
-        GPL build. (The converse does not hold — a GPL build may also lack a
-        filter for reasons of its own, like a missing external library.)"""
+        """Every **directly** gated filter must be present in a GPL build.
+
+        Only the direct set. A directly-gated filter needs nothing but
+        ``--enable-gpl``, so a GPL build has all of them. An **indirectly**
+        gated one (``frei0r``, ``vidstabtransform``, …) additionally needs its
+        external library, which is a *separate* build flag that Homebrew does
+        not pass — so its absence says nothing about the licence and asserting
+        on it would make this test fail for the wrong reason.
+
+        ``boxblur_opencl`` is excluded for the same kind of reason: it needs
+        OpenCL.
+        """
         _ffmpeg_or_skip()
         env = probe()
         if env.licence not in (Licence.GPL2, Licence.GPL3):
             pytest.skip(f"this ffmpeg is {env.licence.value}, not a GPL build")
-        # boxblur_opencl needs OpenCL and is legitimately absent from most builds.
-        expected = gpl_only_filters() - {"boxblur_opencl"}
+        expected = set(gates()["gpl_filters_direct"]) - {"boxblur_opencl"}
         missing = sorted(expected - env.filters)
         assert not missing, (
-            f"the table calls these GPL-only but this GPL build lacks them: {missing}"
+            f"the table calls these directly GPL-gated but this GPL build lacks "
+            f"them: {missing}"
         )
 
 
@@ -223,3 +232,56 @@ class TestThereIsNotOneFfmpeg:
         assert isinstance(bundled.filters, frozenset)
         # Two distinct binaries must not be reported as one shared fact.
         assert on_path.path != bundled.path
+
+
+class TestIndirectGplGates:
+    """The false permission an adversarial review caught, pinned.
+
+    A filter is GPL-gated two ways: directly (`<name>_filter_deps` contains
+    `gpl`) and indirectly (its deps name a library in
+    `EXTERNAL_LIBRARY_GPL_LIST`, which forces `--enable-gpl` transitively with
+    no `gpl` token on its own line). The first version of the committed table
+    was built by grepping for the literal, so it missed all five of the second
+    class — including `vidstabtransform`, which is stabilisation and therefore
+    a plausible *normalisation* effect for this package.
+    """
+
+    #: The five, with the copyleft library each one reaches through.
+    INDIRECT = {
+        "frei0r": "frei0r",
+        "frei0r_src": "frei0r",
+        "rubberband": "librubberband",
+        "vidstabdetect": "libvidstab",
+        "vidstabtransform": "libvidstab",
+    }
+
+    def test_indirectly_gated_filters_are_in_the_table(self):
+        gpl = gpl_only_filters()
+        missing = sorted(n for n in self.INDIRECT if n not in gpl)
+        assert not missing, (
+            f"{missing} are GPL-gated through EXTERNAL_LIBRARY_GPL_LIST but are "
+            f"absent from the table — that is a FALSE PERMISSION"
+        )
+
+    def test_each_indirect_filter_reaches_a_gpl_library(self):
+        """The gate is real, not a hand-added name."""
+        recorded = gates()["gpl_filters_indirect"]
+        external = set(gates()["external_gpl"]) | set(gates()["external_gplv3"])
+        for name, lib in self.INDIRECT.items():
+            assert name in recorded, f"{name} is not recorded as indirectly gated"
+            assert lib in recorded[name], f"{name} should reach {lib}"
+            assert lib in external, f"{lib} is not in FFmpeg's GPL library lists"
+
+    def test_the_two_classes_are_stored_separately(self):
+        """So a future re-extraction cannot quietly drop one of them: the union
+        is what `gpl_only_filters()` reads, and both halves are non-empty."""
+        g = gates()
+        direct, indirect = g["gpl_filters_direct"], g["gpl_filters_indirect"]
+        assert len(direct) == 33, f"expected 33 directly-gated, got {len(direct)}"
+        assert len(indirect) == 5, f"expected 5 indirectly-gated, got {len(indirect)}"
+        assert set(g["gpl_filters"]) == set(direct) | set(indirect)
+
+    def test_needs_gpl_now_catches_a_normalisation_effect(self):
+        """The concrete consequence: asking for stabilisation at an LGPL ceiling
+        must be refused, and under the old table it would have been allowed."""
+        assert needs_gpl(["scale", "vidstabtransform", "lut3d"]) == ("vidstabtransform",)

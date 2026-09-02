@@ -6,7 +6,7 @@ Every ffmpeg claim below was produced by running the command shown, on **ffmpeg 
 
 ## Verdict
 
-**v1 ships 24 named effects in three families plus one separate `Transition` type, and the catalogue's spine is a `frame_dependency` column with five values that turns out to be mechanically testable rather than a matter of judgement.** Two probes settle it for any effect: apply it to a *looped still* and diff consecutive output frames (separates deterministic-but-time-varying grain from everything else — `noise` with the `t` flag changes 87.4% of pixels frame to frame; `deband`, `bilateral`, `gblur`, `lut3d` and untagged `noise` change 0%), then apply it to two frames that *share a region but differ elsewhere* and diff the shared region (separates content-adaptive filters, which flicker, from content-independent ones — `normalize` changes 67.4% of the shared region by up to 204/255, `elbg` 15.0%, while `lut3d`, `curves`, `deband` and `bilateral` change nothing). That is the whole Que Calor flicker argument reduced to two `ffmpeg` invocations and a byte diff, so `looks` can assert every catalogue entry's declared dependency class in its own test suite instead of documenting it. **The headline gradient-map LUT is in the zero-dependency tier and this is measured, not hoped**: a stdlib-only reimplementation of `mklut_b.py` (`colorsys` for hue/saturation, `bisect` for the ramp, `math` for the rest, no numpy) produces the `.cube` for the shipped Que Calor look **byte for byte identical** to the numpy original — all 970,374 of them — in **0.141 s** for 33³. That decides the artifact-management question too: **inline the ramp in the spec and generate the `.cube` into a content-addressed cache**, because the ramp is ~450 bytes of JSON against a 948 KiB file (a ~2000× compression of the same information), generation is cheaper than a network read, and a `Look` that references a path is not a document. Three findings arrived unbidden and each changes a decision. (1) **A run of pixel effects can be fused into one lookup and it is a 3.9× win** — 8 stacked pixel filters cost 14.25 ms/frame directly, 6.69 ms/frame fused in-graph via `haldclutsrc`, and **3.65 ms/frame** via a hald CLUT materialised once to a PNG and re-read with `movie=` — but **only when the composite is smooth**: fusing a run that ends in `posterize` under the default tetrahedral interpolation is measurably wrong (6.12% of samples off by more than 2/255, max 21/255) because interpolating a quantised lookup un-quantises it, and `interp=nearest` repairs it (0.265%). (2) **`curves` with its default `interp=natural` is not monotone** — on the steep-kneed curve a histogram match produces it emitted 21 non-monotone steps out of 255, so `tone_match` must compile with **`interp=pchip`**, which emitted 0. (3) **`flatten` has no permissive implementation and the LGPL one is not an equivalent**: `cv2.pyrMeanShiftFiltering` sits at `COPYLEFT_SHIPPED` and is therefore *refused by the default ceiling*, so the first look `looks` ships cannot run at its own default — while ffmpeg's `bilateral` (LGPL, no GPL dependency, verified in `configure`) does reach the same flattening (`ncol90` 117–165 bracketing mean-shift's 132) but at roughly half the retained post-look sharpness (23–36 against 54.9), which is precisely the axis the V2c per-clip correction was about. On the inherited `mixing` code the verdict is deflationary and worth stating up front: **the six transitions are two transitions, three EDL decisions and one retime**, and the geometry tier moves as a *vocabulary* — all four resize modes compile to verified ffmpeg chains, so none of moviepy comes with it.
+**v1 ships 24 named effects in three families plus one separate `Transition` type, and the catalogue's spine is a `frame_dependency` column with five values that turns out to be mechanically testable rather than a matter of judgement.** Two probes settle it for any effect: apply it to a *looped still* and diff consecutive output frames (separates deterministic-but-time-varying grain from everything else — `noise` with the `t` flag changes 87.4% of pixels frame to frame; `deband`, `bilateral`, `gblur`, `lut3d` and untagged `noise` change 0%), then apply it to two frames that *share a region but differ elsewhere* and diff the shared region (separates content-adaptive filters, which flicker, from content-independent ones — `normalize` changes 67.4% of the shared region by up to 204/255, `elbg` 15.0%, while `lut3d`, `curves`, `deband` and `bilateral` change nothing). That is the whole Que Calor flicker argument reduced to two `ffmpeg` invocations and a byte diff, so `looks` can assert every catalogue entry's declared dependency class in its own test suite instead of documenting it. **The headline gradient-map LUT is in the zero-dependency tier and this is measured, not hoped**: a stdlib-only reimplementation of `mklut_b.py` (`colorsys` for hue/saturation, `bisect` for the ramp, `math` for the rest, no numpy) produces the `.cube` for the shipped Que Calor look **byte for byte identical** to the numpy original — all 970,374 of them — in **0.141 s** for 33³. That decides the artifact-management question too: **inline the ramp in the spec and generate the `.cube` into a content-addressed cache**, because the spec is 566 bytes of JSON against a 948 KiB file (**1714×** the same information, measured through the proposed API), generation is cheaper than a network read, and a `Look` that references a path is not a document. Three findings arrived unbidden and each changes a decision. (1) **A run of pixel effects can be fused into one lookup and it is a 3.9× win** — 8 stacked pixel filters cost 14.25 ms/frame directly, 6.69 ms/frame fused in-graph via `haldclutsrc`, and **3.65 ms/frame** via a hald CLUT materialised once to a PNG and re-read with `movie=` — but **only when the composite is smooth**: fusing a run that ends in `posterize` under the default tetrahedral interpolation is measurably wrong (6.12% of samples off by more than 2/255, max 21/255) because interpolating a quantised lookup un-quantises it, and `interp=nearest` repairs it (0.265%). (2) **`curves` with its default `interp=natural` is not monotone** — on the steep-kneed curve a histogram match produces it emitted 21 non-monotone steps out of 255, so `tone_match` must compile with **`interp=pchip`**, which emitted 0. (3) **`flatten` has no permissive implementation and the LGPL one is not an equivalent**: `cv2.pyrMeanShiftFiltering` sits at `COPYLEFT_SHIPPED` and is therefore *refused by the default ceiling*, so the first look `looks` ships cannot run at its own default — while ffmpeg's `bilateral` (LGPL, no GPL dependency, verified in `configure`) does reach the same flattening (`ncol90` 117–165 bracketing mean-shift's 132) but at roughly half the retained post-look sharpness (23–36 against 54.9), which is precisely the axis the V2c per-clip correction was about. On the inherited `mixing` code the verdict is deflationary and worth stating up front: **the six transitions are two transitions, three EDL decisions and one retime**, and the geometry tier moves as a *vocabulary* — all four resize modes compile to verified ffmpeg chains, so none of moviepy comes with it.
 
 ---
 
@@ -500,6 +500,11 @@ LSTAR_LINEAR_KNEE = 0.008856
 #: whose size/quality trade-off is measured (see the note's section 7).
 CUBE_SIZES = (17, 33, 65)
 DFLT_CUBE_SIZE = 33
+#: The ``TITLE`` line of a generated ``.cube``. It lives in the SPEC rather than
+#: in a separate argument, so that it enters the cache key like everything else:
+#: two artifacts differing only by title must not collide, and a second channel
+#: into the file's bytes that bypasses the key is how a cache starts lying.
+DFLT_LUT_TITLE = "looks_gradient_map"
 #: Bumped whenever this module's arithmetic changes. It enters the cache key, so
 #: a bump invalidates every generated artifact -- nw's "lock, not receipt" rule.
 GENERATOR_VERSION = 1
@@ -539,7 +544,7 @@ class Ramp:
         """Build from ``(lstar, hex)`` pairs.
 
         >>> Ramp.of((0.0, "#2E0C18"), (100.0, "#FEF0DC")).sample(50.0)  # doctest: +ELLIPSIS
-        (0.588..., 0.494..., 0.480...)
+        (0.588..., 0.494..., 0.478...)
         """
         return cls(tuple(Stop(l, c) for l, c in pairs))
 
@@ -649,6 +654,7 @@ def gradient_map(
     tone: ToneShape = ToneShape(),
     size: int = DFLT_CUBE_SIZE,
     interp: str = "tetrahedral",
+    title: str = DFLT_LUT_TITLE,
 ) -> dict[str, Any]:
     """The JSON-able ``Effect.params`` for a gradient-map effect.
 
@@ -659,7 +665,9 @@ def gradient_map(
     """
     if size not in CUBE_SIZES:
         raise ValueError(f"size must be one of {CUBE_SIZES}, got {size!r}")
-    spec: dict[str, Any] = {"ramp": ramp.to_params(), "size": size, "interp": interp}
+    spec: dict[str, Any] = {
+        "ramp": ramp.to_params(), "size": size, "interp": interp, "title": title,
+    }
     if accent is not None:
         spec["accent"] = {
             "ramp": accent.ramp.to_params(),
@@ -678,8 +686,13 @@ def gradient_map(
     return spec
 
 
-def cube_text(spec: Mapping[str, Any], *, title: str = "looks_gradient_map") -> str:
-    """Render the ``.cube`` for a spec. Pure: no I/O, no clock, no randomness."""
+def cube_text(spec: Mapping[str, Any]) -> str:
+    """Render the ``.cube`` for a spec. Pure: no I/O, no clock, no randomness.
+
+    A pure function of the spec ALONE -- there is no second argument that can
+    change the bytes, which is what makes :func:`cube_key` a true content
+    address rather than an approximation of one.
+    """
     ramp = Ramp(tuple(Stop(l, c) for l, c in spec["ramp"]))
     acc_spec = spec.get("accent")
     accent = (
@@ -697,6 +710,7 @@ def cube_text(spec: Mapping[str, Any], *, title: str = "looks_gradient_map") -> 
         curve=tuple(tuple(p) for p in t.get("curve", ())),
     )
     n = spec.get("size", DFLT_CUBE_SIZE)
+    title = spec.get("title", DFLT_LUT_TITLE)
     step = 1.0 / (n - 1)
     out = [f'TITLE "{title}"\nLUT_3D_SIZE {n}\nDOMAIN_MIN 0 0 0\nDOMAIN_MAX 1 1 1\n']
     for bi in range(n):  # .cube order: red varies fastest, blue slowest
@@ -720,8 +734,7 @@ def cube_key(spec: Mapping[str, Any]) -> str:
     stale one forever.
 
     >>> cube_key({"ramp": [[0.0, "#000000"], [100.0, "#FFFFFF"]], "size": 17})
-    ... # doctest: +ELLIPSIS
-    '...'
+    'f59aea5c65e94cb20949e6af0de9a739'
     """
     blob = json.dumps(
         {"generator": "looks.gradient_map", "version": GENERATOR_VERSION, "spec": spec},
@@ -774,7 +787,7 @@ Two shape decisions in that listing are load-bearing and easy to get wrong.
 
 Five reasons, four of them measured.
 
-**1. The ramp is ~2000× smaller than the artifact it generates.** Measured exactly — the Que Calor `.cube` is 970,374 bytes, decomposing as a 75-byte header plus 35,937 entries × 27 bytes each (`"%.6f %.6f %.6f\n"` is 8+1+8+1+8+1). The ramp that generates it is 14 stops plus 7 accent stops plus six scalars: roughly 450 bytes of JSON.
+**1. The spec is 1714× smaller than the artifact it generates.** Measured exactly, through the API in §6.2 — the Que Calor `.cube` is 970,374 bytes, decomposing as a 75-byte header plus 35,937 entries × 27 bytes each (`"%.6f %.6f %.6f\n"` is 8+1+8+1+8+1). The spec that generates it — 14 ramp stops, 7 accent stops, six accent scalars, `tone`, `size`, `interp`, `title` — serialises to **566 bytes** of compact JSON.
 
 | grid | entries | `.cube` bytes | as text |
 |---|---|---|---|

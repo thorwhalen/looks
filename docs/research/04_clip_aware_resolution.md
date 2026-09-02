@@ -712,3 +712,134 @@ Three adapters, all optional, none in the base import:
 13. [FFmpeg Filters Documentation — `eq`](https://ffmpeg.org/ffmpeg-filters.html#eq). GPL-gated in ffmpeg's `configure`; observed present in this build, which is `--enable-gpl`.
 14. `looks` research note — *External prior art: what already exists, and how `looks` is different*, `/Users/thorwhalen/Dropbox/py/proj/t/looks/docs/research/01_prior_art_oss.md`, 2026-09-02. Establishes the `eq`-is-GPL / `colorlevels`-is-not substitution as `looks`' concrete contribution.
 15. [OpenCV — `cv2.pyrMeanShiftFiltering`](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga9fabdce9543bd602445f5db3827e4cc0). Timed here at cv2 5.0.0; the ordering claim (`pyrMeanShiftFiltering` over `edgePreservingFilter`) is [11]'s, not re-derived.
+
+---
+
+## Adversarial review (2026-09-02)
+
+*Appended by an independent reviewer whose brief was to refute. Every command below was re-run on this machine on this date; nothing was taken from the text above on trust. The author's text is untouched. **The footage under `~/Downloads/que_calor/footage/` is not readable by this session** (macOS quarantine: `head` and `ffprobe` both return `Operation not permitted` on the three `.mp4`s, while the `.py` files in the same tree read fine), so every clip-specific figure was re-verified on independently constructed material — `testsrc2`-derived clips at the same 1024×576 — rather than on the same pixels. Where that limits a refutation it is said so.*
+
+### Confirmed — re-derived independently, not merely re-read
+
+- **`eq` is GPL-gated in n8.1; every measurement filter this note relies on is not.** Extracted from ffmpeg's own `configure` at tag `n8.1` (`curl -sL .../n8.1/configure`), not from the sibling note: `eq_filter_deps="gpl"` at line 4128, 33 GPL-gated filters in total, and **no `_filter_deps` gate at all** for `signalstats`, `siti`, `blurdetect`, `geq`, `lutyuv`, `lut3d`, `lutrgb`, `bilateral`, `curves`, `colorlevels`, `colorbalance`, `exposure`, `entropy`. `elbg_filter_deps="avcodec"`, `movie_filter_deps="avcodec avformat"`, `scale_filter_deps="swscale"` — none of them a licence gate. **Claim 15 is upgraded from `verified: false` to verified.**
+- **`YLOW`/`YHIGH` are p10/p90 — reproduced byte-for-byte.** The `gradients` ramp command returns `YMIN=0 YLOW=25 YAVG=127.5 YHIGH=230 YMAX=255`, and `ffmpeg-filters(1)` (homebrew 8.1_1, line 19945) reads "Display the Y value at the 10% percentile within the input frame."
+- **The `geq` two-plane trick is numerically identical to two `lutyuv` passes.** Reproduced on an independent clip: crushed `0.000864665 / 0.000864665 / 0.000864665 / 0.001297` and blown `0 / 0 / 0 / 0` by both routes, identical to every printed digit. (Its *cost* rationale does not survive — see below.)
+- **The two-pointer sweep is the right reduction, and it works.** The author marked Claim 6 `verified: false`; it is now implemented (`/tmp/advrev/sweep.py`) and checked against exhaustive enumeration on the note's own §3e table. Sweep and brute force both return `{'c01': 1.0, 'c02': 0.5, 'c03': 0.5}` at ratio **2.0039**, matching §3e's reported 2.004.
+- **muvid's `exposure` is `clip_ok * contrast`.** Read verbatim at `_frame_metrics.py:41-57`: `clip_ok = 1.0 - (dark + bright) / n` with thresholds `< 16` / `> 239`, `contrast = min(1.0, g.std() / 64.0)`. `DEFAULT_METRICS` at `orchestrator.py:33` matches. Recommendation 2 stands.
+- **The Que Calor EDL entry has exactly nine fields and `_spans` reads three.** `json.load(edl_v1d.json)` → `['song_start', 'song_end', 'clip_id', 'clip_in', 'duration', 'bars', 'energy', 'framing', 'score']`, 50 entries; `render_v2c.py:43-49` reads `song_start` (normalised by `t0`), `song_end`, `clip_id`.
+- **`muvid.footage.lacing_bridge` emits `annot://schema/music-video-edl/v1` on `DECISION_TIER`**, with `edl_from_annotations` filtering on exactly that pair (`lacing_bridge.py:36, 39, 171, 210`).
+- **The man-page attributions are verbatim** for `siti` (P.910 (11/21), "legacy implementation that corresponds to a superseded recommendation", line 20191) and `blurdetect` (Marziliano, line 8152).
+- **The measurement-cost ordering reproduces.** On a 20 s 1024×576 h264 clip, mean user CPU over three runs: decode 0.71 s, `+fps=2,signalstats` 0.89 s, `+fps=2,blurdetect` 1.13 s, `+fps=2,siti` 1.40 s, all three 1.84 s. `siti`'s marginal cost is ~17 ms/frame here against the note's ~12 ms; same order, same ranking.
+- **Both interpreters are as stated**: `~/.pyenv/versions/p12` is cv2 4.13.0 / numpy 2.2.6, `~/.pyenv/versions/3.12.12` is cv2 5.0.0 / numpy 2.5.0.
+
+### Refuted or corrected
+
+**1. `siti.si` and `signalstats` are measured in DIFFERENT luma spaces, and `ClipStats` carries one `luma_space` for both.** This is the note's own central thesis failing inside the note's own dataclass, and it is the most consequential finding of this review. `libavfilter/vf_siti.c` at `n8.1` converts limited→full range *before* the Sobel (`convolve_sobel` line 197 calls `convert_full_range` unless `s->full_range`), and `is_full_range()` (line 145) treats an **unspecified** `color_range` as limited for `yuv420p`. Measured on identical pixels, changing nothing but the tag:
+
+```
+ffprobe -f lavfi -i "movie=big264.mp4,fps=2,siti"                    -> si = 59.41  59.56  59.14
+ffprobe -f lavfi -i "movie=big264.mp4,fps=2,setparams=range=tv,siti" -> si = 59.41  59.56  59.14
+ffprobe -f lavfi -i "movie=big264.mp4,fps=2,setparams=range=pc,siti" -> si = 51.07  51.20  50.85
+signalstats YAVG under either tag                                    -> 125.921 (unchanged)
+```
+
+59.41 / 51.07 = **1.1633**, which is 255/219 = 1.1644 to within rounding. Three consequences the note does not carry: (a) `sharpness` is a full-range quantity while `luma` / `crushed_share` are coded quantities, so one `luma_space` field cannot describe a `ClipStats`; (b) for `siti`, `ClipStats.color_range="untagged"` is **not** a third state — it collapses to `limited`, contradicting §1c's explicit "untagged is a third state, not a synonym for limited"; (c) `min_spread` across clips that are tagged differently is partly measuring metadata, not pictures, at a magnitude (16.3%) comparable to the improvements §3d says the resolver is choosing between. The resolver must normalise the range tag before probing, or declare the instrument as `siti@range=<tag>`.
+
+Related: **Claim 16's definition is imprecise.** SI is not "the standard deviation of the Sobel-filtered luma plane" — `vf_siti.c` takes the *population* standard deviation (`std_deviation`, line 252, divides by `size`) of the **gradient-magnitude** map `sqrt(gx² + gy²)` (line 201) over the `(width-2, height-2)` interior (line 294), after the clamping range conversion above. The clamp (`fminf(fmaxf(y - 16, 0), 219)`) also means superblack and superwhite detail contributes **zero** gradient — material for a package whose subject is posterisation and shadow floors.
+
+**2. `luma_space ∈ {coded, full, cielab_L}` is an incomplete identity: the MATRIX moves the number too.** The note attributes the coded-vs-`BGR2GRAY` gap entirely to range. Measured on one clip's identical coded bytes, decoded twice with only `in_color_matrix` changed, both routes producing something a `ClipStats` would honestly label `luma_space="full"`:
+
+| route (same bytes, same threshold `< 20`) | crushed share |
+|---|---|
+| full-range gray, BT.709 matrix | 0.00004 |
+| full-range gray, BT.601 matrix | 0.00398 |
+
+A ~100× disagreement between two measurements that the proposed identity tuple declares comparable. `ClipStats` needs a `luma_matrix` (or a `luma_space` that names the matrix), otherwise the field does not do the job §1c gives it. (`cv2.COLOR_BGR2GRAY` applies 601 coefficients to whatever RGB it is handed, so on BT.709 footage the OpenCV tier is a *double* mismatch — range and matrix.)
+
+**3. "Bit-exact" is overstated.** Reproduced the mechanism on a synthetic clip: `ffmpeg=0.0190104314` vs `numpy=0.0190104167`, max absolute difference **1.47e-08**, and `ffmpeg[i] == numpy[i]` is `False` for every frame. The residual is set by the ~6-significant-figure text precision of the `YAVG` metadata value and can never be zero. The note's "max abs diff 0.000000" is a printing artefact at 6 decimal places. A test written from the claim as stated (`assert ffmpeg == numpy`) fails. Say "agrees to ~1e-8, limited by metadata print precision". Separately, the *comparison itself* is close to a tautology — ffmpeg's threshold on the Y plane versus numpy's threshold on the same Y plane — and the interchangeability question that actually bites is the `BGR2GRAY` one, which is the 29× disagreement.
+
+**4. The `geq` two-plane pass is a PESSIMISATION, not an optimisation.** The note recommends it (Recommendation 3) on the grounds that "crushed and blown cost one pass together, not two", and never times it. Mean user CPU over three runs on a 20 s 1024×576 h264 clip:
+
+```
+decode only                                        0.71 s
+two SEPARATE lutyuv passes (two full decodes)      1.69 s
+geq two-plane trick (one decode, format=yuv444p)   2.51 s
+```
+
+The `geq` route costs **1.49×** the thing it replaces: chroma-upsampling every frame plus per-pixel expression evaluation is more expensive than a second decode plus two 256-entry LUTs. The saving is a *pass count*, not time. Keep `geq` for the case where decoding is genuinely dominant (a long-GOP 4K source), and measure it there before making it the default.
+
+**5. The `-f null -` invariant is not structural — a render satisfies it.** §4c calls it "checkable by a test that intercepts the subprocess layer and asserts the argv of every invocation", contrasted with "a comment saying please don't add a render function". Measured:
+
+```
+ffmpeg -v error -y -i big264.mp4 -t 2 -map 0:v -c:v libx264 -crf 30 rendered_demo.mp4 -map 0:v -f null -
+-> exit 0, rendered_demo.mp4 = 155846 bytes of H.264
+```
+
+One process, argv **ends in `-f null -`**, deliverable produced. ffmpeg accepts multiple outputs; the invariant constrains only the last one. As stated it is barely stronger than the comment it is contrasted with.
+
+**6. Recommendation 3 and Recommendation 7 contradict each other: `ffprobe` cannot take `-f null -`.**
+
+```
+ffprobe -f lavfi -i "movie=...,signalstats" -show_entries ... -of json -f null -
+-> Unknown input format: null
+-> Failed to set value 'null' for option 'f': Invalid argument
+```
+
+So the note's default reader can never satisfy the note's boundary invariant, and the invariant therefore governs a code path the recommended design does not use. **There is a strictly better invariant already in the note's hands: `looks` executes `ffprobe` and never `ffmpeg`.** That one *is* structural — ffprobe has no muxer, no encoder and no media output path, so a render is unreachable rather than merely unfashionable; it is checkable by the same argv interception; and it survives the multiple-output hole in (5). Adopt it and delete `-f null -` from the design.
+
+**7. `SourceMap.source_at` as written raises.** Run verbatim:
+
+```
+source_at RAISED: AttributeError 'SourceMap' object has no attribute '_starts'
+```
+
+`_starts` is never declared and a frozen dataclass cannot assign it in `__post_init__` without `object.__setattr__`. The only method in the note with a body does not run.
+
+**8. The rejection of the pure-stdlib pixel tier (Recommendation 4) is over-broad.** The argument — "roughly 2.8 million multiply-accumulates through `int` objects … order seconds per frame" — is correct for a Laplacian variance and wrong for the luma family, because a full 256-bin luma histogram needs no per-pixel Python at all: `[plane.count(v) for v in range(256)]` runs entirely in C. Measured on CPython 3.12.12, 1024×576 gray planes:
+
+```
+stdlib bytes.count histogram: 67.0 ms/frame   (2.68 s for 40 frames)
+frame 0 -> p10=29  median=148  p90=226  mean=127.99  crushed=0.00458  blown=1.7e-06
+```
+
+67 ms/frame is 0.34 s for a k=5 probe — the same order as the note's own 0.30 s ffmpeg probe — and it delivers **the true median and arbitrary percentiles**, both of which §2d lists as things tier (a) "genuinely cannot do". The tier should be rejected for *sharpness* and kept for *luma*, not rejected wholesale.
+
+That measurement also reconfirms the range trap a third way, and this instance is a live trap for anyone writing the numpy tier: the stdlib figures above came from `-pix_fmt gray`, and `signalstats` on the same frames reports `YLOW=41 YAVG=125.921 YHIGH=210`. The two agree exactly under the tv→pc expansion — `(41-16)·255/219 = 29.1`, `(125.921-16)·255/219 = 127.99`, `(210-16)·255/219 = 225.9`. **The pipe's `-pix_fmt` alone silently changes the luma space**, with no tag, no warning and no error.
+
+**9. Recommendation 9 names the wrong substitution shortlist, and the substitution is now partly measured.** `colorlevels` is a linear in/out remap with no gamma term at all, and `colorbalance` is a per-tonal-band RGB shift; only `curves` can approximate a power law, and only through interpolated control points. The exact LGPL substitution for `eq=gamma` is **`lutyuv` with `pow`**, which the note does not mention. Measured:
+
+| gamma | `eq=gamma=g` (GPL) YLOW/YAVG/YHIGH | `lutyuv=y='clip(pow(val/255,1/g)*255,0,255)'` (LGPL) |
+|---|---|---|
+| 0.7 | 18 / 98.7245 / 193 | 18 / 98.2418 / 193 |
+| 1.0 | 41 / 125.921 / 210 | 41 / 125.921 / 210 |
+| 1.5 | 75 / 155.396 / 224 | 75 / 155.021 / 224 |
+| 2.2 | 111 / 179.99 / 234 | 111 / 179.449 / 233 |
+
+Mean-luma agreement within 0.55/255 across the range, identical p10 throughout and identical p90 at three of four settings. Not yet a proof of equivalence (the contrast and saturation terms of `eq` are untouched here, and the small residual is unexplained), but it is a much stronger starting point than the note's list and it comes from a filter that is already in the zero-dep vocabulary.
+
+**10. The recommended reader breaks on ordinary filenames.** `movie=` is a filter-graph argument, so the path is parsed by the filtergraph lexer:
+
+```
+ffprobe -f lavfi -i "movie=/tmp/advrev/a,b'c[d].mp4,signalstats"
+-> No such filter: 'bc[d].mp4,signalstats'   (Filter not found)
+
+ffmpeg -i "/tmp/advrev/a,b'c[d].mp4" -vf "fps=2,signalstats,metadata=print:file=-" -frames:v 1 -f null -
+-> lavfi.signalstats.YAVG=125.921
+```
+
+A zero-dependency package that shells out must own an escaper for `\`, `:`, `'`, `,`, `[`, `]`, `;` before it can ship `ffprobe -f lavfi` as the default reader. The note picks the fragile route for JSON structure, and picks the fragile side of its own invariant at the same time (see 6) — the plain-argv `ffmpeg … -f null -` route needs no escaping *and* satisfies the stated invariant, at the cost of a dozen lines of stdlib `metadata=print` parsing.
+
+**11. The headline overstates what the zero-dep tier covers.** "The zero-dependency tier can measure everything this layer needs" sits three sentences before "the one thing the zero-dep tier cannot do is a CIELAB L\* histogram" — and the L\* histogram is what produced the single largest measured quality improvement in the source material (the #2E0C18 shadow floor, L\* 8.22, histogram distance 46.7 → 32.0 pp). Say "everything the *sharpness resolver* acts on", which is true and is what §3 actually establishes.
+
+### Design objections the measurements do not settle
+
+- **`k = 5` is derived from the wrong variance.** §3d measures the error of a k-subset median against the *full-clip* median — unpaired sampling variance across content. The resolver's comparison is **paired**: the same k frames are pushed through every candidate setting, so content variance largely cancels and only the setting effect remains. The note's own §3e table is the evidence: at k=3, every clip's post-effect `siti.si` is *perfectly monotone* in the round-trip scale (23.01 < 23.42 < 23.95 < 25.41; 50.92 < 52.35 < 54.58 < 60.08; 26.04 < 27.14 < 28.60 < 32.33) — no inversion anywhere, which a 12.7–34.0% p90 error would produce constantly if it applied. The k=5 figure is right for the *cross-clip* half of the objective and wrong for the *within-clip grid* half; the note should separate them and bootstrap the paired difference, not the level.
+- **`screen_time()` promises weights the objective cannot use.** §5b documents it as "the weights the resolver's dispersion uses", but `D = max/min` admits no weights at all — a 0.3 s cut sets the window exactly as hard as a 40 s one. Either the objective gains a weighted form or the docstring is wrong.
+- **`Literal["min_spread"]` with one member is frozen too early.** §7 concedes max/min is "fragile at N=30, where one bad clip sets the whole window". Making the enum single-member is presented as a statement that maximisation is unrepresentable — but it also makes the *dispersion functional* unrepresentable, and that is the one the note says is probably wrong beyond N=3. Split them: `objective: Literal["min_spread"]` and `dispersion: Literal["log_range", ...]`.
+- **§5c point 4 states a rule `looks` cannot enforce.** "A `SourceMap` whose boundaries are not co-extensive with the cuts is a misuse, and the resolver should refuse to emit per-source parameters for it" — but a `SourceMap` is the *only* thing `looks` is given, so it has no independent knowledge of where the cuts are and cannot detect the violation. Either drop the refusal or require the caller to assert co-extensiveness explicitly.
+- **The two-pointer sweep must be run in log space, and the docstring says otherwise.** Minimising `hi - lo` and minimising `log(hi/lo)` give different answers. Counterexample, verified: sources `a ∈ {1.0, 10.0}`, `b ∈ {2.0, 12.0}` — linear-narrowest picks `(1.0, 2.0)` (ratio 2.0), log-narrowest picks `(10.0, 12.0)` (ratio 1.2). The note's `narrowest_window` takes raw statistics and its docstring describes the linear problem while §3b's objective is the log one.
+- **House style.** `ClipStats` has six positional parameters and `LumaSummary` five, against the kickoff's "keyword-only past the 3rd argument". The `falaw.Plan` precedent the package is modelled on is `@dataclass(frozen=True, slots=True, kw_only=True)`. Adopt it. (`ClipStats` is also unhashable because of `extra: Mapping = field(default_factory=dict)` — `hash()` raises `TypeError: unhashable type: 'dict'`. `falaw.CallPlan` has the same property, so this is a federation norm rather than a defect, but a "diffable, persistable" record that cannot be a set member is worth a deliberate decision rather than an accident.)
+
+### What this review could NOT check
+
+The three Que Calor source `.mp4`s and the `out/` renders are unreadable from this session (macOS quarantine), so **Claims 1, 2, 4, 5, 7, 8 and 9 were re-verified only as mechanisms, on independently constructed material, never on the same pixels.** In particular the specific numbers 0.6% vs 17.4%, Spearman +0.8452, 0.91×–1.12×, the k-subset error table, the 2.004/2.213/2.364 spreads and the `pyrMeanShiftFiltering` timings are **unreproduced here**. Nothing found contradicts them; they simply were not independently re-measured. The one structural criticism that does apply without the pixels: Claim 2's Spearman is pooled over 24 frames drawn from three clips whose `siti.si` means differ by ~2×, so it is dominated by *between*-clip variation, and the resolver also needs the *within*-clip ordering across settings — which that statistic does not test.

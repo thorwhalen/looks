@@ -86,3 +86,24 @@ This extraction says what the ffmpeg *project* gates. It says nothing about **wh
 
 1. [FFmpeg `configure`, tag `n8.1`](https://raw.githubusercontent.com/FFmpeg/FFmpeg/n8.1/configure) — the extraction source.
 2. [FFmpeg License and Legal Considerations](https://ffmpeg.org/legal.html) — the project's own statement that `--enable-gpl` makes the resulting binary GPL.
+
+
+---
+
+## Correction (same day): the grep recipe was incomplete, in the dangerous direction
+
+The extraction above — `grep -E '^[a-z0-9_]+_filter_deps=' configure | grep gpl` — finds only the filters whose deps line carries the **literal** `gpl`. **Five more are GPL-gated indirectly**, through a library that is itself in `EXTERNAL_LIBRARY_GPL_LIST`, with no `gpl` token anywhere on their own line:
+
+| filter | reaches | which is in |
+|---|---|---|
+| `frei0r`, `frei0r_src` | `frei0r` | `EXTERNAL_LIBRARY_GPL_LIST` |
+| `rubberband` | `librubberband` | `EXTERNAL_LIBRARY_GPL_LIST` |
+| `vidstabdetect`, `vidstabtransform` | `libvidstab` | `EXTERNAL_LIBRARY_GPL_LIST` |
+
+So the correct count for n8.1 is **38**, not 33, and the recipe is: literal `gpl` in the deps line **OR** any dep that appears in `EXTERNAL_LIBRARY_GPL_LIST` / `EXTERNAL_LIBRARY_GPLV3_LIST`.
+
+**This is a false permission, which is the direction that matters.** `vidstabtransform` is video stabilisation — a perfectly plausible *normalisation* effect for this package — and the naive table tiers it permissive. A caller asking for stabilisation under an LGPL ceiling would have been allowed, silently, to require a GPL build.
+
+Found by the adversarial review appended to [`01_prior_art_oss.md`](01_prior_art_oss.md), not by any test, and not by the session that wrote this note. `looks/data/ffmpeg_gates.json` is now schema `v2` and stores the two classes **separately** (`gpl_filters_direct` / `gpl_filters_indirect`) so a future re-extraction cannot quietly drop one; `looks/tests/test_environment.py::TestIndirectGplGates` asserts each of the five reaches a real GPL library, and pins the count of both halves.
+
+One genuine subtlety this exposed, worth keeping: **a directly-gated filter is present in every GPL build, an indirectly-gated one is not.** The direct set needs only `--enable-gpl`; the indirect set additionally needs its external library, which is a *separate* build flag Homebrew does not pass. So "this GPL build has every GPL-gated filter" is true only of the direct half, and a test that asserts it over both fails for a reason that has nothing to do with licensing.

@@ -1,9 +1,9 @@
 {
-  "_schema": "looks.ffmpeg_gates/v1",
+  "_schema": "looks.ffmpeg_gates/v2",
   "_source": "FFmpeg configure at tag n8.1",
   "_source_url": "https://raw.githubusercontent.com/FFmpeg/FFmpeg/n8.1/configure",
   "_extracted": "2026-09-02",
-  "_how": "grep -E '^[a-z0-9_]+_filter_deps=' configure | grep gpl   +   the four EXTERNAL_LIBRARY_*_LIST blocks",
+  "_how": "A filter is GPL-gated two ways, and a grep for `gpl` in its deps line finds only the first. DIRECT: `<name>_filter_deps` contains the literal `gpl`. INDIRECT: its deps name an external library that is itself in EXTERNAL_LIBRARY_GPL_LIST or EXTERNAL_LIBRARY_GPLV3_LIST, so enabling the filter forces --enable-gpl transitively. Missing the indirect set is a FALSE PERMISSION \u2014 it tiers frei0r and vidstabtransform as permissive.",
   "gpl_filters": [
     "blackframe",
     "boxblur",
@@ -14,6 +14,8 @@
     "delogo",
     "eq",
     "find_rect",
+    "frei0r",
+    "frei0r_src",
     "fspp",
     "histeq",
     "hqdn3d",
@@ -29,6 +31,7 @@
     "pp7",
     "pullup",
     "repeatfields",
+    "rubberband",
     "sab",
     "signature",
     "smartblur",
@@ -37,9 +40,11 @@
     "super2xsai",
     "tinterlace",
     "uspp",
-    "vaguedenoiser"
+    "vaguedenoiser",
+    "vidstabdetect",
+    "vidstabtransform"
   ],
-  "gpl_filter_deps": {
+  "gpl_filters_direct": {
     "blackframe": [
       "gpl"
     ],
@@ -47,8 +52,8 @@
       "gpl"
     ],
     "boxblur_opencl": [
-      "opencl",
-      "gpl"
+      "gpl",
+      "opencl"
     ],
     "colormatrix": [
       "gpl"
@@ -123,17 +128,17 @@
       "swscale"
     ],
     "signature": [
-      "gpl",
       "avcodec",
-      "avformat"
+      "avformat",
+      "gpl"
     ],
     "smartblur": [
       "gpl",
       "swscale"
     ],
     "spp": [
-      "gpl",
-      "avcodec"
+      "avcodec",
+      "gpl"
     ],
     "stereo3d": [
       "gpl"
@@ -145,11 +150,34 @@
       "gpl"
     ],
     "uspp": [
-      "gpl",
-      "avcodec"
+      "avcodec",
+      "gpl"
     ],
     "vaguedenoiser": [
       "gpl"
+    ]
+  },
+  "gpl_filters_indirect": {
+    "frei0r": [
+      "frei0r"
+    ],
+    "frei0r_src": [
+      "frei0r"
+    ],
+    "rubberband": [
+      "librubberband"
+    ],
+    "vidstabdetect": [
+      "libvidstab"
+    ],
+    "vidstabtransform": [
+      "libvidstab"
+    ]
+  },
+  "version3_filters": {
+    "lensfun": [
+      "liblensfun",
+      "version3"
     ]
   },
   "external_gpl": [
@@ -167,6 +195,9 @@
     "libxavs2",
     "libxvid"
   ],
+  "external_gplv3": [
+    "libsmbclient"
+  ],
   "external_version3": [
     "gmp",
     "libaribb24",
@@ -176,9 +207,6 @@
     "libvo_amrwbenc",
     "mbedtls",
     "rkmpp"
-  ],
-  "external_gplv3": [
-    "libsmbclient"
   ],
   "external_nonfree": [
     "decklink",

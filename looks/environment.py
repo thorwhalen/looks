@@ -383,6 +383,22 @@ def probe(
 def gates() -> Mapping[str, object]:
     """The committed table of FFmpeg's own licence gates, extracted from source.
 
+    **A filter is GPL-gated two ways, and a grep finds only one of them.**
+    *Directly*, when its ``_filter_deps`` line contains the literal ``gpl``
+    (33 filters, ``eq`` among them). *Indirectly*, when its deps name an
+    external library that is itself in ``EXTERNAL_LIBRARY_GPL_LIST`` — enabling
+    the filter then forces ``--enable-gpl`` transitively, with no ``gpl`` token
+    anywhere on its own line. Five filters are in that second class:
+    ``frei0r``, ``frei0r_src``, ``rubberband``, ``vidstabdetect``,
+    ``vidstabtransform``.
+
+    Missing them is a **false permission**, which is the dangerous direction:
+    ``vidstabtransform`` is stabilisation, i.e. a perfectly plausible
+    normalisation effect for this package, and the naive extraction tiers it
+    permissive. The first version of this table did exactly that; it was caught
+    by an adversarial review rather than by any test, which is why the two
+    classes are now stored separately and asserted separately.
+
     This is what FFmpeg's ``configure`` *declares*, not what the local binary
     *has* — the two answer different questions, and both are needed. The table
     says an effect written with ``eq`` could never run on a clean-room LGPL
