@@ -57,10 +57,23 @@ class TestTheVerdicts:
         assert r.content_delta and r.content_delta > 100
 
     def test_a_vector_quantiser_is_caught(self):
-        """`elbg` builds a codebook from the frame — adaptive by definition, and
-        the class the whole flicker argument is about."""
+        """`elbg` builds a codebook from the frame. Its DEFAULT is worse than
+        content-adaptive: `seed=-1` re-randomises every instantiation, so the
+        same Look over the same clip gives a different picture on a re-render.
+
+        The verdict is `NONDETERMINISTIC` rather than `CONTENT_ADAPTIVE`
+        because that is the more serious property and because, once an effect is
+        random, no other measurement here means anything — the probes all
+        compare two applications of it.
+        """
         _ffmpeg_or_skip()
-        assert classify("elbg=l=4").dependency is Dependency.CONTENT_ADAPTIVE
+        assert classify("elbg=l=4").dependency is Dependency.NONDETERMINISTIC
+
+    def test_seeding_it_makes_it_merely_content_adaptive(self):
+        """The distinction the determinism probe buys: same filter, one option
+        apart, and the two failures are different failures."""
+        _ffmpeg_or_skip()
+        assert classify("elbg=l=4:seed=1").dependency is Dependency.CONTENT_ADAPTIVE
 
     def test_time_varying_grain_is_separated_from_static_grain(self):
         """Same filter, one flag apart. Nothing but a probe tells them apart."""
@@ -80,9 +93,14 @@ class TestBothProbesAreNeeded:
 
     def test_elbg_needs_the_hue_probe(self):
         """It adapts to the colour HISTOGRAM. A fade barely moves the histogram,
-        and `elbg` reads 0 against it alone."""
+        and `elbg` reads 0 against it alone.
+
+        Seeded, so this isolates the content-adaptivity from the randomness —
+        unseeded, the determinism probe short-circuits first and this would be
+        testing a different property.
+        """
         _ffmpeg_or_skip()
-        assert classify("elbg=l=4").dependency is Dependency.CONTENT_ADAPTIVE
+        assert classify("elbg=l=4:seed=1").dependency is Dependency.CONTENT_ADAPTIVE
 
     def test_there_are_at_least_two_content_sources(self):
         """Adding one strictly increases sensitivity; removing one silently
@@ -154,3 +172,94 @@ class TestTheProbeMechanics:
             f"an identity LUT reported a time delta of {r.time_delta} — the "
             f"format pinning around the effect has been lost"
         )
+
+
+class TestTheTemporalProbe:
+    """The third probe — and an honest record of the two filters it misses.
+
+    Before it existed, `assert_flicker_free('tmix=frames=3')` **passed**: a
+    frame-averager certified flicker-free. That is a false GUARANTEE, the one
+    direction this package must never fail in.
+    """
+
+    def test_a_frame_averager_is_caught(self):
+        _ffmpeg_or_skip()
+        r = classify("tmix=frames=3")
+        assert r.dependency is Dependency.TEMPORAL
+        assert r.temporal_delta and r.temporal_delta > 100
+
+    def test_a_spatiotemporal_denoiser_is_caught(self):
+        """`hqdn3d` shows only 2/255 — small, but the probe's tail is textured
+        precisely so it shows anything at all. With flat colour it reads 0."""
+        _ffmpeg_or_skip()
+        assert classify("hqdn3d").dependency is Dependency.TEMPORAL
+
+    def test_a_temporal_filter_no_longer_passes_the_guard(self):
+        _ffmpeg_or_skip()
+        with pytest.raises(AssertionError, match="temporal"):
+            assert_flicker_free("tmix=frames=3")
+
+    def test_stateless_and_spatial_effects_read_zero_temporal(self, cube):
+        _ffmpeg_or_skip()
+        for chain in (f"lut3d={cube}", "curves=preset=lighter", "gblur=sigma=2"):
+            assert classify(chain).temporal_delta == 0.0, chain
+
+    def test_the_known_gap_is_recorded_rather_than_hidden(self):
+        """`tblend` reads independent and is temporal. Pinned so the limitation
+        is a recorded fact rather than a surprise — and so that if a future
+        probe closes it, this test fails and someone deletes it deliberately.
+
+        The cause is structural: `tblend` consumes two input frames per output
+        frame, so the trim that skips the perturbation for a normal filter lands
+        past it. Lengthening the perturbation from one frame to three changed
+        nothing — measured.
+        """
+        _ffmpeg_or_skip()
+        assert classify("tblend=all_mode=average").dependency is Dependency.INDEPENDENT
+
+    def test_spatial_is_not_a_reachable_verdict(self):
+        """It was declared and never returned. An enum member that never occurs
+        claims a resolution the classifier does not have — and for the flicker
+        question, grouping pixel-local with small-spatial is correct anyway."""
+        assert not hasattr(Dependency, "SPATIAL")
+
+
+class TestTheDeterminismProbe:
+    """Randomness is a reproducibility hazard, and it invalidates every other
+    probe here — so it is measured first.
+
+    Before this probe existed, `elbg`'s randomness was read as TEMPORAL by the
+    two-branch temporal probe, and the verdict varied run to run.
+    """
+
+    def test_a_random_effect_is_caught(self):
+        _ffmpeg_or_skip()
+        r = classify("elbg=l=4")
+        assert r.dependency is Dependency.NONDETERMINISTIC
+        assert r.determinism_delta and r.determinism_delta > 1
+
+    def test_the_note_says_to_pin_the_seed(self):
+        _ffmpeg_or_skip()
+        assert "seed" in classify("elbg=l=4").note
+
+    def test_deterministic_effects_read_zero(self, cube):
+        _ffmpeg_or_skip()
+        for chain in (f"lut3d={cube}", "curves=preset=lighter", "gblur=sigma=2"):
+            assert classify(chain).determinism_delta == 0.0, chain
+
+    def test_time_varying_grain_is_still_deterministic(self):
+        """`noise` with the `t` flag CHANGES every frame but is REPRODUCIBLE —
+        two applications agree. The two properties are independent, and
+        conflating them would call every grain effect a reproducibility
+        hazard."""
+        _ffmpeg_or_skip()
+        r = classify("noise=alls=30:allf=t")
+        assert r.dependency is Dependency.TIME_VARYING
+        assert r.determinism_delta == 0.0
+
+    def test_the_frame_count_is_the_measured_one(self):
+        """Three frames caught elbg in 1 of 6 runs; eight caught it 6 of 6.
+        Lowering this silently reintroduces a flaky verdict."""
+        from looks.frame_dependency import DETERMINISM_PROBE_FRAMES
+
+        assert DETERMINISM_PROBE_FRAMES >= 8

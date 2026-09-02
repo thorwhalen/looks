@@ -55,14 +55,26 @@ Each cost a false reading before it was fixed, and each fails **silently**.
 
 ## What this does not answer
 
-**Temporal dependence** — an effect whose output at frame *n* depends on frames
-before it (`tmix`, `atadenoise`, motion-compensated denoise). No probe here
-separates it: a looped still through a frame-averager is still constant, and so
-is the constant half. Such effects are out of v1's scope entirely.
+**Some temporal filters.** A third probe (below) catches the common case by
+running two sequences that differ only *before* a shared textured tail:
+`tmix=frames=3` shows **146**/255 in the tail and `hqdn3d` shows 2. But
+`tblend` and `atadenoise` both read **0** and are misreported as independent.
+Measured, and the reason is structural rather than a tuning failure: `tblend`
+consumes two input frames per output frame, so the trim that skips the
+perturbation for a normal filter lands *past* it; `atadenoise` keeps nine
+frames of history, more than a short probe can perturb. Lengthening the
+perturbation from one frame to three changed neither — verified.
 
-**And an `INDEPENDENT` verdict is evidence, not proof.** It says: neither of two
-probes, moving two different statistics, could make this effect change a pixel
-it should not have touched. An effect adapting to a third statistic would pass.
+Those two are refused for an unrelated and stronger reason anyway: **every
+temporal filter is out of scope**, because the execution model this package
+serves renders one bounded ffmpeg *per cut*, so a temporal filter meets a hard
+discontinuity at every cut. Do not read that as making the gap harmless —
+it means the gap is not currently load-bearing, not that it is closed.
+
+**And an `INDEPENDENT` verdict is evidence, not proof.** It says: none of three
+probes could make this effect change a pixel it should not have touched. An
+effect adapting to a statistic none of them moves would pass, and so would
+`tblend`.
 That is why the flagship look's claim does **not** rest on this module — a
 fixed per-pixel lookup with no state cannot depend on anything else, which is a
 *structural* argument, and the measurement corroborates it rather than
@@ -117,23 +129,34 @@ class Dependency(Enum):
 
     - :attr:`INDEPENDENT` — the same input pixel gives the same output pixel,
       always. Cannot flicker. This is what the flagship look is.
-    - :attr:`SPATIAL` — output depends on the pixel's neighbourhood but not on
-      the rest of the frame. Cannot flicker either; kept distinct because it
-      *can* be fooled by a probe with too small a margin.
+    - :attr:`INDEPENDENT` — no probe could make the effect touch a pixel it
+      should not have. **Evidence, not proof** — see the module docstring.
+      A pixel-local map and a small spatial filter both land here, and for the
+      flicker question that is the right grouping: neither can flicker.
     - :attr:`TIME_VARYING` — output depends on the frame index or clock.
       Deterministic and reproducible, but it changes: film grain is the wanted
       case.
     - :attr:`CONTENT_ADAPTIVE` — output depends on the frame's global
       statistics. **This flickers**, and it is the class the whole
       frame-independence argument is about.
-    - :attr:`UNDETERMINED` — the probes could not run, or the effect is
-      temporal, which they do not separate.
+    - :attr:`TEMPORAL` — output at frame *n* depends on frames before it.
+      Structurally incompatible with the execution model this package serves:
+      the consumer renders one bounded ffmpeg **per cut**, so a temporal filter
+      meets a hard discontinuity at every cut and produces an artefact at every
+      one of them.
+    - :attr:`NONDETERMINISTIC` — two applications of the effect to the SAME
+      input disagree. A reproducibility hazard rather than a flicker one: a
+      re-render produces a different picture. Detected first, because it
+      invalidates every other probe here.
+    - :attr:`UNDETERMINED` — a probe could not run. Never a synonym for
+      independent.
     """
 
     INDEPENDENT = "independent"
-    SPATIAL = "spatial"
+    NONDETERMINISTIC = "nondeterministic"
     TIME_VARYING = "time_varying"
     CONTENT_ADAPTIVE = "content_adaptive"
+    TEMPORAL = "temporal"
     UNDETERMINED = "undetermined"
 
 
@@ -141,7 +164,30 @@ class Dependency(Enum):
 UNDETERMINED = Dependency.UNDETERMINED
 
 #: The classes that cannot produce flicker.
-FLICKER_FREE = frozenset({Dependency.INDEPENDENT, Dependency.SPATIAL})
+FLICKER_FREE = frozenset({Dependency.INDEPENDENT})
+
+#: How many frames the determinism probe examines.
+#:
+#: **Eight, and the number is measured rather than chosen.** Detecting
+#: randomness is itself probabilistic: two runs of a stochastic filter can
+#: agree by chance, and the more frames you compare the less likely that is
+#: across all of them. On `elbg` (a vector quantiser whose default `seed=-1`
+#: re-randomises every instantiation), six repeats of the probe detected the
+#: non-determinism in **1 of 6** runs at three frames and **6 of 6** at eight.
+#: Fifteen was no better than eight, so eight is where it saturates.
+#:
+#: A consequence worth stating: a `NONDETERMINISTIC` verdict is a proof, but its
+#: absence is not. An effect random on one pixel in ten thousand would pass.
+DETERMINISM_PROBE_FRAMES = 8
+
+#: How many frames of the shared tail the temporal probe examines.
+#:
+#: Small on purpose, and this is the subtle part: the probe only detects a
+#: temporal effect if the frames it samples still have the perturbation inside
+#: their memory window. Trimming further in makes every temporal filter read as
+#: independent — measured, `tmix=frames=3` read 0 when sampling began 3 frames
+#: after the perturbation and 146/255 when it began 1 frame after.
+TEMPORAL_PROBE_FRAMES = 3
 
 
 @dataclass(frozen=True)
@@ -154,6 +200,11 @@ class DependencyReport:
             constant input, out of 255.
         content_delta: Largest change in the constant half when the rest of the
             frame changed, out of 255.
+        temporal_delta: Largest change in a shared tail when the frames BEFORE
+            it differed, out of 255.
+        determinism_delta: Largest disagreement between two applications of the
+            effect to the SAME input, out of 255. Nonzero means the effect is
+            random, and every other number in this report is then meaningless.
         can_flicker: Whether the verdict admits flicker. ``None`` when
             undetermined — **not** ``False``, because "we could not tell" and
             "it cannot" are different answers and only one of them is a
@@ -164,6 +215,8 @@ class DependencyReport:
     dependency: Dependency
     time_delta: Optional[float] = None
     content_delta: Optional[float] = None
+    temporal_delta: Optional[float] = None
+    determinism_delta: Optional[float] = None
     note: str = ""
 
     @property
@@ -240,6 +293,60 @@ def _split_sources() -> tuple[str, ...]:
     )
 
 
+def _determinism_probe(chain: str) -> str:
+    """A graph that applies ``chain`` twice to the SAME frames and diffs them.
+
+    **This must run before the others**, because every other probe here compares
+    two applications of the effect — so a random effect makes them differ for a
+    reason that has nothing to do with what is being tested. Measured: `elbg`
+    with its default ``seed=-1`` disagrees with itself by **70/255**, and the
+    temporal probe consequently reported it TEMPORAL, which it is not. With
+    ``seed=1`` it disagrees by 0.
+
+    A non-deterministic effect is a *reproducibility* hazard rather than a
+    flicker one: the same Look over the same clip produces a different picture
+    on a re-render, which defeats a content-addressed cache and makes a golden
+    test impossible.
+    """
+    w, h = PROBE_SIZE
+    return (
+        f"testsrc2=s={w}x{h}:r={PROBE_RATE}:d={DETERMINISM_PROBE_FRAMES / PROBE_RATE},"
+        f"format=yuv444p,split[x][y];"
+        f"[x]{chain},format=yuv444p[a];[y]{chain},format=yuv444p[b];"
+        f"[a][b]blend=all_mode=difference,signalstats"
+    )
+
+
+def _temporal_probe(chain: str) -> str:
+    """A graph whose two branches differ ONLY before a shared, textured tail.
+
+    A stateless or spatial effect produces the identical tail for both. One that
+    reads earlier frames does not — its output in the tail still carries the
+    perturbation.
+
+    Two construction details, each of which silently defeats the probe:
+
+    - **The tail must be textured.** With flat colour, `hqdn3d` has nothing to
+      denoise and reads 0 — a false negative for a spatio-temporal filter.
+    - **The sampled frames must still have the perturbation in their memory
+      window.** Measured: `tmix=frames=3` reads **146**/255 when sampling starts
+      one frame after the perturbation and **0** when it starts three frames
+      after. Trimming further in makes every temporal filter look independent.
+    """
+    w, h = PROBE_SIZE
+    lead = f"s={w}x{h}:r={PROBE_RATE}:d=0.2"
+    tail = f"testsrc2=s={w}x{h}:r={PROBE_RATE}:d=1.2"
+    trim = (
+        f"trim=start_frame=1:end_frame={1 + TEMPORAL_PROBE_FRAMES},setpts=PTS-STARTPTS"
+    )
+    branch = f"format=yuv444p,{chain},format=yuv444p,{trim}"
+    return (
+        f"color=c=black:{lead}[a0];{tail}[a1];[a0][a1]concat=n=2:v=1:a=0,{branch}[A];"
+        f"color=c=white:{lead}[b0];{tail}[b1];[b0][b1]concat=n=2:v=1:a=0,{branch}[B];"
+        f"[A][B]blend=all_mode=difference,signalstats"
+    )
+
+
 def classify(
     chain: str,
     *,
@@ -264,6 +371,52 @@ def classify(
     # signalstats converts it, so every effect would look time-varying.
     fixed = f"format=yuv444p,{chain},format=yuv444p"
     w, h = PROBE_SIZE
+
+    # FIRST, and the ordering is load-bearing: every probe below compares two
+    # applications of the effect, so a random one makes them differ for reasons
+    # unrelated to what is being measured.
+    determinism_delta: Optional[float] = None
+    result = run(
+        [
+            ffprobe,
+            "-v",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            _determinism_probe(chain),
+            "-show_entries",
+            "frame_tags=lavfi.signalstats.YMAX",
+            "-of",
+            "csv=p=0",
+        ],
+        timeout=timeout,
+    )
+    if result.ok:
+        vals = []
+        for line in result.stdout.splitlines():
+            tok = line.strip().rstrip(",")
+            if tok:
+                try:
+                    vals.append(float(tok))
+                except ValueError:
+                    continue
+        determinism_delta = max(vals) if vals else None
+    if determinism_delta is None:
+        return DependencyReport(
+            dependency=Dependency.UNDETERMINED,
+            note=f"the determinism probe did not run for {chain!r}",
+        )
+    if determinism_delta > NOISE_FLOOR:
+        return DependencyReport(
+            dependency=Dependency.NONDETERMINISTIC,
+            determinism_delta=determinism_delta,
+            note=(
+                f"{chain!r} disagrees with itself by {determinism_delta}/255 on "
+                f"identical input, so no other measurement here would mean "
+                f"anything. Pin its seed if it has one."
+            ),
+        )
 
     time_delta = _max_luma_delta(
         _still_source(),
@@ -293,23 +446,77 @@ def classify(
     # effect only has to adapt to one of them to flicker.
     content_delta = max(deltas)
 
+    # The third probe: does the output depend on EARLIER frames? Neither probe
+    # above separates this — a looped still through a frame-averager is still
+    # constant, and so is the constant half.
+    result = run(
+        [
+            ffprobe,
+            "-v",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            _temporal_probe(f"{chain}"),
+            "-show_entries",
+            "frame_tags=lavfi.signalstats.YMAX",
+            "-of",
+            "csv=p=0",
+        ],
+        timeout=timeout,
+    )
+    temporal_delta: Optional[float] = None
+    if result.ok:
+        values = []
+        for line in result.stdout.splitlines():
+            token = line.strip().rstrip(",")
+            if token:
+                try:
+                    values.append(float(token))
+                except ValueError:
+                    continue
+        temporal_delta = max(values) if values else None
+    if temporal_delta is None:
+        return DependencyReport(
+            dependency=Dependency.UNDETERMINED,
+            time_delta=time_delta,
+            content_delta=content_delta,
+            note=(
+                f"the temporal probe did not run for {chain!r} — a filter that "
+                f"changes the frame count (tblend, framestep) breaks its trim "
+                f"indices, and that is itself a sign of temporal behaviour"
+            ),
+        )
+
     if time_delta > NOISE_FLOOR:
         verdict = Dependency.TIME_VARYING
+    elif temporal_delta > NOISE_FLOOR:
+        verdict = Dependency.TEMPORAL
     elif content_delta > NOISE_FLOOR:
         verdict = Dependency.CONTENT_ADAPTIVE
     else:
         verdict = Dependency.INDEPENDENT
     return DependencyReport(
-        dependency=verdict, time_delta=time_delta, content_delta=content_delta
+        dependency=verdict,
+        time_delta=time_delta,
+        content_delta=content_delta,
+        temporal_delta=temporal_delta,
+        determinism_delta=determinism_delta,
     )
 
 
 def assert_flicker_free(chain: str, **kwargs) -> DependencyReport:
     """Raise unless ``chain`` provably cannot flicker.
 
-    Note what an ``UNDETERMINED`` verdict does here: it **raises**. The probes
-    do not separate temporal dependence, so "we could not tell" must not be
-    reported as "it cannot" — that is the same unknown-is-a-refusal rule the
+    **What a pass means, precisely: three probes could not make this effect
+    depend on anything they varied.** It is not a proof of frame independence —
+    `tblend` and `atadenoise` pass and are temporal. For an effect whose class
+    matters, pair this with the structural argument (a stateless per-pixel
+    lookup cannot depend on anything else) or with a declared class this
+    function is used to *falsify*.
+
+    An ``UNDETERMINED`` verdict **raises**: "we could not tell" must not be
+    reported as "it cannot", which is the same unknown-is-a-refusal rule the
     licence tier follows, applied to the other guarantee this package makes.
 
     Raises:
