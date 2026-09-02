@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.environment &mdash; looks 0.0.1 documentation</title>
+  <title>looks.environment &mdash; looks 0.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/documentation_options.js?v=e3a6060d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -54,6 +54,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">looks.environment</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#looks.environment.DFLT_FFMPEG"><code class="docutils literal notranslate"><span class="pre">DFLT_FFMPEG</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#looks.environment.DFLT_PROBE_TIMEOUT_S"><code class="docutils literal notranslate"><span class="pre">DFLT_PROBE_TIMEOUT_S</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.EnvFingerprint"><code class="docutils literal notranslate"><span class="pre">EnvFingerprint</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.EnvFingerprint.path"><code class="docutils literal notranslate"><span class="pre">EnvFingerprint.path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.EnvFingerprint.version"><code class="docutils literal notranslate"><span class="pre">EnvFingerprint.version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.EnvFingerprint.licence"><code class="docutils literal notranslate"><span class="pre">EnvFingerprint.licence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.EnvFingerprint.filters_digest"><code class="docutils literal notranslate"><span class="pre">EnvFingerprint.filters_digest</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.EnvFingerprint.to_dict"><code class="docutils literal notranslate"><span class="pre">EnvFingerprint.to_dict()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#looks.environment.FfmpegEnv"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.path"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.path</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.version"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.version</span></code></a></li>
@@ -62,6 +70,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.configuration"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.configuration</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.notes"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.notes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.available"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.available</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.fingerprint"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.fingerprint()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.has_filter"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.has_filter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.missing"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.missing()</span></code></a></li>
 </ul>
@@ -85,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
@@ -95,6 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
 </ul>
 
         </div>
@@ -195,6 +206,78 @@ block a caller forever.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="looks.environment.EnvFingerprint">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">EnvFingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">licence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters_digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/environment.html#EnvFingerprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.EnvFingerprint" title="Link to this definition"></a></dt>
+<dd><p>The part of an environment that determines pixels, as comparable data.</p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">LookPlan</span></code> is compiled against <strong>one binary</strong>, whose
+filter set and licence are part of what decides the output — so a plan says
+which one, and this enters its hash. The portable artifact is the <code class="docutils literal notranslate"><span class="pre">Look</span></code>;
+the plan is deliberately not portable, and this is the field that says so.</p>
+<p><a class="reference internal" href="#looks.environment.EnvFingerprint.filters_digest" title="looks.environment.EnvFingerprint.filters_digest"><code class="xref py py-attr docutils literal notranslate"><span class="pre">filters_digest</span></code></a> is a hash rather than the set itself: the set is ~481
+names, a plan is a document, and “which filters existed” only ever needs to
+be compared, never read.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.EnvFingerprint.path">
+<span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#looks.environment.EnvFingerprint.path" title="Link to this definition"></a></dt>
+<dd><p>The resolved binary. Two ffmpegs on one machine is the normal
+case, not the exotic one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.EnvFingerprint.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#looks.environment.EnvFingerprint.version" title="Link to this definition"></a></dt>
+<dd><p>Its version line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.EnvFingerprint.licence">
+<span class="sig-name descname"><span class="pre">licence</span></span><a class="headerlink" href="#looks.environment.EnvFingerprint.licence" title="Link to this definition"></a></dt>
+<dd><p>What <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-L</span></code> said.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.EnvFingerprint.filters_digest">
+<span class="sig-name descname"><span class="pre">filters_digest</span></span><a class="headerlink" href="#looks.environment.EnvFingerprint.filters_digest" title="Link to this definition"></a></dt>
+<dd><p>SHA-256 over the sorted filter names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">EnvFingerprint</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'/usr/bin/ffmpeg'</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">'8.1'</span><span class="p">,</span>
+<span class="gp">... </span>                   <span class="n">licence</span><span class="o">=</span><span class="s1">'gpl3'</span><span class="p">,</span> <span class="n">filters_digest</span><span class="o">=</span><span class="s1">'abc'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">EnvFingerprint</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'/usr/bin/ffmpeg'</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">'8.1'</span><span class="p">,</span>
+<span class="gp">... </span>                    <span class="n">licence</span><span class="o">=</span><span class="s1">'gpl3'</span><span class="p">,</span> <span class="n">filters_digest</span><span class="o">=</span><span class="s1">'abc'</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.environment.EnvFingerprint.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#EnvFingerprint.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.EnvFingerprint.to_dict" title="Link to this definition"></a></dt>
+<dd><p>A JSON-able form, for a plan’s serialisation and its hash.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="looks.environment.FfmpegEnv">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">FfmpegEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">licence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.environment.Licence" title="looks.environment.Licence"><span class="pre">Licence</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Licence.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">frozenset({})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/environment.html#FfmpegEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.FfmpegEnv" title="Link to this definition"></a></dt>
 <dd><p>One machine’s ffmpeg, as far as it can be determined without running it.</p>
@@ -279,6 +362,27 @@ builder, which is the whole reason <a class="reference internal" href="#looks.en
 <p>Distinct from “has no filters”: a probe that could not run leaves
 <a class="reference internal" href="#looks.environment.FfmpegEnv.filters" title="looks.environment.FfmpegEnv.filters"><code class="xref py py-attr docutils literal notranslate"><span class="pre">filters</span></code></a> empty too, and a caller must be able to tell those
 apart before concluding anything.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.fingerprint">
+<span class="sig-name descname"><span class="pre">fingerprint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.environment.EnvFingerprint" title="looks.environment.EnvFingerprint"><span class="pre">EnvFingerprint</span></a></span></span><a class="reference internal" href="../../_modules/looks/environment.html#FfmpegEnv.fingerprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.FfmpegEnv.fingerprint" title="Link to this definition"></a></dt>
+<dd><p>The comparable summary a compiled plan records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – The probe did not run. A fingerprint of an
+    environment nobody looked at would make two plans compiled
+    against unknown binaries compare equal, which is the false
+    direction.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FfmpegEnv</span><span class="p">()</span><span class="o">.</span><span class="n">fingerprint</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">RuntimeError</span>: <span class="n">cannot fingerprint an ffmpeg that did not answer...</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">

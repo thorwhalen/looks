@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.environment &mdash; looks 0.0.1 documentation</title>
+  <title>looks.environment &mdash; looks 0.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/documentation_options.js?v=e3a6060d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
@@ -64,6 +65,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
 </ul>
 
         </div>
@@ -152,6 +154,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
@@ -177,7 +180,7 @@
 
 
 <div class="viewcode-block" id="Licence">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.Licence">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.Licence">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Licence</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""What licence an ffmpeg build carries, as ``ffmpeg -L`` reports it.</span>
 
@@ -241,8 +244,66 @@
 <span class="p">)</span>
 
 
+<div class="viewcode-block" id="EnvFingerprint">
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.EnvFingerprint">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EnvFingerprint</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The part of an environment that determines pixels, as comparable data.</span>
+
+<span class="sd">    A :class:`~looks.spec.LookPlan` is compiled against **one binary**, whose</span>
+<span class="sd">    filter set and licence are part of what decides the output — so a plan says</span>
+<span class="sd">    which one, and this enters its hash. The portable artifact is the ``Look``;</span>
+<span class="sd">    the plan is deliberately not portable, and this is the field that says so.</span>
+
+<span class="sd">    :attr:`filters_digest` is a hash rather than the set itself: the set is ~481</span>
+<span class="sd">    names, a plan is a document, and "which filters existed" only ever needs to</span>
+<span class="sd">    be compared, never read.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        path: The resolved binary. Two ffmpegs on one machine is the normal</span>
+<span class="sd">            case, not the exotic one.</span>
+<span class="sd">        version: Its version line.</span>
+<span class="sd">        licence: What ``ffmpeg -L`` said.</span>
+<span class="sd">        filters_digest: SHA-256 over the sorted filter names.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; a = EnvFingerprint(path='/usr/bin/ffmpeg', version='8.1',</span>
+<span class="sd">        ...                    licence='gpl3', filters_digest='abc')</span>
+<span class="sd">        &gt;&gt;&gt; a == EnvFingerprint(path='/usr/bin/ffmpeg', version='8.1',</span>
+<span class="sd">        ...                     licence='gpl3', filters_digest='abc')</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+
+    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">licence</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">filters_digest</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="EnvFingerprint.to_dict">
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.EnvFingerprint.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A JSON-able form, for a plan's serialisation and its hash."""</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"path"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
+            <span class="s2">"version"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="s2">"licence"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">licence</span><span class="p">,</span>
+            <span class="s2">"filters_digest"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters_digest</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">"EnvFingerprint"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">path</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">"path"</span><span class="p">],</span>
+            <span class="n">version</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">"version"</span><span class="p">],</span>
+            <span class="n">licence</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">"licence"</span><span class="p">],</span>
+            <span class="n">filters_digest</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">"filters_digest"</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="FfmpegEnv">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.FfmpegEnv">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.FfmpegEnv">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">FfmpegEnv</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""One machine's ffmpeg, as far as it can be determined without running it.</span>
@@ -282,7 +343,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
 
 <div class="viewcode-block" id="FfmpegEnv.has_filter">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.FfmpegEnv.has_filter">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.FfmpegEnv.has_filter">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">has_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Whether ``name`` is in this build's filter table.</span>
 
@@ -298,8 +359,41 @@
         <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span></div>
 
 
+<div class="viewcode-block" id="FfmpegEnv.fingerprint">
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.FfmpegEnv.fingerprint">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fingerprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnvFingerprint</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The comparable summary a compiled plan records.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: The probe did not run. A fingerprint of an</span>
+<span class="sd">                environment nobody looked at would make two plans compiled</span>
+<span class="sd">                against unknown binaries compare equal, which is the false</span>
+<span class="sd">                direction.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; FfmpegEnv().fingerprint()</span>
+<span class="sd">            Traceback (most recent call last):</span>
+<span class="sd">            ...</span>
+<span class="sd">            RuntimeError: cannot fingerprint an ffmpeg that did not answer...</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"cannot fingerprint an ffmpeg that did not answer: "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">notes</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="p">(</span><span class="s1">'no probe was run'</span><span class="p">,)</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span>
+            <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">EnvFingerprint</span><span class="p">(</span>
+            <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="n">licence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">licence</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">filters_digest</span><span class="o">=</span><span class="n">digest</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="FfmpegEnv.missing">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.FfmpegEnv.missing">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.FfmpegEnv.missing">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">missing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Which of ``names`` this build does not have, in the order given.</span>
 
@@ -333,7 +427,7 @@
 
 
 <div class="viewcode-block" id="parse_licence">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.parse_licence">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.parse_licence">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_licence</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Licence</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Classify ``ffmpeg -L`` output.</span>
 
@@ -363,7 +457,7 @@
 
 
 <div class="viewcode-block" id="parse_filters">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.parse_filters">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.parse_filters">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_filters</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Extract filter names from ``ffmpeg -filters`` output.</span>
 
@@ -407,7 +501,7 @@
 
 
 <div class="viewcode-block" id="parse_configuration">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.parse_configuration">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.parse_configuration">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_configuration</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Pull the ``configuration:`` line out of ``ffmpeg -version`` output.</span>
 
@@ -428,7 +522,7 @@
 
 
 <div class="viewcode-block" id="probe">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.probe">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.probe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">probe</span><span class="p">(</span>
     <span class="n">ffmpeg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DFLT_FFMPEG</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -497,7 +591,7 @@
 
 
 <div class="viewcode-block" id="gates">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.gates">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.gates">[docs]</a>
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">gates</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""The committed table of FFmpeg's own licence gates, extracted from source.</span>
@@ -541,7 +635,7 @@
 
 
 <div class="viewcode-block" id="UnknownFilter">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.UnknownFilter">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.UnknownFilter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnknownFilter</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""A filter name that is not in any known universe.</span>
 
@@ -556,7 +650,7 @@
 
 
 <div class="viewcode-block" id="known_filters">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.known_filters">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.known_filters">[docs]</a>
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">known_filters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Every filter name FFmpeg n8.1 declares — the universe :func:`needs_gpl` checks against.</span>
@@ -581,7 +675,7 @@
 
 
 <div class="viewcode-block" id="gpl_only_filters">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.gpl_only_filters">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.gpl_only_filters">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">gpl_only_filters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Filter names FFmpeg gates behind ``--enable-gpl``.</span>
 
@@ -597,7 +691,7 @@
 
 
 <div class="viewcode-block" id="needs_gpl">
-<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.needs_gpl">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/environment.html#looks.environment.needs_gpl">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">needs_gpl</span><span class="p">(</span>
     <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">known</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>

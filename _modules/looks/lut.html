@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.lut &mdash; looks 0.0.1 documentation</title>
+  <title>looks.lut &mdash; looks 0.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/documentation_options.js?v=e3a6060d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
@@ -64,6 +65,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
 </ul>
 
         </div>
@@ -179,14 +181,14 @@
 
 
 <div class="viewcode-block" id="LutError">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.LutError">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.LutError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LutError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""A ramp or lattice that cannot produce a usable LUT."""</span></div>
 
 
 
 <div class="viewcode-block" id="hex_to_rgb">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.hex_to_rgb">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.hex_to_rgb">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hex_to_rgb</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rgb</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""``'#RRGGBB'`` (or ``'RRGGBB'``) to three floats in ``[0, 1]``.</span>
 
@@ -213,7 +215,7 @@
 
 
 <div class="viewcode-block" id="rgb_to_hex">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.rgb_to_hex">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.rgb_to_hex">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rgb_to_hex</span><span class="p">(</span><span class="n">rgb</span><span class="p">:</span> <span class="n">Rgb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Three floats in ``[0, 1]`` back to ``'#RRGGBB'``.</span>
 
@@ -228,7 +230,7 @@
 
 
 <div class="viewcode-block" id="srgb_to_linear">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.srgb_to_linear">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.srgb_to_linear">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">srgb_to_linear</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""The sRGB electro-optical transfer function.</span>
 
@@ -245,7 +247,7 @@
 
 
 <div class="viewcode-block" id="linear_to_srgb">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.linear_to_srgb">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.linear_to_srgb">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">linear_to_srgb</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Inverse of :func:`srgb_to_linear`.</span>
 
@@ -258,7 +260,7 @@
 
 
 <div class="viewcode-block" id="grey_at">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.grey_at">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.grey_at">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">grey_at</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""The sRGB grey whose CIE ``L*`` is ``level`` — the inverse of :func:`lightness`.</span>
 
@@ -278,7 +280,7 @@
 
 
 <div class="viewcode-block" id="lightness">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lightness">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.lightness">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">lightness</span><span class="p">(</span><span class="n">rgb</span><span class="p">:</span> <span class="n">Rgb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""CIE ``L*`` in ``[0, 100]`` for an sRGB colour.</span>
 
@@ -323,7 +325,7 @@
 
 
 <div class="viewcode-block" id="Accent">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.Accent">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.Accent">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Accent</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A second ramp for colours the main ramp should not flatten.</span>
@@ -353,7 +355,7 @@
     <span class="n">strength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.70</span>
 
 <div class="viewcode-block" id="Accent.weight">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.Accent.weight">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.Accent.weight">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rgb</span><span class="p">:</span> <span class="n">Rgb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Blend weight for one source colour, in ``[0, strength]``.</span>
 
@@ -381,7 +383,7 @@
 
 
 <div class="viewcode-block" id="Ramp">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.Ramp">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.Ramp">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Ramp</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Colours ordered by lightness — the whole specification of a gradient map.</span>
@@ -410,7 +412,7 @@
             <span class="k">raise</span> <span class="n">LutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ramp stops must lie in [0, 100], got </span><span class="si">{</span><span class="n">levels</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Ramp.from_hex">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.Ramp.from_hex">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.Ramp.from_hex">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_hex</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">stops</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="s2">"Ramp"</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Build from ``(L*, '#RRGGBB')`` pairs.</span>
@@ -423,7 +425,7 @@
 
 
 <div class="viewcode-block" id="Ramp.neutral">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.Ramp.neutral">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.Ramp.neutral">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">neutral</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">stops</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Ramp"</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">"""A ramp that is a true identity on greys.</span>
@@ -465,7 +467,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stops</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Ramp.at">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.Ramp.at">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.Ramp.at">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rgb</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""The ramp colour at ``L*``, linearly interpolated, clamped at the ends.</span>
 
@@ -489,7 +491,7 @@
 
 
 <div class="viewcode-block" id="Ramp.to_dict">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.Ramp.to_dict">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.Ramp.to_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""A JSON-able form, for the cache key and for persisting a Look."""</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"stops"</span><span class="p">:</span> <span class="p">[[</span><span class="n">lv</span><span class="p">,</span> <span class="n">rgb_to_hex</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="k">for</span> <span class="n">lv</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stops</span><span class="p">]}</span></div>
@@ -498,7 +500,7 @@
 
 
 <div class="viewcode-block" id="GradientMap">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.GradientMap">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.GradientMap">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">GradientMap</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A ramp, an optional accent, and the tone adjustment applied before both.</span>
@@ -539,7 +541,7 @@
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">w</span> <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">acc</span><span class="p">))</span>  <span class="c1"># type: ignore[return-value]</span>
 
 <div class="viewcode-block" id="GradientMap.to_dict">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.GradientMap.to_dict">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.GradientMap.to_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""A JSON-able form — the thing that is hashed for the cache key."""</span>
         <span class="n">d</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -563,7 +565,7 @@
 
 
 <div class="viewcode-block" id="gradient_map">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.gradient_map">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.gradient_map">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">gradient_map</span><span class="p">(</span>
     <span class="n">ramp</span><span class="p">:</span> <span class="n">Ramp</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -605,7 +607,7 @@
 
 
 <div class="viewcode-block" id="cube_text">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.cube_text">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.cube_text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cube_text</span><span class="p">(</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Ramp</span><span class="p">,</span> <span class="n">GradientMap</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
@@ -663,7 +665,7 @@
 
 
 <div class="viewcode-block" id="cube_key">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.cube_key">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.cube_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cube_key</span><span class="p">(</span><span class="n">spec</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Ramp</span><span class="p">,</span> <span class="n">GradientMap</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_CUBE_SIZE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A content hash of everything that determines the file's bytes.</span>
 
@@ -691,7 +693,7 @@
 
 
 <div class="viewcode-block" id="write_cube">
-<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.write_cube">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/lut.html#looks.lut.write_cube">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_cube</span><span class="p">(</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Ramp</span><span class="p">,</span> <span class="n">GradientMap</span><span class="p">],</span>
     <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>

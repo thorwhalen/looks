@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.geometry &mdash; looks 0.0.1 documentation</title>
+  <title>looks.geometry &mdash; looks 0.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/documentation_options.js?v=e3a6060d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
@@ -64,6 +65,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
 </ul>
 
         </div>
@@ -174,14 +176,14 @@
 
 
 <div class="viewcode-block" id="GeometryError">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.GeometryError">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.GeometryError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GeometryError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""A size or mode that cannot produce a placement."""</span></div>
 
 
 
 <div class="viewcode-block" id="Size">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Size">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.Size">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Size</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A pixel size. :attr:`aspect` is width/height, never the other way round.</span>
@@ -211,7 +213,7 @@
 
 
 <div class="viewcode-block" id="Box">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Box">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.Box">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Box</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""An axis-aligned pixel box, top-left origin, y downwards.</span>
@@ -239,7 +241,7 @@
 
 
 <div class="viewcode-block" id="Solid">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Solid">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.Solid">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Solid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A flat colour behind the placed frame.</span>
@@ -254,7 +256,7 @@
 
 
 <div class="viewcode-block" id="Blurred">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Blurred">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.Blurred">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Blurred</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A blurred, dimmed copy of the source, scaled to cover — the "social" look.</span>
@@ -306,7 +308,7 @@
 
 
 <div class="viewcode-block" id="scaled_size">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.scaled_size">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.scaled_size">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scaled_size</span><span class="p">(</span>
     <span class="n">source</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
     <span class="n">target</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
@@ -357,7 +359,7 @@
 
 
 <div class="viewcode-block" id="center_box">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.center_box">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.center_box">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">center_box</span><span class="p">(</span><span class="n">inner</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span> <span class="n">outer</span><span class="p">:</span> <span class="n">Size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Box</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""``inner`` centred in ``outer``, halving with the floor `mixing` used.</span>
 
@@ -380,7 +382,7 @@
 
 
 <div class="viewcode-block" id="Placement">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Placement">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.Placement">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Placement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Scale the source to :attr:`scale`, take :attr:`crop` out, put it at :attr:`offset`.</span>
@@ -424,7 +426,7 @@
 
 
 <div class="viewcode-block" id="placement">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.placement">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.placement">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">placement</span><span class="p">(</span>
     <span class="n">source</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
     <span class="n">target</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
@@ -477,7 +479,7 @@
 
 
 <div class="viewcode-block" id="Reframe">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Reframe">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.Reframe">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Reframe</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A placement plus what fills the part of the target it does not cover.</span>
@@ -499,7 +501,7 @@
 
 
 <div class="viewcode-block" id="reframe">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.reframe">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.reframe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reframe</span><span class="p">(</span>
     <span class="n">source</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
     <span class="n">target</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
@@ -517,7 +519,7 @@
 
 
 <div class="viewcode-block" id="social_size">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.social_size">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.social_size">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">social_size</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Resolve a :data:`SOCIAL_SIZES` preset name.</span>
 
@@ -541,7 +543,7 @@
 
 
 <div class="viewcode-block" id="snap_even">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.snap_even">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.snap_even">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">snap_even</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Both axes rounded **down** to even — the yuv420p requirement.</span>
 
@@ -560,7 +562,7 @@
 
 
 <div class="viewcode-block" id="ffmpeg_chain">
-<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.ffmpeg_chain">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.geometry.ffmpeg_chain">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ffmpeg_chain</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="n">Placement</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">backdrop</span><span class="p">:</span> <span class="n">Backdrop</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[assignment]</span>
 <span class="w">    </span><span class="sd">"""The resolved ``scale,crop,pad`` chain for one placement.</span>
 

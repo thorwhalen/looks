@@ -1,0 +1,4 @@
+looks.tests.test_spec
+=====================
+.. automodule:: looks.tests.test_spec
+   :members:
