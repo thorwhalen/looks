@@ -20,8 +20,9 @@ binary on your machine runs it fine — and ``curves`` / ``colorlevels`` /
 
 This namespace is **curated**: it carries the surface a caller uses, not
 everything the package defines. Reach into a submodule for the rest —
-:mod:`looks.environment`, :mod:`looks.licence`, :mod:`looks.geometry`,
-:mod:`looks.lut`, :mod:`looks.measure`, :mod:`looks.frame_dependency`.
+:mod:`looks.spec`, :mod:`looks.environment`, :mod:`looks.licence`,
+:mod:`looks.geometry`, :mod:`looks.lut`, :mod:`looks.measure`,
+:mod:`looks.frame_dependency`.
 
 One rename happens at this boundary and nowhere else: ``frame_dependency``'s
 ``classify`` is exported as :func:`classify_dependency`, because
@@ -100,6 +101,31 @@ from looks.lut import (
     gradient_map,
     write_cube,
 )
+from looks.spec import (
+    ClipSpec,
+    Effect,
+    ImplRef,
+    Look,
+    LookPlan,
+    Ref,
+    SchemaError,
+    Span,
+    SpanUnsupported,
+    SpecError,
+    Step,
+    Target,
+    UnresolvedParameter,
+    look_from_dict,
+    look_hash,
+    look_to_dict,
+    output_key,
+    plan_from_dict,
+    plan_hash,
+    plan_to_dict,
+    resolve,
+    resolve_across,
+    select_impl,
+)
 from looks.measure import (
     ClipStats,
     Incomparable,
@@ -143,6 +169,30 @@ __all__ = [
     "LicenceFieldRestricted",
     "LicenceCeilingExceeded",
     "LicenceUnknown",
+    # the spec: what a stylization IS, before anything runs
+    "Effect",
+    "Look",
+    "Ref",
+    "Span",
+    "ClipSpec",
+    "Target",
+    "ImplRef",
+    "Step",
+    "LookPlan",
+    "resolve",
+    "resolve_across",
+    "select_impl",
+    "look_to_dict",
+    "look_from_dict",
+    "plan_to_dict",
+    "plan_from_dict",
+    "look_hash",
+    "plan_hash",
+    "output_key",
+    "SpecError",
+    "SchemaError",
+    "SpanUnsupported",
+    "UnresolvedParameter",
     # geometry: where a source frame lands inside a target frame
     "Size",
     "Box",
