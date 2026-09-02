@@ -601,3 +601,81 @@ imageio-ffmpeg 0.6.0 → …/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1
 15. [moviepy on PyPI](https://pypi.org/project/moviepy/) — installed 2.2.1 (dist metadata; `moviepy.__version__` reports 2.1.2), hard-requires `imageio_ffmpeg>=0.2.0`.
 16. [imageio-ffmpeg on PyPI](https://pypi.org/project/imageio-ffmpeg/) — installed 0.6.0, ships `ffmpeg-macos-aarch64-v7.1` built `--enable-gpl --enable-libx264`.
 17. [Pillow `ImageFilter.GaussianBlur`](https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html#PIL.ImageFilter.GaussianBlur) — installed 11.3.0; radius is the standard deviation, implemented as extended box filters approximating a Gaussian.
+
+---
+
+## Adversarial review (2026-09-02)
+
+*Appended by an independent reviewer briefed to refute. Every command below was re-run on this machine on this date against ffmpeg 8.1 (homebrew, `--enable-gpl --enable-version3`), moviepy 2.2.1 / `__version__` 2.1.2, Pillow 11.3.0, numpy 2.2.6, CPython 3.12 (`~/.pyenv/versions/p12`). Nothing was taken from the text above on trust. The author's text is untouched.*
+
+### Confirmed — independently re-derived, not merely re-read
+
+- **Claim 1, the census.** `rg` over `/Users/thorwhalen/Dropbox/py/proj` for all eleven symbols returns, outside `mixing`, only `paces/paces/derivation.py:694,889,923` and `paces/tests/test_vertical_slice.py:105,150`, all of `get_video_dimensions`. `paces/pyproject.toml` carries the floor and the comment verbatim (*"Floor 0.0.39: `make_gif`, `crop_box=` and path-accepting `get_video_dimensions` ship there."*). The only dynamic-access site in the tree is `mixing/tests/test_video_transitions.py:79`'s `getattr(mixing, name)`, which step 4 already rewrites.
+- **Claim 2's pixel-identity half — reproduced on an independent harness.** I wrote a ~15-line moviepy adapter from the note's `Placement` description alone (scale → crop → composite at offset) and ran 3 sources × 5 targets × 3 non-`social` modes against `mixing.resize_to_dimensions`, comparing `np.array_equal` on frame 0: **45 cases, 0 mismatches**. That the adapter could be written from the description without consulting `looks` is exactly recommendation 4's premise, and it holds.
+- **Claim 3, 607 vs 608.** `scale=1080:1920:force_original_aspect_ratio=decrease` probes `1080,608`; `scale=1080:607` probes `1080,607`. Confirmed at source: `libavfilter/scale_eval.c` at `n8.1` line 162 uses `av_rescale`.
+- **Claims 4 and 5 — the hard-cut defect, reproduced exactly.** Red→green solids, 1.0 s each, 20 fps, through `mixing.concatenate_videos`, decoded to raw RGB: `crossfade_transition(0.4)` 2.000 s with `t=0.95 (253,0,1) → t=1.00 (1,253,0)`; `fade_through_black(0.4)` 2.000 s dipping through `(0,0,0)`; `overlap_blend(0.4)` 1.600 s hard; `trim_and_crossfade(0.4)` 1.950 s hard; `slow_motion_blend(0.4)` 2.800 s red throughout. The signature is `(clips, method='chain', transition=None, bg_color=None, is_mask=False, padding=0)`. `method='compose', padding=-0.4` gives a real ramp — `0.65 (218,35,0) 0.75 (129,124,1) 0.90 (19,234,0)`, matching the author's `(19,235,0)` to 1 LSB.
+- **Claim 6.** `ffmpeg -h filter=xfade` reports `transition <int> … (from -1 to 57)`, 59 option rows, names exactly as listed. `fade`/`fadeblack`/`dissolve` at `duration=0.4:offset=0.6` all produce 32 frames = 1.600 s; `fade` reaches `(127,127,0)` at the midpoint, `fadeblack` reaches `(0,0,0)`.
+- **Claim 7.** Both refusals reproduce verbatim, including the ungrammatical "do not match".
+- **Claim 8, strengthened.** `importlib.metadata.distribution('moviepy').requires` lists `imageio_ffmpeg>=0.2.0` with no extra marker. `imageio_ffmpeg.get_ffmpeg_exe()` → `…/binaries/ffmpeg-macos-aarch64-v7.1`, configuration containing `--enable-gpl --enable-libx264` (and `--enable-libx265`, `--enable-libvidstab`). One addition: that binary is built **without** `--enable-version3`, so its own `-L` says **GPL v2 or later**, not v3 — a different obligation from the homebrew build's. `mixing/pyproject.toml` does declare `moviepy` and `burns` in base `dependencies`.
+- **Claim 9's conclusion** (see the correction below for its method). Re-extracted from `configure` at `n8.1` myself: `boxblur_filter_deps="gpl"` (4095), `eq_filter_deps="gpl"` (4128), and **no `_filter_deps` line at all** for `gblur`, `colorchannelmixer`, `crop`, `pad`, `split`, `overlay`, `xfade`, `fade`, `tpad`, `hue`, `setpts`, `trim`, `concat`, `format`. `scale_filter_deps="swscale"`, not a licence gate.
+- **Claim 10.** `boxblur=5` and `eq=contrast=1.2` both run with no output of any kind; `ffmpeg -L` prints the GPL v3 statement; the configuration line carries `--enable-gpl --enable-version3`.
+- **Claim 11.** `muvid/visualize/canvas.py:224` reads `f"eq=brightness=-{layout.dim}:saturation={layout.saturation}[{out}]"`. It is the only `eq`/`boxblur` occurrence in muvid.
+- **Claim 12, all four parts.** `scale=641:481 -c:v libx264 -pix_fmt yuv420p` → `[libx264] width not divisible by 2 (641x481)`; `scale=460:-2` → `460,346`; the full `social` graph with `overlay=0:135` and an odd `crop` x-offset encodes cleanly to `1080,1080`; and `testsrc2=size=641x481` really does report `640,480`.
+- **Claims 13, 14, 15.** All four crop copies read as described; Pillow 11.3.0's docstring is verbatim ("Standard deviation of the Gaussian kernel", "a sequence of extended box filters"); `moviepy.__version__` is `2.1.2` against dist metadata `2.2.1`, and `site-packages/moviepy/version.py` confirms it.
+- **The `looks` name on PyPI is already the user's own** — `pypi.org/pypi/looks/json` returns 200, version 0.0.1, summary "A facade over video stylization: named effects with licence tiers". The mixing→looks edge names the right package.
+
+### Refuted or corrected
+
+**1. `rounding="round"` does NOT reproduce ffmpeg's `force_original_aspect_ratio`, and the one doctest chosen is precisely the case where the bug is invisible.** ffmpeg uses `av_rescale`, whose default is `AV_ROUND_NEAR_INF` — round **half away from zero**, on exact int64 rationals. Python's `round()` is round-**half-to-even**, on floats. They agree at 607.5 → 608 because 608 happens to be even. They disagree at 112.5. Measured, both sides:
+
+```
+ffmpeg  scale=200:200:force_original_aspect_ratio=decrease  on 1920x1080  ->  200,113
+looks.geometry.scaled_size(Size(1920,1080), Size(200,200), rounding="round") -> Size(200, 112)
+```
+
+Sweeping one source (1920×1080) over 1950 targets, `looks`' `"round"` disagrees with `av_rescale` in **61 cases** (72, 104, 136, 168, 200, 232, …). This is not hypothetical: `looks/geometry.py:163` ships `return int(round(value))` under a module docstring that says `"round"` reproduces ffmpeg. Fix: `math.floor(value + 0.5)` on the exact rational, i.e. `(2*sh*tw + sw) // (2*sw)`. Rename the mode too — `"round"` is the ambiguous word that caused this.
+
+**2. `"floor"` is under-specified in a second, larger way: float truncation is not rational floor.** ffmpeg computes in int64; `mixing` (and the shipped `looks.geometry`) compute `int(target_width / current_aspect)` in float. Over an ordinary sweep — source widths 100–2200, heights 100–1300, targets 1080×1920 and 1920×1080 — the two disagree in **1987 cases**, e.g. `104x180 -> 1920x1080` gives 623 by float and 624 exactly, and `108x100 -> 1080x1920` gives 999 against 1000. Verified against the shipped module. So the `Rounding` field, whose entire justification is *"a spec whose rendered result depends on which backend read it is not a spec"*, does not carry enough to make the spec backend-independent: it needs the **arithmetic domain**, not only the tie-break.
+
+A corollary the note's §8 short-circuit line hides: float `fit` is **not an identity at equal aspect**. `placement(Size(15,13), Size(15,13), mode="fit")` returns `scale=Size(14,13)` with `offset=(0,0)` — a clip scaled to its own size, downscaled a pixel and letterboxed. 633 such cases in a small sweep. `641x481 -> 641x481` short-circuits only because that ratio round-trips cleanly in binary. The identity test must be the exact `cw*th == tw*ch`.
+
+**3. And a third rounding already exists in the fleet, which recommendation 2 would silently change.** `mixing/video/thumbnail.py:120` uses `img.resize((round(w * scale), round(h * scale)))` — Python `round`, i.e. half-to-even — where `resize_to_dimensions`'s `fill` uses `int()`. `burns._frame._cover_crop_box` uses `int(round(...))`. So §4's "the same centre-crop-to-aspect arithmetic exists in FOUR places" is right about the arithmetic and wrong about *sameness*: it is four different roundings. Folding `_cover_resize` into `looks.placement(..., mode="fill")` changes thumbnail pixels unless a third rounding mode ships with it.
+
+**4. The transition rule is self-contradictory, and the evidence offered that `crossfade_transition` passes it is a measurement of the broken implementation.** The rule is *"Remove the transition and you must still have the same cuts, just hard ones. If removing it changes the edit — the total duration, which frames survive — it is an EDL edit."* The §5 table admits `crossfade_transition` on the grounds that its duration is unchanged at 2.000 s — but 2.000 s **is the no-op**. Measured on the corrected implementation the note itself proposes for `mixing` (`method="compose", padding=-0.4`): output is **1.600 s**. ffmpeg agrees — the note states `d1 + d2 − transition_duration` and I measured 1.600 s for all three xfade kinds. So a *working* crossfade shortens the edit by exactly `Transition.duration`, and changing that field changes which frames survive. Under the note's own test, both things it moves fail, and `overlap_blend` — rejected at 1.600 s — lands on the identical number. The rule needs restating (something like: *the caller owns the boundary and the overlap; `looks` may paint an overlap it was handed and must report the resulting duration; it may never choose one*), and §5's table row must not cite the broken duration as evidence.
+
+**5. FATAL for recommendation 2 as written: the `filters_used` → `needs_gpl` join fails OPEN on an unknown filter, which is the one thing the kickoff forbids.** Measured on the shipped module:
+
+```
+needs_gpl(['scale', 'crop', 'pad'])  -> ()
+needs_gpl(['nosuchfilter'])          -> ()      <-- permitted
+needs_gpl(['boxblurr'])              -> ()      <-- a typo for a GPL filter, permitted
+needs_gpl(['SCALE'])                 -> ()      <-- wrong case, permitted
+```
+
+`needs_gpl` returns *only* names it recognises as gated; everything else is silently clear. The note calls this join "what stops geometry from being a special case" and says "the *answer is computed* … rather than assumed" — but on any name outside the table the computed answer is a false permission. `filters_used` must be checked against the known-filter universe first (`looks.environment.parse_filters` of the actual binary, or the committed snapshot) and an unrecognised name must **raise**, before `needs_gpl` is consulted. This is a defect in `looks.environment` rather than in this note's authorship, but the note asserts it is "already the right join point", and as it stands it is not.
+
+**6. Claim 9's method was known-incomplete — though its conclusion survives.** The `grep '_filter_deps=' | grep gpl` recipe finds only *direct* gates. Five filters are gated **indirectly**, through a dep in `EXTERNAL_LIBRARY_GPL_LIST` with no `gpl` token on their own line: `frei0r`, `frei0r_src`, `rubberband`, `vidstabdetect`, `vidstabtransform`. The correct n8.1 count is **38, not 33** (corrected in commit `1b96a2f`, after this note was written). I re-derived both sets and confirmed **none of the filters this note recommends is in either half** — `gblur`, `colorchannelmixer`, `scale`, `crop`, `pad`, `split`, `overlay`, `xfade`, `fade`, `tpad`, `hue` all clear. So the recommendation stands; the *warrant* for it did not, and a note that cites a table by reference inherits that table's defects.
+
+**7. "`colorchannelmixer=rr=0.7:gg=0.7:bb=0.7` … is the exact analogue of `vfx.MultiplyColor`" is not exact — ffmpeg rounds, moviepy truncates.** moviepy's implementation is `np.minimum(255, factor * frame).astype("uint8")`. Measured through a yuv420p round trip:
+
+```
+src [128 128 128]  ffmpeg [90 90 90]   moviepy [89 89 89]
+src [254   0   0]  ffmpeg [178  0  0]  moviepy [177  0  0]
+src [ 48  48  48]  ffmpeg [34 34 34]   moviepy [33 33 33]
+src [192 159  95]  ffmpeg [134 111 66] moviepy [134 111 66]
+```
+
+A systematic 1-LSB difference, the same class of divergence the note spends two paragraphs on for `scale` and then drops one paragraph later. (Also: `MultiplyColor`'s declared signature is `factor: float`; `mixing` passes a 3-list, which broadcasts by accident.)
+
+**8. "ffmpeg enforces this rather than tolerating it" is true of size and timebase, and false of sample aspect ratio — in the false-permission direction.** Measured: `xfade` on two 64×64 inputs with `setsar=1/1` and `setsar=2/1` runs cleanly and stamps the output `1:1`, silently blending a picture whose display geometry is wrong. Pixel-format mismatch is likewise accepted (auto-negotiated), which is fine. But `Size(width, height)` cannot express SAR at all, so the geometry tier as specified is *not* a sufficient precondition for the transition tier on non-square-pixel sources, and nothing refuses.
+
+### What it did not say
+
+- **Audio is absent from a transition design.** `xfade` is video-only — its output carries one stream — and the audio companion is `acrossfade` (present, not GPL-gated). moviepy's `method="compose", padding=-d` overlaps and *mixes* the audio. So the two backends of one `Transition` do different things to sound, and the note never mentions audio once, in a refactor whose only real consumer is `concatenate_videos`, which takes an `audio_codec`.
+- **The migration plan omits the skill.** `mixing/.claude/skills/mixing-video/SKILL.md` documents `SOCIAL_SIZES`, `resize_to_dimensions`, `get_video_dimensions`, `normalize_video_dimensions` (lines 196–209) and `crossfade_transition` / `fade_through_black` (line 229) with runnable example code. Neither the §1 census (whose "docs" column looks only at `README.md`) nor the §6 edit tables mention it, and the federation's own directive is that a refactor updates tests, docs **and skills** in the same pass.
+- **The counterfactual for step 4 is never costed.** The measured crossfade defect is a one-line default change inside `mixing.concatenate_videos`. Step 4 spends a new dependency edge and three deleted public names on it. The transition tier may still be worth building for the other 56 kinds and the licence gate — but the note should say that the *bug fix* is free and the *tier* is what the edge buys. §5's fallback gestures at this without framing it as the alternative.
+- **`concatenate_videos` returns a clip whose readers are already closed** unless `output` is given — `get_frame` on the returned clip raises `AttributeError: 'NoneType' object has no attribute 'get_frame'`. Anyone rewriting `test_video_transitions.py` per step 4 will hit this; the new blend assertion must sample a written file, not the returned clip.
+
+### The proposed code, run
+
+The §3 block is a signature sketch: the function bodies are omitted, so as literal Python it imports fine and **6 of its 8 doctests fail** (every function returns `None`). Not a defect in a research note — but the doctest *expectations* are worth checking independently, and I did: `Size(1920,1080).aspect`, `scaled_size(...) → 607`, `→ Size(3413,1920)` for `fill`, `center_box(...) → x=240`, `placement(641×481 → 1920×1080, fill) → scale 1920×1440, crop y=180`, and `snap_even(641,481) → 640×480` are all arithmetically correct. The one exception is `rounding="round" → 608`, whose *value* is right and whose *label* is wrong — see refutation 1.
