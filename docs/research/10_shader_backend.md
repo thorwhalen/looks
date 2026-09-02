@@ -454,3 +454,185 @@ If `looks` ever grows a shader provider, its test suite must assert that **the o
 [20] Que Calor V2 stylizer — `~/Downloads/que_calor/work/style/render_v2c.py`, `stylize.py`, and `how_the_video_got_made__technical.md` (2026-09-02). Source of the shipped chain, the per-source `MS_PARAMS`, and the design rationale. It records no wall-clock timings; every figure in §4 is a new measurement.
 
 [21] [Mesa lavapipe / llvmpipe](https://docs.mesa3d.org/drivers/llvmpipe.html) — Mesa's software rasterisers. `lvp_icd.json` on the fleet server is lavapipe, the software Vulkan driver, which is what makes the §1.2 measurement 141× slower than the CPU filter path rather than faster.
+
+---
+
+## Adversarial review (2026-09-02)
+
+*Appended by an independent reviewer. Every command below was re-run by the reviewer; nothing here was taken on the author's word. The author's text above is unchanged.*
+
+### Verdict on the verdict
+
+**The headline recommendation — no shader backend in v1, `provider` rather than `backend` — survives.** So does almost all of the measurement. Two licence findings are wrong, one of them a **false refusal**, which is the failure mode this package exists to prevent. Two of the load-bearing performance *explanations* are unsound even though their conclusions hold, and the design recommendation as written is missing a reproducibility rule that its own §4.2 evidence demands.
+
+### REFUTED — 1. FSRCNNX is not `UNKNOWN`; it is LGPL-3.0-or-later, and the note's rule would produce a false refusal
+
+The note classifies FSRCNNX `UNKNOWN → refusal`, and §5.1 escalates that to "it may not even offer them by name". The verification cited is the GitHub repository *label* ("GPL-3.0, MIT licenses found"). That is a verification of the **repository**, not of the **artefact**, and the artefact says otherwise. Downloading the actual release asset — the file `looks` would name or vendor:
+
+```
+$ curl -sL -o fsr.glsl "https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_16-0-4-1.glsl"
+$ head -6 fsr.glsl
+// Copyright (C) 2017-2021 igv
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3.0 of the License, or (at your option) any later version.
+```
+
+Both 1.1 assets (`FSRCNNX_x2_16-0-4-1.glsl`, `FSRCNNX_x2_8-0-4-1.glsl`) carry that header verbatim. **The correct row is LGPL-3.0-or-later → `COPYLEFT_SHIPPED` if vendored — identical to RAVU, not a refusal.** (The older 1.0/0.5 assets carry no header and *are* ambiguous; that is a per-asset fact, not a per-project one.)
+
+This is the exact methodological failure the note itself avoided for Anime4K — "verified at the FILE level, not just the repo LICENSE" — and then did not apply to FSRCNNX. Shipping this row into the ledger would put a permanent, wrong refusal into a product whose selling point is that its refusals are right.
+
+### REFUTED — 2. Not every Anime4K `.glsl` is MIT
+
+The claim "every `.glsl` file carries the full MIT text in its own header" is generalised from one file. A seven-file spot check across all five directories found two exceptions in 50 files:
+
+```
+glsl/Upscale/Anime4K_AutoDownscalePre_x2.glsl
+  -> "This is free and unencumbered software released into the public domain."
+     ... "For more information, please refer to <https://unlicense.org>"   (Unlicense, not MIT)
+tensorflow/Upscale_Shader.glsl
+  -> no licence header at all (covered only by the repo LICENSE)
+```
+
+Both land at `PERMISSIVE`, so the tier does not move — but the note's own conveyance rule ("`looks` **may** vendor Anime4K's shaders") is stated per-file and is not true per-file as written. It matters more than the tier suggests: **Unlicense is not universally accepted as permissive** by corporate policy (Fedora deprecated it; Google's OSS policy bans it), so a licence ledger that records "Anime4K = MIT" is recording something a downstream compliance reviewer will find false. If Anime4K is ever vendored, vendor it per-file with the per-file licence recorded.
+
+### REFUTED — 3. "It exits 0 … so nothing warns you" / "availability is not capability, and FFmpeg's filter list cannot tell them apart"
+
+The filter list cannot. **FFmpeg's own device init can, and says so in one word.** On the fleet server:
+
+```
+$ ssh tw 'ffmpeg -v verbose -init_hw_device vulkan -f lavfi -i testsrc2=size=320x180 -frames:v 1 -f null -'
+[AVHWDeviceContext] GPU listing:
+[AVHWDeviceContext]     0: llvmpipe (LLVM 20.1.2, 256 bits) (software) (0x0)
+[AVHWDeviceContext] Device 0 selected: llvmpipe (LLVM 20.1.2, 256 bits) (software) (0x0)
+```
+
+The string `(software)` is emitted by FFmpeg's Vulkan device enumeration. A capability probe therefore costs one ~0.3 s `-frames:v 1` invocation and a substring test — not the throughput benchmark §5.2 item 1 prescribes. This does not change the verdict; it **cheapens the gate** the verdict depends on, and §5.2 should say so, because a rule that requires a benchmark on every host will not be run and a rule that requires a substring check will.
+
+### REFUTED — 4. `spp=6` is not a no-op, so it is not the calibration check the note claims
+
+§4.2 reads `spp=6` scoring identically to the no-flatten row as proof "the metric detects 'did nothing'". Measured directly on one 1280×720 frame:
+
+```
+spp6 vs no-filter: identical=False  mean|diff|=1.695/255  max=22  pct_changed=99.2%
+spp3 vs spp6:      BYTE IDENTICAL       (and spp=quality=0 gives the same output too)
+```
+
+`spp` changed **99.2 % of pixels**, and its `quality` knob is inert on this input (`qp` defaults to 0 and no source QP is available). So the identical scores demonstrate the opposite of what is claimed: the four metrics (Lap, `ncol@90%`, strong, weak) **cannot distinguish "no filter" from "a filter that touched every pixel"** once `lut3d` + a mod-32 posterise have quantised the difference away. That is a defensible *pipeline* property, but it is not a calibration of the metric, and a real calibration needs a known no-op (`null` / `copy`). This weakens the confidence available for ranking the tuned `bilateral` candidate by the same four numbers — which the note already, correctly, refuses to call settled.
+
+### REFUTED — 5. "Processes multiply and one GL context does not" — the structural claim behind the decisive comparison
+
+This is the sentence that justifies comparing a **1-process** GPU row (36.0 fps) against a **9-process** CPU row (52.0 fps). It is measurably false. A 25×25 windowed colour-gated fragment shader at 640×360 (kernel cost 5.7–7.8 ms, in the author's 8.85 ms range, with an explicit `NO-OP=False` guard), run in N independent processes each with its own standalone context, on the same M1 Max:
+
+| N contexts | per-process fps | **aggregate shader fps** |
+|---:|---:|---:|
+| 1 | 175.8 | **175.8** |
+| 2 | 122.9 / 127.6 | **250.5** |
+| 3 | 89.5 / 89.8 / 91.0 | **270.3** |
+| 4 | ~66.8 ×4 | **268.0** |
+| 6 | ~44.9 ×6 | **268.7** |
+
+GPU shader throughput **does** multiply — ~1.5× — and saturates at N≈3, at roughly 270 fps of kernel capacity. The note's single-context measurement is not the ceiling it is treated as. The correct number to set against the 9-process CPU aggregate is an N-process GPU aggregate that was **never measured**.
+
+The verdict is not thereby overturned — the per-process pipe floor still binds (below) — but recommendation 2's stated reason is unsound, and "the adoption bar is 52.0 fps" is being compared against a number taken with the GPU deliberately under-parallelised.
+
+### REFUTED — 6. The stated cause of "only 2.7× end to end", and the transfer ceiling quoted at the wrong resolution
+
+Two component figures were re-measured.
+
+*Transfer.* Confirmed at 720p — 0.94 ms upload + 1.49 ms readback = 2.43 ms (author: 1.23 + 1.56 = 2.79 ms), a ~412 fps ceiling. **But the shipped chain runs the flatten at 0.5 scale = 640×360**, where the same measurement gives 0.19 + 0.30 = **0.50 ms, ceiling ~2011 fps**. Citing the 720p "hard ~358 fps ceiling for any Python-side GL backend" as one of the two reasons the e2e gain is small overstates the transfer barrier by ~5× in the context where it is used: at the resolution actually in play, transfer is 1.8 % of the 27.8 ms/frame budget.
+
+*The FFmpeg halves.* The note's ~12.6 ms/frame is real and is, if anything, understated. Running the actual shipped topology (`ffmpeg` decode → python passthrough → `ffmpeg lut3d + posterise + libx264 -crf 16 -preset medium`) with **no filter at all**:
+
+```
+PASSTHROUGH pipe, 300 frames 1280x720: 4.92s -> 60.9 fps -> 16.41 ms/frame   (loadavg 14.9)
+```
+
+I also tested whether that floor is a harness artefact — decode alone is 1.65 ms/f and encode alone 3.21 ms/f, so the components look overlappable — by rewriting the loop with a reader thread and a bounded queue. It made no difference (`THREADED passthrough: 16.05 ms/frame`). **The floor is contention, not serialisation, and the note's additive model is empirically right.** Recorded here because it is the one place where I expected to overturn the note and could not.
+
+So: the conclusion in §4.3 stands, but its stated causes should be replaced by the measured ones — a ~16 ms/frame per-process pipe floor (≈61 fps, above the 52 fps CPU aggregate, so a *free* kernel would win) and the shader kernel itself.
+
+### REFUTED — 7. The videotoolbox tier claim contradicts the note's own §1.1 rule
+
+§4.4: "it moves the licence tier in the right direction too, since `libx264` is a GPL-only external library while the VideoToolbox encoders are not."
+
+§1.1 established the governing rule correctly for libplacebo: *"the governing term is the **binary's** licence"*. The binary here is `--enable-gpl --enable-version3` (verified: `ffmpeg -version` on this machine). Shelling out to it is `COPYLEFT_TOOL` **whichever encoder is selected**; picking `h264_videotoolbox` moves nothing. The claim is only true given an *LGPL-built* ffmpeg — a precondition the note never states.
+
+Stated with that precondition it becomes a **stronger and more useful** finding than the note makes of it: sibling note 00 asserts that "an LGPL-safe render cannot emit H.264 or HEVC through ffmpeg at all", and `h264_videotoolbox` / `hevc_videotoolbox` **refute that** on macOS, because VideoToolbox is a system framework and appears in none of `external_gpl` in `ffmpeg_n81_licence_gates.json`. That belongs in note 00, corrected.
+
+### Minor corrections
+
+- **"3 of its 489 filters"** — 489 is `wc -l` of the whole listing, including 8 header/legend lines. The true count is **481** filters (`ffmpeg -hide_banner -filters | sed -n '9,$p' | wc -l` → 481). 3/481 = 0.62 %.
+- **`ffmpeg -h filter=libplacebo` "exits 0"** — the note reproduces the output; worth noting the exit code is genuinely 0 with the message `Unknown filter 'libplacebo'.`, which is itself a small trap for a capability probe that tests `$?`.
+- **`h264_videotoolbox` speedup** re-measured best-of-3 at loadavg ~20: libx264 medium 63.1 fps → h264_videotoolbox 180.3 fps = **2.86×** (author: 3.3×). Direction confirmed. Not drawn out by the note: `libx264 -preset veryfast` reaches 122.4 fps at a *smaller* file (18.2 MB) than videotoolbox at `-q:v 60` (20.7 MB), so the honest dependency-free gain over a tuned CPU preset is ~1.5×, not 3.3×, and at worse quality-per-bit.
+
+### CONFIRMED — re-run independently, matching or exceeding the author's numbers
+
+- **§1.1, developer machine has no programmable GPU path.** Reproduced exactly: same 3 `_vt` filters, `Unknown filter 'libplacebo'.`, `-hwaccels` → `videotoolbox` only.
+- **§1.1, licences.** `brew info libplacebo` → `License: LGPL-2.1-or-later`; upstream `LICENSE` is LGPL-2.1 verbatim; the upstream README adds *"libplacebo is currently available under the terms of the LGPLv2.1 (or later) license"*. `brew info ffmpeg` and `brew info ffmpeg-full` both → `GPL-3.0-or-later`. `ffmpeg` Required (11), `ffmpeg-full` Required (47), keg-only. **The reasoning that this buys no tier movement is correct.**
+- **§1.2, the server measurement — reproduced on an *idle* box** (loadavg 0.11, which the author's run was not), and it is worse than reported: libplacebo + custom shader **61.12 s**, libplacebo alone **53.15 s**, CPU `negate` **0.38 s** — a **161×** ratio. Note that a no-filter run is *also* 0.38 s, so the CPU denominator is source generation and the filter itself is free; the gap is if anything understated.
+- **§1.2, the heap corruption.** Reproduced verbatim, including the exit status the note does not give: `Failed to create semaphore: VK_ERROR_INVALID_EXTERNAL_HANDLE` / `free(): double free detected in tcache 2` / **exit 134, core dumped**.
+- **§2.1, `.hook` shaders genuinely apply through FFmpeg.** Reproduced to the second decimal: `mean |on-off| = 240.69`, `mean |on-(255-off)| = 0.28`, `identical? False`.
+- **§2.1, Anime4K through libplacebo.** Reproduced: 1280×720 output from a 640×360 source, `fps=4.0`, `speed=0.13x`, 7.72 s wall.
+- **§2.2, Anime4K repo LICENSE is MIT** and RAVU/nnedi3 are LGPLv3 — and the latter is **stronger than the note claims**: verified at the *file* level, not just the README (`ravu-lite-r3.hook` and `nnedi3-nns64-win8x4.hook` both open with the LGPLv3-or-later grant).
+- **§3.1, moderngl headless on macOS.** Reproduced exactly: `4.1 Metal - 89.4 | Apple M1 Max`, `version_code 410`, `GL_MAX_TEXTURE_SIZE 16384`, compute shader → `cannot create shader`.
+- **§3.2, the dependency closure.** Reproduced exactly: 408K/80K/119M/385M/54M/47M; `otool -L` shows moderngl links only `libc++`/`libSystem` and glcontext adds only `OpenGL.framework`; installed metadata `License: MIT` for both; `cv2/.dylibs` contains `libx264.164.dylib` + `libx265.215.dylib`; `strings` on the bundled `libavcodec.61.19.101.dylib` yields `--prefix=/opt/homebrew/Cellar/ffmpeg/7.1.1_3 … --enable-version3 … --enable-gpl … --enable-libx264 --enable-libx265`.
+- **§4.1, the inverse-`sr` cost law — confirmed and extended to four points**, so it is not a two-point artefact. Real Que Calor frames, min-of-3, randomised interleaving, loadavg ~9 (absolute values higher than the author's because of load; the ordering is what matters and it is monotone):
+
+  | 0.5 scale, sp=12 | min ms |
+  |---|---:|
+  | `sr=90` | 115.3 |
+  | `sr=60` | 241.0 |
+  | `sr=30` | 455.3 |
+  | `sr=20` | 542.8 |
+
+  and among shipped configs, `c03` (0.75 / sr=40) at **651.2 ms** is indeed the most expensive, above even full-resolution sr=60 (600.5 ms). Recommendation 5 is sound.
+- **§4.1, `cv2.setNumThreads(1)` is a no-op** — the note marks this `verified: false`; it is straightforwardly verifiable and I verified it. `cv2.getNumThreads()` → 10, `setNumThreads(1)`, → 10; `Parallel framework: GCD`. **Upgrade this to verified.**
+- **§3.3, `glumpy`/`triangle` — the note marks this unverified; it is now verified.** The Shewchuk terms were retrieved from `drufat/triangle-c` (the C sources the PyPI `triangle` package wraps), lines 34–46: *"Private, research, and institutional use is free… Distribution of this code as part of a commercial system is permissible **ONLY BY DIRECT ARRANGEMENT WITH THE AUTHOR**."* That is a field-of-use restriction, and it is **incompatible with the LGPL-3.0 that `triangle` 20250106 declares on PyPI** — a live specimen of the note-06 honesty rule (the licence *text* governs, not the metadata field). `glumpy` should be recorded as off-ladder `FieldOfUse.NON_COMMERCIAL`, not merely "do not adopt without checking".
+- **§1.2, `program_opencl` — the note marks this unverified; I ran it.** `ffmpeg -init_hw_device opencl …` → `Failed to get number of OpenCL platforms: -1001. Device creation failed: -19.` Confirmed.
+- **§1.1 / claim 23, `ffmpeg-full` on macOS.** Still not installed (the ~100-package closure is not worth it), but the doubt is now better founded: `brew deps ffmpeg-full` yields `libplacebo shaderc vulkan-headers vulkan-loader` and **no `molten-vk`**, while `brew deps mpv` yields `libplacebo molten-vk vulkan-headers vulkan-loader`; `brew info vulkan-loader` shows Required (1) `vulkan-headers` and ships no ICD. A Vulkan loader with no ICD enumerates zero devices, so `ffmpeg-full`'s libplacebo will almost certainly fail to initialise on a stock macOS install. Keep it flagged unverified, but the expected answer is "no".
+
+### Two things the note did not check, both now measured
+
+**1. `opencv-python-headless` does *not* escape the GPL binary.** Sibling note 06 names it as "the cheap way out of the question entirely" and flags it unverified. It is not a way out. Downloading the wheel (not installing it):
+
+```
+$ curl -sLo ocvh.whl .../opencv_python_headless-5.0.0.93-cp37-abi3-macosx_13_0_arm64.whl
+$ unzip -l ocvh.whl | grep -iE 'x264|x265'
+   1312400  cv2/.dylibs/libx264.164.dylib
+   4954576  cv2/.dylibs/libx265.215.dylib
+$ strings cv2/.dylibs/libavcodec.61.19.101.dylib | grep -- '--enable-gpl'
+--prefix=/opt/homebrew/Cellar/ffmpeg/7.1.1_3 … --enable-version3 … --enable-gpl
+--enable-libx264 --enable-libx265
+```
+
+Same ffmpeg build, same GPL flags, same x264/x265, under the same `License: Apache 2.0` metadata. **This strengthens the note's §5.2 item 3**: the obvious cheap escape from `COPYLEFT_SHIPPED` for the flatten does not exist, so the licence argument for an alternative provider is more alive than the note knew. Note 06's line about `opencv-python-headless` should be corrected.
+
+**2. A pure-numpy flatten is not a viable `PERMISSIVE` provider — measured, so nobody re-derives it.** numpy is BSD-3 and bundles no codec, so it is the obvious rung-1 provider with no GL context, no deprecated API and no new wheel. The note measured torch/MPS (1012.8 ms) but never plain numpy. Accumulating over shifted slices (streaming, avoiding the 625× `unfold` inflation the note correctly diagnoses), 640×360, 25×25, 5 iterations, with a no-op guard:
+
+```
+numpy shift-accum mean-shift : 15567.9 ms  (0.1 fps)
+cv2.pyrMeanShiftFiltering    :   253.7 ms  (3.9 fps)
+NO-OP guard: identical to source? False   mean|out-src| = 18.85/255
+agreement with cv2: mean|np-cv2| = 13.94/255
+```
+
+**61× slower than cv2.** A numpy provider is not an option. This confirms the note's position by closing the one alternative it did not test.
+
+**3. `geq` is a programmable per-pixel path the note overlooks.** The note's framing ("no programmable GPU path at all") is correct as stated but leaves the impression that programmability requires libplacebo or in-process GL. FFmpeg 8.1 ships `geq` — "Apply generic equation to each pixel", slice-threaded, and **not in `external_gpl` or `gpl_filters`**, so it is LGPL-safe and inside the binary `looks` already shells out to. Measured, 640×360, 60 frames: a 5-tap RGB neighbourhood expression runs at **55.6 fps** against 1013.8 fps for `scale` alone, i.e. ~17 ms/frame for 15 texture lookups. That scales terribly — a 25×25 window is 625 lookups and would land near 700 ms/frame, so it is *not* a mean-shift substitute — but it is the right zero-dependency, tier-neutral home for the class of small-neighbourhood custom effects that a shader provider would otherwise be reached for. It belongs in the provider table §5.1 proposes.
+
+### Design objections to the recommendations
+
+**A. Recommendation 1 is missing the rule that makes it safe: a resolved `provider` must be recorded in the `Look`, and never silently substituted.** The kickoff requires a `Look` to be "inspectable, persistable, diffable and costable before anything runs" — the `falaw.Plan` shape. "`provider` … resolved per-effect **against the machine**" breaks that: the same persisted `Look` produces different pixels on different machines. The note's own §4.2 quantifies how different (`mean |shipped − allffmpeg| = 7.47/255`; only 39.1 % of pixels within ±4), and §5.3 records a `mean |GPU − cv2| = 4.73/255` gap between the cv2 and GLSL flatten providers **as an acceptable tolerance**. It is not acceptable as a *silent* substitution: muvid's `assemble.py` renders in chunks, so two chunks resolving to different providers puts a 4.73/255 systematic colour shift across a cut — a visible seam, and precisely the class of artefact the frame-independence invariant exists to prevent. And §1.2 shows machine-availability resolution picking a 141× slower path while reporting success. Rec 1 needs one more sentence: *the provider is part of the `Look`'s identity, resolved once, recorded, and a machine that cannot supply it refuses rather than substitutes.*
+
+**B. Recommendation 3's FSRCNNX row is a false refusal and must not be written.** See refutation 1. `UNKNOWN → refuse` is the right *rule*; applying it to a shader that states LGPL-3.0-or-later in its own header is the rule misfiring on bad input, and it ships as a permanent wrong answer.
+
+**C. §5.2 item 3 — "the strongest argument in favour of a shader path" — names the wrong rung and omits its precondition.** A `moderngl` flatten is rung 1, but the `Look` it sits in still runs `lut3d` + `lutrgb` in a `--enable-gpl` binary, which is rung 3. A caller at ceiling `PERMISSIVE` is refused by the *rest of the chain* regardless of the flatten's provider, so swapping cv2 for moderngl rescues nothing at `PERMISSIVE`. The argument works at ceiling **`WEAK_COPYLEFT`** and only for a caller who also has an LGPL ffmpeg — where cv2 (rung 4) is refused and moderngl (rung 1) is not. Correct the rung and state the precondition, or the note's headline licence argument does not apply to its own flagship look.
+
+**D. Note 10 decides a question note 06 explicitly forbids `looks` from deciding.** §3.2 states flatly that the cv2 provider "is `COPYLEFT_SHIPPED` (rung 4)". Note 06 §7 says the cv2 tier is genuinely contested — the GPL `libavcodec` is dynamically linked *into the Python process*, which on one reading is in-process strong copyleft (forbidden at every ceiling) and on the other is `COPYLEFT_SHIPPED` — and that "**`looks` must not decide which reading is right** … record both components, report the conflict, and refuse until a human rules." Two sibling notes cannot ship with one recording a conflict and the other silently resolving it. Reconcile before either becomes a ledger row.
+
+**E. Recommendation 2's adoption bar should be re-stated against a fair GPU number.** Given refutation 5 (~270 fps aggregate shader capacity, saturating at N≈3) and the measured ~16 ms/frame per-process pipe floor, the untested configuration is *N GPU processes*, and its plausible aggregate is above the 52 fps bar. The verdict ("ship no shader provider in v1") is still right — for the licence, complexity and deprecated-API reasons the note gives, and because rec 6's encoder change is a larger win for none of the cost. But "the CPU path already beats it" is not the reason, and should not be the reason recorded, because it will be re-litigated the first time someone runs the GPU path in a pool.
+
+*Reviewer's summary: the empirical spine of this note is unusually solid — every load-bearing measurement I re-ran reproduced, several on an idle machine where the author's was contended, and one attempt to overturn it (the threaded-pipe hypothesis) failed and is recorded above. The defects are concentrated in exactly the place the package can least afford them: two licence classifications reached by checking a repository label instead of the artefact, one of which is a false refusal.*

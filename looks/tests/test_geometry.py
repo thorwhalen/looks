@@ -124,7 +124,8 @@ class TestAgainstRealMixing:
     @pytest.mark.parametrize("mode", ["stretch", "fit", "fill"])
     def test_scaled_size_matches_mixing(self, source, target, mode):
         """`mixing.resize_to_dimensions` computes the intermediate size with
-        `int(...)`, which is what `rounding='floor'` reproduces.
+        `int(...)`, which for positive values is what `exact_floor` reproduces —
+        exactly, and without a float in the middle.
 
         Checked by re-deriving mixing's own arithmetic rather than by running
         moviepy: the branch is small, exact, and reading it is what makes the
@@ -167,26 +168,28 @@ class TestAgainstRealMixing:
 class TestTheRoundingDivergence:
     """The measured reason `rounding` is a field on the spec."""
 
-    def test_floor_and_round_disagree_on_a_perfectly_ordinary_input(self):
-        """1080 / (1920/1080) = 607.5. `mixing` and moviepy truncate to 607;
-        ffmpeg's `force_original_aspect_ratio` rounds to 608. One row, and a
-        black-to-white difference at the seam."""
+    def test_the_two_modes_disagree_on_a_perfectly_ordinary_input(self):
+        """1080 / (1920/1080) = 607.5. `mixing` and moviepy floor to 607;
+        ffmpeg's `force_original_aspect_ratio` goes half-away to 608. One row,
+        and a black-to-white difference at the seam."""
         src, dst = Size(1920, 1080), Size(1080, 1920)
-        assert scaled_size(src, dst, mode="fit", rounding="floor").height == 607
-        assert scaled_size(src, dst, mode="fit", rounding="round").height == 608
+        assert scaled_size(src, dst, mode="fit", rounding="exact_floor").height == 607
+        assert (
+            scaled_size(src, dst, mode="fit", rounding="exact_half_away").height == 608
+        )
 
     def test_the_rule_travels_with_the_placement(self):
         """A spec whose rendered result depends on which backend read it is not
         a spec."""
-        p = placement(Size(1920, 1080), Size(1080, 1920), rounding="round")
-        assert p.rounding == "round"
+        p = placement(Size(1920, 1080), Size(1080, 1920), rounding="exact_half_away")
+        assert p.rounding == "exact_half_away"
         assert p.scale.height == 608
 
-    def test_floor_is_the_default(self):
+    def test_exact_floor_is_the_default(self):
         """Because it is what the fleet's existing renders were made with — a
         silent one-pixel change to every previously-rendered frame is not an
         improvement."""
-        assert placement(Size(1920, 1080), Size(1080, 1920)).rounding == "floor"
+        assert placement(Size(1920, 1080), Size(1080, 1920)).rounding == "exact_floor"
 
     def test_the_deferred_ffmpeg_form_is_not_emitted(self):
         """`scale=W:H:force_original_aspect_ratio=decrease` is tempting and
@@ -267,3 +270,49 @@ class TestSmallThings:
     def test_an_unknown_rounding_is_refused(self):
         with pytest.raises(GeometryError, match="unknown rounding"):
             scaled_size(Size(4, 3), Size(16, 9), rounding="ceil")  # type: ignore[arg-type]
+
+
+class TestD3ExactArithmetic:
+    """`int(round(float))` is half-to-EVEN; ffmpeg's `av_rescale` is half-away
+    from zero on exact int64 rationals. They disagree on ordinary inputs.
+
+    The doctest originally chosen (1920x1080 -> 1080x1920, 607/608) is precisely
+    a case where the divergence is invisible, because 608 happens to be even.
+    """
+
+    def test_half_away_is_not_half_to_even(self):
+        from looks.geometry import _resolve
+
+        assert _resolve(1, 2, "exact_half_away") == 1   # round() gives 0
+        assert _resolve(5, 2, "exact_half_away") == 3   # round() gives 2
+        assert _resolve(3, 2, "exact_half_away") == 2   # round() agrees here
+
+    def test_a_case_where_the_old_implementation_was_wrong(self):
+        """1920x1080 -> 200x200 gives 112.5. ffmpeg says 113; `int(round())`
+        said 112, because 112 is even."""
+        got = scaled_size(Size(1920, 1080), Size(200, 200), rounding="exact_half_away")
+        assert got == Size(200, 113)
+        assert int(round(200 * 1080 / 1920)) == 112, "the old rule, for contrast"
+
+    def test_both_modes_are_exact_integer_arithmetic(self):
+        """No float ever represents the ratio, so there is no representation
+        error to argue about and the tie-break is the only difference."""
+        from looks.geometry import _resolve
+
+        big = 10**15
+        assert _resolve(big * 3, 7, "exact_floor") == (big * 3) // 7
+        assert _resolve(big * 3, 7, "exact_half_away") == (2 * big * 3 + 7) // 14
+
+    def test_the_mode_names_carry_the_arithmetic_domain(self):
+        """'round' was the ambiguous word that produced the bug."""
+        from looks.geometry import DFLT_ROUNDING
+
+        assert DFLT_ROUNDING == "exact_floor"
+        with pytest.raises(GeometryError, match="exact_floor"):
+            scaled_size(Size(4, 3), Size(16, 9), rounding="round")  # type: ignore[arg-type]
+
+    def test_the_branch_choice_is_exact_too(self):
+        """A float aspect comparison can pick the wrong branch on a near-square
+        pair; the cross-product cannot."""
+        near = scaled_size(Size(1000, 998), Size(1080, 1080), mode="fit")
+        assert near.width <= 1080 and near.height <= 1080

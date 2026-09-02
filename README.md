@@ -47,7 +47,7 @@ dispersion(stats)       # 2.98 -> the spread you are trying to close
 
 PyPI has a dozen ffmpeg wrappers. Surveyed, **none of them carries a named-effect registry, and none carries any licence awareness at all** — not a field, not a check, not a warning. Meanwhile the licence facts are genuinely surprising:
 
-- **`eq`, `boxblur`, `cropdetect`, `hqdn3d` and 34 others exist only in a GPL ffmpeg.** Not one of them is a colour operation — the ones this package wants are all LGPL — but the ones that *are* gated are exactly the obvious first reach.
+- **`eq`, `boxblur`, `cropdetect`, `hqdn3d` and 34 others exist only in a GPL ffmpeg.** Only three of the 38 are colour operations, and each has an LGPL substitute in the same binary — so nothing you want is *unreachable*. But the gated ones are exactly the obvious first reach, and `eq` is the first thing anyone types.
 - **`libx264` and `libx265` are FFmpeg's only software H.264/HEVC encoders**, both GPL. So an LGPL-tier *deliverable* is AV1, VP9, ProRes/FFV1 or hardware. Never x264. The wall is in the encoders, not the filters.
 - **`geq` is not GPL** and has not been since FFmpeg 4.3, contrary to widespread belief.
 - **`av`, `imageio-ffmpeg` and `opencv-python`'s macOS wheels all declare permissive licences while shipping GPL binaries.** For `av`, three layers disagree: the metadata says BSD-3, FFmpeg's own `avutil_license()` says LGPLv3, and `otool -L` shows GPL `libx264` and `libx265` actually linked. A licence check that trusts a declared field is not a check.

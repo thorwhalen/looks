@@ -203,3 +203,48 @@ class TestTheGuardItself:
             and any(a.name == "subprocess" for a in n.names)
         ]
         assert hits, "the AST walk does not detect `import subprocess`"
+
+
+class TestD1TheMultiOutputHole:
+    """The hole that defeated the first version of the invariant.
+
+    ffmpeg accepts MULTIPLE outputs, so a check that inspects only the argv
+    tail is beaten by appending nine characters. Verified 2026-09-02: this argv
+    passed `check_analysis_only` **and wrote a real 6170-byte H.264 file**.
+    """
+
+    SMUGGLED = [
+        "ffmpeg", "-i", "a.mp4", "-c:v", "libx264", "out.mp4",
+        "-map", "0:v", "-f", "null", "-",
+    ]
+
+    def test_the_smuggled_render_is_refused(self):
+        with pytest.raises(InvariantViolation, match="output specification"):
+            check_analysis_only(self.SMUGGLED)
+
+    def test_an_output_after_the_sink_is_refused(self):
+        with pytest.raises(InvariantViolation):
+            check_analysis_only(
+                ["ffmpeg", "-i", "a.mp4", "-f", "null", "-", "sneaky.mp4"]
+            )
+
+    def test_the_parser_sees_every_output(self):
+        from looks._run import output_specs
+
+        assert output_specs(self.SMUGGLED) == ["libx264", "out.mp4", "-"]
+        assert output_specs(["ffmpeg", "-i", "a.mp4", "-f", "null", "-"]) == ["-"]
+        assert output_specs(["ffmpeg", "-hide_banner", "-L"]) == []
+
+    def test_an_encoder_option_is_deliberately_unrecognised(self):
+        """`-c:v` is absent from VALUE_OPTIONS on purpose: `looks` never
+        encodes, so an encoder option appearing at all is evidence something is
+        being produced. Adding it to the value list would weaken the check."""
+        from looks._run import VALUE_OPTIONS
+
+        for encoder_option in ("-c:v", "-vcodec", "-crf", "-preset", "-b:v"):
+            assert encoder_option not in VALUE_OPTIONS
+
+    def test_a_legitimate_analysis_still_passes(self):
+        check_analysis_only(
+            ["ffmpeg", "-i", "a.mp4", "-vf", "lut3d=x.cube", "-f", "null", "-"]
+        )

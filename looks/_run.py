@@ -58,6 +58,52 @@ INFO_FLAGS = frozenset(
     {"-version", "-L", "-filters", "-buildconf", "-h", "-formats", "-codecs"}
 )
 
+#: Options that consume the following token as their value.
+#:
+#: The list matters for correctness, not tidiness: :func:`output_specs` treats
+#: an option NOT listed here as taking no value, so the token after it counts as
+#: an **output** and the call is refused. That is deliberate — an unknown option
+#: followed by a bare token is exactly what a smuggled render looks like, and
+#: erring toward refusal is the only safe direction for this check. `looks`
+#: builds every argv it runs, so extending this list is a normal edit; loosening
+#: the rule is not.
+VALUE_OPTIONS = frozenset(
+    {
+        "-i",
+        "-f",
+        "-vf",
+        "-af",
+        "-filter",
+        "-filter_complex",
+        "-lavfi",
+        "-map",
+        "-t",
+        "-ss",
+        "-to",
+        "-r",
+        "-s",
+        "-pix_fmt",
+        "-frames",
+        "-frames:v",
+        "-frames:a",
+        "-v",
+        "-loglevel",
+        "-timeout",
+        "-show_entries",
+        "-of",
+        "-print_format",
+        "-select_streams",
+        "-read_intervals",
+        "-sexagesimal",
+        "-probesize",
+        "-analyzeduration",
+        "-threads",
+        "-max_muxing_queue_size",
+        "-fflags",
+        "-flags",
+    }
+)
+
 
 class InvariantViolation(AssertionError):
     """An attempt to start a process that would produce media.
@@ -110,6 +156,56 @@ def _binary(argv: Sequence[str]) -> str:
     return head.rsplit("/", 1)[-1].rsplit("\\", 1)[-1]
 
 
+def output_specs(argv: Sequence[str]) -> list[str]:
+    """Every output specification in an ffmpeg argv.
+
+    ffmpeg's grammar is ``ffmpeg [global] {[in-opts] -i INPUT}... {[out-opts]
+    OUTPUT}...``, so an output is a bare token that is not an option's value and
+    not an input. Walking it is the only way to see them all — and seeing them
+    all is the whole point, because **ffmpeg accepts multiple outputs**, and a
+    check that looks only at the argv tail is defeated by appending nine
+    characters:
+
+        ffmpeg -i a.mp4 -c:v libx264 out.mp4 -map 0:v -f null -
+
+    That was accepted by the first version of :func:`check_analysis_only`, and
+    it writes a real H.264 file. Verified.
+
+    An option absent from :data:`VALUE_OPTIONS` is treated as taking no value,
+    so the token after it reads as an output and the call is refused. That
+    biases toward refusal on purpose.
+
+    Examples:
+        >>> output_specs(['ffmpeg', '-i', 'a.mp4', '-f', 'null', '-'])
+        ['-']
+        >>> output_specs(['ffmpeg', '-i', 'a.mp4', '-c:v', 'libx264', 'out.mp4',
+        ...               '-map', '0:v', '-f', 'null', '-'])
+        ['libx264', 'out.mp4', '-']
+
+        Note ``libx264`` in that list. ``-c:v`` is **deliberately absent** from
+        :data:`VALUE_OPTIONS`, so its value reads as an output and the call is
+        refused twice over. That is not an oversight to tidy up: `looks` never
+        encodes, so an encoder option appearing at all is evidence that
+        something is being produced, and the conservative reading is the
+        correct one. Adding `-c:v` to the value list would weaken the check.
+        >>> output_specs(['ffmpeg', '-hide_banner', '-L'])
+        []
+    """
+    outs: list[str] = []
+    i = 1  # argv[0] is the binary
+    while i < len(argv):
+        token = argv[i]
+        if token.startswith("-") and token != "-":
+            if token in VALUE_OPTIONS:
+                i += 2  # the option and its value
+                continue
+            i += 1  # a flag with no value
+            continue
+        outs.append(token)
+        i += 1
+    return outs
+
+
 def check_analysis_only(argv: Sequence[str]) -> None:
     """Raise unless ``argv`` is one of the three permitted shapes.
 
@@ -139,9 +235,16 @@ def check_analysis_only(argv: Sequence[str]) -> None:
         looks._run.InvariantViolation: looks starts no process that can produce
         media...
 
-        So is a render dressed as an analysis — the sink has to be the *tail*,
-        because ffmpeg takes the last output specification, and an earlier
-        ``-f null`` would be overridden by a later real one:
+        So is a render dressed as an analysis. The sink must be the tail
+        **and** the only output — ffmpeg accepts several, so this passed the
+        first version of the check and wrote a real H.264 file:
+
+        >>> check_analysis_only(['ffmpeg', '-i', 'a.mp4', '-c:v', 'libx264',
+        ...                      'out.mp4', '-map', '0:v', '-f', 'null', '-'])
+        Traceback (most recent call last):
+        ...
+        looks._run.InvariantViolation: looks starts no process that can produce
+        media...
 
         >>> check_analysis_only(['ffmpeg', '-i', 'a.mp4', '-f', 'null', '-',
         ...                      'sneaky.mp4'])
@@ -168,11 +271,18 @@ def check_analysis_only(argv: Sequence[str]) -> None:
         raise InvariantViolation(f"looks starts only ffmpeg and ffprobe, not {name!r}")
     if INFO_FLAGS.intersection(argv):
         return
-    if tuple(argv[-3:]) == NULL_SINK:
+
+    # EVERY output must be the null sink, not just the last one. ffmpeg accepts
+    # multiple outputs, so a tail check is defeated by appending nine
+    # characters — see `output_specs`.
+    outs = output_specs(argv)
+    tail_is_sink = tuple(argv[-3:]) == NULL_SINK
+    if tail_is_sink and outs == ["-"]:
         return
     raise InvariantViolation(
         "looks starts no process that can produce media: an ffmpeg call must "
-        "end in `-f null -` (analysis) or ask an environment question. Got:\n"
+        "end in `-f null -` with NO other output, or ask an environment "
+        f"question. Found {len(outs)} output specification(s): {outs}. Got:\n"
         f"    {' '.join(argv)}\n"
         "If you want pixels on disk, take the compiled chain from looks and run "
         "it yourself — that is the architecture, not an inconvenience. See "

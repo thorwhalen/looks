@@ -420,6 +420,40 @@ def gates() -> Mapping[str, object]:
     return json.loads(GATES_PATH.read_text())
 
 
+class UnknownFilter(ValueError):
+    """A filter name that is not in any known universe.
+
+    Raised rather than ignored, because :func:`needs_gpl` is an
+    **allowlist-by-absence**: a name it does not recognise carries no gate, so
+    silently returning "not GPL" for a typo, a wrong case, a filter from a newer
+    ffmpeg, or one an extraction never enumerated is a *computed* false
+    permission — at exactly the point the licence tier enters. That is the one
+    direction this package may never fail in.
+    """
+
+
+@lru_cache(maxsize=None)
+def known_filters() -> frozenset[str]:
+    """Every filter name FFmpeg n8.1 declares — the universe :func:`needs_gpl` checks against.
+
+    Extracted from ``libavfilter/allfilters.c``, which declares one ``extern``
+    per filter regardless of build flags, so it covers filters the local binary
+    does not have. That is the right universe: a name absent from *this* build
+    is still a real filter with a real gate, and refusing it would be a false
+    alarm, while a name absent from *FFmpeg* is a typo and must raise.
+
+    Examples:
+        >>> u = known_filters()
+        >>> {'eq', 'lut3d', 'vidstabtransform', 'geq'} <= u
+        True
+        >>> 'nosuchfilter' in u
+        False
+        >>> len(u) > 500
+        True
+    """
+    return frozenset(gates()["all_filters"])  # type: ignore[arg-type]
+
+
 def gpl_only_filters() -> frozenset[str]:
     """Filter names FFmpeg gates behind ``--enable-gpl``.
 
@@ -433,18 +467,61 @@ def gpl_only_filters() -> frozenset[str]:
     return frozenset(gates()["gpl_filters"])  # type: ignore[arg-type]
 
 
-def needs_gpl(filters: Sequence[str]) -> tuple[str, ...]:
+def needs_gpl(
+    filters: Sequence[str], *, known: Optional[frozenset[str]] = None
+) -> tuple[str, ...]:
     """Which of ``filters`` exist only in a GPL build, in the order given.
 
     The point of the package in one function: a chain that reaches for the
     obvious grade filter is not portable to an LGPL build, and nothing in the
     ffmpeg CLI will tell you, because the binary you are holding runs it fine.
 
+    **Every name is validated first, and an unrecognised one raises.** This
+    function is an allowlist-by-absence — a name carrying no gate is reported
+    GPL-free — so without the check a typo, a wrong case, or a filter from a
+    newer ffmpeg is a *computed false permission*. That is not a hypothetical:
+    before the check, ``needs_gpl(['nosuchfilter'])`` and ``needs_gpl(['EQ'])``
+    both returned ``()``.
+
+    Args:
+        filters: Filter names, in the order they appear in a chain.
+        known: The universe to validate against. Pass
+            :attr:`FfmpegEnv.filters` to also catch a name this build does not
+            have; the default is :func:`known_filters`, every filter FFmpeg
+            n8.1 declares.
+
+    Raises:
+        UnknownFilter: A name is not in ``known``.
+
     Examples:
         >>> needs_gpl(['scale', 'eq', 'lut3d', 'boxblur'])
         ('eq', 'boxblur')
         >>> needs_gpl(['curves', 'colorlevels', 'lut3d'])
         ()
+
+        A name that is not a filter raises rather than reporting GPL-free:
+
+        >>> needs_gpl(['nosuchfilter'])
+        Traceback (most recent call last):
+        ...
+        looks.environment.UnknownFilter: not known ffmpeg filters: ['nosuchfilter']...
+
+        Case matters, because it matters to ffmpeg:
+
+        >>> needs_gpl(['EQ'])
+        Traceback (most recent call last):
+        ...
+        looks.environment.UnknownFilter: not known ffmpeg filters: ['EQ']...
     """
+    universe = known_filters() if known is None else known
+    unknown = [f for f in filters if f not in universe]
+    if unknown:
+        raise UnknownFilter(
+            f"not known ffmpeg filters: {unknown}. This function reports a name "
+            f"it does not recognise as GPL-free, so an unrecognised name is a "
+            f"false permission rather than a missing answer — hence the "
+            f"refusal. If the name is real and newer than the committed table, "
+            f"pass known=env.filters from a probe of the binary you will run."
+        )
     gpl = gpl_only_filters()
     return tuple(f for f in filters if f in gpl)

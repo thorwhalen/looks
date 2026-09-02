@@ -285,3 +285,54 @@ class TestIndirectGplGates:
         """The concrete consequence: asking for stabilisation at an LGPL ceiling
         must be refused, and under the old table it would have been allowed."""
         assert needs_gpl(["scale", "vidstabtransform", "lut3d"]) == ("vidstabtransform",)
+
+
+class TestD2FailClosedOnUnknownFilters:
+    """`needs_gpl` is an allowlist-by-absence, so an unrecognised name was a
+    COMPUTED false permission at the licence tier's entry point.
+
+    Before the fix, `needs_gpl(['nosuchfilter'])` and `needs_gpl(['EQ'])` both
+    returned `()` — GPL-free.
+    """
+
+    def test_an_unknown_name_raises(self):
+        from looks.environment import UnknownFilter
+
+        with pytest.raises(UnknownFilter, match="nosuchfilter"):
+            needs_gpl(["nosuchfilter"])
+
+    def test_wrong_case_raises_because_case_matters_to_ffmpeg(self):
+        from looks.environment import UnknownFilter
+
+        with pytest.raises(UnknownFilter, match="EQ"):
+            needs_gpl(["EQ"])
+
+    def test_the_refusal_explains_the_direction_of_the_error(self):
+        from looks.environment import UnknownFilter
+
+        with pytest.raises(UnknownFilter) as excinfo:
+            needs_gpl(["typo_filter"])
+        assert "false permission" in str(excinfo.value)
+
+    def test_the_universe_covers_filters_this_build_lacks(self):
+        """The universe is FFmpeg's declaration list, not the local binary's —
+        a filter absent from this build is still real and still gated, and
+        refusing it would be a false alarm."""
+        from looks.environment import known_filters, probe
+
+        universe = known_filters()
+        assert "vidstabtransform" in universe
+        assert "frei0r" in universe
+        env = probe()
+        if env.available:
+            assert not env.has_filter("vidstabtransform")  # Homebrew lacks it
+            assert needs_gpl(["vidstabtransform"]) == ("vidstabtransform",)
+
+    def test_a_caller_can_narrow_to_this_binary(self):
+        from looks.environment import UnknownFilter, probe
+
+        env = probe()
+        if not env.available:
+            pytest.skip("no ffmpeg")
+        with pytest.raises(UnknownFilter):
+            needs_gpl(["vidstabtransform"], known=env.filters)

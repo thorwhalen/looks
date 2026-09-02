@@ -29,6 +29,8 @@ It earned itself immediately: the guard caught `environment.py`, written an hour
 
 Note the tail rule — ffmpeg takes the **last** output specification, so `-f null -` followed by a real output is a render. The sink must be the argv tail.
 
+**The tail rule alone is NOT sufficient** — ffmpeg accepts *multiple* outputs, so `ffmpeg -i a.mp4 -c:v libx264 out.mp4 -map 0:v -f null -` passed the first version of `check_analysis_only` **and wrote a real 6170-byte H.264 file**. Closed (D-1): `output_specs()` now parses every output specification and requires exactly one, which must be the sink. Encoder options are **deliberately absent** from `VALUE_OPTIONS`, so their values read as outputs and any argv containing one is refused twice over. `ffprobe` stays exempt and must — `ffprobe -f null -` fails outright with "Unknown input format: null".
+
 ## Where `looks` sits in the federation
 
 ```
@@ -65,7 +67,7 @@ From building the first real look (Que Calor V2), and independently reproduced h
 
 ## Licence facts, all verified from source or from disk
 
-- **38 of ~481 ffmpeg filters are GPL-gated**, and **not one is a colour operation**. `eq` — the obvious brightness/contrast/gamma/saturation filter — *is* one. LGPL-clean substitutions: `curves`, `lutyuv`, `colorlevels`, `colorbalance`, `huesaturation`, `exposure`; `gblur` for `boxblur`; `atadenoise`/`removegrain` for `hqdn3d`.
+- **38 of ~481 ffmpeg filters are GPL-gated**, and **every GPL-gated colour operation has an LGPL-or-better substitute in the same binary** — so no colour *capability* sits only behind the GPL wall. State it that way: the stronger form ("not one is a colour operation") is false, because `eq`, `histeq` and `colormatrix` are three. `eq` — the obvious brightness/contrast/gamma/saturation filter — is the one that matters. LGPL-clean substitutions: `curves`, `lutyuv`, `colorlevels`, `colorbalance`, `huesaturation`, `exposure`; `gblur` for `boxblur`; `atadenoise`/`removegrain` for `hqdn3d`. **The one gap:** `eq`'s `gamma_weight` has no exact LGPL equivalent. **The one exact substitution measured:** `eq=gamma` -> `lutyuv=y='clip(pow(val/255,1/g)*255,0,255)'`, within 0.55/255 mean luma.
 - **A filter is gated two ways.** *Directly* (literal `gpl` in its `_filter_deps`, 33 filters) and *indirectly* (its deps name a library in `EXTERNAL_LIBRARY_GPL_LIST`, 5 filters: `frei0r`, `frei0r_src`, `rubberband`, `vidstabdetect`, `vidstabtransform`). **Missing the indirect set is a false permission** — the first version of the table did, and tiered stabilisation as permissive. `looks/data/ffmpeg_gates.json` stores the two classes separately so a re-extraction cannot drop one.
 - **A directly-gated filter is in every GPL build; an indirectly-gated one is not** — the latter also needs its external library, a separate build flag.
 - **`geq` is not GPL** and has not been since FFmpeg 4.3 (relicensed 2019-12-16). The belief outlives the fact; a test pins it.

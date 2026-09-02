@@ -31,7 +31,7 @@ a fifth mode appearing.
     >>> placement(Size(1920, 1080), Size(1080, 1920), mode="fit").scale
     Size(width=1080, height=607)
     >>> placement(Size(1920, 1080), Size(1080, 1920), mode="fit",
-    ...           rounding="round").scale
+    ...           rounding="exact_half_away").scale
     Size(width=1080, height=608)
 """
 
@@ -41,14 +41,26 @@ from dataclasses import dataclass, field
 from typing import Literal, Optional, Union
 
 FitMode = Literal["stretch", "fit", "fill"]
-Rounding = Literal["floor", "round"]
+Rounding = Literal["exact_floor", "exact_half_away"]
 
-#: ``"floor"`` reproduces ``mixing.resize_to_dimensions`` pixel-for-pixel;
-#: ``"round"`` reproduces ffmpeg's ``force_original_aspect_ratio``. Floor is the
-#: default because it is what the fleet's existing renders were made with, and a
-#: silent one-pixel change to every previously-rendered frame is not an
-#: improvement.
-DFLT_ROUNDING: Rounding = "floor"
+#: How a non-integer size is resolved. **Both names carry the arithmetic domain,
+#: not just the tie-break**, because the ambiguous word is what produced a bug.
+#:
+#: ``"exact_floor"`` reproduces ``mixing.resize_to_dimensions``: the floor of an
+#: exact rational. ``"exact_half_away"`` reproduces ffmpeg's
+#: ``force_original_aspect_ratio``, which is ``av_rescale`` with
+#: ``AV_ROUND_NEAR_INF`` — half **away from zero**, on exact int64 rationals.
+#:
+#: Both are computed with integer arithmetic. An earlier version used
+#: ``int(round(value))`` on a float, which is Python's half-to-**even** — a
+#: different rule that disagrees with ffmpeg on **6 of 4000** ordinary
+#: source/target pairs, and the one doctest that had been chosen
+#: (1920x1080 -> 1080x1920, 607 against 608) is precisely a case where the
+#: divergence is invisible because 608 happens to be even. Float truncation had
+#: the same latent problem for ``floor``: a `Placement` that renders differently
+#: depending on who reads it is exactly what carrying the rule was meant to
+#: prevent.
+DFLT_ROUNDING: Rounding = "exact_floor"
 
 #: Backdrop defaults, transcribed from ``mixing.resize_to_dimensions``'s
 #: ``method="social"`` branch so the extracted version reproduces it.
@@ -156,12 +168,33 @@ Backdrop = Union[Solid, Blurred]
 """What fills the part of the target the placed frame does not cover."""
 
 
-def _resolve(value: float, rounding: Rounding) -> int:
-    if rounding == "floor":
-        return int(value)
-    if rounding == "round":
-        return int(round(value))
-    raise GeometryError(f"unknown rounding {rounding!r}; use 'floor' or 'round'")
+def _resolve(numerator: int, denominator: int, rounding: Rounding) -> int:
+    """``numerator / denominator`` as an integer, exactly, under ``rounding``.
+
+    Integer arithmetic throughout: no float ever represents the ratio, so there
+    is no representation error to argue about and the tie-break is the only
+    thing the two modes differ in.
+
+    Examples:
+        >>> _resolve(1, 2, "exact_floor")            # 0.5 floors to 0
+        0
+        >>> _resolve(1, 2, "exact_half_away")        # 0.5 goes AWAY from zero
+        1
+        >>> _resolve(3, 2, "exact_half_away")        # 1.5 -> 2, as does round()
+        2
+        >>> _resolve(5, 2, "exact_half_away")        # 2.5 -> 3, where round() gives 2
+        3
+    """
+    if denominator <= 0:
+        raise GeometryError(f"denominator must be positive, got {denominator}")
+    if rounding == "exact_floor":
+        return numerator // denominator
+    if rounding == "exact_half_away":
+        # (2n + d) // 2d is floor(n/d + 1/2), i.e. half away from zero for n >= 0.
+        return (2 * numerator + denominator) // (2 * denominator)
+    raise GeometryError(
+        f"unknown rounding {rounding!r}; use 'exact_floor' or 'exact_half_away'"
+    )
 
 
 def scaled_size(
@@ -181,7 +214,7 @@ def scaled_size(
         the 607-versus-608 disagreement, not a contrived case:
 
         >>> scaled_size(Size(1920, 1080), Size(1080, 1920), mode="fit",
-        ...             rounding="round")
+        ...             rounding="exact_half_away")
         Size(width=1080, height=608)
 
         ``fill`` covers instead of fitting, so it goes the other way:
@@ -198,12 +231,18 @@ def scaled_size(
         return target
     if mode not in ("fit", "fill"):
         raise GeometryError(f"unknown mode {mode!r}; use 'stretch', 'fit' or 'fill'")
-    wider = source.aspect > target.aspect
+    # Compared as a cross-product so the choice of axis is exact too: a float
+    # aspect comparison can pick the wrong branch on a near-square pair.
+    wider = source.width * target.height > target.width * source.height
     # `fit` matches the constraining axis; `fill` matches the other one.
     match_width = wider if mode == "fit" else not wider
     if match_width:
-        return Size(target.width, _resolve(target.width / source.aspect, rounding))
-    return Size(_resolve(target.height * source.aspect, rounding), target.height)
+        # target.width / source.aspect  ==  target.width * source.height / source.width
+        h = _resolve(target.width * source.height, source.width, rounding)
+        return Size(target.width, max(1, h))
+    # target.height * source.aspect  ==  target.height * source.width / source.height
+    w = _resolve(target.height * source.width, source.height, rounding)
+    return Size(max(1, w), target.height)
 
 
 def center_box(inner: Size, outer: Size) -> Box:
