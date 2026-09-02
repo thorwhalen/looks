@@ -580,3 +580,98 @@ Every item here is unverified and must not be quoted as fact:
 10. [FFmpeg — License and Legal Considerations](https://ffmpeg.org/legal.html) — the project's statement that `--enable-gpl` makes the resulting binary GPL, and `--enable-version3` upgrades to v3.
 11. [x264 (VideoLAN)](https://www.videolan.org/developers/x264.html) — GPL-2.0-or-later, with a separate commercial licence from x264 LLC.
 12. [x265 (MulticoreWare)](https://www.x265.org/) — GPL-2.0-or-later, with a separate commercial licence.
+
+---
+
+## Adversarial review (2026-09-02)
+
+*Independent re-verification. Every command below was re-run from scratch on the same machine; every URL was re-fetched. Where the original note is right I say so plainly, and most of it is. Two claims are refuted, one of them load-bearing on a recommendation.*
+
+### Refuted
+
+**R1 — "There is no FFmpeg-free wheel" (§1.2) and "the macOS x86_64 wheel bundles the same GPL FFmpeg as the arm64 one" (§7 item 3) are both false. The macOS x86_64 wheel contains no FFmpeg at all.**
+
+The note marked the x86_64 case unverified and then inferred it from #142's "the Homebrew formula is arch-independent". The inference does not hold — the two macOS jobs are configured differently. Downloaded from PyPI and inspected (nothing installed):
+
+```
+opencv_python_headless-4.13.0.92-cp37-abi3-macosx_14_0_x86_64.whl
+  vendored dylibs: libaom.3.13.1, libavif.16.3.0, libdav1d.7, libvmaf.3     (4 files)
+  build info in cv2.abi3.so:  FFMPEG:  NO      avcodec:  NO
+```
+
+Stable across releases — `opencv_python_headless-5.0.0.93 … macosx_14_0_x86_64.whl` is the same: `FFMPEG: NO`, and its 11 vendored dylibs are aom / avif / dav1d / vmaf / OpenEXR / Imath / deflate / openjph, all permissive. So the *cleanest* opencv wheel published today is a macOS one, and §1.2's "There is **no** FFmpeg-free wheel" is contradicted by a shipping artifact of the current release. Recommendation 9's source-build escape hatch is unnecessary on that platform.
+
+**R2 — Recommendation 2's platform rule ("`lgpl` on manylinux/Windows, `gpl` on macOS") is wrong in both directions, and a static two-valued rule would produce a false refusal.**
+
+Measured across five wheels of 4.13.0.92 (`libavutil` licence string read out of the vendored binary; GPL-list membership from FFmpeg `n8.1`'s `EXTERNAL_LIBRARY_GPL_LIST`):
+
+| wheel | FFmpeg | vendored natives | GPL-list members | tier |
+|---|---|---|---|---|
+| macosx_13_0_arm64 | GPL-3.0-or-later | 93 | x264, x265, vidstab, rubberband, postproc | **gpl** |
+| **macosx_14_0_x86_64** | **absent** | **4** | none | **permissive** |
+| manylinux_2_17_x86_64 | LGPL-2.1-or-later | 15 | none | lgpl |
+| manylinux_2_28_x86_64 | LGPL-2.1-or-later | 15 | none | lgpl |
+| manylinux_2_17_aarch64 | LGPL-2.1-or-later | 13 | none | lgpl |
+| win_amd64 | LGPL-2.1-or-later | 1 (`cv2/opencv_videoio_ffmpeg4130_64.dll`) | none | lgpl |
+
+Three of these were never examined by the note: `manylinux_2_28` (which modern pip prefers over `2_17` on any glibc ≥ 2.28 host, so it is the wheel most Linux users actually get), Windows, and macOS x86_64. Windows and `2_28` confirm the note's conclusion; macOS x86_64 refutes the rule it is stated as. The axis is **wheel**, not platform.
+
+### Confirmed — re-verified independently
+
+Claims 1–3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 16 all reproduce exactly:
+
+- `opencv/opencv` `LICENSE` at `4.4.0` reads "(3-clause BSD License)"; at `4.5.0` and `4.13.0` it is Apache-2.0; `opencv_contrib` at `4.13.0` likewise.
+- `ctypes` `avutil_license()` / `avcodec_license()` / `avformat_license()` on the installed `cv2/.dylibs` all return `GPL version 3 or later`; the configure string carries `--prefix=/opt/homebrew/Cellar/ffmpeg/7.1.1_3 --enable-version3 --enable-gpl --enable-libx264 --enable-libx265 --enable-libxvid --enable-librubberband --enable-libvidstab --enable-frei0r`.
+- The dyld before/after snapshot reproduces: **94** images newly mapped from `cv2/.dylibs` on `import cv2`, `libx264.164.dylib` and `libx265.215.dylib` among them.
+- `LICENSE-3RD-PARTY.txt`: `x264` 0, `x265` 0, `vidstab` 0, `rubberband` 0, `frei0r` 0, `xvid` 0, `postproc` 0, `SDL2` 0, `tesseract` 0; 36 `is redistributed within` declarations; `md5 = 4816c658beed4c135da7fc79751ce438` — identical for macOS-arm64, macOS-x86_64, both manylinux x86_64 wheels, the manylinux aarch64 wheel **and** the contrib arm64 wheel. *Refinement:* it is **not** identical for `win_amd64` (`7d9ca0cdebda2b6a5d42df5fd2c5281c`, 181 410 bytes) nor for 5.0.0.93 (`8327f168…`). So the mechanism is "one file per build family, checked in", not one file for everything — which does not weaken the finding.
+- README line 203 verbatim; issues #1260 `open` / 2026-08-12, #142 `closed` / 2018-11-25, #353 `open` / 2020-06-26.
+- The `pyav-ffmpeg` patch is exactly as reproduced, and FFmpeg `n8.1` line 4767 maps the licence gate over `EXTERNAL_LIBRARY_GPL_LIST`, which contains `libx264` and `libx265`. *Cosmetic:* §3.2's code block prints the body of `die_license_disabled_gpl()` above the `map "die_license_disabled gpl"` line; the mapped function is the plain `die_license_disabled` (line 4759), and `die_license_disabled_gpl` is used only for the nonfree list at 4770. Substance unaffected.
+- `scipy` `LICENSE.txt` line 129 declares libgfortran/libgcc as `GPL-3.0-or-later WITH GCC-exception-3.1` and line 914 declares `libquadmath` as bare `LGPL-2.1-or-later`; `strings` finds "GCC Runtime Library Exception" **zero** times in `libquadmath.0.dylib` — the note's sharpest sub-claim, and it holds.
+- imageio-ffmpeg's binary prints GPL **version 2** prose under `-L`, matching `--enable-gpl` without `--enable-version3`.
+
+**Still true at the version the recommendation would actually install.** `opencv-python-headless>=4.10` resolves to **5.0.0.93** today, not 4.13.0.92. Checked: the 5.0.0.93 macOS arm64 wheel has 99 vendored dylibs, `libavutil license: GPL version 3 or later`, and the same five GPL-list members. The finding survives the version bump; the note should anchor the recommendation to it.
+
+**Claim 8's evidence path was invalid, but its conclusion is right.** The note read `Non-free algorithms: NO` from `cv2.getBuildInformation()` — i.e. from the **headless** binary, which §1.7 itself proves is the loaded one. That says nothing about contrib. Re-checked against the actual artifact: `opencv_contrib_python-4.13.0.92-cp37-abi3-macosx_13_0_arm64.whl` contains `Non-free algorithms:         NO`, `cv2.abi3.so` = 47 781 680 bytes, and the same 93 dylibs with x264/x265/vidstab/rubberband/postproc. Conclusion confirmed; the reasoning needed a different artifact.
+
+**Recommendation 5 gains a stronger reason than the note gives.** The non-headless contrib **Linux** wheel vendors five Qt-5 shared objects (`libQt5Core/Gui/Test/Widgets/XcbQpa-…so.5.15.18`, LGPL-3) plus 14 xcb/xkb libraries. The headless-vs-contrib choice is not only 13 MB — it is LGPL-3 in the tree on Linux.
+
+**Claim 15 confirmed by measurement the note did not do.** The note asserted "there is no numpy-speed mean-shift" without measuring. A correct numpy joint colour+position mean shift (box kernel in space, ball in colour, 5 iterations — mean absolute difference from `cv2.pyrMeanShiftFiltering` of 0.3–1.1 out of 255, so it *is* the same algorithm):
+
+```
+ 320x180 : cv2 0.079 s | numpy   4.03 s | 51x
+ 640x360 : cv2 0.148 s | numpy  17.76 s | 120x
+ 960x540 : cv2 0.26  s | numpy  41.65 s | 158x
+1920x1080: cv2 0.67  s | numpy 165.33 s | 247x
+```
+
+At the measured 0.5–0.75 flattening scale this is still 40–165 s **per frame**. The `[flatten]` extra is genuinely unavoidable. Confirmed.
+
+### What the note did not check
+
+**N1 — `flatten-permissive` is not permissive, by the note's own rule.** `scikit-image` 0.26.0 hard-requires `scipy>=1.11.4` (`Requires-Dist: scipy>=1.11.4`, no extras marker), so `pip install looks[flatten-permissive]` installs the very `libquadmath` (LGPL-2.1-or-later, no runtime exception) that recommendation 6 forbids `looks` to name. The extra sits under a `# --- tier: permissive ---` heading it does not satisfy. It also pulls `networkx`, `imageio`, `tifffile`, `lazy-loader`, `packaging`, `pillow`. Either relabel it `lgpl`, or drop recommendation 6's libquadmath argument — not both.
+
+**N2 — the permissive fallback has a cost nobody measured.** `skimage.segmentation.quickshift` runs, but: 0.302 s @ 320x180, 1.411 s @ 640x360, **3.259 s @ 960x540** — 9.2x `pyrMeanShiftFiltering`. A 3-minute clip at 24 fps is ~3.9 hours of flattening alone. The note already says it will not reproduce the look; it should also say what it costs.
+
+**N3 — `elbg` was missed.** The negative result in §5.3 lists `bilateral`, `gblur`, `unsharp`, `deband`, `atadenoise`, `smartblur`. FFmpeg 8.1 also ships `elbg` — *"Apply posterize effect, using the ELBG algorithm"* — a colour-space vector-quantisation clusterer, and `elbg_filter_deps="avcodec"`, i.e. **ungated, LGPL**. It is not mode-seeking in position so it does not replace `pyrMeanShiftFiltering`, and claim 15's conclusion survives — but it is the one filter in the list whose description says *clustering*, and it is directly relevant to stage three of the measured chain (`lutrgb` posterise). Also unexamined and ungated: `yaepblur` ("yet another edge preserving blur"), `nlmeans`, `dctdnoiz`, `gradfun`. `sab` and `owdenoise` are `gpl`-gated like `smartblur`.
+
+**N4 — the probe's path globs miss two real layouts.** §5.4 probe 2 names `cv2/.dylibs/libavutil.*` and `cv2/../opencv_python*.libs/libavutil-*.so`. Verified counterexamples: the contrib Linux wheel's directory is **`opencv_contrib_python.libs`** (does not match `opencv_python*.libs`), and the Windows wheel has no `libavutil` at all — its FFmpeg is a single `cv2/opencv_videoio_ffmpeg4130_64.dll`, which is where the LGPL-2.1 strings live. Both probes find nothing on Windows and on macOS x86_64. §5.4 does not say what "found nothing" means, and both readings are wrong: mapping it to `unknown` gives a **false refusal on the two cleanest configurations in the matrix**, and mapping it to `permissive` makes a glob typo read as a clean bill of health. The design needs three states — *probed, found GPL* / *probed, found nothing* / *could not probe* — the same distinction `priv`'s `env_contract.py` draws and for the same reason.
+
+**N5 — the probe is import-order dependent.** Probe 2 is conditioned on "if `cv2` is imported". A refusal mechanism whose verdict changes depending on *when* you ask it is not a gate. Probe the installed distribution (`importlib.metadata.files` / on-disk inspection), never the imported module.
+
+### Design objections
+
+**D1 (serious) — the `max(effect tiers, environment tier)` composition in §5.1 is a false-refusal generator, and it contradicts companion note 06.** Note 06 already resolves a tier **per effect, from the provider that effect actually resolves to** (its gate 3), and already records the cv2-GPL finding. §5.1 adds a second, process-wide scalar and ORs it in. Its own example shows the damage: a `Look` of nothing but `lut3d` + `lutrgb` never imports `cv2`, yet under `max()` it is refused at an LGPL ceiling on this machine purely because `opencv-python-headless` is *installed*. The ffmpeg-on-`PATH` half of the environment tier is legitimate (that binary really does execute the Look). The cv2 half must be scoped to Looks that actually resolve to a cv2 provider.
+
+**D2 (serious) — recommendation 4's second half walks cut/EDL decisions into `looks`.** The note asserts the six `video_concat.py` transitions "map onto ffmpeg's LGPL `xfade`" without reading them. Read: `trim_first_frame_from_subsequent_clips` is a trim, not a transition; `trim_and_crossfade` trims then fades; `slow_motion_blend` calls `with_speed_scaled(0.5)` and its own docstring says *"this changes timing, so final video will be slightly longer"*; `overlap_blend` trims each clip by the overlap and shortens the timeline. Four of six change **which frames appear and when** — squarely the EDL decisions the kickoff puts out of scope. Only `crossfade_transition` and `fade_through_black` are pure `xfade` / `fade` (both confirmed ungated in `n8.1`). Additionally, realising `xfade` across N clips needs durations, ordering and one `-filter_complex` spanning every input — the muxing/OOM shape the kickoff bans. Port the two; leave the four in `mixing`.
+
+**D3 (minor) — `resize_to_dimensions` is not "pure arithmetic over a `(width, height)` pair".** Its `stretch`/`fit`/`fill` branches are. Its `social` branch builds a second scaled+centre-cropped copy of the input, Gaussian-blurs it (radius 15), multiplies it by 0.7, and `CompositeVideoClip`s the foreground over it — i.e. `split` → `crop`+`gblur`+`eq` → `overlay`, a filter graph, not a scale/crop/pad triple. It also reads dimensions off a moviepy clip, so a zero-dependency port needs an `ffprobe` step the note never mentions.
+
+**D4 (minor) — the consequence for the flagship look is never stated.** The developer's machine is macOS **arm64**. The Que Calor chain's stage one is `cv2.pyrMeanShiftFiltering`. Therefore, under "the licence tier is a refusal and is the default ceiling", `looks` at a commercial-safe ceiling **refuses its own first shipped look, on its own author's machine**. That is the correct conservative answer and it is the single most important operational fact in this note; it should be in the Verdict, not left to be derived. The remedies are real and worth naming: the `macosx_*_x86_64` wheel under Rosetta, a manylinux container, or recommendation 9's source build.
+
+**D5 (minor) — `[measure]`'s data source is an ffmpeg subprocess.** §2 specifies frames arriving from `ffmpeg -f rawvideo -pix_fmt rgb24 pipe:`. That means `looks` spawns ffmpeg. It is not muxing and not a `render()`, so it is probably fine — but the kickoff draws the execution boundary explicitly and the note should say which side of it a measurement pipe sits on.
+
+**D6 (minor) — `all` omits the permissive route and includes the GPL-on-macOS one.** `all = ["looks[measure,image,flatten]"]` parses correctly (checked with `packaging.requirements`), but `pip install looks[all]` on macOS arm64 puts a GPL-3 FFmpeg in-process. Defensible as "all capability", but a package whose premise is refusal should probably also ship a `permissive` aggregate.
+
+### Net
+
+The note's central finding is real, reproducible, worse than the metadata admits, and now confirmed to persist into 5.0.0.93. Its methodology section is the right one and is mostly honoured. The corrections needed are: the platform rule is a **wheel** rule with at least three values including a clean macOS one; the probe needs a third state and better globs; `flatten-permissive` is mislabelled; and recommendation 4 should port two transitions, not six.

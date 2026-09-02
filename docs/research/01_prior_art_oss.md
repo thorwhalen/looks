@@ -188,3 +188,78 @@ Marked so that none of these is mistaken for a measured fact.
 - `otool -L .dylibs/libavcodec.62.11.100.dylib` → `@loader_path/libx264.165.dylib`, `@loader_path/libx265.215.dylib`.
 - `imageio_ffmpeg.get_ffmpeg_exe()` → `ffmpeg-macos-aarch64-v7.1`, built `--enable-gpl`; package **0.6.0**, metadata BSD-2-Clause.
 - `cv2.getBuildInformation()` → OpenCV **4.13.0**, `Non-free algorithms: NO`; `opencv-contrib-python` 4.13.0.92, Apache-2.0.
+
+---
+
+## Adversarial review (2026-09-02)
+
+Every load-bearing claim was re-verified independently — commands re-run, URLs re-fetched, licence *texts* read rather than metadata fields. The note's central positioning claim survives. Five things are wrong, two of them in the dangerous direction (false permission), and one declared negative is refuted. No Python was proposed in the note, so there was nothing to execute.
+
+### Refuted — false permission (fix before the tier table is written)
+
+**R1. The "one grep over `configure`" recipe misses five GPL-gated filters.** §6 and §3 tell the reader to seed the tier table by grepping `<name>_filter_deps="…gpl…"`. Five filters are GPL-gated *indirectly*, through `EXTERNAL_LIBRARY_GPL_LIST`, and carry no literal `gpl` in their deps line:
+
+```
+frei0r_filter_deps="frei0r"              # frei0r      -> EXTERNAL_LIBRARY_GPL_LIST
+frei0r_src_filter_deps="frei0r"
+rubberband_filter_deps="librubberband"   # librubberband -> ditto
+vidstabdetect_filter_deps="libvidstab"   # libvidstab    -> ditto
+vidstabtransform_filter_deps="libvidstab"
+```
+
+`dyne/frei0r`'s `COPYING` is **GNU GPL version 2**, verified at file level (which also closes §8's "Frei0r's own licence — unverified"). `vidstabtransform` is stabilisation — a plausible *normalisation* effect for this package — and the proposed recipe would tier it permissive.
+
+Worse, the two "independent" methods share this exact blind spot, so the "reconcile exactly" result is not the corroboration it reads as: homebrew's 8.1 enables none of frei0r/libvidstab/librubberband (`configuration:` line checked), so the empirical GPL-vs-LGPL diff **cannot** see them either. Both methods are grepping the same list.
+
+**R2. `static-ffmpeg` 3.0 ships no binaries.** The table calls it a "**Licence hazard** (ships binaries; build flags **unverified**)". Its only distribution is `static_ffmpeg-3.0-py3-none-any.whl`, **7,927 bytes, 10 files, all pure Python** (`unzip -l`). `static_ffmpeg/run.py` downloads a zip at *runtime* from `https://github.com/zackees/ffmpeg_bins/raw/main/v8.0/{win32,darwin,darwin_arm64,linux,linux_arm64}.zip`. Fetch-at-runtime and redistribute-in-wheel are materially different redistribution postures — which is a distinction this package exists to make — so the row is wrong on its premise, not merely unverified. (Version-anchor while correcting it: those binaries are the `v8.0` set.)
+
+### Refuted — a declared negative that is not a negative
+
+**R3. OpenFX *does* carry call-time licence refusal semantics.** §3 says "No `kOfxPropLicense` exists. OFX is a commercial-plugin API where licensing is handled out-of-band, per-vendor." The spec disagrees, in `ofxImageEffect.h` (AcademySoftwareFoundation/openfx `main`) and `ofxCore.h`:
+
+- `kOfxImageEffectPropBehaviourWhenUnlicensed` — set by the **host**, i.e. a caller-declared ceiling, delivered in the `inArgs` of `kOfxImageEffectActionRender`.
+- `kOfxUnlicensedFail` → "plug-in should return `kOfxStatUnlicensed` and may do this **without any rendering**" — a refusal.
+- `kOfxUnlicensedContinue` → render a watermark and return `kOfxStatUnlicensed` — a warning.
+- Property **unset** → "plug-in should render an image … and return `kOfxStatOK`" — *unknown = permit*.
+- `kOfxStatUnlicensed ((int) 15)` in `ofxCore.h`.
+
+This is seat/commercial licensing rather than copyright tiering, so the note's headline (no per-effect *copyleft* tier in any plugin manifest) stands. But the mechanism the note claims as `looks`' novelty — "moving it from build time to **call** time" — already exists in OFX at render time, with the refuse/warn dichotomy explicit. The right framing is a *contrast*, and a strong one: OFX defaults unknown to permit; `looks` defaults unknown to refuse. Claiming the prior art is absent is weaker than naming it and inverting its default.
+
+### Refuted — smaller
+
+**R4. §8's "`pp` (libpostproc) filter gating — unverified" is a non-question.** FFmpeg n8.1's `configure` contains **zero** occurrences of the string `postproc`; the only `pp*` match is `pp7_filter_deps="gpl"`. libpostproc and the `pp` filter are gone from n8.1. `pp` is absent from both builds here because it no longer exists, not because of a build option.
+
+**R5. The ISF `CREDIT` detail is not in the cited source.** The negative is confirmed (no licence key among the top-level attributes in `mrRay/ISF_Spec`'s README), but `grep -c CREDIT README.md` = **0**. The parenthetical "`CREDIT` is attribution, not a licence" came from somewhere else and should be re-sourced or dropped.
+
+**R6. Recommendation 7 is already stale.** `.gitignore` now carries a hand-written comment explicitly rejecting the template's `docs/*`, and `git check-ignore docs/research/01_prior_art_oss.md` exits 1 — the notes are not ignored.
+
+### Confirmed first-hand
+
+- **FFmpeg n8.1 `configure`** (SHA-256 `28edfaee…b45f4`, 8840 lines): `LICENSE_LIST="gpl nonfree version3"` at line 2200; `die_license_disabled()` at 4759; the three `map` lines at 4767/4768/4771. Verbatim as quoted.
+- **The 32/33/35/3/1 reconciliation reproduces exactly.** `configure` grep → 33 lines; homebrew 8.1 → 481 filters; PyAV 16.0.1 `libavfilter` 11.4.100 → 447; `comm` → **32 in both**, empirical-only = `libvmaf` / `premultiply_dynamic` / `scale_vt`, configure-only = `boxblur_opencl`. Every number in §3 is right (subject to R1).
+- **`eq` is GPL-only; the substitutes are in both builds.** `eq` PRESENT in homebrew, **absent** from PyAV's LGPL libavfilter. `colorlevels`, `curves`, `colorbalance`, `colorcorrect`, `colorchannelmixer` present in both. So are `lut3d`, `lutrgb`, `scale`, `format` — the Que Calor chain is clean, as claimed.
+- **PyAV `av` 16.0.1, all four legs.** `libavcodec` configuration string contains `--enable-version3 --enable-libx264 --enable-libx265` and **no** `--enable-gpl`; all seven libs self-report `LGPL version 3 or later`; `.dylibs/` holds `libx264.165.dylib` + `libx265.215.dylib` and `otool -L libavcodec.62.11.100.dylib` shows both via `@loader_path`; `av.codec.Codec('libx264','w')` and `('libx265','w')` both open; `License-Expression: BSD-3-Clause`, and `av-16.0.1.dist-info/licenses/` holds only `LICENSE.txt` + `AUTHORS.*` — no GPL text. The correction to the brief's mechanism is right, and the mechanism question is correctly left to an upstream issue.
+- **`imageio-ffmpeg` 0.6.0 → `ffmpeg-macos-aarch64-v7.1`, `--enable-gpl` present, `--enable-version3` absent**; metadata `BSD-2-Clause`. `moviepy` 2.2.1 `Requires-Dist: imageio_ffmpeg>=0.2.0` (unconditional). `burns` 0.0.9 `Requires-Dist: moviepy` (unconditional). The chain holds.
+- **All 23 PyPI rows in §1 and §2** re-fetched: versions, upload dates and licence fields match, including `ffmpegio` `GPL-2.0 License` + GPLv2 classifier, `gmic` CeCILL-2.1 classifier, `videogrep` `Anti-Capitalist` + `License :: Other/Proprietary License`, `colorio` `Other/Proprietary`.
+- **Licence *texts*, not fields**: `colour-science` and `OpenColorIO` are genuine 3-clause BSD (all three clauses read); `ffmpeg-python` is genuine Apache-2.0.
+- **`pillow-lut` cannot write — now verified at source, not from docs.** Its entire public API is `identity_table`, `rgb_color_enhance`, `load_cube_file`, `load_hald_image`, `amplify_lut`, `resize_lut`, `sample_lut_cubic`, `sample_lut_linear`, `transform_lut`. No writer. §8 can drop that item.
+- **`colour-science` writes Iridas `.cube`** — `write_LUT_IridasCube` imported and re-exported in `colour/io/luts/__init__.py`, and dispatched from `write_LUT`'s format table.
+- **`f0r_plugin_info_t` has nine fields and no licence field**, and `frei0r.h` carries no SPDX line. Exactly as described.
+- **OpenCV**: `opencv-contrib-python` 4.13.0.92 / `opencv-python` 4.12.0.88 / `-headless` 4.13.0.92 all `Apache 2.0`; `ultralytics` 8.4.75 `AGPL-3.0`.
+
+### Design objections
+
+**D1 — the note never says what obligation the refusal protects against.** FFmpeg's `gpl` flag governs *linking*, and the licence of the resulting libraries/binary. `looks` **shells out** — it never links, and invoking a GPL program encumbers neither the caller's code nor the program's output. So a per-effect `gpl` tier under a shell-out architecture is a statement about *the ffmpeg build the user must have (and, if they redistribute, must ship)* — and simultaneously an **availability** fact: an `eq` look simply fails on any LGPL build, which is not hypothetical (PyAV's vendored one is exactly that). §7's headline "a per-effect licence tier enforced at call time" needs that sentence, or the person who gets refused cannot act on it.
+
+**D2 — `nonfree` is the wrong tier to adopt "verbatim", and `version3` is missing.** In n8.1, `nonfree` has **zero filter members**: it is `HWACCEL_LIBRARY_NONFREE_LIST` (`cuda_nvcc`, `cuda_sdk`, `libnpp`) plus `EXTERNAL_LIBRARY_NONFREE_LIST` (`decklink`, `libfdk_aac`, `libmpeghdec`) — no video effect anywhere. And FFmpeg's `nonfree` means *unredistributable*, whereas the restricted cases that motivate `looks` (AnimeGANv2, White-box Cartoonization) are **non-commercial-use-only** — freely redistributable, just not sellable. Adopting the vocabulary verbatim mis-tiers precisely the cases the kickoff cites. Meanwhile `version3` *does* have a filter member the note never enumerates — `lensfun_filter_deps="liblensfun version3"` — so the "seed the table from the measurement" recipe yields a table with one tier populated out of three.
+
+**D3 — the refusal model is a compatibility matrix, not a scalar ceiling.** §3 quotes `die_license_disabled` but not line 4770: `enabled gpl && map "die_license_disabled_gpl nonfree" $EXTERNAL_LIBRARY_NONFREE_LIST`, whose message is "*is incompatible with the gpl*". GPL and nonfree are mutually exclusive, not ordered. A single `Look.max_tier` scalar cannot express that.
+
+**D4 — the substitution rule is not parameter-preserving, and the note does not say so.** `eq` exposes `contrast`, `brightness`, `saturation`, `gamma` (+ `gamma_r/g/b`, `gamma_weight`). Measured against the proposed substitutes on this machine: `colorlevels` = per-channel input/output black+white points only (no saturation, no gamma); `colorcorrect` = r/b shadow+highlight spots and `saturation` only; `curves` = curves. **No single permissive filter is a drop-in**, and the closest brightness+saturation filter — `hue` (`b`, `s`), present in *both* builds — is missing from the note's list entirely. A silent substitution therefore produces a *different grade*, which collides head-on with the measured non-negotiable "normalise the OUTPUT across sources": you cannot land clips in family if the commercial-safe path applies a different transfer function than the one that was measured. Substitution must be declared lossy, named in the plan, and ideally opt-in.
+
+**D5 — Recommendation 2's mechanism is incompatible with the non-negotiables, and a cheaper one already exists in the extraction source.** "Re-derive per ffmpeg version by grepping `configure`" requires the FFmpeg *source* — a network fetch or a vendored copy — in a package that declares zero dependencies and shells out to whatever binary is on `PATH`. Combined with "unknown = refusal", a frozen table guarantees a false-refusal treadmill on every ffmpeg release. **Ask the binary instead.** `muvid/visualize/ffmpeg.py` already ships `has_filter` / `require_filter`; `ffmpeg -filters` answers availability, and the binary's own `configuration:` line answers the ceiling. Verified both ways here: homebrew prints `--enable-gpl --enable-version3` and `ffmpeg -L` prints GPLv3; PyAV's config string has `--enable-version3` and no `--enable-gpl`, self-reporting LGPLv3. Two subprocess calls, offline, zero dependencies, self-updating. The static 32-name table should be the *cross-check and the offline fallback*, not the mechanism.
+
+**D6 — the note documents a hazard and an inheritance path and never joins them.** §4 proves `pip install burns` redistributes a `--enable-gpl` ffmpeg 7.1 binary via `moviepy → imageio-ffmpeg`. §1's table separately observes that the geometry tier `looks` inherits from `mixing` "is built on" moviepy. Both are true: `mixing/video/video_util.py:8` and `mixing/video/video_concat.py:35` import moviepy at module top, and `moviepy` is an unconditional dependency in `mixing`'s `pyproject.toml`. So the refactor the kickoff orders **first** would import into a zero-dependency package the exact hazard §4 documents. Neither the tension nor the resolution is stated — the geometry tier has to be rewritten against the ffmpeg CLI (or PIL), or moviepy becomes an extra whose own tier is "pulls a GPL binary".
+
+**D7 — "GPL" is not one tier, and the note's own two measured builds differ.** homebrew 8.1 is `--enable-gpl --enable-version3` → **GPL-3.0-or-later** (`ffmpeg -L` confirms). imageio-ffmpeg's bundled 7.1 is `--enable-gpl` **without** `--enable-version3` → **GPL-2.0-or-later**. That is load-bearing: Apache-2.0 is incompatible with GPLv2-only and compatible with GPLv3. A tier table that collapses the two will give wrong advice to exactly the caller who asked.
+
