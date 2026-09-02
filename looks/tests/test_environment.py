@@ -191,3 +191,35 @@ class TestParsing:
         out = "ffmpeg version 8.1\nconfiguration: --enable-gpl --enable-libx264\n"
         assert parse_configuration(out) == "--enable-gpl --enable-libx264"
         assert parse_configuration("ffmpeg version 8.1\n") is None
+
+
+class TestThereIsNotOneFfmpeg:
+    """The environment is an argument, not a property of the machine."""
+
+    def test_the_bundled_binary_can_differ_from_the_one_on_path(self):
+        """Measured on the development machine: PATH is ffmpeg 8.1 / GPL-3 /
+        481 filters, while `imageio-ffmpeg`'s bundled binary is 7.1 / GPL-2 /
+        484 — with **non-nested** filter sets in both directions.
+
+        This does not assert the difference (a clean machine may have only one
+        ffmpeg, or none). It asserts that when two are present, the probe
+        reports them *separately* rather than collapsing them — which is what
+        makes "pass the environment in" enforceable rather than advisory.
+        """
+        _ffmpeg_or_skip()
+        try:
+            import imageio_ffmpeg
+        except ImportError:
+            pytest.skip("imageio-ffmpeg not installed")
+
+        on_path = probe()
+        bundled = probe(imageio_ffmpeg.get_ffmpeg_exe())
+        if not (on_path.available and bundled.available):
+            pytest.skip("one of the two binaries did not answer")
+        if on_path.path == bundled.path:
+            pytest.skip("both resolve to the same binary")
+
+        assert isinstance(on_path.filters, frozenset)
+        assert isinstance(bundled.filters, frozenset)
+        # Two distinct binaries must not be reported as one shared fact.
+        assert on_path.path != bundled.path

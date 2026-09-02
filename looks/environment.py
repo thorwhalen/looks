@@ -31,6 +31,22 @@ functions here never guess and never raise on a merely-absent ffmpeg — they
 return a :class:`FfmpegEnv` that says so, because a caller diagnosing a missing
 binary needs a value it can inspect, not a traceback.
 
+**There is not one ffmpeg on a machine, and the difference is not a version
+number.** Measured on this one: ``PATH`` carries ffmpeg 8.1, GPL-**3**, 481
+filters; the binary `imageio-ffmpeg` ships inside site-packages is ffmpeg 7.1,
+GPL-**2**, 484 filters — and the two filter sets are **non-nested**. Only PATH
+has ``colordetect``, ``premultiply_dynamic``, ``transpose_vt``,
+``yadif_videotoolbox``; only the bundled one has ``ass``, ``drawtext``, ``pp``,
+``subtitles``, ``vidstabdetect``, ``vidstabtransform``, ``zscale``. So neither
+"the ffmpeg version" nor "the ffmpeg licence" is a single fact about a machine.
+
+The rule that follows is the important one: **a caller passes the environment
+in; nothing downstream may call** :func:`probe` **for itself.** A compiled Look
+is valid against *one* :class:`FfmpegEnv`, not against a machine, and a
+component that probes on its own behalf silently binds to whichever binary
+happened to be first on ``PATH`` — which, for anything invoked through moviepy,
+is not the one the user is looking at.
+
 Nothing here executes a filter, decodes a frame, or writes a file. It runs
 ``ffmpeg`` three times with no input and parses text.
 
