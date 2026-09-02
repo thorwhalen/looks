@@ -191,3 +191,52 @@ class TestTheCliIsThin:
 
         assert looks.__version__
         assert looks.__version__ != "0.0.0+unknown"
+
+
+class TestTheMotionCommand:
+    """`looks motion` — RULE G's compile half, from a shell."""
+
+    def test_a_pan_compiles_to_crop_with_a_timebase_reset(self):
+        _cw_or_skip()
+        code, out = run("motion", "0:0,0,0.5,1", "2:0.5,0,0.5,1")
+        assert code == 0, out
+        assert out.startswith("setpts=PTS-STARTPTS,crop=")
+
+    def test_a_zoom_compiles_to_zoompan(self):
+        _cw_or_skip()
+        code, out = run(
+            "motion", "0:0,0,1,1", "2:0.25,0.25,0.5,0.5",
+            "--output", "1920x1080", "--fps", "30",
+        )
+        assert code == 0, out
+        assert out.startswith("zoompan=d=1:s=1920x1080:fps=30:")
+
+    def test_a_zoom_without_a_delivery_size_refuses_and_says_why(self):
+        """Non-zero, and no traceback — the same contract as `check`."""
+        _cw_or_skip()
+        code, out = run("motion", "0:0,0,1,1", "2:0.25,0.25,0.5,0.5")
+        assert code != 0
+        assert "Traceback" not in out
+        assert "output and fps" in out
+
+    def test_an_unreadable_keyframe_is_a_message_and_not_a_traceback(self):
+        _cw_or_skip()
+        code, out = run("motion", "halfway:middle")
+        assert code != 0
+        assert "Traceback" not in out
+        assert "T:X,Y,W,H" in out
+
+    def test_a_window_that_leaves_the_frame_refuses(self):
+        _cw_or_skip()
+        code, out = run("motion", "0:0.6,0,0.5,0.5")
+        assert code != 0
+        assert "leaves the frame" in out
+        assert "Traceback" not in out
+
+    def test_several_keyframes_bind_as_several(self):
+        """The `cw` fix this package contributed (i2mint/cw#36): a
+        `Sequence[str]` parameter must take every token, not the first."""
+        _cw_or_skip()
+        code, out = run("motion", "0:0,0,0.5,1", "1:0.2,0,0.5,1", "2:0.5,0,0.5,1")
+        assert code == 0, out
+        assert out.count("min(") == 2, f"expected two ramp segments: {out}"

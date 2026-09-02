@@ -452,10 +452,20 @@ Rule G predicts every case already in the code, including the one that breaks th
 
 Two research notes told the `burns` owner to use `crop=` and avoid `zoompan`, inheriting a docstring from `muvid/footage/assemble.py`. **Both halves of that advice are wrong on ffmpeg 8.1, verified today:**
 
-- **`crop` cannot zoom.** Its `w`/`h` are evaluated once at filter configuration — they set the output frame size, which cannot vary within a stream. Verified: a time-ramped `crop=w=...:h=...` over 60 frames produced 60 frames of unchanged full size. `crop` expresses a **pan** at constant window size, which is exactly what muvid's `_crop_filter` does and all it does.
-- **`zoompan` has time variables and does not duplicate frames.** Verified on 8.1: `in_time` is accepted and functional; with `d=1` a 60-frame input yields exactly 60 frames. Frame duplication is entirely the `d=90` default. `pon` — which muvid's docstring claims the filter *has* — raises "Undefined constant". `zoompan_filter_deps="swscale"`: **not GPL-gated**.
+- **`crop` cannot zoom, and it does not fail quietly.** An earlier pass recorded this as "`w`/`h` are evaluated once at configuration", which understates it: `t` is **not in scope** for those parameters and the filter **refuses to configure** — `Error when evaluating the expression` followed by `Failed to configure input pad`, reproduced today in all three forms (`-vf` over a file, `-vf` over `lavfi`, and `movie=`), and with only `w` ramped as well as both. Nothing renders. The distinction matters because "evaluated once" invites the reading that you get a frozen-but-working crop; you get no output at all. `crop` expresses a **pan** at constant window size, which is exactly what muvid's `_crop_filter` does and all it does.
+- **`zoompan` has time variables and does not duplicate frames.** `in_time` and `it` are both accepted and functional; `t` raises `Undefined constant`. With `d=1` a 20-frame input yields exactly 20 frames, against 1800 at this build's `d=90` default — so the duplication is entirely the default. `zoompan_filter_deps="swscale"`: **not GPL-gated**.
 
-So the fast path for a varying `Rect` is `zoompan` with `d=1` and an explicit `fps`, driven by `in_time`. **Correct muvid's docstring at its source**; it is currently steering a design decision on a fact that does not hold.
+**Three further `zoompan` facts, measured 2026-09-02 while building the compiler, none of which was in the notes** — each is a silent wrong answer rather than an error, which is why each is now a refusal in code:
+
+| fact | measurement | what `looks.motion` does |
+|---|---|---|
+| `x`/`y` are in **original input pixels**, not zoomed ones | the two readings score **60.5 dB** and **6.3 dB** against a `crop`+`scale` reference for the same window | emits the correct one; a caller never chooses |
+| `fps` **silently retimes** | `fps=25` on a 10 fps source keeps all 20 frames and makes a 2.0 s clip **0.8 s** — a frame-count check passes | `fps` is required, never defaulted |
+| `zoom` is **clamped at 10**, silently | z=10 scores 54.4 dB, z=12 scores **13.2 dB** — a different framing, not a worse one | refuses a window below 1/10 of the frame |
+
+So the fast path for a varying `Rect` is `zoompan` with `d=1`, an explicit `fps` equal to the source's rate, expressions in `in_time`, and a window that keeps the source's aspect ratio. **All four are compiled by `looks.motion`, so an adapter has to remember none of them.** Full transcript: `docs/research/00f_motion_filters_evidence.md`. **Correct muvid's docstring at its source**; it is currently steering a design decision on a fact that does not hold.
+
+**Status: the compile side is BUILT** — `looks/motion.py`, exported as `compile_motion` / `Keyframe` / `Window` and reachable as `looks motion T:X,Y,W,H ...`. It picks the filter from what the path *does* (size varies → `zoompan`, else `crop`), because that is not a matter of taste. Easing stays on burns' side of the seam: a path arrives here already sampled into keyframes and is interpolated linearly between them, which is what lets `looks` never learn what `ease_in_out_cubic` means and `burns` never learn what `in_time` is. What remains is the `burns`-side adapter, which is not this repo's to write.
 
 **Caveat on the letterbox row:** `cropdetect` is GPL-gated *and* it prints to the log rather than cropping, so performing it is a subprocess plus a measurement — both of which `looks` forbids itself. Letterbox *detection* is a `Probe`-side capability the caller runs; only the resulting rectangle is a `looks` effect. [11][R11][2]
 
@@ -606,7 +616,7 @@ Each step names what it unblocks. Steps 1-3 are independent of each other after 
 
 **12. File the `muvid` `eq=` issue.** `muvid/visualize/canvas.py:224` emits `eq=brightness=-<dim>:saturation=<sat>` — the single `eq=` in the whole muvid tree, against nine uses of `colorchannelmixer` elsewhere in the same package. It is GPL-only, and `brightness` is the additive offset rule 13 forbids. Replacement: a scaled `colorchannelmixer` matrix. **One filter call quietly raising a shipped product's licence tier for a cosmetic dim, with a better replacement available, is the concrete case for this package existing** — use it as the worked example in the docs.
 
-**13. The `burns` adapter** — gated on §7.1's ratification. Correct `muvid/footage/assemble.py`'s `zoompan` docstring in the same pass, whatever the owner decides, because it is currently wrong and steering design.
+**13. The `burns` adapter** — §7.1 ratified and the `looks` half **built** (`looks/motion.py`). What remains is on `burns`: register an `"ffmpeg"` backend that samples a `BurnsPath` into keyframes, calls `looks.compile_motion`, and runs the argv. Correct `muvid/footage/assemble.py`'s `zoompan` docstring in the same pass — it is wrong and it steered this design for two research notes.
 
 ---
 

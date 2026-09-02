@@ -115,6 +115,55 @@ def check(
     )
 
 
+def motion(
+    keyframes: Sequence[str],
+    *,
+    output: Optional[str] = None,
+    fps: Optional[float] = None,
+) -> str:
+    """Compile a camera path into an ffmpeg fragment. RULE G's compile half.
+
+    Each keyframe is ``T:X,Y,W,H`` — a time in seconds and a normalised,
+    top-left window, which is burns' convention. Which filter comes out is not
+    an option here because it is not a matter of taste: a path that changes the
+    window's SIZE compiles to ``zoompan`` (``crop`` structurally cannot), and
+    everything else compiles to ``crop``.
+
+    ``--output`` and ``--fps`` are needed only for a zoom, and ``--fps`` must be
+    the SOURCE's rate: zoompan's own default silently restamps the clip.
+    """
+    from looks.geometry import Size
+    from looks.motion import Keyframe, MotionError, Window, compile_motion
+
+    def parse(text: str) -> Keyframe:
+        try:
+            when, window = text.split(":", 1)
+            x, y, w, h = (float(v) for v in window.split(","))
+        except ValueError:
+            raise SystemExit(
+                f"cannot read {text!r} as a keyframe. The form is T:X,Y,W,H — "
+                "a time in seconds, then a normalised top-left window, e.g. "
+                "0:0,0,1,1"
+            ) from None
+        return Keyframe(float(when), Window(x, y, w, h))
+
+    size = None
+    if output is not None:
+        try:
+            width, height = (int(v) for v in output.lower().split("x", 1))
+        except ValueError:
+            raise SystemExit(
+                f"cannot read {output!r} as a size, e.g. 1920x1080"
+            ) from None
+        size = Size(width, height)
+    try:
+        return compile_motion([parse(k) for k in keyframes], output=size, fps=fps)
+    except MotionError as e:
+        # A path that cannot be compiled is a user error, not a bug. Non-zero,
+        # with the reason, and no traceback.
+        raise SystemExit(str(e)) from None
+
+
 def terms(provider: str) -> str:
     """What is recorded about a provider's licence, and what tier it projects to."""
     from looks.licence import classify, terms_for
@@ -234,6 +283,7 @@ COMMANDS = {
     "check": check,
     "terms": terms,
     "place": place,
+    "motion": motion,
     "measure": measure,
     "flicker": flicker,
     "unverified": unverified,
