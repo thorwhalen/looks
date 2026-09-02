@@ -91,6 +91,24 @@ from looks.geometry import (
     snap_even,
     social_size,
 )
+from looks.registry import (
+    REGISTRY,
+    EffectRegistry,
+    ImplConflict,
+    RegistryError,
+    UnknownImpl,
+    effects,
+    register_effect,
+)
+from looks.compile import (
+    CompileError,
+    PlanRefused,
+    audit,
+    compile_look,
+    describe,
+    payloads,
+    unmet_filters,
+)
 from looks.motion import (
     Keyframe,
     MotionError,
@@ -216,6 +234,21 @@ __all__ = [
     "ffmpeg_chain",
     "snap_even",
     "social_size",
+    # registry + compile: which implementations exist, and what a plan may do
+    "EffectRegistry",
+    "REGISTRY",
+    "register_effect",
+    "effects",
+    "RegistryError",
+    "ImplConflict",
+    "UnknownImpl",
+    "compile_look",
+    "audit",
+    "describe",
+    "payloads",
+    "unmet_filters",
+    "CompileError",
+    "PlanRefused",
     # motion: an authored camera path, compiled (RULE G's compile half)
     "Window",
     "WindowLike",
