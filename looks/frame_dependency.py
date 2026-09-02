@@ -168,17 +168,23 @@ FLICKER_FREE = frozenset({Dependency.INDEPENDENT})
 
 #: How many frames the determinism probe examines.
 #:
-#: **Eight, and the number is measured rather than chosen.** Detecting
-#: randomness is itself probabilistic: two runs of a stochastic filter can
-#: agree by chance, and the more frames you compare the less likely that is
-#: across all of them. On `elbg` (a vector quantiser whose default `seed=-1`
-#: re-randomises every instantiation), six repeats of the probe detected the
-#: non-determinism in **1 of 6** runs at three frames and **6 of 6** at eight.
-#: Fifteen was no better than eight, so eight is where it saturates.
+#: **Twenty, and the number is measured rather than chosen.** Detecting
+#: randomness is itself probabilistic: two runs of a stochastic filter can agree
+#: by chance, and the more frames you compare the less likely that is across all
+#: of them. On `elbg` (a vector quantiser whose default `seed=-1` re-randomises
+#: every instantiation), detection rate over eight repeats:
 #:
-#: A consequence worth stating: a `NONDETERMINISTIC` verdict is a proof, but its
-#: absence is not. An effect random on one pixel in ten thousand would pass.
-DETERMINISM_PROBE_FRAMES = 8
+#:      3 frames -> 1/6      8 frames -> 7/8      20 frames -> 8/8      40 -> 8/8
+#:
+#: An earlier six-repeat sample read 6/6 at eight frames and set the constant
+#: there; a fuller sample found 7/8, and the flake surfaced as an intermittent
+#: test. **That is the same probabilistic-detection point one level up** — a
+#: small sample can agree by chance too.
+#:
+#: The consequence, and it is the honest framing of this whole verdict: a
+#: `NONDETERMINISTIC` result is a proof, but its **absence is not**. An effect
+#: random in one pixel per ten thousand would pass at any frame count here.
+DETERMINISM_PROBE_FRAMES = 20
 
 #: How many frames of the shared tail the temporal probe examines.
 #:

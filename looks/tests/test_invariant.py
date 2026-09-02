@@ -248,3 +248,56 @@ class TestD1TheMultiOutputHole:
         check_analysis_only(
             ["ffmpeg", "-i", "a.mp4", "-vf", "lut3d=x.cube", "-f", "null", "-"]
         )
+
+
+class TestTheCuratedNamespace:
+    """`looks.__all__` is the surface a caller uses, not everything defined."""
+
+    def test_every_exported_name_exists(self):
+        import looks
+
+        missing = [n for n in looks.__all__ if not hasattr(looks, n)]
+        assert not missing, f"__all__ names that do not exist: {missing}"
+
+    def test_nothing_leaks_beyond_all_and_the_submodules(self):
+        """A bare `from looks import *` should not hand out `dataclass`,
+        `Optional` or a transitively-imported helper.
+
+        Submodules are allowed and identified **structurally** — anything that
+        is a module whose name starts with ``looks.`` — rather than by a list.
+        A hardcoded list goes stale the moment a module is added, which is a
+        test that fails for the wrong reason; this one fails only when a
+        non-module name has escaped.
+        """
+        import types
+
+        import looks
+
+        public = {n for n in dir(looks) if not n.startswith("_")}
+        leaked = sorted(
+            n
+            for n in public - set(looks.__all__)
+            if not (
+                isinstance(getattr(looks, n), types.ModuleType)
+                and getattr(getattr(looks, n), "__name__", "").startswith("looks")
+            )
+        )
+        assert not leaked, f"names leaked into the namespace: {leaked}"
+
+    def test_the_version_is_read_not_hardcoded(self):
+        """CI bumps the version in pyproject.toml on every release, so a literal
+        here would silently disagree. Reading from installed metadata also
+        SURFACES the drift when an editable install goes stale, rather than
+        hiding it behind a plausible-looking constant."""
+        import looks
+
+        assert looks.__version__
+        assert not looks.__version__.startswith("0.0.0+"), (
+            "looks is not installed; run `pip install -e . --no-deps`"
+        )
+
+    def test_the_headline_call_works_from_the_top_level(self):
+        """The one call the README leads with."""
+        import looks
+
+        assert looks.needs_gpl(["scale", "eq", "lut3d"]) == ("eq",)

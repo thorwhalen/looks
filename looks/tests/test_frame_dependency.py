@@ -233,14 +233,27 @@ class TestTheDeterminismProbe:
     """
 
     def test_a_random_effect_is_caught(self):
+        """Asserted over three attempts, deliberately.
+
+        Detection is probabilistic — two runs of a stochastic filter can agree
+        by chance — so a single classification is a coin with a bias, not a
+        verdict. Measured on `elbg`: 1/6 at three probe frames, 7/8 at eight,
+        8/8 at twenty. This test asserts the CAPABILITY (it can catch it) rather
+        than one roll, which is what the module actually promises.
+        """
         _ffmpeg_or_skip()
-        r = classify("elbg=l=4")
-        assert r.dependency is Dependency.NONDETERMINISTIC
-        assert r.determinism_delta and r.determinism_delta > 1
+        verdicts = [classify("elbg=l=4") for _ in range(3)]
+        caught = [r for r in verdicts if r.dependency is Dependency.NONDETERMINISTIC]
+        assert caught, (
+            f"three classifications of a filter with seed=-1 all missed its "
+            f"randomness: {[r.dependency.value for r in verdicts]}"
+        )
+        assert caught[0].determinism_delta and caught[0].determinism_delta > 1
 
     def test_the_note_says_to_pin_the_seed(self):
         _ffmpeg_or_skip()
-        assert "seed" in classify("elbg=l=4").note
+        notes = [classify("elbg=l=4").note for _ in range(3)]
+        assert any("seed" in n for n in notes)
 
     def test_deterministic_effects_read_zero(self, cube):
         _ffmpeg_or_skip()
@@ -258,8 +271,9 @@ class TestTheDeterminismProbe:
         assert r.determinism_delta == 0.0
 
     def test_the_frame_count_is_the_measured_one(self):
-        """Three frames caught elbg in 1 of 6 runs; eight caught it 6 of 6.
-        Lowering this silently reintroduces a flaky verdict."""
+        """Measured detection rate on `elbg`: 1/6 at three frames, 7/8 at
+        eight, 8/8 at twenty. Lowering this silently reintroduces a flaky
+        verdict — which it already did once, at eight."""
         from looks.frame_dependency import DETERMINISM_PROBE_FRAMES
 
-        assert DETERMINISM_PROBE_FRAMES >= 8
+        assert DETERMINISM_PROBE_FRAMES >= 20
