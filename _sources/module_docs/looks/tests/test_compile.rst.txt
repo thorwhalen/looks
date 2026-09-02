@@ -1,0 +1,4 @@
+looks.tests.test_compile
+========================
+.. automodule:: looks.tests.test_compile
+   :members:

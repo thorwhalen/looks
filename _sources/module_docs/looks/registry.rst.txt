@@ -1,0 +1,4 @@
+looks.registry
+==============
+.. automodule:: looks.registry
+   :members:
