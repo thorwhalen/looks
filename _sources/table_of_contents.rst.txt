@@ -1,0 +1,7 @@
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   module_docs/looks
+   module_docs/looks/tests
+   module_docs/looks/tests/test_smoke
