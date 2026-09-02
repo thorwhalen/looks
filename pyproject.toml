@@ -38,6 +38,11 @@ line-length = 88
 target-version = "py310"
 exclude = [
     "**/*.ipynb",
+    # ruff >= 0.16 formats Python inside Markdown fences. `docs/` holds prose
+    # research notes whose code blocks are ILLUSTRATIVE — reformatting them is
+    # pure churn, and CI's publish job runs `ruff format .` and commits the
+    # result, so without this the notes get rewritten on every release.
+    "docs",
     ".git",
     ".venv",
     "build",

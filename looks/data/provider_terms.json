@@ -1,0 +1,688 @@
+{
+  "schema": "looks.provider_terms/v1",
+  "spdx_license_list_version": "3.28.0",
+  "anchor": "ffmpeg 8.1 (Homebrew, --enable-gpl --enable-version3, 481 filters); FFmpeg source at tag n8.1; opencv-python-headless 4.13.0.92; av 16.0.1; imageio-ffmpeg 0.6.0; moviepy 2.2.1; burns 0.0.9; Python 3.12.12 on macOS arm64",
+  "disclaimer": "looks reports observations, not legal conclusions. Every row records what was mechanically observed on a stated date; the tier is DERIVED from those axes by looks.licence.classify, never stored here, so you can check the derivation rather than trust a label. See looks.licence.DISCLAIMER.",
+  "source": "docs/decisions_and_rationale.md section 5.7, transcribed 2026-09-02. Where a row's derived tier differs from that table's Tier column, the row's note says so rather than silently resolving it.",
+  "not_here": [
+    "Which ffmpeg FILTERS are GPL-gated. That is looks/data/ffmpeg_gates.json, read through looks.environment.needs_gpl. Restating it here would give the federation two gate tables that can disagree.",
+    "What licence THIS machine's ffmpeg carries. That is looks.environment.probe -> FfmpegEnv.licence, consumed by looks.licence.ffmpeg_terms(env). The ffmpeg/system row below is one dated observation, never a lookup: there is not one ffmpeg on a machine."
+  ],
+  "unverified": [
+    "The macOS x86_64 and Windows opencv wheel contents beyond what research note 08's review inspected.",
+    "libzimg and libplacebo's own LICENSE files. Both are LGPL-2.1+ as FFmpeg *wrapper* code and absent from every gate list, which is FFmpeg's assertion rather than a verification. (Note 07's review did read libzimg's COPYING directly: WTFPL-2.0, GPL-compatible but outside the MIT/BSD/Apache/ISC set this ecosystem's policy names, with no warranty disclaimer and no patent grant.)",
+    "torchvision keypoint R-CNN WEIGHTS provenance.",
+    "Whether a source build with -DWITH_FFMPEG=OFF actually yields an FFmpeg-free cv2.",
+    "Whether conda-forge's py-opencv links an LGPL FFmpeg on macOS.",
+    "Training-data provenance for every neural row. No licence surveyed addresses it: the BSD-3 grant on the ONNX weights says nothing about COCO 2014's Flickr images, and pytorch/examples' style images include a Leonid Afremov painting (d. 2019, in copyright). Recording training_data: unknown for every neural row forever is a field that refuses everything, so it is an owner decision, not a row."
+  ],
+  "rows": [
+    {
+      "provider": "looks",
+      "realisation": "self",
+      "component": "code",
+      "spdx": "MIT",
+      "coupling": "none",
+      "conveyance": "none",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "looks/LICENSE is the MIT License; pyproject.toml declares license = \"MIT\" and dependencies = [].",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Rung 0, and the only row that reaches nothing at all. looks.geometry's arithmetic and looks.lut's .cube generation are this row."
+    },
+    {
+      "provider": "ffmpeg",
+      "realisation": "system",
+      "component": "binary",
+      "spdx": "GPL-3.0-or-later",
+      "coupling": "subprocess",
+      "conveyance": "finds",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "probe",
+          "command": "ffmpeg -L; ffmpeg -buildconf",
+          "observed": "Homebrew ffmpeg 8.1_1, built --enable-gpl --enable-version3; -L prints 'GNU General Public License ... version 3, or (at your option) any later version'.",
+          "source_url": "https://ffmpeg.org/legal.html",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "ONE DATED OBSERVATION OF ONE MACHINE, NEVER A LOOKUP. There is not one ffmpeg on a machine: on this one, PATH is 8.1/GPL-3/481 filters while imageio-ffmpeg's bundled binary is 7.1/GPL-2/484, and the filter sets are non-nested. Resolve a caller's ffmpeg with looks.licence.ffmpeg_terms(env) from a probe of the binary they will actually run. An LGPL build of the same source is WEAK_COPYLEFT."
+    },
+    {
+      "provider": "av",
+      "realisation": "pypi:av",
+      "component": "binary",
+      "spdx": "LicenseRef-CONTRADICTORY",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unknown",
+      "reach": "unknown",
+      "contradiction": "av 16.0.1 states three incompatible things about itself: distribution metadata says BSD-3-Clause; the bundled avcodec_license() says 'LGPL version 3 or later'; and otool -L shows libx264.165 and libx265.215 (both GPL) actually linked into libavcodec. Its build patches FFmpeg's configure to move libx264/libx265 out of EXTERNAL_LIBRARY_GPL_LIST, so unpatched configure cannot produce that combination at all.",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect+ctypes+otool",
+          "command": "avcodec_license(); avcodec_configuration(); otool -L libavcodec*.dylib",
+          "observed": "License-Expression: BSD-3-Clause; avcodec_license() = 'LGPL version 3 or later'; configuration carries --enable-libx264 --enable-libx265 with NO --enable-gpl; libavcodec links @loader_path/libx264.165.dylib (1,691,168 B) and libx265.215.dylib (6,397,088 B); both encoders construct.",
+          "source_url": "https://pypi.org/project/av/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "REFUSED AS UNKNOWN, NOT AS GPL. looks does not adjudicate: it observes that the artifact's own statements disagree and declines to decide which is true. Were the contradiction resolved toward GPL, the coupling (in_process) would put it in the FORBIDDEN region, which no ceiling reaches — so the two readings differ in remedy, not in outcome. Forbidden as a looks dependency either way."
+    },
+    {
+      "provider": "imageio-ffmpeg",
+      "realisation": "pypi:imageio-ffmpeg",
+      "component": "binary",
+      "spdx": "GPL-2.0-or-later",
+      "coupling": "subprocess",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect+probe",
+          "command": "imageio_ffmpeg.get_ffmpeg_exe(); $exe -L",
+          "observed": "imageio-ffmpeg 0.6.0 ships binaries/ffmpeg-macos-aarch64-v7.1 (49.368728 MB) built --enable-gpl --enable-libx264 --enable-libx265; -L prints GPL v2 or later. Distribution metadata says BSD-2-Clause.",
+          "source_url": "https://pypi.org/project/imageio-ffmpeg/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "The metadata field says BSD-2-Clause and the shipped executable is GPL-2.0-or-later. This row is why looks never reads a licence from metadata. Forbidden as a looks dependency (zero-dependency non-negotiable); the row exists to explain the refusal and to classify a caller's pre-existing install."
+    },
+    {
+      "provider": "moviepy",
+      "realisation": "pypi:moviepy",
+      "component": "code",
+      "spdx": "MIT",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "moviepy 2.2.1 metadata declares MIT for its own source.",
+          "source_url": "https://pypi.org/project/moviepy/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Component one of two. Permissive on its own; the row below is the one that decides the package."
+    },
+    {
+      "provider": "moviepy",
+      "realisation": "pypi:moviepy",
+      "component": "transitive",
+      "spdx": "GPL-2.0-or-later",
+      "coupling": "subprocess",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "resolve",
+          "command": "importlib.metadata requires",
+          "observed": "moviepy 2.2.1 METADATA carries an UNCONDITIONAL 'Requires-Dist: imageio_ffmpeg>=0.2.0' with no extras marker; imageio-ffmpeg 0.6.0 ships a --enable-gpl ffmpeg.",
+          "source_url": "https://pypi.org/project/moviepy/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Component two of two, and the worst-component rule is what makes moviepy COPYLEFT_SHIPPED rather than PERMISSIVE. Joining the two components' axes instead would manufacture 'we link a GPL program in-process', a chimera true of neither."
+    },
+    {
+      "provider": "burns",
+      "realisation": "pypi:burns",
+      "component": "transitive",
+      "spdx": "GPL-2.0-or-later",
+      "coupling": "subprocess",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "resolve",
+          "command": "importlib.metadata requires",
+          "observed": "burns 0.0.9 requires moviepy; moviepy 2.2.1 requires imageio_ffmpeg>=0.2.0; imageio-ffmpeg 0.6.0 ships a --enable-gpl ffmpeg. Three hops, all read from installed metadata.",
+          "source_url": "https://pypi.org/project/burns/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Why looks -> burns is forbidden while burns -> looks is fine: pip install burns puts a GPL binary on disk, and looks declares stdlib only. The dependency edge runs one way for a licence reason, not a taste one."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "any",
+      "component": "code",
+      "spdx": "Apache-2.0",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "cv2.pyrMeanShiftFiltering is OpenCV main-module C++ under Apache-2.0; it never enters libavcodec.",
+          "source_url": "https://github.com/opencv/opencv/blob/4.x/LICENSE",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "The flatten stage of the Que Calor chain, as CODE. Permissive on its own; every wheel row below is a separate component, and the worst one wins."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "pypi:opencv-python@macosx_arm64",
+      "component": "bundled-ffmpeg",
+      "spdx": "GPL-3.0-or-later",
+      "coupling": "unknown",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect",
+          "command": "strings on the shipped libavutil; ls cv2/.dylibs; vmmap on a process that only did `import cv2`",
+          "observed": "The bundled ffmpeg is built --enable-gpl --enable-version3 --enable-libx264 --enable-libx265 and its avutil_license() says 'GPL version 3 or later'. `import cv2` alone maps libavcodec, libavfilter, libavformat, libavutil, libpostproc, librubberband, libvidstab, libx264.164 and libx265.215 into the live Python process, unconditionally and at import.",
+          "source_url": "https://pypi.org/project/opencv-python/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "COUPLING IS DELIBERATELY UNKNOWN, AND THAT IS THE ANSWER, NOT A GAP. Whether cv2's dynamic linkage of its bundled GPL libavcodec counts as looks' own in-process coupling is the open question in decisions section 11: read one way the row is FORBIDDEN at every ceiling, read the other it is COPYLEFT_SHIPPED and merely above the default. That adjudication is exactly what the honesty rule forbids looks from making, so this row refuses as UNKNOWN. Section 5.7's Tier column records COPYLEFT_SHIPPED; the two readings are indistinguishable under the default ceiling and differ only at max_tier=COPYLEFT_SHIPPED. Settle it with the owner, or make it moot: -DWITH_FFMPEG=OFF, a non-OpenCV mean-shift, or an ffmpeg-native flattener."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "pypi:opencv-python-headless@macosx_arm64",
+      "component": "bundled-ffmpeg",
+      "spdx": "GPL-3.0-or-later",
+      "coupling": "unknown",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect",
+          "command": "unzip -l the wheel; read cv2/.dylibs; RECORD",
+          "observed": "opencv-python-headless 4.13.0.92's RECORD lists cv2/.dylibs/libx264.164.dylib, libx265.215.dylib, libavcodec.61.19.101, libavfilter, libpostproc, librubberband, libvidstab, libaribb24. Headless bundles the same GPL ffmpeg.",
+          "source_url": "https://pypi.org/project/opencv-python-headless/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "'Use headless instead' is not an escape on macOS arm64 — the review of research note 06 answered that in thirty seconds and it answers the wrong way. Same open coupling question as the row above, same UNKNOWN."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "pypi:opencv-contrib-python@macosx_arm64",
+      "component": "bundled-ffmpeg",
+      "spdx": "GPL-3.0-or-later",
+      "coupling": "unknown",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect+ctypes",
+          "command": "ls cv2/.dylibs; ctypes avutil_license()",
+          "observed": "opencv-contrib-python 4.13.0.92: metadata License 'Apache 2.0', in-wheel LICENSE.txt MIT, 93 dylibs, bundled avutil_license() 'GPL version 3 or later', configuration --enable-gpl --enable-version3 --enable-libx264 --enable-libx265 --enable-libvidstab --enable-librubberband --enable-frei0r.",
+          "source_url": "https://pypi.org/project/opencv-contrib-python/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Refused forever as a looks dependency (decisions section 8), recorded with its reason so the prohibition is not relitigated. Three licence statements in one wheel, none of which is the shipped binary's."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "pypi:opencv-python-headless@macosx_14_0_x86_64",
+      "component": "bundled-ffmpeg",
+      "spdx": "MIT",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "reach": "none",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect",
+          "command": "unzip -l the wheel; read cv2/.dylibs",
+          "observed": "The macOS x86_64 headless wheel bundles NO FFmpeg at all: cv2.getBuildInformation() reports 'FFMPEG: NO' and only 4 vendored dylibs ship, all permissive.",
+          "source_url": "https://pypi.org/project/opencv-python-headless/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "REACH IS RECORDED EXPLICITLY because the component is 'the FFmpeg this wheel bundles' and there isn't one — there is no licence to map. Same distribution as the arm64 row above, opposite verdict: the tier is a property of the wheel, not of the project name, which is why rule 6 says the environment includes which wheel is installed."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "pypi:opencv-python-headless@manylinux",
+      "component": "bundled-ffmpeg",
+      "spdx": "LGPL-2.1-or-later",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect",
+          "command": "unzip -l the wheel; read cv2/.libs",
+          "observed": "The manylinux headless wheel's bundled FFmpeg is LGPL-2.1-or-later and carries no x264/x265.",
+          "source_url": "https://pypi.org/project/opencv-python-headless/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Three platforms, three tiers, one distribution name. A statically declared tier for an 'opencv' extra would be wrong on two of the three."
+    },
+    {
+      "provider": "ultralytics",
+      "realisation": "pypi:ultralytics",
+      "component": "code",
+      "spdx": "AGPL-3.0-or-later",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "ultralytics 8.4.75 ships the full GNU AFFERO GENERAL PUBLIC LICENSE Version 3 text at ultralytics-8.4.75.dist-info/licenses/LICENSE, not merely a metadata string. Three distributions carry it: ultralytics, ultralytics-thop, ultralytics-platform.",
+          "source_url": "https://pypi.org/project/ultralytics/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "FORBIDDEN: network-reach copyleft linked in-process. No ceiling admits it and none should be able to — that is what the forbidden region is for. Person detection goes to torchvision keypoint R-CNN or OpenCV's shipped detectors."
+    },
+    {
+      "provider": "argh",
+      "realisation": "pypi:argh",
+      "component": "code",
+      "spdx": "LicenseRef-argh-LGPL-unversioned",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "reach": "library",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "argh 0.31.3's only licence statement in installed metadata is the classifier 'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)'. No version is named and there is no License or License-Expression field.",
+          "source_url": "https://pypi.org/project/argh/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "REACH IS RECORDED EXPLICITLY because the classifier names LGPL with no version, so no SPDX id can be asserted. Both LGPL-2.1 and LGPL-3.0 map to Reach.LIBRARY, so the decision this row exists for — do not use argh for the CLI, use stdlib argparse — does not turn on the version. Recorded rather than left silent, because a prohibition without a reason gets relitigated."
+    },
+    {
+      "provider": "colour-science",
+      "realisation": "pypi:colour-science",
+      "component": "code",
+      "spdx": "BSD-3-Clause",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "colour-science 0.4.7 declares BSD-3-Clause in metadata and ships the matching LICENSE; it is the only surveyed library that WRITES an Iridas .cube.",
+          "source_url": "https://pypi.org/project/colour-science/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Recorded but not needed: looks.lut writes .cube files at zero dependencies. The row is what lets a future [colour] extra be a tested licence artifact rather than a convenience list."
+    },
+    {
+      "provider": "moderngl",
+      "realisation": "pypi:moderngl",
+      "component": "code",
+      "spdx": "MIT",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "command": "importlib.metadata.metadata('moderngl')",
+          "observed": "moderngl 5.12.0 metadata License: MIT, classifier 'License :: OSI Approved :: MIT License'; the wheel is 488 KB and bundles nothing.",
+          "source_url": "https://pypi.org/project/moderngl/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Clean, and still not adopted: the shader backend is deferred because the Mac's ffmpeg 8.1 has zero programmable GPU filters and libplacebo on the GPU-less fleet server is 141x slower than CPU while exiting 0 with correct output. A permissive licence is not a reason to take a dependency."
+    },
+    {
+      "provider": "glcontext",
+      "realisation": "pypi:glcontext",
+      "component": "code",
+      "spdx": "MIT",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "command": "importlib.metadata.metadata('glcontext')",
+          "observed": "glcontext 3.0.0 metadata License: MIT.",
+          "source_url": "https://pypi.org/project/glcontext/",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "moderngl's companion; recorded with it because an extra conveys a closure, not a package."
+    },
+    {
+      "provider": "animeganv2",
+      "realisation": "github:TachibanaYoshino/AnimeGANv2",
+      "component": "weights",
+      "spdx": "LicenseRef-NONE-DECLARED",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "unknown",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "command": "GitHub licence API + repo listing",
+          "observed": "NO LICENSE FILE. The GitHub API returns license: null. The README prose says the work is 'made freely available to academic and non-academic entities for non-commercial purposes' and that commercial use requires a written authorisation letter.",
+          "source_url": "https://github.com/TachibanaYoshino/AnimeGANv2",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "UNKNOWN, NOT NON_COMMERCIAL, and the distinction is the point. README prose is not a grant; with no licence file there is no licence, which is a stronger refusal than a restricted one and carries a different remedy (obtain terms, not opt in to them)."
+    },
+    {
+      "provider": "animegan2-pytorch",
+      "realisation": "github:bryandlee/animegan2-pytorch",
+      "component": "code",
+      "spdx": "MIT",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "The port ships an MIT LICENSE for its own code. Its weights are converted from the AnimeGANv2 weights in the row above.",
+          "source_url": "https://github.com/bryandlee/animegan2-pytorch",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "MIT CODE OVER UNKNOWN WEIGHTS, and this row is why code and weights must be separate components: a metadata scan reads the repo's LICENSE, reports MIT, and gets the artifact exactly backwards."
+    },
+    {
+      "provider": "whitebox-cartoonization",
+      "realisation": "github:SystemErrorWang/White-box-Cartoonization",
+      "component": "weights",
+      "spdx": "CC-BY-NC-SA-4.0",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "non_commercial",
+      "conditions": [
+        "Share-alike: an adapted work must be distributed under the same terms."
+      ],
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "README: 'Licensed under the CC BY-NC-SA 4.0 license'; 'Commercial application is prohibited'. There is no LICENSE file.",
+          "source_url": "https://github.com/SystemErrorWang/White-box-Cartoonization",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "A LISTED SPDX id whose non-commercial character is NOT derivable from the id string, which is why field_of_use is a declared column and never parsed. Reach is left underived on purpose: CC BY-NC-SA's share-alike attaches to an adapted work, and mapping that onto a software copyleft reach would be an adjudication. So the row is field-restricted with no rung, and even a caller who opts into NON_COMMERCIAL is refused at the ceiling test for want of a tier."
+    },
+    {
+      "provider": "fast-neural-style",
+      "realisation": "github:jcjohnson/fast-neural-style",
+      "component": "model",
+      "spdx": "LicenseRef-jcjohnson-personal-or-research",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "research_only",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "README prose: 'Free for personal or research use'. No LICENSE file.",
+          "source_url": "https://github.com/jcjohnson/fast-neural-style",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "The canonical fast-style-transfer weights everyone reaches for first. Field-restricted, so max_tier cannot reach them at any setting."
+    },
+    {
+      "provider": "onnx-model-zoo",
+      "realisation": "github:onnx/models/fast_neural_style",
+      "component": "model",
+      "spdx": "BSD-3-Clause",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "SPDX-License-Identifier: BSD-3-Clause carried as a header on the model directory, covering weights AND code.",
+          "source_url": "https://github.com/onnx/models",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "The one commercially-clean CPU-runnable stylizer found in the whole survey — and it is still not adopted, because it FAILS THE FLICKER BAR by measurement: 1.20-2.82x the source's own frame-to-frame change against the shipped ffmpeg chain's 0.70x, with the ratio growing as the source gets calmer. A clean licence is necessary, not sufficient."
+    },
+    {
+      "provider": "ebsynth",
+      "realisation": "github:jamriska/ebsynth",
+      "component": "code",
+      "spdx": "LicenseRef-ebsynth-public-domain",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "unrestricted",
+      "reach": "none",
+      "patents": [
+        {
+          "patent_id": "US8861869B2",
+          "jurisdiction": "US",
+          "holder": "Adobe",
+          "status": "active",
+          "expiry": "2030-08-16",
+          "source_url": "https://patents.google.com/patent/US8861869B2/en"
+        }
+      ],
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "The repository releases the implementation into the public domain. It implements Adobe's PatchMatch, US8861869B2, which Google Patents reports Active with an anticipated expiry of 2030-08-16.",
+          "source_url": "https://github.com/jamriska/ebsynth",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "REACH IS RECORDED EXPLICITLY because 'public domain' has no SPDX id here. This row is the whole argument for a patent field: public-domain is the most permissive value any copyright vocabulary has, and for this artifact it is the wrong answer. looks records the patent and reports it as an advisory; it does not refuse on it, because a patent binds an act in a jurisdiction rather than a redistribution, and deciding whether it binds YOUR act is the adjudication the honesty rule forbids."
+    },
+    {
+      "provider": "anime4k",
+      "realisation": "github:bloc97/Anime4K",
+      "component": "assets",
+      "spdx": "MIT",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "conditions": [
+        "Recorded PER FILE, not per repo: at least one shader carries the Unlicense and at least one carries no header at all. Re-read the headers of the exact files before vendoring any of them."
+      ],
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "The repository LICENSE is MIT, but the .glsl file headers disagree with it: at least one Unlicense, at least one with no header.",
+          "source_url": "https://github.com/bloc97/Anime4K",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "A repo-level LICENSE is a claim about the repo, not about the file you vendored."
+    },
+    {
+      "provider": "ravu",
+      "realisation": "github:bjin/mpv-prescalers",
+      "component": "assets",
+      "spdx": "LGPL-3.0-or-later",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "The repository README states LGPL-3.0 for the generated prescaler shaders.",
+          "source_url": "https://github.com/bjin/mpv-prescalers",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Derives WEAK_COPYLEFT, where section 5.7's Tier column reads 'COPYLEFT_SHIPPED if vendored'. The conflict is flagged rather than resolved silently: section 5.3's ladder lifts a rung for conveyance ONLY inside the strong-copyleft subprocess region, and section 5.7 itself contains the contrary row (the manylinux headless wheel, an LGPL library that is equally conveyed, tiered WEAK_COPYLEFT). Two rows of one table cannot both be right under one projection, so looks follows the decided ladder. Either way, conveying an LGPL work is a real source-offer duty on the work itself."
+    },
+    {
+      "provider": "fsrcnnx",
+      "realisation": "github:igv/FSRCNN-TensorFlow",
+      "component": "assets",
+      "spdx": "LGPL-3.0-or-later",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "The release 1.1 .glsl assets carry LGPL-3.0-or-later AT THE FILE LEVEL, in their own headers.",
+          "source_url": "https://github.com/igv/FSRCNN-TensorFlow",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Not unknown — read the file headers and the answer is there. Same ladder note as the RAVU row above."
+    },
+    {
+      "provider": "minimax",
+      "realisation": "hosted:MiniMax-H3",
+      "component": "weights",
+      "spdx": "LicenseRef-MiniMax-H3",
+      "coupling": "service",
+      "conveyance": "finds",
+      "field_of_use": "unknown",
+      "prohibition": "The model card excludes the EU, the UK, South Korea and the USA by territory. For a US or EU caller there is no grant at all, so no ceiling and no field-of-use opt-in reaches it.",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "Model card records a territorial exclusion covering the EU, UK, South Korea and USA; the repository metadata says license: other.",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "A territorial exclusion is not a field-of-use restriction and not a copyleft rung: it is the absence of a grant, recorded as a prohibition. Read this row's verdict as 'for a US/EU caller' — the exclusion is about who you are, and looks records the observation rather than your jurisdiction."
+    },
+    {
+      "provider": "stability",
+      "realisation": "weights:stabilityai/stable-diffusion-3.5",
+      "component": "weights",
+      "spdx": "LicenseRef-Stability-Community",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "non_commercial",
+      "conditions": [
+        "The Community License TERMINATES above USD 1,000,000 of annual revenue. A cliff, not a price band."
+      ],
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "LICENSE.md carries the revenue threshold. The Hugging Face card's tag 'sai-nc-community' contradicts LICENSE.md — in the SAFE direction, since the card is the more restrictive of the two.",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "The grant is conditional on a fact about YOU that looks cannot observe, so the row is classified non-commercial and the condition is carried as data next to it. A caller who knows they are under the threshold opts in deliberately; nothing infers it for them."
+    },
+    {
+      "provider": "stability",
+      "realisation": "weights:stabilityai/sdxl-turbo",
+      "component": "weights",
+      "spdx": "LicenseRef-Stability-Community",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "non_commercial",
+      "conditions": [
+        "The Community License TERMINATES above USD 1,000,000 of annual revenue. A cliff, not a price band."
+      ],
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "Same Community License terms as the SD3.5 row.",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Recorded separately from SD3.5 because a row is one way of getting one thing; sharing a licence text is not sharing a row."
+    },
+    {
+      "provider": "ltx-video",
+      "realisation": "weights:Lightricks/LTX-Video",
+      "component": "weights",
+      "spdx": "LicenseRef-LTX-Video",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "non_commercial",
+      "conditions": [
+        "A USD 10,000,000 Commercial-Entity threshold, carried by BOTH the 0.9.6+ and the 2.x licence texts."
+      ],
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "Both the 0.9.6+ and the 2.x licence texts carry the USD 10,000,000 Commercial-Entity threshold; a version bump did not lift it.",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Checked across two major versions on purpose: 'the newer release relaxed it' is the assumption this row exists to refute."
+    },
+    {
+      "provider": "bytedance",
+      "realisation": "weights:ByteDance/Bernini-R",
+      "component": "weights",
+      "spdx": "Apache-2.0",
+      "coupling": "in_process",
+      "conveyance": "finds",
+      "field_of_use": "unrestricted",
+      "conditions": [
+        "Hardware-gated in practice: the video tasks are demonstrated on 8 Hopper-class GPUs."
+      ],
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "Model card declares plain Apache-2.0 with no revenue threshold and no field restriction; the video tasks are demonstrated on 8 Hopper GPUs.",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "The licence-clean 2026 video model. PERMISSIVE, and still unreachable for this package — which is why the neural seam is refused forever rather than deferred: nothing occupies the intersection of clean terms, CPU-runnable and flicker-free."
+    },
+    {
+      "provider": "adobe-lut-packs",
+      "realisation": "commercial:various",
+      "component": "assets",
+      "spdx": "LicenseRef-UNREAD",
+      "coupling": "none",
+      "conveyance": "unknown",
+      "field_of_use": "unknown",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "read",
+          "observed": "Each commercial .cube pack carries its own terms; none was read. Every film-emulation LUT pack surveyed is commercial or of unknown provenance.",
+          "observed_on": "2026-09-02"
+        }
+      ],
+      "note": "Why the film_stock effect SHIPS EMPTY on purpose. The slot exists so looks can refuse correctly and name how to register a provider, rather than putting a plausibly field-restricted artifact inside a package whose thesis is that unknown terms refuse."
+    }
+  ]
+}

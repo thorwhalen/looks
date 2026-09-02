@@ -1,3 +1,13 @@
+> ## ⚠️ SUPERSEDED — historical record, not the live spec
+>
+> This file asked to be deleted "once `docs/` and `README.md` carry its content". They do, as of 2026-09-02: the design of record is **[`docs/decisions_and_rationale.md`](docs/decisions_and_rationale.md)**, the working behind it is **[`docs/research/`](docs/research/)** (thirteen investigations, each adversarially reviewed), the agent entry point is **[`CLAUDE.md`](CLAUDE.md)**, and the user-facing tour is **[`README.md`](README.md)**.
+>
+> It is kept rather than deleted because **seven of those documents cite it, twenty times over** — it is the recorded statement of the owner's original framing and of the measured facts from building the first real look, and several research notes reference it as the source of a non-negotiable they implement. Deleting it would leave twenty dangling citations to buy nothing; the instruction's purpose was to stop this being read as the live specification, which this banner does.
+>
+> **Where it disagrees with the decisions document, the decisions document wins.** The research corrected it in at least seven places, including: `mixing` *does* have an external consumer for `get_video_dimensions` (`paces`); the six transitions are really two transitions, three EDL decisions and one retime; three of the GPL-gated filters *are* colour operations; and the flagship look's flattener is refused by the package's own default ceiling on one platform.
+
+---
+
 # looks — kickoff
 
 *Written 2026-09-02 by the session that built the Que Calor music videos and hit the gap this package fills. Delete this file once `docs/` and `README.md` carry its content.*

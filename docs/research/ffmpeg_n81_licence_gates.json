@@ -1,0 +1,148 @@
+{
+  "gpl_filters": {
+    "blackframe": [
+      "gpl"
+    ],
+    "boxblur": [
+      "gpl"
+    ],
+    "boxblur_opencl": [
+      "opencl",
+      "gpl"
+    ],
+    "colormatrix": [
+      "gpl"
+    ],
+    "cover_rect": [
+      "avcodec",
+      "avformat",
+      "gpl"
+    ],
+    "cropdetect": [
+      "gpl"
+    ],
+    "delogo": [
+      "gpl"
+    ],
+    "eq": [
+      "gpl"
+    ],
+    "find_rect": [
+      "avcodec",
+      "avformat",
+      "gpl"
+    ],
+    "fspp": [
+      "gpl"
+    ],
+    "histeq": [
+      "gpl"
+    ],
+    "hqdn3d": [
+      "gpl"
+    ],
+    "interlace": [
+      "gpl"
+    ],
+    "kerndeint": [
+      "gpl"
+    ],
+    "mcdeint": [
+      "avcodec",
+      "gpl"
+    ],
+    "mpdecimate": [
+      "gpl"
+    ],
+    "mptestsrc": [
+      "gpl"
+    ],
+    "nnedi": [
+      "gpl"
+    ],
+    "owdenoise": [
+      "gpl"
+    ],
+    "perspective": [
+      "gpl"
+    ],
+    "phase": [
+      "gpl"
+    ],
+    "pp7": [
+      "gpl"
+    ],
+    "pullup": [
+      "gpl"
+    ],
+    "repeatfields": [
+      "gpl"
+    ],
+    "sab": [
+      "gpl",
+      "swscale"
+    ],
+    "signature": [
+      "gpl",
+      "avcodec",
+      "avformat"
+    ],
+    "smartblur": [
+      "gpl",
+      "swscale"
+    ],
+    "spp": [
+      "gpl",
+      "avcodec"
+    ],
+    "stereo3d": [
+      "gpl"
+    ],
+    "super2xsai": [
+      "gpl"
+    ],
+    "tinterlace": [
+      "gpl"
+    ],
+    "uspp": [
+      "gpl",
+      "avcodec"
+    ],
+    "vaguedenoiser": [
+      "gpl"
+    ]
+  },
+  "external_gpl": [
+    "avisynth",
+    "frei0r",
+    "libcdio",
+    "libdavs2",
+    "libdvdnav",
+    "libdvdread",
+    "librubberband",
+    "libvidstab",
+    "libx264",
+    "libx265",
+    "libxavs",
+    "libxavs2",
+    "libxvid"
+  ],
+  "external_version3": [
+    "gmp",
+    "libaribb24",
+    "liblensfun",
+    "libopencore_amrnb",
+    "libopencore_amrwb",
+    "libvo_amrwbenc",
+    "mbedtls",
+    "rkmpp"
+  ],
+  "external_gplv3": [
+    "libsmbclient"
+  ],
+  "external_nonfree": [
+    "decklink",
+    "libfdk_aac",
+    "libmpeghdec"
+  ]
+}
