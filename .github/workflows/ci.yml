@@ -33,24 +33,24 @@ jobs:
     permissions:
       contents: write
       pages: write
-    # Transport: this repo's whole `secrets` context, serialized into the one
-    # secret the reusable workflow declares. Double-encoded (toJSON twice) so
-    # the value is a single line — a multiline secret would register its `{`
-    # and `}` lines as global log masks. Any secret name works; there is no
-    # fixed list to fall outside of. (Cross-owner `secrets: inherit` does not
-    # propagate secrets, so it cannot replace this.)
+    # Transport: NAMED secrets, not the whole `secrets` context.
     #
-    # Note this hands EVERY secret this repo can read — including org-level
-    # ones — to the called workflow. For a minimal secret surface (only the
-    # names you list), regenerate with
-    #   wads-migrate ci-to-stub --transport named
+    # The generated default is `WADS_CI_SECRETS_JSON: ${{ toJSON(toJSON(secrets)) }}`,
+    # which hands the reusable workflow every secret this repo can read. In a
+    # NEW repository that trips GitHub's malicious-workflow scanner — the run
+    # is created, then held with conclusion `action_required` and ZERO jobs,
+    # and the only place the reason appears is the run's HTML page:
+    # "GitHub detected that this workflow file may be malicious. It will not
+    # run until someone with write access approves it."
+    # `gh run view`, the jobs API, the check-runs API and the annotations API
+    # are all silent, and `POST .../approve` refuses ("not from a fork pull
+    # request"), so the run cannot be released from the CLI at all.
     #
-    # *Which* of these become job env vars — and which are required — is
-    # driven entirely by [tool.wads.ci.env] in pyproject.toml; nothing is
-    # exported unless declared there (`wads-secrets add VAR_NAME` declares
-    # one and can set its value). Non-sensitive values don't need a secret:
-    # use [tool.wads.ci.env].defaults (committed literals) or a repository
-    # *variable* (`gh variable set NAME`) — declared names fall back to
-    # repo variables automatically.
+    # Naming the three secrets this repo actually has both clears the scanner
+    # and is the smaller surface, which is what `wads-migrate ci-to-stub
+    # --transport named` exists to produce. Add a line here when you add a
+    # secret; an absent name is simply empty (every input is `required: false`).
     secrets:
-      WADS_CI_SECRETS_JSON: ${{ toJSON(toJSON(secrets)) }}
+      PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
