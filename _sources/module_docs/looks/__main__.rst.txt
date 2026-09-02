@@ -1,0 +1,4 @@
+looks.__main__
+==============
+.. automodule:: looks.__main__
+   :members:

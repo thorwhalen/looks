@@ -1,0 +1,4 @@
+looks.tests.test_cli
+====================
+.. automodule:: looks.tests.test_cli
+   :members:

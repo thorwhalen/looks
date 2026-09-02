@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; looks 0.0.2 documentation</title>
+  <title>Index &mdash; looks 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e3a6060d"></script>
+      <script src="_static/documentation_options.js?v=47de8214"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -47,15 +47,20 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/__main__.html">looks.__main__</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/cli.html">looks.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/environment.html">looks.environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/geometry.html">looks.geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/licence.html">looks.licence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/motion.html">looks.motion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
@@ -64,6 +69,8 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
 </ul>
@@ -116,6 +123,7 @@
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -181,6 +189,8 @@
         <li><a href="module_docs/looks/licence.html#looks.licence.classify">(in module looks.licence)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.compile_motion">compile_motion() (in module looks.motion)</a>
+</li>
       <li><a href="module_docs/looks/_run.html#looks._run.Completed">Completed (class in looks._run)</a>
 </li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Terms.conditions">conditions (looks.licence.Terms attribute)</a>
@@ -198,6 +208,8 @@
       <li><a href="module_docs/looks/licence.html#looks.licence.Conveyance">Conveyance (class in looks.licence)</a>
 </li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Coupling">Coupling (class in looks.licence)</a>
+</li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.crop_fragment">crop_fragment() (in module looks.motion)</a>
 </li>
       <li><a href="module_docs/looks/lut.html#looks.lut.cube_key">cube_key() (in module looks.lut)</a>
 </li>
@@ -249,10 +261,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks/environment.html#looks.environment.EnvFingerprint">EnvFingerprint (class in looks.environment)</a>
 </li>
-      <li><a href="module_docs/looks/_run.html#looks._run.Completed.error">error (looks._run.Completed attribute)</a>
+      <li><a href="module_docs/looks/motion.html#looks.motion.EPSILON">EPSILON (in module looks.motion)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/_run.html#looks._run.Completed.error">error (looks._run.Completed attribute)</a>
+</li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Evidence">Evidence (class in looks.licence)</a>
 </li>
       <li><a href="module_docs/looks/licence.html#looks.licence.EXCLUDED_SPDX">EXCLUDED_SPDX (in module looks.licence)</a>
@@ -337,6 +351,8 @@
 </li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Evidence.is_stale">is_stale() (looks.licence.Evidence method)</a>
 </li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.is_static">is_static() (in module looks.motion)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -345,10 +361,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks/licence.html#looks.licence.Terms.key">key (looks.licence.Terms property)</a>
 </li>
-      <li><a href="module_docs/looks/licence.html#looks.licence.KNOWN_COMPONENTS">KNOWN_COMPONENTS (in module looks.licence)</a>
+      <li><a href="module_docs/looks/motion.html#looks.motion.Keyframe">Keyframe (class in looks.motion)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/licence.html#looks.licence.KNOWN_COMPONENTS">KNOWN_COMPONENTS (in module looks.licence)</a>
+</li>
       <li><a href="module_docs/looks/environment.html#looks.environment.known_filters">known_filters() (in module looks.environment)</a>
 </li>
       <li><a href="module_docs/looks/licence.html#looks.licence.KNOWN_REALISATION_PREFIXES">KNOWN_REALISATION_PREFIXES (in module looks.licence)</a>
@@ -389,8 +407,6 @@
 </li>
       <li><a href="module_docs/looks/lut.html#looks.lut.linear_to_srgb">linear_to_srgb() (in module looks.lut)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     looks._run
 
@@ -398,6 +414,8 @@
         <li><a href="module_docs/looks/_run.html#module-looks._run">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     looks.environment
 
@@ -433,6 +451,13 @@
         <li><a href="module_docs/looks/lut.html#module-looks.lut">module</a>
 </li>
       </ul></li>
+      <li>
+    looks.motion
+
+      <ul>
+        <li><a href="module_docs/looks/motion.html#module-looks.motion">module</a>
+</li>
+      </ul></li>
       <li><a href="module_docs/looks/licence.html#looks.licence.LooksLicenceError">LooksLicenceError</a>
 </li>
       <li><a href="module_docs/looks/lut.html#looks.lut.LutError">LutError</a>
@@ -443,7 +468,11 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/motion.html#looks.motion.MAX_ZOOM">MAX_ZOOM (in module looks.motion)</a>
+</li>
       <li><a href="module_docs/looks/lut.html#looks.lut.Accent.min_saturation">min_saturation (looks.lut.Accent attribute)</a>
+</li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.MIN_WINDOW_FRACTION">MIN_WINDOW_FRACTION (in module looks.motion)</a>
 </li>
       <li><a href="module_docs/looks/environment.html#looks.environment.FfmpegEnv.missing">missing() (looks.environment.FfmpegEnv method)</a>
 </li>
@@ -463,7 +492,13 @@
 </li>
         <li><a href="module_docs/looks/lut.html#module-looks.lut">looks.lut</a>
 </li>
+        <li><a href="module_docs/looks/motion.html#module-looks.motion">looks.motion</a>
+</li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/motion.html#looks.motion.MotionError">MotionError</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -530,6 +565,8 @@
 </li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Policy">Policy (class in looks.licence)</a>
 </li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.PRECISION">PRECISION (in module looks.motion)</a>
+</li>
       <li><a href="module_docs/looks/environment.html#looks.environment.probe">probe() (in module looks.environment)</a>
 </li>
       <li><a href="module_docs/looks/frame_dependency.html#looks.frame_dependency.PROBE_SIZE">PROBE_SIZE (in module looks.frame_dependency)</a>
@@ -552,6 +589,8 @@
         <li><a href="module_docs/looks/lut.html#looks.lut.GradientMap.ramp">(looks.lut.GradientMap attribute)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.ramp">ramp() (in module looks.motion)</a>
+</li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Policy.rank">rank() (looks.licence.Policy method)</a>
 </li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Reach">Reach (class in looks.licence)</a>
@@ -650,6 +689,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks/frame_dependency.html#looks.frame_dependency.DependencyReport.time_delta">time_delta (looks.frame_dependency.DependencyReport attribute)</a>
 </li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.TIMEBASE_RESET">TIMEBASE_RESET (in module looks.motion)</a>
+</li>
       <li><a href="module_docs/looks/_run.html#looks._run.Completed.timed_out">timed_out (looks._run.Completed attribute)</a>
 </li>
       <li><a href="module_docs/looks/environment.html#looks.environment.EnvFingerprint.to_dict">to_dict() (looks.environment.EnvFingerprint method)</a>
@@ -702,9 +743,25 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks/lut.html#looks.lut.Accent.weight">weight() (looks.lut.Accent method)</a>
 </li>
+      <li><a href="module_docs/looks/motion.html#looks.motion.Window">Window (class in looks.motion)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/motion.html#looks.motion.WindowLike">WindowLike (class in looks.motion)</a>
+</li>
       <li><a href="module_docs/looks/lut.html#looks.lut.write_cube">write_cube() (in module looks.lut)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/motion.html#looks.motion.zoompan_fragment">zoompan_fragment() (in module looks.motion)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/motion.html#looks.motion.zooms">zooms() (in module looks.motion)</a>
 </li>
   </ul></td>
 </tr></table>
