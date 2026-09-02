@@ -48,15 +48,15 @@ lacing  (annotation graph)
 - The seam is a **`-vf` fragment** the consumer splices into the per-part invocation it is already making. A compiled chain references **no input index**, which is what makes the splice work.
 - Applying **per cut, before assembly** dissolves the "which source is on screen at time *t*" problem — at part-render time the caller already knows.
 
-**`burns` stays separate** and gains a `looks`-backed ffmpeg backend. `looks -> burns` is **forbidden**: burns declares moviepy, which pulls imageio-ffmpeg's GPL binary into a package whose first non-negotiable is zero dependencies. `looks` accepts a **structural** `Rect` (`.x/.y/.w/.h`, normalised, top-left origin) and never defines a competing type.
+**`burns` stays separate** and gains a `looks`-backed ffmpeg backend — ratified. `looks` builds the **compile** side (keyframes to a filter fragment); `burns` samples its `BurnsPath` into keyframes and runs the argv. `looks -> burns` is **forbidden**: burns declares moviepy, which pulls imageio-ffmpeg's GPL binary into a package whose first non-negotiable is zero dependencies. `looks` accepts a **structural** `Rect` (`.x/.y/.w/.h`, normalised, top-left origin) and never defines a competing type.
 
-> **RULE G.** If the geometry is **AUTHORED** — a person or a model chose it as the shot, and changing it changes what the viewer is looking at — it is a *camera*, and it belongs to `burns`. If the geometry is **DERIVED** — it falls out of a delivery contract, such that any two implementations given the same inputs must compute the same rectangle — it is *conformance*, and it belongs to `looks`.
+> **RULE G** *(ratified 2026-09-02)*. If the geometry is **AUTHORED** — a person or a model chose it as the shot, and changing it changes what the viewer is looking at — it is a *camera*, and it belongs to `burns`. If the geometry is **DERIVED** — it falls out of a delivery contract, such that any two implementations given the same inputs must compute the same rectangle — it is *conformance*, and it belongs to `looks`.
 
 Rule G predicts every case in the code, including the one the naive "geometry versus pixels" split gets wrong: muvid's moving `CropWindow` is a camera move over *video*, and is `burns`-shaped. Scale-and-pad, centre-crop-to-fill, even-dimension snapping and letterbox removal are all `looks` — nobody *chose* the centre.
 
 **`looks` owns normalisation as well as stylization** — they compile into the same comma-chain, not analogously but literally, so two packages would mean two compilers writing into one string. And the Que Calor measurement makes them *mutually dependent*: normalising the output across sources means you cannot compute the continuity grade without knowing what the stylization does to the clip, so splitting them puts a measurement loop across a package boundary.
 
-> **RULE N.** `Look.target` is valued `EXTERNAL` or `SET_RELATIVE`. A `SET_RELATIVE` Look may only be resolved through `resolve_across`; resolving one against a single clip **raises**.
+> **RULE N** *(ratified 2026-09-02)*. `Look.target` is valued `EXTERNAL` or `SET_RELATIVE`. A `SET_RELATIVE` Look may only be resolved through `resolve_across`; resolving one against a single clip **raises**.
 
 The field is `target`, not `intent="style"|"grade"`: a `ColorContract` conform is a *normalisation* whose target is external and fixed, and under a style/grade wording it would have to be mislabelled.
 

@@ -819,6 +819,8 @@ class TestTheLedger:
             ): Tier.WEAK_COPYLEFT,
             ("ultralytics", "pypi:ultralytics", "code"): Verdict.FORBIDDEN,
             ("argh", "pypi:argh", "code"): Tier.WEAK_COPYLEFT,
+            # The CLI, and the reason argh is a row rather than an import.
+            ("cw", "pypi:cw", "code"): Tier.PERMISSIVE,
             ("colour-science", "pypi:colour-science", "code"): Tier.PERMISSIVE,
             ("moderngl", "pypi:moderngl", "code"): Tier.PERMISSIVE,
             ("glcontext", "pypi:glcontext", "code"): Tier.PERMISSIVE,
