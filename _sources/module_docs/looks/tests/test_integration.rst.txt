@@ -1,0 +1,4 @@
+looks.tests.test_integration
+============================
+.. automodule:: looks.tests.test_integration
+   :members:

@@ -1,0 +1,4 @@
+looks.tests.test_licence
+========================
+.. automodule:: looks.tests.test_licence
+   :members:

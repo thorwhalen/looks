@@ -1,0 +1,633 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.measure &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="looks.tests" href="tests.html" />
+    <link rel="prev" title="looks.lut" href="lut.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.measure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.ClipStats"><code class="docutils literal notranslate"><span class="pre">ClipStats</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.source_id"><code class="docutils literal notranslate"><span class="pre">ClipStats.source_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.stage"><code class="docutils literal notranslate"><span class="pre">ClipStats.stage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.instrument"><code class="docutils literal notranslate"><span class="pre">ClipStats.instrument</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.luma_space"><code class="docutils literal notranslate"><span class="pre">ClipStats.luma_space</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.sample_spec"><code class="docutils literal notranslate"><span class="pre">ClipStats.sample_spec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.n_frames"><code class="docutils literal notranslate"><span class="pre">ClipStats.n_frames</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.sharpness"><code class="docutils literal notranslate"><span class="pre">ClipStats.sharpness</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.sharpness_unit"><code class="docutils literal notranslate"><span class="pre">ClipStats.sharpness_unit</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.sharpness_space"><code class="docutils literal notranslate"><span class="pre">ClipStats.sharpness_space</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.luma"><code class="docutils literal notranslate"><span class="pre">ClipStats.luma</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.saturation_mean"><code class="docutils literal notranslate"><span class="pre">ClipStats.saturation_mean</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.temporal_delta"><code class="docutils literal notranslate"><span class="pre">ClipStats.temporal_delta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.blur"><code class="docutils literal notranslate"><span class="pre">ClipStats.blur</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.color_range"><code class="docutils literal notranslate"><span class="pre">ClipStats.color_range</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.extra"><code class="docutils literal notranslate"><span class="pre">ClipStats.extra</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.ClipStats.identity"><code class="docutils literal notranslate"><span class="pre">ClipStats.identity</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.ColorRange"><code class="docutils literal notranslate"><span class="pre">ColorRange</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.DFLT_PROBE_FRAMES"><code class="docutils literal notranslate"><span class="pre">DFLT_PROBE_FRAMES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.INSTRUMENT_CHAIN"><code class="docutils literal notranslate"><span class="pre">INSTRUMENT_CHAIN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.INSTRUMENT_PREFIX"><code class="docutils literal notranslate"><span class="pre">INSTRUMENT_PREFIX</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.Incomparable"><code class="docutils literal notranslate"><span class="pre">Incomparable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.LumaSpace"><code class="docutils literal notranslate"><span class="pre">LumaSpace</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.LumaSummary"><code class="docutils literal notranslate"><span class="pre">LumaSummary</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.measure.LumaSummary.spread"><code class="docutils literal notranslate"><span class="pre">LumaSummary.spread</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.MeasurementError"><code class="docutils literal notranslate"><span class="pre">MeasurementError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.Stage"><code class="docutils literal notranslate"><span class="pre">Stage</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.color_range"><code class="docutils literal notranslate"><span class="pre">color_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.compare"><code class="docutils literal notranslate"><span class="pre">compare()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.dispersion"><code class="docutils literal notranslate"><span class="pre">dispersion()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.measure"><code class="docutils literal notranslate"><span class="pre">measure()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.measure.probe_frames"><code class="docutils literal notranslate"><span class="pre">probe_frames()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks.measure</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/measure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks.measure">
+<span id="looks-measure"></span><h1>looks.measure<a class="headerlink" href="#module-looks.measure" title="Link to this heading"></a></h1>
+<p>What a clip <em>is</em>, measured — the input to resolving an effect’s parameters.</p>
+<p>This module exists because of one expensive lesson. Building the first real
+look, the flattening stage ran at half resolution because that is ~10x faster
+and, on two of three sources, measurably flatter. On the third — a dark indoor
+clip, already the softest at source — it was visibly mushy. Measured through
+the whole chain: clip A went 35 -&gt; 72 (205% retained), B 117 -&gt; 114 (98%), C
+46 -&gt; 38 (<strong>83%</strong>). One global setting made the softest source softer still, so
+it became the softest thing on screen by a wide margin, and it was the one the
+viewer complained about.</p>
+<p>So an effect’s parameters have to resolve against <em>the clip they apply to</em>.
+That needs a measurement, and a measurement needs three things stated that are
+usually left implicit — which is what the identity fields on <a class="reference internal" href="#looks.measure.ClipStats" title="looks.measure.ClipStats"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClipStats</span></code></a>
+are for:</p>
+<ul class="simple">
+<li><p><strong>``stage``</strong> — measuring the source file answers the wrong question. The
+number that mattered was <em>post-effect</em> sharpness, because the LUT-and-posterise
+stage normally <em>adds</em> apparent sharpness by creating hard edges between flat
+regions, and it only does that where the flattener left distinct regions.</p></li>
+<li><p><strong>``instrument``</strong> — the fix is reproducible, the scale is not. Different
+instruments give different numbers for the same clip, and comparing across
+them silently compares nothing.</p></li>
+<li><p><strong>``luma_space``</strong> — the 29x trap. The same nominal threshold gives a
+crushed-black share of <strong>0.6% in coded Y</strong> and <strong>17.4% in `BGR2GRAY`</strong> on the
+same frames. No error is raised, no warning appears, and the two numbers look
+equally plausible.</p></li>
+</ul>
+<p><a class="reference internal" href="#looks.measure.compare" title="looks.measure.compare"><code class="xref py py-func docutils literal notranslate"><span class="pre">compare()</span></code></a> <strong>raises</strong> when any of those disagree, because the measured
+disagreements between instruments and between luma spaces are larger than the
+effects a resolver is choosing between.</p>
+<p><strong>Everything here works at the zero-dependency tier.</strong> <code class="docutils literal notranslate"><span class="pre">ffprobe</span> <span class="pre">-f</span> <span class="pre">lavfi</span></code>
+over <code class="docutils literal notranslate"><span class="pre">signalstats</span></code> / <code class="docutils literal notranslate"><span class="pre">siti</span></code> / <code class="docutils literal notranslate"><span class="pre">blurdetect</span></code> yields per-frame JSON that
+stdlib <code class="docutils literal notranslate"><span class="pre">json</span></code> parses. Independently checked against OpenCV: the sharpness
+ordering agrees (Spearman +0.845), and a threshold share is bit-exact against
+numpy. So the headline auto-tuning capability needs no extra.</p>
+<p>Every process started here goes through <a class="reference internal" href="_run.html#module-looks._run" title="looks._run"><code class="xref py py-mod docutils literal notranslate"><span class="pre">looks._run</span></code></a>, so the <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">null</span> <span class="pre">-</span></code>
+invariant covers it: this module measures and never produces.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span> <span class="o">=</span> <span class="n">measure</span><span class="p">(</span><span class="s1">'clip.mp4'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span><span class="o">.</span><span class="n">sharpness</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">luma_space</span>
+<span class="go">(152.78, 'coded_y')</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.measure.ClipStats">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">ClipStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">source_id:</span> <span class="pre">str,</span> <span class="pre">stage:</span> <span class="pre">~typing.Literal['source',</span> <span class="pre">'post_effect'],</span> <span class="pre">instrument:</span> <span class="pre">str,</span> <span class="pre">luma_space:</span> <span class="pre">~typing.Literal['coded_y',</span> <span class="pre">'full_y',</span> <span class="pre">'bgr2gray',</span> <span class="pre">'linear_y',</span> <span class="pre">'lstar'],</span> <span class="pre">sample_spec:</span> <span class="pre">str,</span> <span class="pre">n_frames:</span> <span class="pre">int,</span> <span class="pre">sharpness:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">sharpness_unit:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'',</span> <span class="pre">sharpness_space:</span> <span class="pre">~typing.Literal['coded_y',</span> <span class="pre">'full_y',</span> <span class="pre">'bgr2gray',</span> <span class="pre">'linear_y',</span> <span class="pre">'lstar']</span> <span class="pre">=</span> <span class="pre">'full_y',</span> <span class="pre">luma:</span> <span class="pre">~looks.measure.LumaSummary</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">saturation_mean:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">temporal_delta:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">blur:</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">color_range:</span> <span class="pre">~typing.Literal['limited',</span> <span class="pre">'full',</span> <span class="pre">'untagged']</span> <span class="pre">=</span> <span class="pre">'untagged',</span> <span class="pre">extra:</span> <span class="pre">~typing.Mapping[str,</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/measure.html#ClipStats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.ClipStats" title="Link to this definition"></a></dt>
+<dd><p>What one source contributes to one stage of one pipeline, as measured.</p>
+<p>The first five fields are the value’s <strong>identity</strong>, not decoration. Two
+<code class="docutils literal notranslate"><span class="pre">ClipStats</span></code> are comparable only if <code class="docutils literal notranslate"><span class="pre">stage</span></code>, <code class="docutils literal notranslate"><span class="pre">instrument</span></code>,
+<code class="docutils literal notranslate"><span class="pre">luma_space</span></code> and <code class="docutils literal notranslate"><span class="pre">sample_spec</span></code> all agree — <a class="reference internal" href="#looks.measure.compare" title="looks.measure.compare"><code class="xref py py-func docutils literal notranslate"><span class="pre">compare()</span></code></a> raises
+otherwise.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.source_id">
+<span class="sig-name descname"><span class="pre">source_id</span></span><a class="headerlink" href="#looks.measure.ClipStats.source_id" title="Link to this definition"></a></dt>
+<dd><p>Whatever the caller calls this clip. Never a path, so a
+measurement survives the file moving.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.stage">
+<span class="sig-name descname"><span class="pre">stage</span></span><a class="headerlink" href="#looks.measure.ClipStats.stage" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">source</span></code> or <code class="docutils literal notranslate"><span class="pre">post_effect</span></code>. See <a class="reference internal" href="#looks.measure.Stage" title="looks.measure.Stage"><code class="xref py py-data docutils literal notranslate"><span class="pre">Stage</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Literal[‘source’, ‘post_effect’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.instrument">
+<span class="sig-name descname"><span class="pre">instrument</span></span><a class="headerlink" href="#looks.measure.ClipStats.instrument" title="Link to this definition"></a></dt>
+<dd><p>What took the measurement, including its version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.luma_space">
+<span class="sig-name descname"><span class="pre">luma_space</span></span><a class="headerlink" href="#looks.measure.ClipStats.luma_space" title="Link to this definition"></a></dt>
+<dd><p>See <a class="reference internal" href="#looks.measure.LumaSpace" title="looks.measure.LumaSpace"><code class="xref py py-data docutils literal notranslate"><span class="pre">LumaSpace</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Literal[‘coded_y’, ‘full_y’, ‘bgr2gray’, ‘linear_y’, ‘lstar’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.sample_spec">
+<span class="sig-name descname"><span class="pre">sample_spec</span></span><a class="headerlink" href="#looks.measure.ClipStats.sample_spec" title="Link to this definition"></a></dt>
+<dd><p>How the frames were chosen. Part of identity because the
+sampler moves the answer: taking the median over the 3 widest spans
+gave one clip a spatial-information figure of 30.7 where all 17
+spans gave 41.9 — a 27% move from the sampler alone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.n_frames">
+<span class="sig-name descname"><span class="pre">n_frames</span></span><a class="headerlink" href="#looks.measure.ClipStats.n_frames" title="Link to this definition"></a></dt>
+<dd><p>How many frames were actually measured.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.sharpness">
+<span class="sig-name descname"><span class="pre">sharpness</span></span><a class="headerlink" href="#looks.measure.ClipStats.sharpness" title="Link to this definition"></a></dt>
+<dd><p>Higher is sharper, in the instrument’s own units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.sharpness_unit">
+<span class="sig-name descname"><span class="pre">sharpness_unit</span></span><a class="headerlink" href="#looks.measure.ClipStats.sharpness_unit" title="Link to this definition"></a></dt>
+<dd><p>What those units are.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.sharpness_space">
+<span class="sig-name descname"><span class="pre">sharpness_space</span></span><a class="headerlink" href="#looks.measure.ClipStats.sharpness_space" title="Link to this definition"></a></dt>
+<dd><p>Which luma the sharpness was computed in — <strong>not
+necessarily</strong> <a class="reference internal" href="#looks.measure.ClipStats.luma_space" title="looks.measure.ClipStats.luma_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">luma_space</span></code></a>. <code class="docutils literal notranslate"><span class="pre">siti</span></code> works in full range,
+<code class="docutils literal notranslate"><span class="pre">signalstats</span></code> in coded, and conflating them makes a 16% metadata
+artefact look like a picture difference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Literal[‘coded_y’, ‘full_y’, ‘bgr2gray’, ‘linear_y’, ‘lstar’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.luma">
+<span class="sig-name descname"><span class="pre">luma</span></span><a class="headerlink" href="#looks.measure.ClipStats.luma" title="Link to this definition"></a></dt>
+<dd><p>The luma distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#looks.measure.LumaSummary" title="looks.measure.LumaSummary">looks.measure.LumaSummary</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.saturation_mean">
+<span class="sig-name descname"><span class="pre">saturation_mean</span></span><a class="headerlink" href="#looks.measure.ClipStats.saturation_mean" title="Link to this definition"></a></dt>
+<dd><p>Mean chroma magnitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.temporal_delta">
+<span class="sig-name descname"><span class="pre">temporal_delta</span></span><a class="headerlink" href="#looks.measure.ClipStats.temporal_delta" title="Link to this definition"></a></dt>
+<dd><p>Mean frame-to-frame change. The flicker check as one
+number — the shipped look sits at 0.89-1.12x its own source’s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.blur">
+<span class="sig-name descname"><span class="pre">blur</span></span><a class="headerlink" href="#looks.measure.ClipStats.blur" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">blurdetect</span></code>’s estimate. Higher is blurrier, the opposite
+direction from <a class="reference internal" href="#looks.measure.ClipStats.sharpness" title="looks.measure.ClipStats.sharpness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sharpness</span></code></a>, which is why they are separate
+fields rather than one “quality” number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.color_range">
+<span class="sig-name descname"><span class="pre">color_range</span></span><a class="headerlink" href="#looks.measure.ClipStats.color_range" title="Link to this definition"></a></dt>
+<dd><p>See <a class="reference internal" href="#looks.measure.ColorRange" title="looks.measure.ColorRange"><code class="xref py py-data docutils literal notranslate"><span class="pre">ColorRange</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Literal[‘limited’, ‘full’, ‘untagged’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.extra">
+<span class="sig-name descname"><span class="pre">extra</span></span><a class="headerlink" href="#looks.measure.ClipStats.extra" title="Link to this definition"></a></dt>
+<dd><p>Instrument-specific values nothing above has a home for.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Mapping[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">ClipStats</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="s1">'c03'</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">'post_effect'</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">instrument</span><span class="o">=</span><span class="s1">'ffmpeg-8.1/siti'</span><span class="p">,</span> <span class="n">luma_space</span><span class="o">=</span><span class="s1">'coded_y'</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">sample_spec</span><span class="o">=</span><span class="s1">'uniform:5'</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sharpness</span><span class="o">=</span><span class="mf">38.4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">sharpness</span>
+<span class="go">38.4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">identity</span>
+<span class="go">('post_effect', 'ffmpeg-8.1/siti', 'coded_y', 'full_y', 'uniform:5')</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.measure.ClipStats.identity">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.measure.ClipStats.identity" title="Link to this definition"></a></dt>
+<dd><p>The five fields two measurements must share to be comparable.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.measure.ColorRange">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">ColorRange</span></span><a class="headerlink" href="#looks.measure.ColorRange" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">untagged</span></code> is a <strong>third value</strong>, not a synonym for <code class="docutils literal notranslate"><span class="pre">limited</span></code>.</p>
+<p>ffmpeg assumes limited for an untagged yuv420p source — including for files
+ffmpeg itself just wrote, which are untagged by default. If the source is
+really full-range, every colour operation downstream is applied to wrongly
+expanded values, with no warning: measured, the two assumptions differ on 99.6%
+of bytes, by up to 15/255.</p>
+<p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘limited’, ‘full’, ‘untagged’]</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.measure.DFLT_PROBE_FRAMES">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">DFLT_PROBE_FRAMES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></span><a class="headerlink" href="#looks.measure.DFLT_PROBE_FRAMES" title="Link to this definition"></a></dt>
+<dd><p>Frames sampled per measurement by default.</p>
+<p><strong>Not 3.</strong> The source material used a 3-frame median; measured on the
+delivered render, that carries a p90 relative error of 12.7-34.0%, which is
+larger than most of the improvements a resolver would be choosing between.
+Five is the smallest that brings it under the effects being compared.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.measure.INSTRUMENT_CHAIN">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">INSTRUMENT_CHAIN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'signalstats,siti,blurdetect'</span></span><a class="headerlink" href="#looks.measure.INSTRUMENT_CHAIN" title="Link to this definition"></a></dt>
+<dd><p>The ffprobe/ffmpeg filter chain that produces every statistic below in one
+decode. <code class="docutils literal notranslate"><span class="pre">signalstats</span></code> gives luma and saturation summaries, <code class="docutils literal notranslate"><span class="pre">siti</span></code> gives
+spatial and temporal information (ITU-T P.910), <code class="docutils literal notranslate"><span class="pre">blurdetect</span></code> gives a
+perceptual blur estimate (Marziliano).</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.measure.INSTRUMENT_PREFIX">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">INSTRUMENT_PREFIX</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ffmpeg'</span></span><a class="headerlink" href="#looks.measure.INSTRUMENT_PREFIX" title="Link to this definition"></a></dt>
+<dd><p>The instrument name recorded on a <a class="reference internal" href="#looks.measure.ClipStats" title="looks.measure.ClipStats"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClipStats</span></code></a> produced here. Carries
+the ffmpeg major version because the filters’ outputs are version-dependent.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.measure.Incomparable">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">Incomparable</span></span><a class="reference internal" href="../../_modules/looks/measure.html#Incomparable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.Incomparable" title="Link to this definition"></a></dt>
+<dd><p>Two measurements whose identity fields disagree.</p>
+<p>Deliberately loud. The alternative — comparing them anyway — returns a
+confident number produced by two different instruments, which is worse than
+a refusal because nothing about it looks wrong.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.measure.LumaSpace">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">LumaSpace</span></span><a class="headerlink" href="#looks.measure.LumaSpace" title="Link to this definition"></a></dt>
+<dd><p>Which luma a threshold or average was taken in.</p>
+<p>Part of a measurement’s identity, not a footnote: the same nominal threshold
+gives a crushed-black share of 0.6% in <code class="docutils literal notranslate"><span class="pre">coded_y</span></code> and 17.4% in <code class="docutils literal notranslate"><span class="pre">bgr2gray</span></code>.</p>
+<p><strong>And one field cannot describe a whole measurement.</strong> <code class="docutils literal notranslate"><span class="pre">signalstats</span></code> reports
+<em>coded</em> values; <code class="docutils literal notranslate"><span class="pre">siti</span></code> converts limited-to-full range before its Sobel, so its
+output is a <em>full-range</em> quantity. Measured on one clip, changing nothing but
+the range tag: <code class="docutils literal notranslate"><span class="pre">siti.si</span></code> reads 107.21 untagged, 107.21 tagged <code class="docutils literal notranslate"><span class="pre">tv</span></code>, and
+<strong>92.15</strong> tagged <code class="docutils literal notranslate"><span class="pre">pc</span></code> — a ratio of 1.163, which is 255/219 to within rounding
+— while <code class="docutils literal notranslate"><span class="pre">signalstats.YAVG</span></code> does not move at all. So <a class="reference internal" href="#looks.measure.ClipStats" title="looks.measure.ClipStats"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClipStats</span></code></a> carries
+<a class="reference internal" href="#looks.measure.ClipStats.luma_space" title="looks.measure.ClipStats.luma_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">luma_space</span></code></a> for the coded quantities and
+<a class="reference internal" href="#looks.measure.ClipStats.sharpness_space" title="looks.measure.ClipStats.sharpness_space"><code class="xref py py-attr docutils literal notranslate"><span class="pre">sharpness_space</span></code></a> for the sharpness, and they are different
+values.</p>
+<p>The corollary is sharper still: <strong>for ``siti``, ``untagged`` is not a third
+state.</strong> It collapses to <code class="docutils literal notranslate"><span class="pre">limited</span></code>, because <code class="docutils literal notranslate"><span class="pre">vf_siti.c</span></code>’s <code class="docutils literal notranslate"><span class="pre">is_full_range()</span></code>
+treats an unspecified range as limited for yuv420p. That is the opposite of the
+rule that holds for a colour operation, and it is why the resolved range tag
+enters <a class="reference internal" href="#looks.measure.ClipStats.instrument" title="looks.measure.ClipStats.instrument"><code class="xref py py-attr docutils literal notranslate"><span class="pre">instrument</span></code></a>.</p>
+<p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘coded_y’, ‘full_y’, ‘bgr2gray’, ‘linear_y’, ‘lstar’]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.measure.LumaSummary">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">LumaSummary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/measure.html#LumaSummary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.LumaSummary" title="Link to this definition"></a></dt>
+<dd><p>A frame’s luma distribution, in whatever <a class="reference internal" href="#looks.measure.LumaSpace" title="looks.measure.LumaSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">LumaSpace</span></code></a> was used.</p>
+<p><code class="docutils literal notranslate"><span class="pre">low</span></code> and <code class="docutils literal notranslate"><span class="pre">high</span></code> are <code class="docutils literal notranslate"><span class="pre">signalstats</span></code>’ <code class="docutils literal notranslate"><span class="pre">YLOW</span></code> / <code class="docutils literal notranslate"><span class="pre">YHIGH</span></code>, which are
+the <strong>10th and 90th percentiles</strong> — not the minimum and maximum. The
+man page is explicit (“the Y value at the 10% percentile”), and reading them
+as extremes overstates a clip’s range on every real source.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LumaSummary</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">41.0</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mf">106.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">170.0</span><span class="p">)</span><span class="o">.</span><span class="n">spread</span>
+<span class="go">129.0</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.measure.LumaSummary.spread">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">spread</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#looks.measure.LumaSummary.spread" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">high</span> <span class="pre">-</span> <span class="pre">low</span></code>, i.e. the p10-p90 spread.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.measure.MeasurementError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">MeasurementError</span></span><a class="reference internal" href="../../_modules/looks/measure.html#MeasurementError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.MeasurementError" title="Link to this definition"></a></dt>
+<dd><p>A measurement that could not be taken, or one that must not be compared.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.measure.Stage">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">Stage</span></span><a class="headerlink" href="#looks.measure.Stage" title="Link to this definition"></a></dt>
+<dd><p>Where in the pipeline a measurement was taken.</p>
+<p><code class="docutils literal notranslate"><span class="pre">source</span></code> is the clip as it arrives; <code class="docutils literal notranslate"><span class="pre">post_effect</span></code> is after a Look has been
+applied. They are <em>not</em> comparable, and conflating them is the mistake the
+per-source flattening lesson came from — the number that governs the outcome is
+the post-effect one.</p>
+<p>alias of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Literal</span></code>[‘source’, ‘post_effect’]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.measure.color_range">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">color_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ffprobe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ffprobe'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'limited'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'full'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'untagged'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/measure.html#color_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.color_range" title="Link to this definition"></a></dt>
+<dd><p>What range <code class="docutils literal notranslate"><span class="pre">source</span></code> <strong>declares</strong>, with <code class="docutils literal notranslate"><span class="pre">untagged</span></code> as a real answer.</p>
+<p>Not “probably limited”. ffmpeg writes untagged files by default, so the
+untagged case is the normal one, and treating it as limited is an
+assumption the caller should get to see rather than inherit.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.measure.compare">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">compare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.measure.ClipStats" title="looks.measure.ClipStats"><span class="pre">ClipStats</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.measure.ClipStats" title="looks.measure.ClipStats"><span class="pre">ClipStats</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/looks/measure.html#compare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.compare" title="Link to this definition"></a></dt>
+<dd><p>Raise <a class="reference internal" href="#looks.measure.Incomparable" title="looks.measure.Incomparable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Incomparable</span></code></a> unless <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> can be compared.</p>
+<p>Call this before any arithmetic that puts two measurements in the same
+expression. It is cheap, and the failure it prevents is silent.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">instrument</span><span class="o">=</span><span class="s1">'ffmpeg-8.1/siti'</span><span class="p">,</span> <span class="n">luma_space</span><span class="o">=</span><span class="s1">'coded_y'</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">sample_spec</span><span class="o">=</span><span class="s1">'uniform:5'</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">ClipStats</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="s1">'c01'</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">'post_effect'</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">ClipStats</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="s1">'c02'</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">'post_effect'</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compare</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Different stages are the mistake the whole module exists to prevent:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">ClipStats</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="s1">'c02'</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">'source'</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compare</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.measure.Incomparable</span>: <span class="n">'c01' and 'c02' were measured differently</span>
+<span class="x">and cannot be compared: stage 'post_effect' vs 'source'...</span>
+</pre></div>
+</div>
+<p>So is a different luma space, and this one is the 29x trap:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">ClipStats</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="s1">'c02'</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">'post_effect'</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">instrument</span><span class="o">=</span><span class="s1">'ffmpeg-8.1/siti'</span><span class="p">,</span> <span class="n">luma_space</span><span class="o">=</span><span class="s1">'bgr2gray'</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">sample_spec</span><span class="o">=</span><span class="s1">'uniform:5'</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compare</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.measure.Incomparable</span>: <span class="n">...luma_space 'coded_y' vs 'bgr2gray'...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.measure.dispersion">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">dispersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.measure.ClipStats" title="looks.measure.ClipStats"><span class="pre">ClipStats</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sharpness'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../_modules/looks/measure.html#dispersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.dispersion" title="Link to this definition"></a></dt>
+<dd><p>The max/min ratio of <code class="docutils literal notranslate"><span class="pre">key</span></code> across <code class="docutils literal notranslate"><span class="pre">stats</span></code> — the quantity to minimise.</p>
+<p>A <strong>ratio</strong>, not a variance, for two reasons. Every figure the source
+material reports is one (“2.98x -&gt; 1.59x”, “205% retained”, “0.89-1.12x”),
+and the statistic is positive and multiplicative, so a variance in raw units
+would let one bright clip dominate.</p>
+<p>Every pair is checked with <a class="reference internal" href="#looks.measure.compare" title="looks.measure.compare"><code class="xref py py-func docutils literal notranslate"><span class="pre">compare()</span></code></a> first.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">stage</span><span class="o">=</span><span class="s1">'post_effect'</span><span class="p">,</span> <span class="n">instrument</span><span class="o">=</span><span class="s1">'i'</span><span class="p">,</span> <span class="n">luma_space</span><span class="o">=</span><span class="s1">'coded_y'</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">sample_spec</span><span class="o">=</span><span class="s1">'s'</span><span class="p">,</span> <span class="n">n_frames</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">before</span> <span class="o">=</span> <span class="p">[</span><span class="n">ClipStats</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">sharpness</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">... </span>          <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'c01'</span><span class="p">,</span> <span class="mf">72.2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'c02'</span><span class="p">,</span> <span class="mf">114.3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'c03'</span><span class="p">,</span> <span class="mf">38.4</span><span class="p">)]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">dispersion</span><span class="p">(</span><span class="n">before</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>          <span class="c1"># the shipped V2b spread</span>
+<span class="go">2.98</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">after</span> <span class="o">=</span> <span class="p">[</span><span class="n">ClipStats</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">sharpness</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="o">**</span><span class="n">base</span><span class="p">)</span>
+<span class="gp">... </span>         <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">'c01'</span><span class="p">,</span> <span class="mf">72.2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'c02'</span><span class="p">,</span> <span class="mf">114.3</span><span class="p">),</span> <span class="p">(</span><span class="s1">'c03'</span><span class="p">,</span> <span class="mf">71.8</span><span class="p">)]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">dispersion</span><span class="p">(</span><span class="n">after</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>           <span class="c1"># V2c, after the per-clip fix</span>
+<span class="go">1.59</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.measure.measure">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ffmpeg_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ffprobe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ffprobe'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.measure.ClipStats" title="looks.measure.ClipStats"><span class="pre">ClipStats</span></a></span></span><a class="reference internal" href="../../_modules/looks/measure.html#measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.measure" title="Link to this definition"></a></dt>
+<dd><p>Measure one clip, at the source or through a Look’s compiled chain.</p>
+<p>Supplying <code class="docutils literal notranslate"><span class="pre">vf</span></code> makes this a <code class="docutils literal notranslate"><span class="pre">post_effect</span></code> measurement, which is the one
+that governs a resolver’s answer.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ffmpeg_version</span></code> enters <a class="reference internal" href="#looks.measure.ClipStats.instrument" title="looks.measure.ClipStats.instrument"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ClipStats.instrument</span></code></a>, so pass the version
+from a <a class="reference internal" href="environment.html#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">looks.environment.FfmpegEnv</span></code></a> rather than letting it default —
+the filters’ outputs are version-dependent, and <code class="docutils literal notranslate"><span class="pre">unknown</span></code> is honest but
+makes every measurement incomparable with a properly-labelled one, which is
+the intended pressure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#looks.measure.MeasurementError" title="looks.measure.MeasurementError"><strong>MeasurementError</strong></a> – The probe could not run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.measure.probe_frames">
+<span class="sig-prename descclassname"><span class="pre">looks.measure.</span></span><span class="sig-name descname"><span class="pre">probe_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ffprobe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ffprobe'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/measure.html#probe_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.measure.probe_frames" title="Link to this definition"></a></dt>
+<dd><p>Per-frame instrument readings for <code class="docutils literal notranslate"><span class="pre">source</span></code>, optionally through <code class="docutils literal notranslate"><span class="pre">vf</span></code>.</p>
+<p>Goes through <code class="docutils literal notranslate"><span class="pre">ffprobe</span> <span class="pre">-f</span> <span class="pre">lavfi</span></code>, so the output is JSON that stdlib parses
+and the process cannot write media at all.</p>
+<p><code class="docutils literal notranslate"><span class="pre">vf</span></code> is the compiled chain of the Look being measured. Supplying it is
+what makes the measurement <code class="docutils literal notranslate"><span class="pre">post_effect</span></code> — and that is the one that
+governs the outcome, so it is not an optional refinement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – Path to the clip.</p></li>
+<li><p><strong>vf</strong> – A filter chain to apply before measuring. Empty measures the source.</p></li>
+<li><p><strong>frames</strong> – How many frames to read.</p></li>
+<li><p><strong>fps</strong> – Sampling rate. The default reads roughly one frame per second,
+which spreads the sample across the clip rather than clustering it
+at the head.</p></li>
+<li><p><strong>ffprobe</strong> – Binary name or path.</p></li>
+<li><p><strong>timeout</strong> – Seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#looks.measure.MeasurementError" title="looks.measure.MeasurementError"><strong>MeasurementError</strong></a> – The probe could not run, or produced no frames.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lut.html" class="btn btn-neutral float-left" title="looks.lut" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tests.html" class="btn btn-neutral float-right" title="looks.tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

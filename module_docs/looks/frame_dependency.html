@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.frame_dependency &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="looks.geometry" href="geometry.html" />
+    <link rel="prev" title="looks.environment" href="environment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.frame_dependency</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.DETERMINISM_PROBE_FRAMES"><code class="docutils literal notranslate"><span class="pre">DETERMINISM_PROBE_FRAMES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.Dependency"><code class="docutils literal notranslate"><span class="pre">Dependency</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.DependencyReport"><code class="docutils literal notranslate"><span class="pre">DependencyReport</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.frame_dependency.DependencyReport.dependency"><code class="docutils literal notranslate"><span class="pre">DependencyReport.dependency</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.frame_dependency.DependencyReport.time_delta"><code class="docutils literal notranslate"><span class="pre">DependencyReport.time_delta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.frame_dependency.DependencyReport.content_delta"><code class="docutils literal notranslate"><span class="pre">DependencyReport.content_delta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.frame_dependency.DependencyReport.temporal_delta"><code class="docutils literal notranslate"><span class="pre">DependencyReport.temporal_delta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.frame_dependency.DependencyReport.determinism_delta"><code class="docutils literal notranslate"><span class="pre">DependencyReport.determinism_delta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.frame_dependency.DependencyReport.can_flicker"><code class="docutils literal notranslate"><span class="pre">DependencyReport.can_flicker</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.frame_dependency.DependencyReport.note"><code class="docutils literal notranslate"><span class="pre">DependencyReport.note</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.FLICKER_FREE"><code class="docutils literal notranslate"><span class="pre">FLICKER_FREE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.NOISE_FLOOR"><code class="docutils literal notranslate"><span class="pre">NOISE_FLOOR</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.PROBE_SIZE"><code class="docutils literal notranslate"><span class="pre">PROBE_SIZE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.SEAM_MARGIN"><code class="docutils literal notranslate"><span class="pre">SEAM_MARGIN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.TEMPORAL_PROBE_FRAMES"><code class="docutils literal notranslate"><span class="pre">TEMPORAL_PROBE_FRAMES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.UNDETERMINED"><code class="docutils literal notranslate"><span class="pre">UNDETERMINED</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.assert_flicker_free"><code class="docutils literal notranslate"><span class="pre">assert_flicker_free()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.frame_dependency.classify"><code class="docutils literal notranslate"><span class="pre">classify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks.frame_dependency</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/frame_dependency.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks.frame_dependency">
+<span id="looks-frame-dependency"></span><h1>looks.frame_dependency<a class="headerlink" href="#module-looks.frame_dependency" title="Link to this heading"></a></h1>
+<p>Can this effect flicker? Answered by measurement, not by judgement.</p>
+<p>The flagship look’s central claim is that it is <em>frame-independent by
+construction</em> — one fixed LUT, no temporal state — so it <strong>cannot</strong> flicker,
+which is the failure mode of every per-frame palette quantiser and of the
+non-commercial cartoon models. That claim is worth something only if it can be
+checked, and it turns out to reduce to <strong>two ffmpeg probes and a comparison</strong>.</p>
+<p>Two questions, two probes, and each isolates one hazard:</p>
+<ol class="arabic simple">
+<li><p><strong>Does the effect vary with time?</strong> Apply it to a <em>looped still</em> and diff
+consecutive output frames. A constant input can only produce a changing
+output if the effect reads the clock or the frame index. Measured: <cite>noise</cite>
+with the <cite>t</cite> flag moves 82–85/255; <cite>lut3d</cite>, <cite>curves</cite>, <cite>gblur</cite>, <cite>deband</cite> and
+<cite>noise</cite> <em>without</em> <cite>t</cite> move 0.</p></li>
+<li><p><strong>Does the effect adapt to frame content?</strong> Apply it to a source whose
+<em>left half is constant</em> while its <em>right half changes</em>, then look only at the
+left half. A content-independent effect leaves it alone; one that adapts to
+global statistics changes it, because the statistics moved. Measured:
+<cite>normalize</cite> moves the constant half by <strong>219/255</strong>; <cite>lut3d</cite>, <cite>curves</cite>,
+<cite>gblur</cite> move 0.</p></li>
+</ol>
+<p>Question 2 is the one that matters. <strong>A content-adaptive effect flickers</strong> —
+its output for an unchanged pixel depends on what else is in the frame, so a
+pixel that never moves still shimmers as the shot changes around it.</p>
+<p>## Three things this probe gets wrong if you build it naively</p>
+<p>Each cost a false reading before it was fixed, and each fails <strong>silently</strong>.</p>
+<ul>
+<li><p><strong>The varying half must actually move the statistic the effect adapts to,
+and no single source moves them all.</strong> This is the deepest limitation here,
+and it is measured rather than theorised. A first version used <cite>testsrc2</cite>,
+which always spans the full luma range and therefore never moves a min/max —
+<cite>normalize</cite> read <strong>0</strong>, a false negative saying “cannot flicker” about an
+effect that can. A <em>fading</em> half moves the range and <cite>normalize</cite> jumps to
+<strong>219</strong>. But the fade leaves the colour histogram nearly alone, so <cite>elbg</cite> — a
+vector quantiser, adaptive by definition — still read <strong>0</strong>. A <em>hue-cycling</em>
+half moves the histogram and catches <cite>elbg</cite> at 5–8 — while missing
+<cite>normalize</cite> entirely, because it does not move the range.</p>
+<p>So <strong>two</strong> content probes run and the verdict is the larger. The pair is not
+provably complete: an effect adapting to a statistic neither probe moves
+reads independent. See <em>What this does not answer</em>.</p>
+</li>
+<li><p><strong>Chroma subsampling bleeds across the seam.</strong> In <cite>yuv420p</cite> a chroma sample
+is shared between the constant and varying halves, so the boundary column
+changes for reasons that have nothing to do with the effect. <cite>yuv444p</cite> plus a
+margin removes it.</p></li>
+<li><p><strong>`tblend=difference` of identical frames is not zero in RGB.</strong> Black in
+limited-range YUV is 16, so a difference computed in RGB and then measured by
+<cite>signalstats</cite> reads 16 everywhere. Filters that need RGB (<cite>lut3d</cite>, <cite>curves</cite>)
+force that conversion, so the format is pinned on <strong>both</strong> sides of the
+effect under test.</p></li>
+</ul>
+<p>## What this does not answer</p>
+<p><strong>Some temporal filters.</strong> A third probe (below) catches the common case by
+running two sequences that differ only <em>before</em> a shared textured tail:
+<cite>tmix=frames=3</cite> shows <strong>146</strong>/255 in the tail and <cite>hqdn3d</cite> shows 2. But
+<cite>tblend</cite> and <cite>atadenoise</cite> both read <strong>0</strong> and are misreported as independent.
+Measured, and the reason is structural rather than a tuning failure: <cite>tblend</cite>
+consumes two input frames per output frame, so the trim that skips the
+perturbation for a normal filter lands <em>past</em> it; <cite>atadenoise</cite> keeps nine
+frames of history, more than a short probe can perturb. Lengthening the
+perturbation from one frame to three changed neither — verified.</p>
+<p>Those two are refused for an unrelated and stronger reason anyway: <strong>every
+temporal filter is out of scope</strong>, because the execution model this package
+serves renders one bounded ffmpeg <em>per cut</em>, so a temporal filter meets a hard
+discontinuity at every cut. Do not read that as making the gap harmless —
+it means the gap is not currently load-bearing, not that it is closed.</p>
+<p><strong>And an `INDEPENDENT` verdict is evidence, not proof.</strong> It says: none of three
+probes could make this effect change a pixel it should not have touched. An
+effect adapting to a statistic none of them moves would pass, and so would
+<cite>tblend</cite>.
+That is why the flagship look’s claim does <strong>not</strong> rest on this module — a
+fixed per-pixel lookup with no state cannot depend on anything else, which is a
+<em>structural</em> argument, and the measurement corroborates it rather than
+substituting for it. Use <a class="reference internal" href="#looks.frame_dependency.classify" title="looks.frame_dependency.classify"><code class="xref py py-func docutils literal notranslate"><span class="pre">classify()</span></code></a> to catch an effect that flickers; do
+not use it to certify one that does not, unless you also have the structural
+argument.</p>
+<p>Every process here goes through <a class="reference internal" href="_run.html#module-looks._run" title="looks._run"><code class="xref py py-mod docutils literal notranslate"><span class="pre">looks._run</span></code></a>, and every one is an
+<code class="docutils literal notranslate"><span class="pre">ffprobe</span></code> reading filter metadata — no pixel ever leaves ffmpeg, so the
+<code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">null</span> <span class="pre">-</span></code> invariant is preserved by construction rather than by care.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.frame_dependency.DETERMINISM_PROBE_FRAMES">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">DETERMINISM_PROBE_FRAMES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20</span></span><a class="headerlink" href="#looks.frame_dependency.DETERMINISM_PROBE_FRAMES" title="Link to this definition"></a></dt>
+<dd><p>How many frames the determinism probe examines.</p>
+<p><strong>Twenty, and the number is measured rather than chosen.</strong> Detecting
+randomness is itself probabilistic: two runs of a stochastic filter can agree
+by chance, and the more frames you compare the less likely that is across all
+of them. On <cite>elbg</cite> (a vector quantiser whose default <cite>seed=-1</cite> re-randomises
+every instantiation), detection rate over eight repeats:</p>
+<blockquote>
+<div><p>3 frames -&gt; 1/6      8 frames -&gt; 7/8      20 frames -&gt; 8/8      40 -&gt; 8/8</p>
+</div></blockquote>
+<p>An earlier six-repeat sample read 6/6 at eight frames and set the constant
+there; a fuller sample found 7/8, and the flake surfaced as an intermittent
+test. <strong>That is the same probabilistic-detection point one level up</strong> — a
+small sample can agree by chance too.</p>
+<p>The consequence, and it is the honest framing of this whole verdict: a
+<cite>NONDETERMINISTIC</cite> result is a proof, but its <strong>absence is not</strong>. An effect
+random in one pixel per ten thousand would pass at any frame count here.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.frame_dependency.Dependency">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">Dependency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/frame_dependency.html#Dependency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.frame_dependency.Dependency" title="Link to this definition"></a></dt>
+<dd><p>What an effect’s output depends on, worst case.</p>
+<p>Ordered by how badly each behaves across a cut:</p>
+<ul class="simple">
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">INDEPENDENT</span></code> — the same input pixel gives the same output pixel,
+always. Cannot flicker. This is what the flagship look is.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">INDEPENDENT</span></code> — no probe could make the effect touch a pixel it
+should not have. <strong>Evidence, not proof</strong> — see the module docstring.
+A pixel-local map and a small spatial filter both land here, and for the
+flicker question that is the right grouping: neither can flicker.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">TIME_VARYING</span></code> — output depends on the frame index or clock.
+Deterministic and reproducible, but it changes: film grain is the wanted
+case.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">CONTENT_ADAPTIVE</span></code> — output depends on the frame’s global
+statistics. <strong>This flickers</strong>, and it is the class the whole
+frame-independence argument is about.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">TEMPORAL</span></code> — output at frame <em>n</em> depends on frames before it.
+Structurally incompatible with the execution model this package serves:
+the consumer renders one bounded ffmpeg <strong>per cut</strong>, so a temporal filter
+meets a hard discontinuity at every cut and produces an artefact at every
+one of them.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">NONDETERMINISTIC</span></code> — two applications of the effect to the SAME
+input disagree. A reproducibility hazard rather than a flicker one: a
+re-render produces a different picture. Detected first, because it
+invalidates every other probe here.</p></li>
+<li><p><a class="reference internal" href="#looks.frame_dependency.UNDETERMINED" title="looks.frame_dependency.UNDETERMINED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">UNDETERMINED</span></code></a> — a probe could not run. Never a synonym for
+independent.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">DependencyReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dependency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.frame_dependency.Dependency" title="looks.frame_dependency.Dependency"><span class="pre">Dependency</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporal_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">determinism_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/frame_dependency.html#DependencyReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.frame_dependency.DependencyReport" title="Link to this definition"></a></dt>
+<dd><p>What the two probes measured, and what follows from it.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport.dependency">
+<span class="sig-name descname"><span class="pre">dependency</span></span><a class="headerlink" href="#looks.frame_dependency.DependencyReport.dependency" title="Link to this definition"></a></dt>
+<dd><p>The verdict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#looks.frame_dependency.Dependency" title="looks.frame_dependency.Dependency">looks.frame_dependency.Dependency</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport.time_delta">
+<span class="sig-name descname"><span class="pre">time_delta</span></span><a class="headerlink" href="#looks.frame_dependency.DependencyReport.time_delta" title="Link to this definition"></a></dt>
+<dd><p>Largest change between consecutive output frames on a
+constant input, out of 255.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport.content_delta">
+<span class="sig-name descname"><span class="pre">content_delta</span></span><a class="headerlink" href="#looks.frame_dependency.DependencyReport.content_delta" title="Link to this definition"></a></dt>
+<dd><p>Largest change in the constant half when the rest of the
+frame changed, out of 255.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport.temporal_delta">
+<span class="sig-name descname"><span class="pre">temporal_delta</span></span><a class="headerlink" href="#looks.frame_dependency.DependencyReport.temporal_delta" title="Link to this definition"></a></dt>
+<dd><p>Largest change in a shared tail when the frames BEFORE
+it differed, out of 255.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport.determinism_delta">
+<span class="sig-name descname"><span class="pre">determinism_delta</span></span><a class="headerlink" href="#looks.frame_dependency.DependencyReport.determinism_delta" title="Link to this definition"></a></dt>
+<dd><p>Largest disagreement between two applications of the
+effect to the SAME input, out of 255. Nonzero means the effect is
+random, and every other number in this report is then meaningless.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport.can_flicker">
+<span class="sig-name descname"><span class="pre">can_flicker</span></span><a class="headerlink" href="#looks.frame_dependency.DependencyReport.can_flicker" title="Link to this definition"></a></dt>
+<dd><p>Whether the verdict admits flicker. <code class="docutils literal notranslate"><span class="pre">None</span></code> when
+undetermined — <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">False</span></code>, because “we could not tell” and
+“it cannot” are different answers and only one of them is a
+guarantee.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.frame_dependency.DependencyReport.note">
+<span class="sig-name descname"><span class="pre">note</span></span><a class="headerlink" href="#looks.frame_dependency.DependencyReport.note" title="Link to this definition"></a></dt>
+<dd><p>Why, when something could not be measured.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.frame_dependency.FLICKER_FREE">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">FLICKER_FREE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({Dependency.INDEPENDENT})</span></span><a class="headerlink" href="#looks.frame_dependency.FLICKER_FREE" title="Link to this definition"></a></dt>
+<dd><p>The classes that cannot produce flicker.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.frame_dependency.NOISE_FLOOR">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">NOISE_FLOOR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#looks.frame_dependency.NOISE_FLOOR" title="Link to this definition"></a></dt>
+<dd><p>A difference at or below this (out of 255) is treated as no change.
+Not zero: a filter that round-trips through another pixel format can move a
+value by one without depending on anything.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.frame_dependency.PROBE_SIZE">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">PROBE_SIZE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(32,</span> <span class="pre">64)</span></span><a class="headerlink" href="#looks.frame_dependency.PROBE_SIZE" title="Link to this definition"></a></dt>
+<dd><p>Probe geometry. Small on purpose — the classification is about <em>whether</em> a
+value changes, not by how much, so resolution buys nothing and costs time.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.frame_dependency.SEAM_MARGIN">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">SEAM_MARGIN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></span><a class="headerlink" href="#looks.frame_dependency.SEAM_MARGIN" title="Link to this definition"></a></dt>
+<dd><p>How far in from the seam the constant half is sampled, in pixels.</p>
+<p>A spatial effect legitimately reads pixels near the boundary, so without a
+margin every blur reads as content-adaptive. The margin cannot be made large
+enough for <em>every</em> spatial effect — a Gaussian’s support runs to about 3
+sigma, so <cite>gblur=sigma=4</cite> crosses 8 px and <cite>sigma=10</cite> would cross any margin
+this probe can afford.</p>
+<p>That residual error is <strong>conservative</strong>: an over-wide spatial filter is
+reported as <cite>CONTENT_ADAPTIVE</cite>, i.e. “can flicker” about something that
+cannot. For a refusal engine that is the safe direction — the unsafe one is
+calling an adaptive effect independent. Widen the margin (and the probe) if a
+specific broad filter needs a correct verdict.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.frame_dependency.TEMPORAL_PROBE_FRAMES">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">TEMPORAL_PROBE_FRAMES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#looks.frame_dependency.TEMPORAL_PROBE_FRAMES" title="Link to this definition"></a></dt>
+<dd><p>How many frames of the shared tail the temporal probe examines.</p>
+<p>Small on purpose, and this is the subtle part: the probe only detects a
+temporal effect if the frames it samples still have the perturbation inside
+their memory window. Trimming further in makes every temporal filter read as
+independent — measured, <cite>tmix=frames=3</cite> read 0 when sampling began 3 frames
+after the perturbation and 146/255 when it began 1 frame after.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.frame_dependency.UNDETERMINED">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">UNDETERMINED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Dependency.UNDETERMINED</span></span><a class="headerlink" href="#looks.frame_dependency.UNDETERMINED" title="Link to this definition"></a></dt>
+<dd><p>Convenience alias for the value that means “no answer”.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.frame_dependency.assert_flicker_free">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">assert_flicker_free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.frame_dependency.DependencyReport" title="looks.frame_dependency.DependencyReport"><span class="pre">DependencyReport</span></a></span></span><a class="reference internal" href="../../_modules/looks/frame_dependency.html#assert_flicker_free"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.frame_dependency.assert_flicker_free" title="Link to this definition"></a></dt>
+<dd><p>Raise unless <code class="docutils literal notranslate"><span class="pre">chain</span></code> provably cannot flicker.</p>
+<p><strong>What a pass means, precisely: three probes could not make this effect
+depend on anything they varied.</strong> It is not a proof of frame independence —
+<cite>tblend</cite> and <cite>atadenoise</cite> pass and are temporal. For an effect whose class
+matters, pair this with the structural argument (a stateless per-pixel
+lookup cannot depend on anything else) or with a declared class this
+function is used to <em>falsify</em>.</p>
+<p>An <code class="docutils literal notranslate"><span class="pre">UNDETERMINED</span></code> verdict <strong>raises</strong>: “we could not tell” must not be
+reported as “it cannot”, which is the same unknown-is-a-refusal rule the
+licence tier follows, applied to the other guarantee this package makes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – The chain can flicker, or could not be shown not to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.frame_dependency.classify">
+<span class="sig-prename descclassname"><span class="pre">looks.frame_dependency.</span></span><span class="sig-name descname"><span class="pre">classify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">ffprobe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ffprobe'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.frame_dependency.DependencyReport" title="looks.frame_dependency.DependencyReport"><span class="pre">DependencyReport</span></a></span></span><a class="reference internal" href="../../_modules/looks/frame_dependency.html#classify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.frame_dependency.classify" title="Link to this definition"></a></dt>
+<dd><p>Measure what <code class="docutils literal notranslate"><span class="pre">chain</span></code> depends on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chain</strong> – An ffmpeg filter chain, as it would appear in <code class="docutils literal notranslate"><span class="pre">-vf</span></code>.</p></li>
+<li><p><strong>ffprobe</strong> – Binary name or path.</p></li>
+<li><p><strong>timeout</strong> – Seconds per probe.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="s1">'lut3d=look.cube'</span><span class="p">)</span><span class="o">.</span><span class="n">dependency</span>
+<span class="go">&lt;Dependency.INDEPENDENT: 'independent'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="s1">'normalize'</span><span class="p">)</span><span class="o">.</span><span class="n">can_flicker</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="environment.html" class="btn btn-neutral float-left" title="looks.environment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="geometry.html" class="btn btn-neutral float-right" title="looks.geometry" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

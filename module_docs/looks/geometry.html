@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.geometry &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="looks.licence" href="licence.html" />
+    <link rel="prev" title="looks.frame_dependency" href="frame_dependency.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.geometry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.Backdrop"><code class="docutils literal notranslate"><span class="pre">Backdrop</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.Blurred"><code class="docutils literal notranslate"><span class="pre">Blurred</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.Box"><code class="docutils literal notranslate"><span class="pre">Box</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.DFLT_BACKDROP_BLUR_SIGMA"><code class="docutils literal notranslate"><span class="pre">DFLT_BACKDROP_BLUR_SIGMA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.DFLT_ROUNDING"><code class="docutils literal notranslate"><span class="pre">DFLT_ROUNDING</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.GeometryError"><code class="docutils literal notranslate"><span class="pre">GeometryError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.Placement"><code class="docutils literal notranslate"><span class="pre">Placement</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.geometry.Placement.resamples"><code class="docutils literal notranslate"><span class="pre">Placement.resamples</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.Reframe"><code class="docutils literal notranslate"><span class="pre">Reframe</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.SOCIAL_SIZES"><code class="docutils literal notranslate"><span class="pre">SOCIAL_SIZES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.Size"><code class="docutils literal notranslate"><span class="pre">Size</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.Solid"><code class="docutils literal notranslate"><span class="pre">Solid</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.center_box"><code class="docutils literal notranslate"><span class="pre">center_box()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.ffmpeg_chain"><code class="docutils literal notranslate"><span class="pre">ffmpeg_chain()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.placement"><code class="docutils literal notranslate"><span class="pre">placement()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.reframe"><code class="docutils literal notranslate"><span class="pre">reframe()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.scaled_size"><code class="docutils literal notranslate"><span class="pre">scaled_size()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.snap_even"><code class="docutils literal notranslate"><span class="pre">snap_even()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.geometry.social_size"><code class="docutils literal notranslate"><span class="pre">social_size()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks.geometry</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/geometry.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks.geometry">
+<span id="looks-geometry"></span><h1>looks.geometry<a class="headerlink" href="#module-looks.geometry" title="Link to this heading"></a></h1>
+<p>Where a source frame lands inside a target frame. Pure arithmetic.</p>
+<p>No I/O, no media library, no ffmpeg, no numpy. Every function here is total:
+give it two sizes and a mode and it answers, with no file open and nothing
+decoded. That is what lets one answer drive an ffmpeg filter chain, a moviepy
+composite, a CSS <code class="docutils literal notranslate"><span class="pre">object-fit</span></code> preview, or a cost estimate — and it is why the
+geometry tier can be a <em>spec</em> rather than a call.</p>
+<p><strong>The rounding rule is part of the answer, not an implementation detail.</strong>
+<cite>mixing</cite> and moviepy truncate; ffmpeg’s <code class="docutils literal notranslate"><span class="pre">force_original_aspect_ratio</span></code> rounds.
+On real inputs they disagree: 1920x1080 into 1080x1920 gives <code class="docutils literal notranslate"><span class="pre">1080/(16/9)</span> <span class="pre">=</span>
+<span class="pre">607.5</span></code>, which truncates to <strong>607</strong> and rounds to <strong>608</strong>. One pixel row, and a
+total black-to-white difference at the seam. A spec whose rendered result
+depends on which backend read it is not a spec, so the rule travels inside the
+<a class="reference internal" href="#looks.geometry.Placement" title="looks.geometry.Placement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Placement</span></code></a>.</p>
+<p>The three modes are the ones <cite>mixing</cite> already had, and they answer three
+different questions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stretch</span></code> — fill the target exactly, distorting. The only mode that changes
+the aspect ratio.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fit</span></code> — the whole source is visible; the target is padded. Nothing is lost.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fill</span></code> — the target is covered; the source is cropped. Nothing is padded.</p></li>
+</ul>
+<p><cite>mixing</cite>’s fourth, <code class="docutils literal notranslate"><span class="pre">social</span></code>, is not a fourth mode: it is <code class="docutils literal notranslate"><span class="pre">fit</span></code> with a
+blurred, dimmed copy of the source behind it instead of a solid colour. That is
+a <a class="reference internal" href="#looks.geometry.Backdrop" title="looks.geometry.Backdrop"><code class="xref py py-class docutils literal notranslate"><span class="pre">Backdrop</span></code></a>, and separating the two is what lets a caller put a blurred
+backdrop behind a <code class="docutils literal notranslate"><span class="pre">fill</span></code> or a solid colour behind a <code class="docutils literal notranslate"><span class="pre">social</span></code> layout without
+a fifth mode appearing.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fit"</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span>
+<span class="go">Size(width=1080, height=607)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fit"</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">rounding</span><span class="o">=</span><span class="s2">"exact_half_away"</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span>
+<span class="go">Size(width=1080, height=608)</span>
+</pre></div>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.geometry.Backdrop">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">Backdrop</span></span><a class="headerlink" href="#looks.geometry.Backdrop" title="Link to this definition"></a></dt>
+<dd><p>What fills the part of the target the placed frame does not cover.</p>
+<p>alias of <a class="reference internal" href="#looks.geometry.Solid" title="looks.geometry.Solid"><code class="xref py py-class docutils literal notranslate"><span class="pre">Solid</span></code></a> | <a class="reference internal" href="#looks.geometry.Blurred" title="looks.geometry.Blurred"><code class="xref py py-class docutils literal notranslate"><span class="pre">Blurred</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.geometry.Blurred">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">Blurred</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/geometry.html#Blurred"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.Blurred" title="Link to this definition"></a></dt>
+<dd><p>A blurred, dimmed copy of the source, scaled to cover — the “social” look.</p>
+<p>This is <cite>mixing</cite>’s <code class="docutils literal notranslate"><span class="pre">method=&quot;social&quot;</span></code>, separated from the fit mode so that
+the two compose. Its defaults reproduce that branch.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Blurred</span><span class="p">()</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="n">Blurred</span><span class="p">()</span><span class="o">.</span><span class="n">dim</span>
+<span class="go">(15.0, 0.7)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.geometry.Box">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">Box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/geometry.html#Box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.Box" title="Link to this definition"></a></dt>
+<dd><p>An axis-aligned pixel box, top-left origin, y downwards.</p>
+<p>Deliberately <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">burns.Rect</span></code>: that one is normalised to <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code>
+over a source image and interpolates over time. This one is integer pixels
+in one frame and does not move. The distinction is the same one that keeps
+the two packages apart — <code class="docutils literal notranslate"><span class="pre">burns</span></code> owns <em>authored</em> geometry over time,
+<code class="docutils literal notranslate"><span class="pre">looks</span></code> owns geometry <em>derived</em> from a pair of sizes.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Box</span><span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1439</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span><span class="o">.</span><span class="n">size</span>
+<span class="go">Size(width=1439, height=1080)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.geometry.DFLT_BACKDROP_BLUR_SIGMA">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">DFLT_BACKDROP_BLUR_SIGMA</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15.0</span></span><a class="headerlink" href="#looks.geometry.DFLT_BACKDROP_BLUR_SIGMA" title="Link to this definition"></a></dt>
+<dd><p>Backdrop defaults, transcribed from <code class="docutils literal notranslate"><span class="pre">mixing.resize_to_dimensions</span></code>’s
+<code class="docutils literal notranslate"><span class="pre">method=&quot;social&quot;</span></code> branch so the extracted version reproduces it.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.geometry.DFLT_ROUNDING">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">DFLT_ROUNDING</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'exact_floor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'exact_half_away'</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'exact_floor'</span></span><a class="headerlink" href="#looks.geometry.DFLT_ROUNDING" title="Link to this definition"></a></dt>
+<dd><p>How a non-integer size is resolved. <strong>Both names carry the arithmetic domain,
+not just the tie-break</strong>, because the ambiguous word is what produced a bug.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;exact_floor&quot;</span></code> reproduces <code class="docutils literal notranslate"><span class="pre">mixing.resize_to_dimensions</span></code>: the floor of an
+exact rational. <code class="docutils literal notranslate"><span class="pre">&quot;exact_half_away&quot;</span></code> reproduces ffmpeg’s
+<code class="docutils literal notranslate"><span class="pre">force_original_aspect_ratio</span></code>, which is <code class="docutils literal notranslate"><span class="pre">av_rescale</span></code> with
+<code class="docutils literal notranslate"><span class="pre">AV_ROUND_NEAR_INF</span></code> — half <strong>away from zero</strong>, on exact int64 rationals.</p>
+<p>Both are computed with integer arithmetic. An earlier version used
+<code class="docutils literal notranslate"><span class="pre">int(round(value))</span></code> on a float, which is Python’s half-to-<strong>even</strong> — a
+different rule that disagrees with ffmpeg on <strong>6 of 4000</strong> ordinary
+source/target pairs, and the one doctest that had been chosen
+(1920x1080 -&gt; 1080x1920, 607 against 608) is precisely a case where the
+divergence is invisible because 608 happens to be even. Float truncation had
+the same latent problem for <code class="docutils literal notranslate"><span class="pre">floor</span></code>: a <cite>Placement</cite> that renders differently
+depending on who reads it is exactly what carrying the rule was meant to
+prevent.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.geometry.GeometryError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">GeometryError</span></span><a class="reference internal" href="../../_modules/looks/geometry.html#GeometryError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.GeometryError" title="Link to this definition"></a></dt>
+<dd><p>A size or mode that cannot produce a placement.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.geometry.Placement">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">Placement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Box" title="looks.geometry.Box"><span class="pre">Box</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'exact_floor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'exact_half_away'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'exact_floor'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/geometry.html#Placement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.Placement" title="Link to this definition"></a></dt>
+<dd><p>Scale the source to <code class="xref py py-attr docutils literal notranslate"><span class="pre">scale</span></code>, take <code class="xref py py-attr docutils literal notranslate"><span class="pre">crop</span></code> out, put it at <code class="xref py py-attr docutils literal notranslate"><span class="pre">offset</span></code>.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">crop</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">offset</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code> when that pass is a no-op, so a
+backend emits nothing for it rather than an identity filter. That matters
+for more than tidiness: an identity <code class="docutils literal notranslate"><span class="pre">scale</span></code> still resamples, and a chain
+that resamples when it did not need to loses detail for free.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">rounding</span></code> is carried, not assumed — see the module docstring.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">641</span><span class="p">,</span> <span class="mi">481</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fill"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">scale</span>
+<span class="go">Size(width=1920, height=1440)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">crop</span>
+<span class="go">Box(x=0, y=180, width=1920, height=1080)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">offset</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.geometry.Placement.resamples">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">resamples</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.geometry.Placement.resamples" title="Link to this definition"></a></dt>
+<dd><p>Whether this placement actually changes the pixel grid.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">36</span><span class="p">))</span><span class="o">.</span><span class="n">resamples</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">36</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">72</span><span class="p">))</span><span class="o">.</span><span class="n">resamples</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.geometry.Reframe">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">Reframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">placement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Placement" title="looks.geometry.Placement"><span class="pre">Placement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">backdrop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Solid" title="looks.geometry.Solid"><span class="pre">Solid</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#looks.geometry.Blurred" title="looks.geometry.Blurred"><span class="pre">Blurred</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/geometry.html#Reframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.Reframe" title="Link to this definition"></a></dt>
+<dd><p>A placement plus what fills the part of the target it does not cover.</p>
+<p>This is the shape a <code class="docutils literal notranslate"><span class="pre">Look</span></code> stores: geometry is a spec, and a spec has to
+say what the empty region contains, or two backends will disagree about it.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">reframe</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">850</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">placement</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">backdrop</span>
+<span class="go">((437, 0), Solid(rgb=(0, 0, 0)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reframe</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">850</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">),</span> <span class="n">backdrop</span><span class="o">=</span><span class="n">Blurred</span><span class="p">())</span><span class="o">.</span><span class="n">backdrop</span>
+<span class="go">Blurred(sigma=15.0, dim=0.7)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.geometry.SOCIAL_SIZES">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">SOCIAL_SIZES</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'shorts':</span> <span class="pre">(1080,</span> <span class="pre">1920),</span> <span class="pre">'square':</span> <span class="pre">(1080,</span> <span class="pre">1080),</span> <span class="pre">'story':</span> <span class="pre">(1080,</span> <span class="pre">1920),</span> <span class="pre">'tiktok':</span> <span class="pre">(1080,</span> <span class="pre">1920),</span> <span class="pre">'youtube':</span> <span class="pre">(1920,</span> <span class="pre">1080)}</span></span><a class="headerlink" href="#looks.geometry.SOCIAL_SIZES" title="Link to this definition"></a></dt>
+<dd><p>Named target sizes. Kept because callers ask for “a YouTube Short”, not for
+1080x1920 — but see <a class="reference internal" href="#looks.geometry.social_size" title="looks.geometry.social_size"><code class="xref py py-func docutils literal notranslate"><span class="pre">social_size()</span></code></a>: these are a <em>convenience over</em>
+<a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><code class="xref py py-class docutils literal notranslate"><span class="pre">Size</span></code></a>, never a parallel vocabulary. Nothing in this module takes a
+preset name; they resolve to a <cite>Size</cite> at the boundary.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.geometry.Size">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">Size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/geometry.html#Size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.Size" title="Link to this definition"></a></dt>
+<dd><p>A pixel size. <code class="xref py py-attr docutils literal notranslate"><span class="pre">aspect</span></code> is width/height, never the other way round.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span><span class="o">.</span><span class="n">aspect</span>
+<span class="go">1.7777777777777777</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Size</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.geometry.GeometryError</span>: <span class="n">a Size must be positive, got 0x10</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.geometry.Solid">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">Solid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rgb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/geometry.html#Solid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.Solid" title="Link to this definition"></a></dt>
+<dd><p>A flat colour behind the placed frame.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Solid</span><span class="p">()</span><span class="o">.</span><span class="n">rgb</span>
+<span class="go">(0, 0, 0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.geometry.center_box">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">center_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.geometry.Box" title="looks.geometry.Box"><span class="pre">Box</span></a></span></span><a class="reference internal" href="../../_modules/looks/geometry.html#center_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.center_box" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">inner</span></code> centred in <code class="docutils literal notranslate"><span class="pre">outer</span></code>, halving with the floor <cite>mixing</cite> used.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">center_box</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1439</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<span class="go">Box(x=240, y=0, width=1439, height=1080)</span>
+</pre></div>
+</div>
+<p>An odd leftover goes to the right/bottom, because the offset floors:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">center_box</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="go">Box(x=0, y=0, width=3, height=1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.geometry.ffmpeg_chain">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">ffmpeg_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">placement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Placement" title="looks.geometry.Placement"><span class="pre">Placement</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">backdrop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Solid" title="looks.geometry.Solid"><span class="pre">Solid</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#looks.geometry.Blurred" title="looks.geometry.Blurred"><span class="pre">Blurred</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/geometry.html#ffmpeg_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.ffmpeg_chain" title="Link to this definition"></a></dt>
+<dd><p>The resolved <code class="docutils literal notranslate"><span class="pre">scale,crop,pad</span></code> chain for one placement.</p>
+<p><strong>Resolved, not deferred.</strong> ffmpeg can express fit and fill without knowing
+the source size, via <code class="docutils literal notranslate"><span class="pre">scale=W:H:force_original_aspect_ratio=decrease</span></code>, and
+that form is nearly identical — but <em>nearly</em> is the problem: it rounds where
+this floors, so 1920x1080 into 1080x1920 differs by one row and the seam
+goes black-to-white. More fundamentally, a placement that does not know its
+source size cannot be inspected or diffed, which is the premise of the whole
+package. Resolve against the clip, then emit.</p>
+<p>Only a solid backdrop is emitted here; a <a class="reference internal" href="#looks.geometry.Blurred" title="looks.geometry.Blurred"><code class="xref py py-class docutils literal notranslate"><span class="pre">Blurred</span></code></a> backdrop needs a
+second copy of the input and therefore a two-branch graph, which is the
+compiler’s business rather than this function’s.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">850</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ffmpeg_chain</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">'scale=406:720,pad=1280:720:437:0:color=0x000000'</span>
+</pre></div>
+</div>
+<p>Filling crops instead of padding:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">850</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fill"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ffmpeg_chain</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">'scale=1280:2266,crop=1280:720:0:773'</span>
+</pre></div>
+</div>
+<p>A no-op placement emits a no-op chain, not an identity scale:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ffmpeg_chain</span><span class="p">(</span><span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)))</span>
+<span class="go">''</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.geometry.placement">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">placement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'stretch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fit'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fill'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fit'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'exact_floor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'exact_half_away'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'exact_floor'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.geometry.Placement" title="looks.geometry.Placement"><span class="pre">Placement</span></a></span></span><a class="reference internal" href="../../_modules/looks/geometry.html#placement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.placement" title="Link to this definition"></a></dt>
+<dd><p>The full geometric answer for one clip.</p>
+<p><code class="docutils literal notranslate"><span class="pre">fit</span></code> pads and never crops; <code class="docutils literal notranslate"><span class="pre">fill</span></code> crops and never pads; <code class="docutils literal notranslate"><span class="pre">stretch</span></code>
+does neither.</p>
+<p class="rubric">Examples</p>
+<p>A portrait source into a landscape frame, fitted — padded left/right:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">850</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">crop</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">offset</span>
+<span class="go">(Size(width=406, height=720), None, (437, 0))</span>
+</pre></div>
+</div>
+<p>The same pair, filled — cropped top/bottom, nothing padded:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">850</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fill"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">crop</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">offset</span>
+<span class="go">(Size(width=1280, height=2266), Box(x=0, y=773, width=1280, height=720), None)</span>
+</pre></div>
+</div>
+<p>Same size in and out: nothing happens at all.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">crop</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">resamples</span>
+<span class="go">(Size(width=1280, height=720), None, None, False)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.geometry.reframe">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">reframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'stretch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fit'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fill'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fit'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backdrop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Solid" title="looks.geometry.Solid"><span class="pre">Solid</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#looks.geometry.Blurred" title="looks.geometry.Blurred"><span class="pre">Blurred</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'exact_floor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'exact_half_away'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'exact_floor'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.geometry.Reframe" title="looks.geometry.Reframe"><span class="pre">Reframe</span></a></span></span><a class="reference internal" href="../../_modules/looks/geometry.html#reframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.reframe" title="Link to this definition"></a></dt>
+<dd><p><a class="reference internal" href="#looks.geometry.placement" title="looks.geometry.placement"><code class="xref py py-func docutils literal notranslate"><span class="pre">placement()</span></code></a> plus a backdrop.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.geometry.scaled_size">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">scaled_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'stretch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fit'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fill'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fit'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'exact_floor'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'exact_half_away'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'exact_floor'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></span><a class="reference internal" href="../../_modules/looks/geometry.html#scaled_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.scaled_size" title="Link to this definition"></a></dt>
+<dd><p>The size the source is scaled to, before any crop or pad.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scaled_size</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fit"</span><span class="p">)</span>
+<span class="go">Size(width=1080, height=607)</span>
+</pre></div>
+</div>
+<p>The rounding rule is visible right here, on an ordinary input — this is
+the 607-versus-608 disagreement, not a contrived case:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scaled_size</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fit"</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">rounding</span><span class="o">=</span><span class="s2">"exact_half_away"</span><span class="p">)</span>
+<span class="go">Size(width=1080, height=608)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">fill</span></code> covers instead of fitting, so it goes the other way:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scaled_size</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"fill"</span><span class="p">)</span>
+<span class="go">Size(width=3413, height=1920)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">stretch</span></code> is the target, by definition:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scaled_size</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span> <span class="n">Size</span><span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"stretch"</span><span class="p">)</span>
+<span class="go">Size(width=1080, height=1920)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.geometry.snap_even">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">snap_even</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></span><a class="reference internal" href="../../_modules/looks/geometry.html#snap_even"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.snap_even" title="Link to this definition"></a></dt>
+<dd><p>Both axes rounded <strong>down</strong> to even — the yuv420p requirement.</p>
+<p>H.264 in yuv420p subsamples chroma 2x2, so an odd dimension is not
+encodable. Down rather than up, so the result never exceeds a target the
+caller asked for.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">snap_even</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1439</span><span class="p">,</span> <span class="mi">1081</span><span class="p">))</span>
+<span class="go">Size(width=1438, height=1080)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">snap_even</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<span class="go">Size(width=1920, height=1080)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.geometry.social_size">
+<span class="sig-prename descclassname"><span class="pre">looks.geometry.</span></span><span class="sig-name descname"><span class="pre">social_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><span class="pre">Size</span></a></span></span><a class="reference internal" href="../../_modules/looks/geometry.html#social_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.geometry.social_size" title="Link to this definition"></a></dt>
+<dd><p>Resolve a <a class="reference internal" href="#looks.geometry.SOCIAL_SIZES" title="looks.geometry.SOCIAL_SIZES"><code class="xref py py-data docutils literal notranslate"><span class="pre">SOCIAL_SIZES</span></code></a> preset name.</p>
+<p>A convenience over <a class="reference internal" href="#looks.geometry.Size" title="looks.geometry.Size"><code class="xref py py-class docutils literal notranslate"><span class="pre">Size</span></code></a>, never a parallel vocabulary — nothing else
+in this module accepts a preset name, so a preset cannot acquire behaviour
+of its own.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">social_size</span><span class="p">(</span><span class="s1">'shorts'</span><span class="p">)</span>
+<span class="go">Size(width=1080, height=1920)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">social_size</span><span class="p">(</span><span class="s1">'myspace'</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.geometry.GeometryError</span>: <span class="n">unknown size preset 'myspace'; known: ...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="frame_dependency.html" class="btn btn-neutral float-left" title="looks.frame_dependency" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="licence.html" class="btn btn-neutral float-right" title="looks.licence" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.geometry &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.geometry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.geometry</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Where a source frame lands inside a target frame. Pure arithmetic.</span>
+
+<span class="sd">No I/O, no media library, no ffmpeg, no numpy. Every function here is total:</span>
+<span class="sd">give it two sizes and a mode and it answers, with no file open and nothing</span>
+<span class="sd">decoded. That is what lets one answer drive an ffmpeg filter chain, a moviepy</span>
+<span class="sd">composite, a CSS ``object-fit`` preview, or a cost estimate — and it is why the</span>
+<span class="sd">geometry tier can be a *spec* rather than a call.</span>
+
+<span class="sd">**The rounding rule is part of the answer, not an implementation detail.**</span>
+<span class="sd">`mixing` and moviepy truncate; ffmpeg's ``force_original_aspect_ratio`` rounds.</span>
+<span class="sd">On real inputs they disagree: 1920x1080 into 1080x1920 gives ``1080/(16/9) =</span>
+<span class="sd">607.5``, which truncates to **607** and rounds to **608**. One pixel row, and a</span>
+<span class="sd">total black-to-white difference at the seam. A spec whose rendered result</span>
+<span class="sd">depends on which backend read it is not a spec, so the rule travels inside the</span>
+<span class="sd">:class:`Placement`.</span>
+
+<span class="sd">The three modes are the ones `mixing` already had, and they answer three</span>
+<span class="sd">different questions:</span>
+
+<span class="sd">- ``stretch`` — fill the target exactly, distorting. The only mode that changes</span>
+<span class="sd">  the aspect ratio.</span>
+<span class="sd">- ``fit`` — the whole source is visible; the target is padded. Nothing is lost.</span>
+<span class="sd">- ``fill`` — the target is covered; the source is cropped. Nothing is padded.</span>
+
+<span class="sd">`mixing`'s fourth, ``social``, is not a fourth mode: it is ``fit`` with a</span>
+<span class="sd">blurred, dimmed copy of the source behind it instead of a solid colour. That is</span>
+<span class="sd">a :class:`Backdrop`, and separating the two is what lets a caller put a blurred</span>
+<span class="sd">backdrop behind a ``fill`` or a solid colour behind a ``social`` layout without</span>
+<span class="sd">a fifth mode appearing.</span>
+
+<span class="sd">    &gt;&gt;&gt; placement(Size(1920, 1080), Size(1080, 1920), mode="fit").scale</span>
+<span class="sd">    Size(width=1080, height=607)</span>
+<span class="sd">    &gt;&gt;&gt; placement(Size(1920, 1080), Size(1080, 1920), mode="fit",</span>
+<span class="sd">    ...           rounding="exact_half_away").scale</span>
+<span class="sd">    Size(width=1080, height=608)</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="n">FitMode</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"stretch"</span><span class="p">,</span> <span class="s2">"fit"</span><span class="p">,</span> <span class="s2">"fill"</span><span class="p">]</span>
+<span class="n">Rounding</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"exact_floor"</span><span class="p">,</span> <span class="s2">"exact_half_away"</span><span class="p">]</span>
+
+<span class="c1">#: How a non-integer size is resolved. **Both names carry the arithmetic domain,</span>
+<span class="c1">#: not just the tie-break**, because the ambiguous word is what produced a bug.</span>
+<span class="c1">#:</span>
+<span class="c1">#: ``"exact_floor"`` reproduces ``mixing.resize_to_dimensions``: the floor of an</span>
+<span class="c1">#: exact rational. ``"exact_half_away"`` reproduces ffmpeg's</span>
+<span class="c1">#: ``force_original_aspect_ratio``, which is ``av_rescale`` with</span>
+<span class="c1">#: ``AV_ROUND_NEAR_INF`` — half **away from zero**, on exact int64 rationals.</span>
+<span class="c1">#:</span>
+<span class="c1">#: Both are computed with integer arithmetic. An earlier version used</span>
+<span class="c1">#: ``int(round(value))`` on a float, which is Python's half-to-**even** — a</span>
+<span class="c1">#: different rule that disagrees with ffmpeg on **6 of 4000** ordinary</span>
+<span class="c1">#: source/target pairs, and the one doctest that had been chosen</span>
+<span class="c1">#: (1920x1080 -&gt; 1080x1920, 607 against 608) is precisely a case where the</span>
+<span class="c1">#: divergence is invisible because 608 happens to be even. Float truncation had</span>
+<span class="c1">#: the same latent problem for ``floor``: a `Placement` that renders differently</span>
+<span class="c1">#: depending on who reads it is exactly what carrying the rule was meant to</span>
+<span class="c1">#: prevent.</span>
+<span class="n">DFLT_ROUNDING</span><span class="p">:</span> <span class="n">Rounding</span> <span class="o">=</span> <span class="s2">"exact_floor"</span>
+
+<span class="c1">#: Backdrop defaults, transcribed from ``mixing.resize_to_dimensions``'s</span>
+<span class="c1">#: ``method="social"`` branch so the extracted version reproduces it.</span>
+<span class="n">DFLT_BACKDROP_BLUR_SIGMA</span> <span class="o">=</span> <span class="mf">15.0</span>
+<span class="n">DFLT_BACKDROP_DIM</span> <span class="o">=</span> <span class="mf">0.7</span>
+
+<span class="c1">#: Named target sizes. Kept because callers ask for "a YouTube Short", not for</span>
+<span class="c1">#: 1080x1920 — but see :func:`social_size`: these are a *convenience over*</span>
+<span class="c1">#: :class:`Size`, never a parallel vocabulary. Nothing in this module takes a</span>
+<span class="c1">#: preset name; they resolve to a `Size` at the boundary.</span>
+<span class="n">SOCIAL_SIZES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"youtube"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span>
+    <span class="s2">"shorts"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span>
+    <span class="s2">"square"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1080</span><span class="p">),</span>
+    <span class="s2">"story"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span>
+    <span class="s2">"tiktok"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">1920</span><span class="p">),</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="GeometryError">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.GeometryError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GeometryError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A size or mode that cannot produce a placement."""</span></div>
+
+
+
+<div class="viewcode-block" id="Size">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Size">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Size</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A pixel size. :attr:`aspect` is width/height, never the other way round.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Size(1920, 1080).aspect</span>
+<span class="sd">        1.7777777777777777</span>
+<span class="sd">        &gt;&gt;&gt; Size(0, 10)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.geometry.GeometryError: a Size must be positive, got 0x10</span>
+<span class="sd">    """</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">GeometryError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"a Size must be positive, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aspect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span></div>
+
+
+
+<div class="viewcode-block" id="Box">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Box">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Box</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""An axis-aligned pixel box, top-left origin, y downwards.</span>
+
+<span class="sd">    Deliberately **not** ``burns.Rect``: that one is normalised to ``[0, 1]``</span>
+<span class="sd">    over a source image and interpolates over time. This one is integer pixels</span>
+<span class="sd">    in one frame and does not move. The distinction is the same one that keeps</span>
+<span class="sd">    the two packages apart — ``burns`` owns *authored* geometry over time,</span>
+<span class="sd">    ``looks`` owns geometry *derived* from a pair of sizes.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Box(240, 0, 1439, 1080).size</span>
+<span class="sd">        Size(width=1439, height=1080)</span>
+<span class="sd">    """</span>
+
+    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Solid">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Solid">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Solid</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A flat colour behind the placed frame.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Solid().rgb</span>
+<span class="sd">        (0, 0, 0)</span>
+<span class="sd">    """</span>
+
+    <span class="n">rgb</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Blurred">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Blurred">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Blurred</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A blurred, dimmed copy of the source, scaled to cover — the "social" look.</span>
+
+<span class="sd">    This is `mixing`'s ``method="social"``, separated from the fit mode so that</span>
+<span class="sd">    the two compose. Its defaults reproduce that branch.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Blurred().sigma, Blurred().dim</span>
+<span class="sd">        (15.0, 0.7)</span>
+<span class="sd">    """</span>
+
+    <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DFLT_BACKDROP_BLUR_SIGMA</span>
+    <span class="n">dim</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DFLT_BACKDROP_DIM</span></div>
+
+
+
+<span class="n">Backdrop</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Solid</span><span class="p">,</span> <span class="n">Blurred</span><span class="p">]</span>
+<span class="sd">"""What fills the part of the target the placed frame does not cover."""</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="n">numerator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">denominator</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rounding</span><span class="p">:</span> <span class="n">Rounding</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""``numerator / denominator`` as an integer, exactly, under ``rounding``.</span>
+
+<span class="sd">    Integer arithmetic throughout: no float ever represents the ratio, so there</span>
+<span class="sd">    is no representation error to argue about and the tie-break is the only</span>
+<span class="sd">    thing the two modes differ in.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; _resolve(1, 2, "exact_floor")            # 0.5 floors to 0</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; _resolve(1, 2, "exact_half_away")        # 0.5 goes AWAY from zero</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; _resolve(3, 2, "exact_half_away")        # 1.5 -&gt; 2, as does round()</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; _resolve(5, 2, "exact_half_away")        # 2.5 -&gt; 3, where round() gives 2</span>
+<span class="sd">        3</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">denominator</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">GeometryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"denominator must be positive, got </span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rounding</span> <span class="o">==</span> <span class="s2">"exact_floor"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">numerator</span> <span class="o">//</span> <span class="n">denominator</span>
+    <span class="k">if</span> <span class="n">rounding</span> <span class="o">==</span> <span class="s2">"exact_half_away"</span><span class="p">:</span>
+        <span class="c1"># (2n + d) // 2d is floor(n/d + 1/2), i.e. half away from zero for n &gt;= 0.</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">numerator</span> <span class="o">+</span> <span class="n">denominator</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">denominator</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">GeometryError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"unknown rounding </span><span class="si">{</span><span class="n">rounding</span><span class="si">!r}</span><span class="s2">; use 'exact_floor' or 'exact_half_away'"</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="scaled_size">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.scaled_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">scaled_size</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">FitMode</span> <span class="o">=</span> <span class="s2">"fit"</span><span class="p">,</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="n">Rounding</span> <span class="o">=</span> <span class="n">DFLT_ROUNDING</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The size the source is scaled to, before any crop or pad.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; scaled_size(Size(1920, 1080), Size(1080, 1920), mode="fit")</span>
+<span class="sd">        Size(width=1080, height=607)</span>
+
+<span class="sd">        The rounding rule is visible right here, on an ordinary input — this is</span>
+<span class="sd">        the 607-versus-608 disagreement, not a contrived case:</span>
+
+<span class="sd">        &gt;&gt;&gt; scaled_size(Size(1920, 1080), Size(1080, 1920), mode="fit",</span>
+<span class="sd">        ...             rounding="exact_half_away")</span>
+<span class="sd">        Size(width=1080, height=608)</span>
+
+<span class="sd">        ``fill`` covers instead of fitting, so it goes the other way:</span>
+
+<span class="sd">        &gt;&gt;&gt; scaled_size(Size(1920, 1080), Size(1080, 1920), mode="fill")</span>
+<span class="sd">        Size(width=3413, height=1920)</span>
+
+<span class="sd">        ``stretch`` is the target, by definition:</span>
+
+<span class="sd">        &gt;&gt;&gt; scaled_size(Size(1920, 1080), Size(1080, 1920), mode="stretch")</span>
+<span class="sd">        Size(width=1080, height=1920)</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"stretch"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">target</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"fit"</span><span class="p">,</span> <span class="s2">"fill"</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">GeometryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"unknown mode </span><span class="si">{</span><span class="n">mode</span><span class="si">!r}</span><span class="s2">; use 'stretch', 'fit' or 'fill'"</span><span class="p">)</span>
+    <span class="c1"># Compared as a cross-product so the choice of axis is exact too: a float</span>
+    <span class="c1"># aspect comparison can pick the wrong branch on a near-square pair.</span>
+    <span class="n">wider</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">target</span><span class="o">.</span><span class="n">height</span> <span class="o">&gt;</span> <span class="n">target</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">source</span><span class="o">.</span><span class="n">height</span>
+    <span class="c1"># `fit` matches the constraining axis; `fill` matches the other one.</span>
+    <span class="n">match_width</span> <span class="o">=</span> <span class="n">wider</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"fit"</span> <span class="k">else</span> <span class="ow">not</span> <span class="n">wider</span>
+    <span class="k">if</span> <span class="n">match_width</span><span class="p">:</span>
+        <span class="c1"># target.width / source.aspect  ==  target.width * source.height / source.width</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">source</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">rounding</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="c1"># target.height * source.aspect  ==  target.height * source.width / source.height</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">source</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">rounding</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">target</span><span class="o">.</span><span class="n">height</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="center_box">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.center_box">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">center_box</span><span class="p">(</span><span class="n">inner</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span> <span class="n">outer</span><span class="p">:</span> <span class="n">Size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Box</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""``inner`` centred in ``outer``, halving with the floor `mixing` used.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; center_box(Size(1439, 1080), Size(1920, 1080))</span>
+<span class="sd">        Box(x=240, y=0, width=1439, height=1080)</span>
+
+<span class="sd">        An odd leftover goes to the right/bottom, because the offset floors:</span>
+
+<span class="sd">        &gt;&gt;&gt; center_box(Size(3, 1), Size(4, 1))</span>
+<span class="sd">        Box(x=0, y=0, width=3, height=1)</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">Box</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">inner</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">inner</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">inner</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">inner</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Placement">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Placement">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Placement</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Scale the source to :attr:`scale`, take :attr:`crop` out, put it at :attr:`offset`.</span>
+
+<span class="sd">    :attr:`crop` and :attr:`offset` are ``None`` when that pass is a no-op, so a</span>
+<span class="sd">    backend emits nothing for it rather than an identity filter. That matters</span>
+<span class="sd">    for more than tidiness: an identity ``scale`` still resamples, and a chain</span>
+<span class="sd">    that resamples when it did not need to loses detail for free.</span>
+
+<span class="sd">    :attr:`rounding` is carried, not assumed — see the module docstring.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; p = placement(Size(641, 481), Size(1920, 1080), mode="fill")</span>
+<span class="sd">        &gt;&gt;&gt; p.scale</span>
+<span class="sd">        Size(width=1920, height=1440)</span>
+<span class="sd">        &gt;&gt;&gt; p.crop</span>
+<span class="sd">        Box(x=0, y=180, width=1920, height=1080)</span>
+<span class="sd">        &gt;&gt;&gt; p.offset is None</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+
+    <span class="n">source</span><span class="p">:</span> <span class="n">Size</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Size</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="n">Size</span>
+    <span class="n">crop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Box</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="n">Rounding</span> <span class="o">=</span> <span class="n">DFLT_ROUNDING</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resamples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether this placement actually changes the pixel grid.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; placement(Size(64, 36), Size(64, 36)).resamples</span>
+<span class="sd">            False</span>
+<span class="sd">            &gt;&gt;&gt; placement(Size(64, 36), Size(128, 72)).resamples</span>
+<span class="sd">            True</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span></div>
+
+
+
+<div class="viewcode-block" id="placement">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.placement">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">placement</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">FitMode</span> <span class="o">=</span> <span class="s2">"fit"</span><span class="p">,</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="n">Rounding</span> <span class="o">=</span> <span class="n">DFLT_ROUNDING</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Placement</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The full geometric answer for one clip.</span>
+
+<span class="sd">    ``fit`` pads and never crops; ``fill`` crops and never pads; ``stretch``</span>
+<span class="sd">    does neither.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        A portrait source into a landscape frame, fitted — padded left/right:</span>
+
+<span class="sd">        &gt;&gt;&gt; p = placement(Size(480, 850), Size(1280, 720))</span>
+<span class="sd">        &gt;&gt;&gt; p.scale, p.crop, p.offset</span>
+<span class="sd">        (Size(width=406, height=720), None, (437, 0))</span>
+
+<span class="sd">        The same pair, filled — cropped top/bottom, nothing padded:</span>
+
+<span class="sd">        &gt;&gt;&gt; p = placement(Size(480, 850), Size(1280, 720), mode="fill")</span>
+<span class="sd">        &gt;&gt;&gt; p.scale, p.crop, p.offset</span>
+<span class="sd">        (Size(width=1280, height=2266), Box(x=0, y=773, width=1280, height=720), None)</span>
+
+<span class="sd">        Same size in and out: nothing happens at all.</span>
+
+<span class="sd">        &gt;&gt;&gt; p = placement(Size(1280, 720), Size(1280, 720))</span>
+<span class="sd">        &gt;&gt;&gt; p.scale, p.crop, p.offset, p.resamples</span>
+<span class="sd">        (Size(width=1280, height=720), None, None, False)</span>
+<span class="sd">    """</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">scaled_size</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">)</span>
+    <span class="n">crop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Box</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">scale</span><span class="o">.</span><span class="n">width</span> <span class="o">&gt;</span> <span class="n">target</span><span class="o">.</span><span class="n">width</span> <span class="ow">or</span> <span class="n">scale</span><span class="o">.</span><span class="n">height</span> <span class="o">&gt;</span> <span class="n">target</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">center_box</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="n">crop</span> <span class="o">=</span> <span class="n">box</span>
+    <span class="k">if</span> <span class="n">scale</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;</span> <span class="n">target</span><span class="o">.</span><span class="n">width</span> <span class="ow">or</span> <span class="n">scale</span><span class="o">.</span><span class="n">height</span> <span class="o">&lt;</span> <span class="n">target</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">center_box</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">box</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Placement</span><span class="p">(</span>
+        <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+        <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+        <span class="n">crop</span><span class="o">=</span><span class="n">crop</span><span class="p">,</span>
+        <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+        <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Reframe">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.Reframe">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Reframe</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A placement plus what fills the part of the target it does not cover.</span>
+
+<span class="sd">    This is the shape a ``Look`` stores: geometry is a spec, and a spec has to</span>
+<span class="sd">    say what the empty region contains, or two backends will disagree about it.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; r = reframe(Size(480, 850), Size(1280, 720))</span>
+<span class="sd">        &gt;&gt;&gt; r.placement.offset, r.backdrop</span>
+<span class="sd">        ((437, 0), Solid(rgb=(0, 0, 0)))</span>
+<span class="sd">        &gt;&gt;&gt; reframe(Size(480, 850), Size(1280, 720), backdrop=Blurred()).backdrop</span>
+<span class="sd">        Blurred(sigma=15.0, dim=0.7)</span>
+<span class="sd">    """</span>
+
+    <span class="n">placement</span><span class="p">:</span> <span class="n">Placement</span>
+    <span class="n">backdrop</span><span class="p">:</span> <span class="n">Backdrop</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">Solid</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="reframe">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.reframe">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">reframe</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">FitMode</span> <span class="o">=</span> <span class="s2">"fit"</span><span class="p">,</span>
+    <span class="n">backdrop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Backdrop</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rounding</span><span class="p">:</span> <span class="n">Rounding</span> <span class="o">=</span> <span class="n">DFLT_ROUNDING</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Reframe</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">""":func:`placement` plus a backdrop."""</span>
+    <span class="k">return</span> <span class="n">Reframe</span><span class="p">(</span>
+        <span class="n">placement</span><span class="o">=</span><span class="n">placement</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="n">rounding</span><span class="p">),</span>
+        <span class="n">backdrop</span><span class="o">=</span><span class="n">Solid</span><span class="p">()</span> <span class="k">if</span> <span class="n">backdrop</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">backdrop</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="social_size">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.social_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">social_size</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Resolve a :data:`SOCIAL_SIZES` preset name.</span>
+
+<span class="sd">    A convenience over :class:`Size`, never a parallel vocabulary — nothing else</span>
+<span class="sd">    in this module accepts a preset name, so a preset cannot acquire behaviour</span>
+<span class="sd">    of its own.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; social_size('shorts')</span>
+<span class="sd">        Size(width=1080, height=1920)</span>
+<span class="sd">        &gt;&gt;&gt; social_size('myspace')</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.geometry.GeometryError: unknown size preset 'myspace'; known: ...</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SOCIAL_SIZES</span><span class="p">:</span>
+        <span class="n">known</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">SOCIAL_SIZES</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">GeometryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"unknown size preset </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">; known: </span><span class="si">{</span><span class="n">known</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="o">*</span><span class="n">SOCIAL_SIZES</span><span class="p">[</span><span class="n">name</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="snap_even">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.snap_even">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">snap_even</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Both axes rounded **down** to even — the yuv420p requirement.</span>
+
+<span class="sd">    H.264 in yuv420p subsamples chroma 2x2, so an odd dimension is not</span>
+<span class="sd">    encodable. Down rather than up, so the result never exceeds a target the</span>
+<span class="sd">    caller asked for.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; snap_even(Size(1439, 1081))</span>
+<span class="sd">        Size(width=1438, height=1080)</span>
+<span class="sd">        &gt;&gt;&gt; snap_even(Size(1920, 1080))</span>
+<span class="sd">        Size(width=1920, height=1080)</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="n">size</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">size</span><span class="o">.</span><span class="n">width</span> <span class="o">%</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">size</span><span class="o">.</span><span class="n">height</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ffmpeg_chain">
+<a class="viewcode-back" href="../../module_docs/looks/geometry.html#looks.ffmpeg_chain">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ffmpeg_chain</span><span class="p">(</span><span class="n">placement</span><span class="p">:</span> <span class="n">Placement</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">backdrop</span><span class="p">:</span> <span class="n">Backdrop</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[assignment]</span>
+<span class="w">    </span><span class="sd">"""The resolved ``scale,crop,pad`` chain for one placement.</span>
+
+<span class="sd">    **Resolved, not deferred.** ffmpeg can express fit and fill without knowing</span>
+<span class="sd">    the source size, via ``scale=W:H:force_original_aspect_ratio=decrease``, and</span>
+<span class="sd">    that form is nearly identical — but *nearly* is the problem: it rounds where</span>
+<span class="sd">    this floors, so 1920x1080 into 1080x1920 differs by one row and the seam</span>
+<span class="sd">    goes black-to-white. More fundamentally, a placement that does not know its</span>
+<span class="sd">    source size cannot be inspected or diffed, which is the premise of the whole</span>
+<span class="sd">    package. Resolve against the clip, then emit.</span>
+
+<span class="sd">    Only a solid backdrop is emitted here; a :class:`Blurred` backdrop needs a</span>
+<span class="sd">    second copy of the input and therefore a two-branch graph, which is the</span>
+<span class="sd">    compiler's business rather than this function's.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; p = placement(Size(480, 850), Size(1280, 720))</span>
+<span class="sd">        &gt;&gt;&gt; ffmpeg_chain(p)</span>
+<span class="sd">        'scale=406:720,pad=1280:720:437:0:color=0x000000'</span>
+
+<span class="sd">        Filling crops instead of padding:</span>
+
+<span class="sd">        &gt;&gt;&gt; p = placement(Size(480, 850), Size(1280, 720), mode="fill")</span>
+<span class="sd">        &gt;&gt;&gt; ffmpeg_chain(p)</span>
+<span class="sd">        'scale=1280:2266,crop=1280:720:0:773'</span>
+
+<span class="sd">        A no-op placement emits a no-op chain, not an identity scale:</span>
+
+<span class="sd">        &gt;&gt;&gt; ffmpeg_chain(placement(Size(1280, 720), Size(1280, 720)))</span>
+<span class="sd">        ''</span>
+<span class="sd">    """</span>
+    <span class="n">parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">resamples</span><span class="p">:</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"scale=</span><span class="si">{</span><span class="n">placement</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">placement</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">crop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">crop</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"crop=</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">placement</span><span class="o">.</span><span class="n">offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">placement</span><span class="o">.</span><span class="n">offset</span>
+        <span class="n">bd</span> <span class="o">=</span> <span class="n">Solid</span><span class="p">()</span> <span class="k">if</span> <span class="n">backdrop</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">backdrop</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bd</span><span class="p">,</span> <span class="n">Blurred</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">GeometryError</span><span class="p">(</span>
+                <span class="s2">"a Blurred backdrop needs a second input branch; compile it as a "</span>
+                <span class="s2">"two-branch graph rather than a single -vf chain"</span>
+            <span class="p">)</span>
+        <span class="n">colour</span> <span class="o">=</span> <span class="s2">"0x</span><span class="si">%02X%02X%02X</span><span class="s2">"</span> <span class="o">%</span> <span class="n">bd</span><span class="o">.</span><span class="n">rgb</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"pad=</span><span class="si">{</span><span class="n">placement</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">placement</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">:color=</span><span class="si">{</span><span class="n">colour</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

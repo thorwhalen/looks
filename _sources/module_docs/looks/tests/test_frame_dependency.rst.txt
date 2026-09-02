@@ -1,0 +1,4 @@
+looks.tests.test_frame_dependency
+=================================
+.. automodule:: looks.tests.test_frame_dependency
+   :members:

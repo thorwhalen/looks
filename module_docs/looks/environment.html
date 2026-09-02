@@ -1,0 +1,605 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.environment &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="looks.frame_dependency" href="frame_dependency.html" />
+    <link rel="prev" title="looks._run" href="_run.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.DFLT_FFMPEG"><code class="docutils literal notranslate"><span class="pre">DFLT_FFMPEG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.DFLT_PROBE_TIMEOUT_S"><code class="docutils literal notranslate"><span class="pre">DFLT_PROBE_TIMEOUT_S</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.FfmpegEnv"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.path"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.version"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.licence"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.licence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.filters"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.filters</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.configuration"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.configuration</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.notes"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.notes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.available"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.available</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.has_filter"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.has_filter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.environment.FfmpegEnv.missing"><code class="docutils literal notranslate"><span class="pre">FfmpegEnv.missing()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.GATES_PATH"><code class="docutils literal notranslate"><span class="pre">GATES_PATH</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.LICENCE_ORDER"><code class="docutils literal notranslate"><span class="pre">LICENCE_ORDER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.Licence"><code class="docutils literal notranslate"><span class="pre">Licence</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.UnknownFilter"><code class="docutils literal notranslate"><span class="pre">UnknownFilter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.gates"><code class="docutils literal notranslate"><span class="pre">gates()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.gpl_only_filters"><code class="docutils literal notranslate"><span class="pre">gpl_only_filters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.known_filters"><code class="docutils literal notranslate"><span class="pre">known_filters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.needs_gpl"><code class="docutils literal notranslate"><span class="pre">needs_gpl()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.parse_configuration"><code class="docutils literal notranslate"><span class="pre">parse_configuration()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.parse_filters"><code class="docutils literal notranslate"><span class="pre">parse_filters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.parse_licence"><code class="docutils literal notranslate"><span class="pre">parse_licence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.environment.probe"><code class="docutils literal notranslate"><span class="pre">probe()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks.environment</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/environment.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks.environment">
+<span id="looks-environment"></span><h1>looks.environment<a class="headerlink" href="#module-looks.environment" title="Link to this heading"></a></h1>
+<p>What the ffmpeg on <em>this</em> machine actually is, and what it can actually do.</p>
+<p>Two questions, two authorities, and they are not interchangeable:</p>
+<ul class="simple">
+<li><p><strong>What licence does this binary carry?</strong> <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-L</span></code>. Nothing else.</p></li>
+<li><p><strong>Which filters does it have?</strong> <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-filters</span></code>. Nothing else.</p></li>
+</ul>
+<p>Both of those sentences are load-bearing, and both were established by
+measurement rather than by reading documentation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-L</span></code> prints a licence statement produced by a compile-time <code class="docutils literal notranslate"><span class="pre">#if</span></code>
+cascade in <code class="docutils literal notranslate"><span class="pre">fftools/opt_common.c</span></code>. That matters because the more obvious
+source — the <code class="docutils literal notranslate"><span class="pre">configuration:</span></code> line in <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-version</span></code> — is <em>editable by
+whoever built the binary</em>, and at least one widely-installed wheel does edit
+the licence conclusion out of it. PyAV’s bundled FFmpeg patches <code class="docutils literal notranslate"><span class="pre">configure</span></code>
+to move <code class="docutils literal notranslate"><span class="pre">libx264</span></code>/<code class="docutils literal notranslate"><span class="pre">libx265</span></code> out of <code class="docutils literal notranslate"><span class="pre">EXTERNAL_LIBRARY_GPL_LIST</span></code>, so its
+<code class="docutils literal notranslate"><span class="pre">avutil_license()</span></code> reports “LGPL version 3 or later” while <code class="docutils literal notranslate"><span class="pre">otool</span> <span class="pre">-L</span></code> shows
+GPL <code class="docutils literal notranslate"><span class="pre">libx264</span></code> and <code class="docutils literal notranslate"><span class="pre">libx265</span></code> actually linked. A licence check that trusts a
+self-report is not a check; <code class="docutils literal notranslate"><span class="pre">-L</span></code>’s cascade is the least-editable statement a
+binary makes about itself, and even it is only evidence, not proof.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-h</span> <span class="pre">filter=NAME</span></code> looks like a capability probe and is not one: on
+ffmpeg 8.1 an unknown filter prints <code class="docutils literal notranslate"><span class="pre">Unknown</span> <span class="pre">filter</span> <span class="pre">'x'.</span></code> and then, verbatim,
+<code class="docutils literal notranslate"><span class="pre">Exiting</span> <span class="pre">with</span> <span class="pre">exit</span> <span class="pre">code</span> <span class="pre">0</span></code>. Every filter would test as present. So
+availability comes from parsing the <code class="docutils literal notranslate"><span class="pre">-filters</span></code> table.</p>
+<p>And the rule that ties them together: <strong>anything this module cannot determine
+is reported as unknown, and unknown is a refusal upstream.</strong> A build whose
+licence line matches nothing known is not “probably LGPL”; it is unknown. The
+functions here never guess and never raise on a merely-absent ffmpeg — they
+return a <a class="reference internal" href="#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FfmpegEnv</span></code></a> that says so, because a caller diagnosing a missing
+binary needs a value it can inspect, not a traceback.</p>
+<p><strong>There is not one ffmpeg on a machine, and the difference is not a version
+number.</strong> Measured on this one: <code class="docutils literal notranslate"><span class="pre">PATH</span></code> carries ffmpeg 8.1, GPL-<strong>3</strong>, 481
+filters; the binary <cite>imageio-ffmpeg</cite> ships inside site-packages is ffmpeg 7.1,
+GPL-<strong>2</strong>, 484 filters — and the two filter sets are <strong>non-nested</strong>. Only PATH
+has <code class="docutils literal notranslate"><span class="pre">colordetect</span></code>, <code class="docutils literal notranslate"><span class="pre">premultiply_dynamic</span></code>, <code class="docutils literal notranslate"><span class="pre">transpose_vt</span></code>,
+<code class="docutils literal notranslate"><span class="pre">yadif_videotoolbox</span></code>; only the bundled one has <code class="docutils literal notranslate"><span class="pre">ass</span></code>, <code class="docutils literal notranslate"><span class="pre">drawtext</span></code>, <code class="docutils literal notranslate"><span class="pre">pp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">subtitles</span></code>, <code class="docutils literal notranslate"><span class="pre">vidstabdetect</span></code>, <code class="docutils literal notranslate"><span class="pre">vidstabtransform</span></code>, <code class="docutils literal notranslate"><span class="pre">zscale</span></code>. So neither
+“the ffmpeg version” nor “the ffmpeg licence” is a single fact about a machine.</p>
+<p>The rule that follows is the important one: <strong>a caller passes the environment
+in; nothing downstream may call</strong> <a class="reference internal" href="#looks.environment.probe" title="looks.environment.probe"><code class="xref py py-func docutils literal notranslate"><span class="pre">probe()</span></code></a> <strong>for itself.</strong> A compiled Look
+is valid against <em>one</em> <a class="reference internal" href="#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FfmpegEnv</span></code></a>, not against a machine, and a
+component that probes on its own behalf silently binds to whichever binary
+happened to be first on <code class="docutils literal notranslate"><span class="pre">PATH</span></code> — which, for anything invoked through moviepy,
+is not the one the user is looking at.</p>
+<p>Nothing here executes a filter, decodes a frame, or writes a file. It runs
+<code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> three times with no input and parses text.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">probe</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">licence</span>
+<span class="go">&lt;Licence.GPL3: 'gpl3'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">has_filter</span><span class="p">(</span><span class="s1">'lut3d'</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.environment.DFLT_FFMPEG">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">DFLT_FFMPEG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ffmpeg'</span></span><a class="headerlink" href="#looks.environment.DFLT_FFMPEG" title="Link to this definition"></a></dt>
+<dd><p>The default binary name, looked up on <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.environment.DFLT_PROBE_TIMEOUT_S">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">DFLT_PROBE_TIMEOUT_S</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20.0</span></span><a class="headerlink" href="#looks.environment.DFLT_PROBE_TIMEOUT_S" title="Link to this definition"></a></dt>
+<dd><p>these are trivial
+commands, so exceeding it means something is wrong (a network filesystem, a
+binary that hangs on a missing dylib) and we would rather say “unknown” than
+block a caller forever.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>How long any single probe subprocess may take. Generous</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">FfmpegEnv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">licence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.environment.Licence" title="looks.environment.Licence"><span class="pre">Licence</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Licence.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">frozenset({})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/environment.html#FfmpegEnv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.FfmpegEnv" title="Link to this definition"></a></dt>
+<dd><p>One machine’s ffmpeg, as far as it can be determined without running it.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.path">
+<span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#looks.environment.FfmpegEnv.path" title="Link to this definition"></a></dt>
+<dd><p>Resolved path to the binary, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if none was found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.version">
+<span class="sig-name descname"><span class="pre">version</span></span><a class="headerlink" href="#looks.environment.FfmpegEnv.version" title="Link to this definition"></a></dt>
+<dd><p>The version string from <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-version</span></code>’s first line, or
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.licence">
+<span class="sig-name descname"><span class="pre">licence</span></span><a class="headerlink" href="#looks.environment.FfmpegEnv.licence" title="Link to this definition"></a></dt>
+<dd><p>What <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-L</span></code> says. <code class="xref py py-attr docutils literal notranslate"><span class="pre">Licence.UNKNOWN</span></code> whenever the
+output matched nothing known, the binary was absent, or the probe
+failed — three different reasons, one honest answer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#looks.environment.Licence" title="looks.environment.Licence">looks.environment.Licence</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.filters">
+<span class="sig-name descname"><span class="pre">filters</span></span><a class="headerlink" href="#looks.environment.FfmpegEnv.filters" title="Link to this definition"></a></dt>
+<dd><p>Every filter name <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-filters</span></code> listed. Empty when the
+probe failed, which is why <a class="reference internal" href="#looks.environment.FfmpegEnv.available" title="looks.environment.FfmpegEnv.available"><code class="xref py py-attr docutils literal notranslate"><span class="pre">available</span></code></a> exists to tell “no
+filters” apart from “did not look”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>frozenset[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.configuration">
+<span class="sig-name descname"><span class="pre">configuration</span></span><a class="headerlink" href="#looks.environment.FfmpegEnv.configuration" title="Link to this definition"></a></dt>
+<dd><p>The raw <code class="docutils literal notranslate"><span class="pre">configuration:</span></code> line, kept for diagnostics
+only. <strong>Never</strong> read it to decide a licence — it is editable by the
+builder, which is the whole reason <a class="reference internal" href="#looks.environment.FfmpegEnv.licence" title="looks.environment.FfmpegEnv.licence"><code class="xref py py-attr docutils literal notranslate"><span class="pre">licence</span></code></a> comes from
+<code class="docutils literal notranslate"><span class="pre">-L</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.notes">
+<span class="sig-name descname"><span class="pre">notes</span></span><a class="headerlink" href="#looks.environment.FfmpegEnv.notes" title="Link to this definition"></a></dt>
+<dd><p>Human-readable reasons anything above is missing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[str, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.available">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">available</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.environment.FfmpegEnv.available" title="Link to this definition"></a></dt>
+<dd><p>Whether an ffmpeg binary was found and answered at all.</p>
+<p>Distinct from “has no filters”: a probe that could not run leaves
+<a class="reference internal" href="#looks.environment.FfmpegEnv.filters" title="looks.environment.FfmpegEnv.filters"><code class="xref py py-attr docutils literal notranslate"><span class="pre">filters</span></code></a> empty too, and a caller must be able to tell those
+apart before concluding anything.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.has_filter">
+<span class="sig-name descname"><span class="pre">has_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#FfmpegEnv.has_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.FfmpegEnv.has_filter" title="Link to this definition"></a></dt>
+<dd><p>Whether <code class="docutils literal notranslate"><span class="pre">name</span></code> is in this build’s filter table.</p>
+<p>Always <code class="docutils literal notranslate"><span class="pre">False</span></code> when the probe did not run — check <a class="reference internal" href="#looks.environment.FfmpegEnv.available" title="looks.environment.FfmpegEnv.available"><code class="xref py py-attr docutils literal notranslate"><span class="pre">available</span></code></a>
+first if the difference matters to you.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">}))</span><span class="o">.</span><span class="n">has_filter</span><span class="p">(</span><span class="s1">'lut3d'</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">}))</span><span class="o">.</span><span class="n">has_filter</span><span class="p">(</span><span class="s1">'eq'</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.environment.FfmpegEnv.missing">
+<span class="sig-name descname"><span class="pre">missing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#FfmpegEnv.missing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.FfmpegEnv.missing" title="Link to this definition"></a></dt>
+<dd><p>Which of <code class="docutils literal notranslate"><span class="pre">names</span></code> this build does not have, in the order given.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'curves'</span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">missing</span><span class="p">([</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'eq'</span><span class="p">,</span> <span class="s1">'boxblur'</span><span class="p">])</span>
+<span class="go">('eq', 'boxblur')</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.environment.GATES_PATH">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">GATES_PATH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/runner/work/looks/looks/looks/data/ffmpeg_gates.json')</span></span><a class="headerlink" href="#looks.environment.GATES_PATH" title="Link to this definition"></a></dt>
+<dd><p>Where the committed gate table lives, relative to this package.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.environment.LICENCE_ORDER">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">LICENCE_ORDER</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.environment.Licence" title="looks.environment.Licence"><span class="pre">Licence</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(Licence.LGPL21,</span> <span class="pre">Licence.LGPL3,</span> <span class="pre">Licence.GPL2,</span> <span class="pre">Licence.GPL3,</span> <span class="pre">Licence.NONFREE)</span></span><a class="headerlink" href="#looks.environment.LICENCE_ORDER" title="Link to this definition"></a></dt>
+<dd><p>Permissiveness order, most permissive first. <code class="xref py py-attr docutils literal notranslate"><span class="pre">Licence.UNKNOWN</span></code> is
+absent on purpose — see <a class="reference internal" href="#looks.environment.Licence" title="looks.environment.Licence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Licence</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.environment.Licence">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">Licence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/environment.html#Licence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.Licence" title="Link to this definition"></a></dt>
+<dd><p>What licence an ffmpeg build carries, as <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-L</span></code> reports it.</p>
+<p>Ordered from most to least permissive by <a class="reference internal" href="#looks.environment.LICENCE_ORDER" title="looks.environment.LICENCE_ORDER"><code class="xref py py-data docutils literal notranslate"><span class="pre">LICENCE_ORDER</span></code></a>. <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code>
+is deliberately <em>not</em> on that ladder: it is not a position between two
+others, it is the absence of a position, and it must refuse rather than
+compare.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.environment.UnknownFilter">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">UnknownFilter</span></span><a class="reference internal" href="../../_modules/looks/environment.html#UnknownFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.UnknownFilter" title="Link to this definition"></a></dt>
+<dd><p>A filter name that is not in any known universe.</p>
+<p>Raised rather than ignored, because <a class="reference internal" href="#looks.environment.needs_gpl" title="looks.environment.needs_gpl"><code class="xref py py-func docutils literal notranslate"><span class="pre">needs_gpl()</span></code></a> is an
+<strong>allowlist-by-absence</strong>: a name it does not recognise carries no gate, so
+silently returning “not GPL” for a typo, a wrong case, a filter from a newer
+ffmpeg, or one an extraction never enumerated is a <em>computed</em> false
+permission — at exactly the point the licence tier enters. That is the one
+direction this package may never fail in.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.gates">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">gates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#gates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.gates" title="Link to this definition"></a></dt>
+<dd><p>The committed table of FFmpeg’s own licence gates, extracted from source.</p>
+<p><strong>A filter is GPL-gated two ways, and a grep finds only one of them.</strong>
+<em>Directly</em>, when its <code class="docutils literal notranslate"><span class="pre">_filter_deps</span></code> line contains the literal <code class="docutils literal notranslate"><span class="pre">gpl</span></code>
+(33 filters, <code class="docutils literal notranslate"><span class="pre">eq</span></code> among them). <em>Indirectly</em>, when its deps name an
+external library that is itself in <code class="docutils literal notranslate"><span class="pre">EXTERNAL_LIBRARY_GPL_LIST</span></code> — enabling
+the filter then forces <code class="docutils literal notranslate"><span class="pre">--enable-gpl</span></code> transitively, with no <code class="docutils literal notranslate"><span class="pre">gpl</span></code> token
+anywhere on its own line. Five filters are in that second class:
+<code class="docutils literal notranslate"><span class="pre">frei0r</span></code>, <code class="docutils literal notranslate"><span class="pre">frei0r_src</span></code>, <code class="docutils literal notranslate"><span class="pre">rubberband</span></code>, <code class="docutils literal notranslate"><span class="pre">vidstabdetect</span></code>,
+<code class="docutils literal notranslate"><span class="pre">vidstabtransform</span></code>.</p>
+<p>Missing them is a <strong>false permission</strong>, which is the dangerous direction:
+<code class="docutils literal notranslate"><span class="pre">vidstabtransform</span></code> is stabilisation, i.e. a perfectly plausible
+normalisation effect for this package, and the naive extraction tiers it
+permissive. The first version of this table did exactly that; it was caught
+by an adversarial review rather than by any test, which is why the two
+classes are now stored separately and asserted separately.</p>
+<p>This is what FFmpeg’s <code class="docutils literal notranslate"><span class="pre">configure</span></code> <em>declares</em>, not what the local binary
+<em>has</em> — the two answer different questions, and both are needed. The table
+says an effect written with <code class="docutils literal notranslate"><span class="pre">eq</span></code> could never run on a clean-room LGPL
+build; <a class="reference internal" href="#looks.environment.probe" title="looks.environment.probe"><code class="xref py py-func docutils literal notranslate"><span class="pre">probe()</span></code></a> says whether the binary in front of you happens to have
+it. Collapsing them makes every purely-LGPL Look unrunnable on every
+Homebrew ffmpeg on earth, since those are all GPL builds.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gates</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'eq'</span> <span class="ow">in</span> <span class="n">g</span><span class="p">[</span><span class="s1">'gpl_filters'</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'geq'</span> <span class="ow">in</span> <span class="n">g</span><span class="p">[</span><span class="s1">'gpl_filters'</span><span class="p">]</span>      <span class="c1"># relicensed in FFmpeg 4.3</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'lut3d'</span> <span class="ow">in</span> <span class="n">g</span><span class="p">[</span><span class="s1">'gpl_filters'</span><span class="p">]</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'libx264'</span> <span class="ow">in</span> <span class="n">g</span><span class="p">[</span><span class="s1">'external_gpl'</span><span class="p">]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.gpl_only_filters">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">gpl_only_filters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#gpl_only_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.gpl_only_filters" title="Link to this definition"></a></dt>
+<dd><p>Filter names FFmpeg gates behind <code class="docutils literal notranslate"><span class="pre">--enable-gpl</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">gpl_only_filters</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="s1">'eq'</span><span class="p">,</span> <span class="s1">'boxblur'</span><span class="p">,</span> <span class="s1">'cropdetect'</span><span class="p">}</span> <span class="o">&lt;=</span> <span class="n">f</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">&amp;</span> <span class="p">{</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'curves'</span><span class="p">,</span> <span class="s1">'colorlevels'</span><span class="p">,</span> <span class="s1">'geq'</span><span class="p">}</span>
+<span class="go">frozenset()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.known_filters">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">known_filters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#known_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.known_filters" title="Link to this definition"></a></dt>
+<dd><p>Every filter name FFmpeg n8.1 declares — the universe <a class="reference internal" href="#looks.environment.needs_gpl" title="looks.environment.needs_gpl"><code class="xref py py-func docutils literal notranslate"><span class="pre">needs_gpl()</span></code></a> checks against.</p>
+<p>Extracted from <code class="docutils literal notranslate"><span class="pre">libavfilter/allfilters.c</span></code>, which declares one <code class="docutils literal notranslate"><span class="pre">extern</span></code>
+per filter regardless of build flags, so it covers filters the local binary
+does not have. That is the right universe: a name absent from <em>this</em> build
+is still a real filter with a real gate, and refusing it would be a false
+alarm, while a name absent from <em>FFmpeg</em> is a typo and must raise.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">known_filters</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="s1">'eq'</span><span class="p">,</span> <span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'vidstabtransform'</span><span class="p">,</span> <span class="s1">'geq'</span><span class="p">}</span> <span class="o">&lt;=</span> <span class="n">u</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'nosuchfilter'</span> <span class="ow">in</span> <span class="n">u</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">500</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.needs_gpl">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">needs_gpl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">known</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#needs_gpl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.needs_gpl" title="Link to this definition"></a></dt>
+<dd><p>Which of <code class="docutils literal notranslate"><span class="pre">filters</span></code> exist only in a GPL build, in the order given.</p>
+<p>The point of the package in one function: a chain that reaches for the
+obvious grade filter is not portable to an LGPL build, and nothing in the
+ffmpeg CLI will tell you, because the binary you are holding runs it fine.</p>
+<p><strong>Every name is validated first, and an unrecognised one raises.</strong> This
+function is an allowlist-by-absence — a name carrying no gate is reported
+GPL-free — so without the check a typo, a wrong case, or a filter from a
+newer ffmpeg is a <em>computed false permission</em>. That is not a hypothetical:
+before the check, <code class="docutils literal notranslate"><span class="pre">needs_gpl(['nosuchfilter'])</span></code> and <code class="docutils literal notranslate"><span class="pre">needs_gpl(['EQ'])</span></code>
+both returned <code class="docutils literal notranslate"><span class="pre">()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filters</strong> – Filter names, in the order they appear in a chain.</p></li>
+<li><p><strong>known</strong> – The universe to validate against. Pass
+<a class="reference internal" href="#looks.environment.FfmpegEnv.filters" title="looks.environment.FfmpegEnv.filters"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FfmpegEnv.filters</span></code></a> to also catch a name this build does not
+have; the default is <a class="reference internal" href="#looks.environment.known_filters" title="looks.environment.known_filters"><code class="xref py py-func docutils literal notranslate"><span class="pre">known_filters()</span></code></a>, every filter FFmpeg
+n8.1 declares.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#looks.environment.UnknownFilter" title="looks.environment.UnknownFilter"><strong>UnknownFilter</strong></a> – A name is not in <code class="docutils literal notranslate"><span class="pre">known</span></code>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">needs_gpl</span><span class="p">([</span><span class="s1">'scale'</span><span class="p">,</span> <span class="s1">'eq'</span><span class="p">,</span> <span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'boxblur'</span><span class="p">])</span>
+<span class="go">('eq', 'boxblur')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">needs_gpl</span><span class="p">([</span><span class="s1">'curves'</span><span class="p">,</span> <span class="s1">'colorlevels'</span><span class="p">,</span> <span class="s1">'lut3d'</span><span class="p">])</span>
+<span class="go">()</span>
+</pre></div>
+</div>
+<p>A name that is not a filter raises rather than reporting GPL-free:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">needs_gpl</span><span class="p">([</span><span class="s1">'nosuchfilter'</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.environment.UnknownFilter</span>: <span class="n">not known ffmpeg filters: ['nosuchfilter']...</span>
+</pre></div>
+</div>
+<p>Case matters, because it matters to ffmpeg:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">needs_gpl</span><span class="p">([</span><span class="s1">'EQ'</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.environment.UnknownFilter</span>: <span class="n">not known ffmpeg filters: ['EQ']...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.parse_configuration">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">parse_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#parse_configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.parse_configuration" title="Link to this definition"></a></dt>
+<dd><p>Pull the <code class="docutils literal notranslate"><span class="pre">configuration:</span></code> line out of <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-version</span></code> output.</p>
+<p>Diagnostics only. See <a class="reference internal" href="#looks.environment.FfmpegEnv.configuration" title="looks.environment.FfmpegEnv.configuration"><code class="xref py py-attr docutils literal notranslate"><span class="pre">FfmpegEnv.configuration</span></code></a> for why this must
+never decide a licence.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_configuration</span><span class="p">(</span><span class="s2">"ffmpeg version 8.1</span><span class="se">\n</span><span class="s2">configuration: --enable-gpl</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="go">'--enable-gpl'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_configuration</span><span class="p">(</span><span class="s2">"ffmpeg version 8.1</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.parse_filters">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">parse_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/environment.html#parse_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.parse_filters" title="Link to this definition"></a></dt>
+<dd><p>Extract filter names from <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-filters</span></code> output.</p>
+<p>The samples below are <strong>verbatim</strong> ffmpeg output, not hand-written — an
+invented sample is a test of the regex against itself, which is how the
+first version of this parser passed its doctests while returning zero
+filters from the real binary.</p>
+<p class="rubric">Examples</p>
+<p>Two-character flags, as ffmpeg 8.1 emits them:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eight</span> <span class="o">=</span> <span class="s1">'''Filters:</span>
+<span class="gp">... </span><span class="s1">  T.. = Timeline support</span>
+<span class="gp">... </span><span class="s1">  .S. = Slice threading</span>
+<span class="gp">... </span><span class="s1">  ------</span>
+<span class="gp">... </span><span class="s1"> TS aap               AA-&gt;A      Apply Affine Projection algorithm.</span>
+<span class="gp">... </span><span class="s1"> .. abench            A-&gt;A       Benchmark part of a filtergraph.</span>
+<span class="gp">... </span><span class="s1"> TS lut3d             V-&gt;V       Adjust colors using a 3D LUT.</span>
+<span class="gp">... </span><span class="s1">'''</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">parse_filters</span><span class="p">(</span><span class="n">eight</span><span class="p">))</span>
+<span class="go">['aap', 'abench', 'lut3d']</span>
+</pre></div>
+</div>
+<p>Three-character flags, as older builds emit them:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">six</span> <span class="o">=</span> <span class="s1">' TSC lut3d            V-&gt;V       Adjust colors using a 3D LUT.'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">parse_filters</span><span class="p">(</span><span class="n">six</span><span class="p">))</span>
+<span class="go">['lut3d']</span>
+</pre></div>
+</div>
+<p>The legend lines are rejected because they carry no io signature:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_filters</span><span class="p">(</span><span class="s1">'  T.. = Timeline support'</span><span class="p">)</span>
+<span class="go">frozenset()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.parse_licence">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">parse_licence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.environment.Licence" title="looks.environment.Licence"><span class="pre">Licence</span></a></span></span><a class="reference internal" href="../../_modules/looks/environment.html#parse_licence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.parse_licence" title="Link to this definition"></a></dt>
+<dd><p>Classify <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-L</span></code> output.</p>
+<p>Most-restrictive-first, because the licence names are prefixes of one
+another: a permissive-first scan matches “GNU General Public License” inside
+the GPLv3 text and reports GPLv2. Anything unmatched is
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Licence.UNKNOWN</span></code> — never a default, never a guess.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_licence</span><span class="p">(</span><span class="s2">"ffmpeg is free software; ... GNU General Public "</span>
+<span class="gp">... </span>              <span class="s2">"License as published by ... either version 3"</span><span class="p">)</span>
+<span class="go">&lt;Licence.GPL3: 'gpl3'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_licence</span><span class="p">(</span><span class="s2">"... GNU Lesser General Public License ... version 2.1"</span><span class="p">)</span>
+<span class="go">&lt;Licence.LGPL21: 'lgpl2.1'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_licence</span><span class="p">(</span><span class="s2">"this build is nonfree and unredistributable"</span><span class="p">)</span>
+<span class="go">&lt;Licence.NONFREE: 'nonfree'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_licence</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+<span class="go">&lt;Licence.UNKNOWN: 'unknown'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_licence</span><span class="p">(</span><span class="s2">"Copyright (c) somebody, all rights reserved"</span><span class="p">)</span>
+<span class="go">&lt;Licence.UNKNOWN: 'unknown'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.environment.probe">
+<span class="sig-prename descclassname"><span class="pre">looks.environment.</span></span><span class="sig-name descname"><span class="pre">probe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ffmpeg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ffmpeg'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><span class="pre">FfmpegEnv</span></a></span></span><a class="reference internal" href="../../_modules/looks/environment.html#probe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.environment.probe" title="Link to this definition"></a></dt>
+<dd><p>Interrogate one ffmpeg binary. Three subprocess calls, no input, no output.</p>
+<p>Returns a <a class="reference internal" href="#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FfmpegEnv</span></code></a> in every case, including when <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> is not
+installed — the absence of a binary is a fact about the machine, and a
+caller diagnosing it needs a value rather than an exception.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ffmpeg</strong> – Binary name (looked up on <code class="docutils literal notranslate"><span class="pre">PATH</span></code>) or an explicit path.</p></li>
+<li><p><strong>timeout</strong> – Seconds allowed per probe call.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">probe</span><span class="p">(</span><span class="s1">'a-binary-that-does-not-exist'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">available</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">licence</span>
+<span class="go">&lt;Licence.UNKNOWN: 'unknown'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">notes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">"no 'a-binary-that-does-not-exist' on PATH"</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="_run.html" class="btn btn-neutral float-left" title="looks._run" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="frame_dependency.html" class="btn btn-neutral float-right" title="looks.frame_dependency" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

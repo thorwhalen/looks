@@ -1,0 +1,1114 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.licence &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="looks.lut" href="lut.html" />
+    <link rel="prev" title="looks.geometry" href="geometry.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.licence</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-shape">The shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-this-module-does-not-restate">What this module does not restate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Assessment"><code class="docutils literal notranslate"><span class="pre">Assessment</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Assessment.advisories"><code class="docutils literal notranslate"><span class="pre">Assessment.advisories</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Assessment.parts"><code class="docutils literal notranslate"><span class="pre">Assessment.parts</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Assessment.severity"><code class="docutils literal notranslate"><span class="pre">Assessment.severity</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Conveyance"><code class="docutils literal notranslate"><span class="pre">Conveyance</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Coupling"><code class="docutils literal notranslate"><span class="pre">Coupling</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.DFLT_LADDER"><code class="docutils literal notranslate"><span class="pre">DFLT_LADDER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.DFLT_MAX_TIER"><code class="docutils literal notranslate"><span class="pre">DFLT_MAX_TIER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.DFLT_POLICY"><code class="docutils literal notranslate"><span class="pre">DFLT_POLICY</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.EXCLUDED_SPDX"><code class="docutils literal notranslate"><span class="pre">EXCLUDED_SPDX</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Evidence"><code class="docutils literal notranslate"><span class="pre">Evidence</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Evidence.is_stale"><code class="docutils literal notranslate"><span class="pre">Evidence.is_stale()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.FieldOfUse"><code class="docutils literal notranslate"><span class="pre">FieldOfUse</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.KNOWN_COMPONENTS"><code class="docutils literal notranslate"><span class="pre">KNOWN_COMPONENTS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.KNOWN_REALISATION_PREFIXES"><code class="docutils literal notranslate"><span class="pre">KNOWN_REALISATION_PREFIXES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.LEDGER_PATH"><code class="docutils literal notranslate"><span class="pre">LEDGER_PATH</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.LEDGER_SCHEMA"><code class="docutils literal notranslate"><span class="pre">LEDGER_SCHEMA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.LicenceCeilingExceeded"><code class="docutils literal notranslate"><span class="pre">LicenceCeilingExceeded</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.LicenceFieldRestricted"><code class="docutils literal notranslate"><span class="pre">LicenceFieldRestricted</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.LicenceForbidden"><code class="docutils literal notranslate"><span class="pre">LicenceForbidden</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.LicenceUnknown"><code class="docutils literal notranslate"><span class="pre">LicenceUnknown</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.LooksLicenceError"><code class="docutils literal notranslate"><span class="pre">LooksLicenceError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.NONFREE_PROHIBITION"><code class="docutils literal notranslate"><span class="pre">NONFREE_PROHIBITION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Patent"><code class="docutils literal notranslate"><span class="pre">Patent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Patent.is_live"><code class="docutils literal notranslate"><span class="pre">Patent.is_live()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Policy"><code class="docutils literal notranslate"><span class="pre">Policy</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Policy.admits"><code class="docutils literal notranslate"><span class="pre">Policy.admits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Policy.allow_field_restricted"><code class="docutils literal notranslate"><span class="pre">Policy.allow_field_restricted</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Policy.rank"><code class="docutils literal notranslate"><span class="pre">Policy.rank()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.REACH_BY_SPDX"><code class="docutils literal notranslate"><span class="pre">REACH_BY_SPDX</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.RESTRICTED_FIELDS"><code class="docutils literal notranslate"><span class="pre">RESTRICTED_FIELDS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Reach"><code class="docutils literal notranslate"><span class="pre">Reach</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.SEE_DISCLAIMER"><code class="docutils literal notranslate"><span class="pre">SEE_DISCLAIMER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.SPDX_BY_FFMPEG_LICENCE"><code class="docutils literal notranslate"><span class="pre">SPDX_BY_FFMPEG_LICENCE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.SPDX_LICENSE_LIST_VERSION"><code class="docutils literal notranslate"><span class="pre">SPDX_LICENSE_LIST_VERSION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.STALE_AFTER_DAYS"><code class="docutils literal notranslate"><span class="pre">STALE_AFTER_DAYS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.STRONG_COPYLEFT"><code class="docutils literal notranslate"><span class="pre">STRONG_COPYLEFT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Terms"><code class="docutils literal notranslate"><span class="pre">Terms</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Terms.conditions"><code class="docutils literal notranslate"><span class="pre">Terms.conditions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Terms.contradiction"><code class="docutils literal notranslate"><span class="pre">Terms.contradiction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Terms.key"><code class="docutils literal notranslate"><span class="pre">Terms.key</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Terms.prohibition"><code class="docutils literal notranslate"><span class="pre">Terms.prohibition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Terms.reach"><code class="docutils literal notranslate"><span class="pre">Terms.reach</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Terms.resolved_reach"><code class="docutils literal notranslate"><span class="pre">Terms.resolved_reach</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.licence.Terms.verified"><code class="docutils literal notranslate"><span class="pre">Terms.verified</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Tier"><code class="docutils literal notranslate"><span class="pre">Tier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.Verdict"><code class="docutils literal notranslate"><span class="pre">Verdict</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.assess"><code class="docutils literal notranslate"><span class="pre">assess()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.assess_ffmpeg_chain"><code class="docutils literal notranslate"><span class="pre">assess_ffmpeg_chain()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.check"><code class="docutils literal notranslate"><span class="pre">check()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.classify"><code class="docutils literal notranslate"><span class="pre">classify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.ffmpeg_terms"><code class="docutils literal notranslate"><span class="pre">ffmpeg_terms()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.ledger"><code class="docutils literal notranslate"><span class="pre">ledger()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.project_onto_ladder"><code class="docutils literal notranslate"><span class="pre">project_onto_ladder()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.reach_of"><code class="docutils literal notranslate"><span class="pre">reach_of()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.terms_for"><code class="docutils literal notranslate"><span class="pre">terms_for()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.licence.unverified_claims"><code class="docutils literal notranslate"><span class="pre">unverified_claims()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks.licence</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/licence.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks.licence">
+<span id="looks-licence"></span><h1>looks.licence<a class="headerlink" href="#module-looks.licence" title="Link to this heading"></a></h1>
+<p>What an implementation costs you in obligations, and when to refuse it.</p>
+<p>This is the module the package exists for. Everything else in <code class="docutils literal notranslate"><span class="pre">looks</span></code>
+computes a filter string; this decides whether you are allowed to run it.</p>
+<p><strong>looks reports observations, not legal conclusions.</strong></p>
+<p>A tier is not a legal determination. It is a position on a policy ladder this
+project chose, derived from things that were mechanically observed on a stated
+date — a command that was run, a file that was read, a binary that was
+interrogated — and every row records that observation so you can check the
+derivation rather than trust the label.</p>
+<p>looks refuses when it cannot observe. It does not adjudicate: where an
+artifact’s own statements about itself disagree, looks reports the
+disagreement and refuses, and does not decide which statement is true.</p>
+<p>Raising a ceiling is a decision about <em>your</em> obligations, not about this
+software’s. Whether the licences and terms recorded here permit what you
+intend to do is a question for you and your counsel.</p>
+<section id="the-shape">
+<h2>The shape<a class="headerlink" href="#the-shape" title="Link to this heading"></a></h2>
+<p><strong>The facts are four orthogonal axes</strong> — <a class="reference internal" href="#looks.licence.Coupling" title="looks.licence.Coupling"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coupling</span></code></a>, <a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reach</span></code></a>,
+<a class="reference internal" href="#looks.licence.Conveyance" title="looks.licence.Conveyance"><code class="xref py py-class docutils literal notranslate"><span class="pre">Conveyance</span></code></a>, <a class="reference internal" href="#looks.licence.FieldOfUse" title="looks.licence.FieldOfUse"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldOfUse</span></code></a> — recorded on <a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Terms</span></code></a>, which an
+implementation declares about itself. <em>An implementation declares terms, never
+a tier.</em> A frozen <code class="docutils literal notranslate"><span class="pre">tier=</span></code> field would be wrong twice over: it is a false
+refusal for the LGPL-clean majority of ffmpeg’s colour vocabulary, and it
+cannot distinguish the one filter (<code class="docutils literal notranslate"><span class="pre">eq</span></code>) that genuinely is GPL-only. The
+same effect is <code class="xref py py-attr docutils literal notranslate"><span class="pre">Tier.WEAK_COPYLEFT</span></code> on an LGPL ffmpeg and
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Tier.COPYLEFT_TOOL</span></code> on a GPL one, so the tier is <em>resolved</em> at compile
+time by <a class="reference internal" href="#looks.licence.classify" title="looks.licence.classify"><code class="xref py py-func docutils literal notranslate"><span class="pre">classify()</span></code></a>, from what the implementation declared joined with
+what the environment turned out to be.</p>
+<p><strong>The ladder is a replaceable policy projection of three of those axes</strong>, not a
+fact about licences — which is why the function that computes it is called
+<a class="reference internal" href="#looks.licence.project_onto_ladder" title="looks.licence.project_onto_ladder"><code class="xref py py-func docutils literal notranslate"><span class="pre">project_onto_ladder()</span></code></a> and the shipped ordering is
+<a class="reference internal" href="#looks.licence.DFLT_LADDER" title="looks.licence.DFLT_LADDER"><code class="xref py py-data docutils literal notranslate"><span class="pre">DFLT_LADDER</span></code></a>, a default on <a class="reference internal" href="#looks.licence.Policy" title="looks.licence.Policy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Policy</span></code></a> rather than a constant of
+the domain. Rungs 2 and 3 are <em>not</em> ordered by obligation-inclusion: in-process
+LGPL and subprocess GPL impose different duties, not more and fewer, and plenty
+of corporate policies rank them the other way. The shipped order is chosen for
+what this federation ships — Python source that shells out and bundles nothing.
+A caller with a different posture passes <code class="docutils literal notranslate"><span class="pre">Policy(order=...)</span></code>.</p>
+<p><strong>Three regions are off the ladder, where no ``max_tier`` reaches them.</strong>
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Verdict.FORBIDDEN</span></code> (in-process strong copyleft, plus any recorded
+prohibition), <code class="xref py py-attr docutils literal notranslate"><span class="pre">Verdict.FIELD_RESTRICTED</span></code> (non-commercial, research-only)
+and <code class="xref py py-attr docutils literal notranslate"><span class="pre">Verdict.UNKNOWN</span></code>. Field of use is <em>not commensurable</em> with copyleft
+strength — a non-commercial model is not “more copyleft than GPL”, it is a
+different kind of failure — so a ladder that admits it when you raise the
+ceiling one notch is a trap, and so is a rung you can opt into for something
+the design says to “always refuse”.</p>
+<p><strong>``max_tier`` is not the commercial-safe knob.</strong> Every rung, including
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Tier.COPYLEFT_SHIPPED</span></code>, is commercially usable — a source offer is a
+duty, not a prohibition. What is <em>not</em> commercially usable is
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">FieldOfUse.NON_COMMERCIAL</span></code>, which is off the ladder. So
+“commercial-safe only” is <code class="docutils literal notranslate"><span class="pre">allow_field_restricted=frozenset()</span></code>, which is
+already the default. Advertise it as <code class="docutils literal notranslate"><span class="pre">max_tier</span></code> and the promise and the
+semantics drift apart on day one.</p>
+</section>
+<section id="what-this-module-does-not-restate">
+<h2>What this module does not restate<a class="headerlink" href="#what-this-module-does-not-restate" title="Link to this heading"></a></h2>
+<p>Two questions belong to <a class="reference internal" href="environment.html#module-looks.environment" title="looks.environment"><code class="xref py py-mod docutils literal notranslate"><span class="pre">looks.environment</span></code></a> and are consumed from it
+rather than duplicated here: <em>which ffmpeg filters are GPL-gated</em>
+(<code class="docutils literal notranslate"><span class="pre">needs_gpl</span></code>, over the committed <code class="docutils literal notranslate"><span class="pre">ffmpeg_gates.json</span></code>) and <em>what licence
+does this binary carry</em> (<code class="docutils literal notranslate"><span class="pre">probe</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">FfmpegEnv.licence</span></code>, from <code class="docutils literal notranslate"><span class="pre">ffmpeg</span>
+<span class="pre">-L</span></code>). A second copy of either is how two detectors start disagreeing.
+<a class="reference internal" href="#looks.licence.ffmpeg_terms" title="looks.licence.ffmpeg_terms"><code class="xref py py-func docutils literal notranslate"><span class="pre">ffmpeg_terms()</span></code></a> and <a class="reference internal" href="#looks.licence.assess_ffmpeg_chain" title="looks.licence.assess_ffmpeg_chain"><code class="xref py py-func docutils literal notranslate"><span class="pre">assess_ffmpeg_chain()</span></code></a> are the joins.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'/opt/homebrew/bin/ffmpeg'</span><span class="p">,</span> <span class="n">licence</span><span class="o">=</span><span class="n">Licence</span><span class="o">.</span><span class="n">GPL3</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'lutrgb'</span><span class="p">,</span> <span class="s1">'eq'</span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="n">ffmpeg_terms</span><span class="p">(</span><span class="n">env</span><span class="p">))</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;</span>
+</pre></div>
+</div>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Assessment">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Assessment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verdict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Verdict" title="looks.licence.Verdict"><span class="pre">Verdict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">advisories</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Assessment" title="looks.licence.Assessment"><span class="pre">Assessment</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Assessment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Assessment" title="Link to this definition"></a></dt>
+<dd><p>Where <a class="reference internal" href="#looks.licence.classify" title="looks.licence.classify"><code class="xref py py-func docutils literal notranslate"><span class="pre">classify()</span></code></a> located some terms. Not a permission.</p>
+<p><code class="docutils literal notranslate"><span class="pre">tier</span> <span class="pre">is</span> <span class="pre">None</span></code> means <em>no rung</em> — either an axis is unknown or the terms
+are in the forbidden region. A <code class="xref py py-attr docutils literal notranslate"><span class="pre">Verdict.FIELD_RESTRICTED</span></code> assessment
+<strong>still carries its rung</strong>, and that is the fix for a real defect: with the
+rung dropped, honouring a field-of-use opt-in left nothing for the ceiling
+test to compare, so opting into a research model silently waived the
+copyleft ceiling as well.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Assessment.advisories">
+<span class="sig-name descname"><span class="pre">advisories</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.licence.Assessment.advisories" title="Link to this definition"></a></dt>
+<dd><p>live patents,
+recorded conditions, stale evidence, an explicit reach override.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Things a caller must be told but which are not refusals</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Assessment.parts">
+<span class="sig-name descname"><span class="pre">parts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Assessment" title="looks.licence.Assessment"><span class="pre">Assessment</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.licence.Assessment.parts" title="Link to this definition"></a></dt>
+<dd><p>The per-component assessments when this came from <a class="reference internal" href="#looks.licence.assess" title="looks.licence.assess"><code class="xref py py-func docutils literal notranslate"><span class="pre">assess()</span></code></a>.
+<a class="reference internal" href="#looks.licence.check" title="looks.licence.check"><code class="xref py py-func docutils literal notranslate"><span class="pre">check()</span></code></a> applies the ceiling to <strong>every</strong> part, so a composite
+cannot admit something one of its components would not.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.licence.Assessment.severity">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">severity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#looks.licence.Assessment.severity" title="Link to this definition"></a></dt>
+<dd><p>Rank in <code class="xref py py-data docutils literal notranslate"><span class="pre">_VERDICT_SEVERITY</span></code>; higher is louder.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Conveyance">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Conveyance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Conveyance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Conveyance" title="Link to this definition"></a></dt>
+<dd><p>Whether a <em>declared dependency closure</em> ships the implementation.</p>
+<p>Whose closure is the load-bearing word. A caller’s pre-existing
+<code class="docutils literal notranslate"><span class="pre">imageio-ffmpeg</span></code> is <code class="xref py py-attr docutils literal notranslate"><span class="pre">FINDS</span></code> — <code class="docutils literal notranslate"><span class="pre">looks</span></code> does not declare it and
+does not convey it. It becomes <code class="xref py py-attr docutils literal notranslate"><span class="pre">CONVEYS</span></code> for whoever <em>does</em> declare
+it, which is why a ledger row is keyed on how you obtain the thing rather
+than on the thing: <code class="docutils literal notranslate"><span class="pre">realisation=&quot;system&quot;</span></code> finds, <code class="docutils literal notranslate"><span class="pre">realisation=&quot;pypi:x&quot;</span></code>
+describes the position of a package that declares <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Coupling">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Coupling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Coupling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Coupling" title="Link to this definition"></a></dt>
+<dd><p>How the implementation is reached — whether copyleft can touch us.</p>
+<p>This axis and <a class="reference internal" href="#looks.licence.Conveyance" title="looks.licence.Conveyance"><code class="xref py py-class docutils literal notranslate"><span class="pre">Conveyance</span></code></a> are the two that separate the four cases
+people habitually conflate: executing a copyleft program you found
+(<code class="docutils literal notranslate"><span class="pre">SUBPROCESS</span></code> + <code class="docutils literal notranslate"><span class="pre">FINDS</span></code>), executing one you shipped (<code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">CONVEYS</span></code>),
+linking one (<code class="docutils literal notranslate"><span class="pre">IN_PROCESS</span></code>), and calling a hosted one (<code class="docutils literal notranslate"><span class="pre">SERVICE</span></code>).</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.DFLT_LADDER">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">DFLT_LADDER</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(Tier.PURE,</span> <span class="pre">Tier.PERMISSIVE,</span> <span class="pre">Tier.WEAK_COPYLEFT,</span> <span class="pre">Tier.COPYLEFT_TOOL,</span> <span class="pre">Tier.COPYLEFT_SHIPPED)</span></span><a class="headerlink" href="#looks.licence.DFLT_LADDER" title="Link to this definition"></a></dt>
+<dd><p>The shipped ladder, lowest rung first — a <strong>default on</strong> <a class="reference internal" href="#looks.licence.Policy" title="looks.licence.Policy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Policy</span></code></a>,
+not a constant of the domain. Chosen for what this federation ships: Python
+source that shells out and bundles nothing, where the question that matters
+is “does copyleft touch our source” and rung 3 answers “no, unless you later
+ship the tool”. Pass your own to reorder it.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.DFLT_MAX_TIER">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">DFLT_MAX_TIER</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Tier.COPYLEFT_TOOL</span></span><a class="headerlink" href="#looks.licence.DFLT_MAX_TIER" title="Link to this definition"></a></dt>
+<dd><p>“Shelling out to a copyleft binary is fine”, stated precisely.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.DFLT_POLICY">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">DFLT_POLICY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Policy(max_tier=&lt;Tier.COPYLEFT_TOOL:</span> <span class="pre">'copyleft_tool'&gt;,</span> <span class="pre">allow_field_restricted=frozenset(),</span> <span class="pre">order=(&lt;Tier.PURE:</span> <span class="pre">'pure'&gt;,</span> <span class="pre">&lt;Tier.PERMISSIVE:</span> <span class="pre">'permissive'&gt;,</span> <span class="pre">&lt;Tier.WEAK_COPYLEFT:</span> <span class="pre">'weak_copyleft'&gt;,</span> <span class="pre">&lt;Tier.COPYLEFT_TOOL:</span> <span class="pre">'copyleft_tool'&gt;,</span> <span class="pre">&lt;Tier.COPYLEFT_SHIPPED:</span> <span class="pre">'copyleft_shipped'&gt;))</span></span><a class="headerlink" href="#looks.licence.DFLT_POLICY" title="Link to this definition"></a></dt>
+<dd><p>shell out to a copyleft binary freely, convey nothing,
+and accept no field-of-use restriction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The shipped ceiling</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.EXCLUDED_SPDX">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">EXCLUDED_SPDX</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'BSD-4-Clause':</span> <span class="pre">'the</span> <span class="pre">advertising</span> <span class="pre">clause</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">real</span> <span class="pre">obligation,</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">is</span> <span class="pre">word-for-word</span> <span class="pre">BSD-3-Clause</span> <span class="pre">plus</span> <span class="pre">one</span> <span class="pre">paragraph</span> <span class="pre">—</span> <span class="pre">so</span> <span class="pre">it</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">excluded</span> <span class="pre">explicitly</span> <span class="pre">or</span> <span class="pre">it</span> <span class="pre">gets</span> <span class="pre">waved</span> <span class="pre">through</span> <span class="pre">as</span> <span class="pre">BSD'}</span></span><a class="headerlink" href="#looks.licence.EXCLUDED_SPDX" title="Link to this definition"></a></dt>
+<dd><p>Identifiers left out of <a class="reference internal" href="#looks.licence.REACH_BY_SPDX" title="looks.licence.REACH_BY_SPDX"><code class="xref py py-data docutils literal notranslate"><span class="pre">REACH_BY_SPDX</span></code></a> on purpose, with the reason.
+Recorded rather than merely omitted, because an absence looks identical to
+an oversight and someone eventually “fixes” it.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Evidence">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Evidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observed_on</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Evidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Evidence" title="Link to this definition"></a></dt>
+<dd><p>One observation, with enough context to be re-checked or disbelieved.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.licence.Evidence.is_stale">
+<span class="sig-name descname"><span class="pre">is_stale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#Evidence.is_stale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Evidence.is_stale" title="Link to this definition"></a></dt>
+<dd><p>Older than <a class="reference internal" href="#looks.licence.STALE_AFTER_DAYS" title="looks.licence.STALE_AFTER_DAYS"><code class="xref py py-data docutils literal notranslate"><span class="pre">STALE_AFTER_DAYS</span></code></a>. Reported, never auto-refused.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">old</span> <span class="o">=</span> <span class="n">Evidence</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"read"</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">observed_on</span><span class="o">=</span><span class="s2">"2020-01-01"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">old</span><span class="o">.</span><span class="n">is_stale</span><span class="p">(</span><span class="n">today</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Evidence</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">"read"</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">observed_on</span><span class="o">=</span><span class="s2">"2026-09-02"</span>
+<span class="gp">... </span>         <span class="p">)</span><span class="o">.</span><span class="n">is_stale</span><span class="p">(</span><span class="n">today</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.FieldOfUse">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">FieldOfUse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#FieldOfUse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.FieldOfUse" title="Link to this definition"></a></dt>
+<dd><p>Whether the <em>purpose</em> is permitted. Orthogonal to every axis above.</p>
+<p>No SPDX identifier carries this, so it is always a declared column and is
+never parsed out of a licence id: <code class="docutils literal notranslate"><span class="pre">CC-BY-NC-SA-4.0</span></code> is a listed
+identifier whose non-commercial character is not derivable from the string,
+and AnimeGANv2’s terms have no identifier at all.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.KNOWN_COMPONENTS">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">KNOWN_COMPONENTS</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'assets',</span> <span class="pre">'binary',</span> <span class="pre">'bundled-ffmpeg',</span> <span class="pre">'code',</span> <span class="pre">'model',</span> <span class="pre">'transitive',</span> <span class="pre">'weights'})</span></span><a class="headerlink" href="#looks.licence.KNOWN_COMPONENTS" title="Link to this definition"></a></dt>
+<dd><p>The component vocabulary the ledger is validated against. Closed on purpose:
+<code class="docutils literal notranslate"><span class="pre">code</span></code> and <code class="docutils literal notranslate"><span class="pre">weights</span></code> being separate rows is what keeps a permissively
+licensed port of non-permissive weights from reading as permissive.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.KNOWN_REALISATION_PREFIXES">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">KNOWN_REALISATION_PREFIXES</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('system',</span> <span class="pre">'self',</span> <span class="pre">'any',</span> <span class="pre">'pypi:',</span> <span class="pre">'github:',</span> <span class="pre">'weights:',</span> <span class="pre">'hosted:',</span> <span class="pre">'commercial:')</span></span><a class="headerlink" href="#looks.licence.KNOWN_REALISATION_PREFIXES" title="Link to this definition"></a></dt>
+<dd><p>How a row may say where the thing came from. <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> separates a platform,
+because a wheel’s tier is a property of the wheel: one distribution name
+covers three different answers across macOS arm64, macOS x86_64 and
+manylinux.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.LEDGER_PATH">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">LEDGER_PATH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/runner/work/looks/looks/looks/data/provider_terms.json')</span></span><a class="headerlink" href="#looks.licence.LEDGER_PATH" title="Link to this definition"></a></dt>
+<dd><p>The evidence ledger, one row per <code class="docutils literal notranslate"><span class="pre">(provider,</span> <span class="pre">realisation,</span> <span class="pre">component)</span></code>.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.LEDGER_SCHEMA">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">LEDGER_SCHEMA</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'looks.provider_terms/v1'</span></span><a class="headerlink" href="#looks.licence.LEDGER_SCHEMA" title="Link to this definition"></a></dt>
+<dd><p>Its schema tag. An unrecognised tag is refused loudly.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.licence.LicenceCeilingExceeded">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">LicenceCeilingExceeded</span></span><a class="reference internal" href="../../_modules/looks/licence.html#LicenceCeilingExceeded"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.LicenceCeilingExceeded" title="Link to this definition"></a></dt>
+<dd><p>On the ladder, above the ceiling. Raise it, or pick a lower provider.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.licence.LicenceFieldRestricted">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">LicenceFieldRestricted</span></span><a class="reference internal" href="../../_modules/looks/licence.html#LicenceFieldRestricted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.LicenceFieldRestricted" title="Link to this definition"></a></dt>
+<dd><p>Non-commercial / research-only / no-derivatives. Its OWN opt-in.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.licence.LicenceForbidden">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">LicenceForbidden</span></span><a class="reference internal" href="../../_modules/looks/licence.html#LicenceForbidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.LicenceForbidden" title="Link to this definition"></a></dt>
+<dd><p>Off the ladder, permanently. There is no opt-in and no ceiling.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.licence.LicenceUnknown">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">LicenceUnknown</span></span><a class="reference internal" href="../../_modules/looks/licence.html#LicenceUnknown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.LicenceUnknown" title="Link to this definition"></a></dt>
+<dd><p>Undeterminable, unprobeable, or self-contradictory. Unknown refuses.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.licence.LooksLicenceError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">LooksLicenceError</span></span><a class="reference internal" href="../../_modules/looks/licence.html#LooksLicenceError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.LooksLicenceError" title="Link to this definition"></a></dt>
+<dd><p>Base for every licence refusal.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.NONFREE_PROHIBITION">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">NONFREE_PROHIBITION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&quot;FFmpeg</span> <span class="pre">calls</span> <span class="pre">this</span> <span class="pre">build</span> <span class="pre">nonfree</span> <span class="pre">and</span> <span class="pre">unredistributable.</span> <span class="pre">That</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">project's</span> <span class="pre">own</span> <span class="pre">characterisation</span> <span class="pre">of</span> <span class="pre">it,</span> <span class="pre">not</span> <span class="pre">an</span> <span class="pre">inference,</span> <span class="pre">and</span> <span class="pre">no</span> <span class="pre">evidence</span> <span class="pre">lifts</span> <span class="pre">it.</span> <span class="pre">The</span> <span class="pre">incremental</span> <span class="pre">capability</span> <span class="pre">is</span> <span class="pre">nil</span> <span class="pre">for</span> <span class="pre">this</span> <span class="pre">package</span> <span class="pre">in</span> <span class="pre">any</span> <span class="pre">case:</span> <span class="pre">libfdk_aac</span> <span class="pre">and</span> <span class="pre">libmpeghdec</span> <span class="pre">are</span> <span class="pre">audio,</span> <span class="pre">decklink</span> <span class="pre">is</span> <span class="pre">capture</span> <span class="pre">hardware,</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">libnpp</span> <span class="pre">filters</span> <span class="pre">have</span> <span class="pre">LGPL</span> <span class="pre">equivalents</span> <span class="pre">in</span> <span class="pre">unsharp</span> <span class="pre">and</span> <span class="pre">convolution.&quot;</span></span><a class="headerlink" href="#looks.licence.NONFREE_PROHIBITION" title="Link to this definition"></a></dt>
+<dd><p>The nonfree refusal, recorded as a prohibition so it is checked <strong>before</strong>
+any ceiling comparison and cannot be folded into UNKNOWN — whose remedy text
+is “supply evidence”, which is exactly wrong here. FFmpeg’s own words for
+such a build are “nonfree and unredistributable”, which is the
+best-characterised refusal available and one no evidence can lift.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Patent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Patent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">patent_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jurisdiction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expiry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Patent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Patent" title="Link to this definition"></a></dt>
+<dd><p>A patent encumbrance, which no copyright vocabulary can express.</p>
+<p>Forced into existence by one row: Ebsynth is <em>public-domain code</em>
+implementing Adobe’s PatchMatch (US8861869B2, Active, anticipated expiry
+2030-08-16). Public domain is the most permissive value any copyright
+vocabulary has, and for that artifact it is the wrong answer.</p>
+<p><code class="docutils literal notranslate"><span class="pre">looks</span></code> <strong>records a patent and reports it; it never refuses on it.</strong> A
+patent binds an act in a jurisdiction rather than a redistribution, and
+deciding whether it binds <em>your</em> act is the adjudication the honesty rule
+forbids. What it may not do is be invisible — see
+<a class="reference internal" href="#looks.licence.Assessment.advisories" title="looks.licence.Assessment.advisories"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Assessment.advisories</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.licence.Patent.is_live">
+<span class="sig-name descname"><span class="pre">is_live</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#Patent.is_live"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Patent.is_live" title="Link to this definition"></a></dt>
+<dd><p>Whether it is still, or might still be, in force.</p>
+<p>Unknown expiry counts as live. Unknown is not permission here either.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ebsynth</span> <span class="o">=</span> <span class="n">Patent</span><span class="p">(</span><span class="n">patent_id</span><span class="o">=</span><span class="s2">"US8861869B2"</span><span class="p">,</span> <span class="n">jurisdiction</span><span class="o">=</span><span class="s2">"US"</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="n">status</span><span class="o">=</span><span class="s2">"active"</span><span class="p">,</span> <span class="n">expiry</span><span class="o">=</span><span class="s2">"2030-08-16"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ebsynth</span><span class="o">.</span><span class="n">is_live</span><span class="p">(</span><span class="n">today</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ebsynth</span><span class="o">.</span><span class="n">is_live</span><span class="p">(</span><span class="n">today</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2031</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Patent</span><span class="p">(</span><span class="n">patent_id</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span> <span class="n">jurisdiction</span><span class="o">=</span><span class="s2">"US"</span><span class="p">)</span><span class="o">.</span><span class="n">is_live</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Policy">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Tier.COPYLEFT_TOOL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_field_restricted</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.FieldOfUse" title="looks.licence.FieldOfUse"><span class="pre">FieldOfUse</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">frozenset({})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(Tier.PURE,</span> <span class="pre">Tier.PERMISSIVE,</span> <span class="pre">Tier.WEAK_COPYLEFT,</span> <span class="pre">Tier.COPYLEFT_TOOL,</span> <span class="pre">Tier.COPYLEFT_SHIPPED)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Policy" title="Link to this definition"></a></dt>
+<dd><p>A ceiling, plus the thing a ceiling deliberately cannot reach.</p>
+<p><strong>``max_tier`` is not the commercial-safe knob</strong>, and saying so once here
+is cheaper than the drift: every rung is commercially usable, so what
+“commercial-safe only” means is <code class="docutils literal notranslate"><span class="pre">allow_field_restricted=frozenset()</span></code> —
+already the default.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Policy</span><span class="p">()</span><span class="o">.</span><span class="n">max_tier</span>
+<span class="go">&lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Policy</span><span class="p">()</span><span class="o">.</span><span class="n">admits</span><span class="p">(</span><span class="n">Tier</span><span class="o">.</span><span class="n">COPYLEFT_TOOL</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Policy</span><span class="p">(</span><span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">WEAK_COPYLEFT</span><span class="p">)</span><span class="o">.</span><span class="n">admits</span><span class="p">(</span><span class="n">Tier</span><span class="o">.</span><span class="n">COPYLEFT_TOOL</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>Off the ladder is off the ladder — no ceiling admits it:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Policy</span><span class="p">(</span><span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">COPYLEFT_SHIPPED</span><span class="p">)</span><span class="o">.</span><span class="n">admits</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.licence.Policy.admits">
+<span class="sig-name descname"><span class="pre">admits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#Policy.admits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Policy.admits" title="Link to this definition"></a></dt>
+<dd><p>Whether the ceiling reaches <code class="docutils literal notranslate"><span class="pre">tier</span></code>. <code class="docutils literal notranslate"><span class="pre">None</span></code> is never admitted.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Policy.allow_field_restricted">
+<span class="sig-name descname"><span class="pre">allow_field_restricted</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.FieldOfUse" title="looks.licence.FieldOfUse"><span class="pre">FieldOfUse</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.licence.Policy.allow_field_restricted" title="Link to this definition"></a></dt>
+<dd><p>Which field-of-use restrictions the caller has deliberately accepted.
+Empty by default, and <strong>never</strong> widened by <code class="docutils literal notranslate"><span class="pre">max_tier</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.licence.Policy.rank">
+<span class="sig-name descname"><span class="pre">rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#Policy.rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Policy.rank" title="Link to this definition"></a></dt>
+<dd><p>Position on <em>this</em> policy’s ladder.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.REACH_BY_SPDX">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">REACH_BY_SPDX</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><span class="pre">Reach</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'0BSD':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'AGPL-3.0-only':</span> <span class="pre">Reach.NETWORK,</span> <span class="pre">'AGPL-3.0-or-later':</span> <span class="pre">Reach.NETWORK,</span> <span class="pre">'Apache-2.0':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'BSD-2-Clause':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'BSD-3-Clause':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'BlueOak-1.0.0':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'CC0-1.0':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'CDDL-1.0':</span> <span class="pre">Reach.FILE,</span> <span class="pre">'EPL-2.0':</span> <span class="pre">Reach.FILE,</span> <span class="pre">'GPL-2.0-only':</span> <span class="pre">Reach.PROGRAM,</span> <span class="pre">'GPL-2.0-or-later':</span> <span class="pre">Reach.PROGRAM,</span> <span class="pre">'GPL-3.0-only':</span> <span class="pre">Reach.PROGRAM,</span> <span class="pre">'GPL-3.0-or-later':</span> <span class="pre">Reach.PROGRAM,</span> <span class="pre">'ISC':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'LGPL-2.1-only':</span> <span class="pre">Reach.LIBRARY,</span> <span class="pre">'LGPL-2.1-or-later':</span> <span class="pre">Reach.LIBRARY,</span> <span class="pre">'LGPL-3.0-only':</span> <span class="pre">Reach.LIBRARY,</span> <span class="pre">'LGPL-3.0-or-later':</span> <span class="pre">Reach.LIBRARY,</span> <span class="pre">'MIT':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'MIT-0':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'MPL-2.0':</span> <span class="pre">Reach.FILE,</span> <span class="pre">'Python-2.0':</span> <span class="pre">Reach.NONE,</span> <span class="pre">'SSPL-1.0':</span> <span class="pre">Reach.PROGRAM,</span> <span class="pre">'Unlicense':</span> <span class="pre">Reach.NONE}</span></span><a class="headerlink" href="#looks.licence.REACH_BY_SPDX" title="Link to this definition"></a></dt>
+<dd><p>SPDX identifier -&gt; copyleft <a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reach</span></code></a>. SPDX is the vocabulary; the axes
+are ours, because SPDX encodes none of them — it cannot say whether you
+linked or executed, whether you shipped or found, or whether the field of
+use is restricted. Anything unlisted is <code class="xref py py-attr docutils literal notranslate"><span class="pre">Reach.UNKNOWN</span></code>, which
+refuses, in both directions. Widening this table is a dated decision, never
+a convenience.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.RESTRICTED_FIELDS">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">RESTRICTED_FIELDS</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.FieldOfUse" title="looks.licence.FieldOfUse"><span class="pre">FieldOfUse</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({FieldOfUse.NON_COMMERCIAL,</span> <span class="pre">FieldOfUse.NO_DERIVATIVES,</span> <span class="pre">FieldOfUse.RESEARCH_ONLY})</span></span><a class="headerlink" href="#looks.licence.RESTRICTED_FIELDS" title="Link to this definition"></a></dt>
+<dd><p>The field-of-use values that are a restriction rather than an absence of
+one. <code class="xref py py-attr docutils literal notranslate"><span class="pre">FieldOfUse.UNKNOWN</span></code> is deliberately absent: “we do not know what
+this restricts” is an unknown, and folding it in here would let a caller opt
+into it, which is laundering unknown into permission.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Reach">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Reach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Reach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Reach" title="Link to this definition"></a></dt>
+<dd><p>How far the implementation’s copyleft extends.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.SEE_DISCLAIMER">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">SEE_DISCLAIMER</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'looks</span> <span class="pre">reports</span> <span class="pre">observations,</span> <span class="pre">not</span> <span class="pre">legal</span> <span class="pre">conclusions</span> <span class="pre">—</span> <span class="pre">see</span> <span class="pre">looks.licence.DISCLAIMER.'</span></span><a class="headerlink" href="#looks.licence.SEE_DISCLAIMER" title="Link to this definition"></a></dt>
+<dd><p>The one-line pointer a refusal carries. The full <code class="xref py py-data docutils literal notranslate"><span class="pre">DISCLAIMER</span></code> on every
+raise becomes noise, and noise is how a disclaimer stops being read.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.SPDX_BY_FFMPEG_LICENCE">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">SPDX_BY_FFMPEG_LICENCE</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="environment.html#looks.environment.Licence" title="looks.environment.Licence"><span class="pre">Licence</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{Licence.GPL2:</span> <span class="pre">'GPL-2.0-or-later',</span> <span class="pre">Licence.GPL3:</span> <span class="pre">'GPL-3.0-or-later',</span> <span class="pre">Licence.LGPL21:</span> <span class="pre">'LGPL-2.1-or-later',</span> <span class="pre">Licence.LGPL3:</span> <span class="pre">'LGPL-3.0-or-later'}</span></span><a class="headerlink" href="#looks.licence.SPDX_BY_FFMPEG_LICENCE" title="Link to this definition"></a></dt>
+<dd><p>What <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">-L</span></code> reports, as an SPDX identifier. “or-later” throughout,
+because FFmpeg’s own cascade says “version N, or (at your option) any later
+version”. <code class="xref py py-attr docutils literal notranslate"><span class="pre">Licence.NONFREE</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">Licence.UNKNOWN</span></code> are absent on
+purpose: neither is a licence position, and each refuses differently.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.SPDX_LICENSE_LIST_VERSION">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">SPDX_LICENSE_LIST_VERSION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'3.28.0'</span></span><a class="headerlink" href="#looks.licence.SPDX_LICENSE_LIST_VERSION" title="Link to this definition"></a></dt>
+<dd><p>The SPDX License List release <a class="reference internal" href="#looks.licence.REACH_BY_SPDX" title="looks.licence.REACH_BY_SPDX"><code class="xref py py-data docutils literal notranslate"><span class="pre">REACH_BY_SPDX</span></code></a> is written against.
+Recorded because the mapping is only as current as the list it was read
+from, and a widened row is a dated decision.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.STALE_AFTER_DAYS">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">STALE_AFTER_DAYS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">365</span></span><a class="headerlink" href="#looks.licence.STALE_AFTER_DAYS" title="Link to this definition"></a></dt>
+<dd><p>Days after which a ledger row’s evidence is <em>reported</em> stale. Deliberately
+never an automatic refusal: staleness is not a licence fact, refusing on it
+would stop the package working offline for a non-licence reason, and a
+refusal nobody can act on is the one people delete.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.licence.STRONG_COPYLEFT">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">STRONG_COPYLEFT</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">frozenset</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><span class="pre">Reach</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({Reach.NETWORK,</span> <span class="pre">Reach.PROGRAM})</span></span><a class="headerlink" href="#looks.licence.STRONG_COPYLEFT" title="Link to this definition"></a></dt>
+<dd><p>The reaches that put an in-process implementation in the forbidden region.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Terms">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">realisation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spdx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Coupling" title="looks.licence.Coupling"><span class="pre">Coupling</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">component</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'code'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conveyance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Conveyance" title="looks.licence.Conveyance"><span class="pre">Conveyance</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Conveyance.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_of_use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.FieldOfUse" title="looks.licence.FieldOfUse"><span class="pre">FieldOfUse</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">FieldOfUse.UNKNOWN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reach</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><span class="pre">Reach</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Patent" title="looks.licence.Patent"><span class="pre">Patent</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conditions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prohibition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contradiction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verified</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evidence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Evidence" title="looks.licence.Evidence"><span class="pre">Evidence</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Terms" title="Link to this definition"></a></dt>
+<dd><p>What one component declares about itself. <strong>Terms, never a tier.</strong></p>
+<p>Keyed on <code class="docutils literal notranslate"><span class="pre">(provider,</span> <span class="pre">realisation,</span> <span class="pre">component)</span></code>. <code class="docutils literal notranslate"><span class="pre">realisation</span></code> is <em>how
+you obtain it</em> — <code class="docutils literal notranslate"><span class="pre">&quot;system&quot;</span></code> found on PATH, <code class="docutils literal notranslate"><span class="pre">&quot;pypi:&lt;dist&gt;&quot;</span></code> conveyed by
+a distribution, <code class="docutils literal notranslate"><span class="pre">&quot;weights:&lt;repo&gt;&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;hosted:&lt;name&gt;&quot;</span></code> — because that is
+what makes <code class="xref py py-attr docutils literal notranslate"><span class="pre">Conveyance.CONVEYS</span></code> expressible at all: one row per way
+of getting a thing, not one row per thing. <code class="docutils literal notranslate"><span class="pre">component</span></code> is what separates
+a package’s own code from the binary in its wheel, and a model’s code from
+its weights: <code class="docutils literal notranslate"><span class="pre">animegan2-pytorch</span></code> is MIT code over weights with no licence
+at all, and a metadata scan gets that exactly backwards.</p>
+<p>Every default that could be a guess refuses instead: an undeclared
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">conveyance</span></code> or <code class="xref py py-attr docutils literal notranslate"><span class="pre">field_of_use</span></code> is <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Terms.conditions">
+<span class="sig-name descname"><span class="pre">conditions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.licence.Terms.conditions" title="Link to this definition"></a></dt>
+<dd><p>Conditions carried as data rather than adjudicated — a revenue
+threshold, a share-alike duty, a hardware floor.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Terms.contradiction">
+<span class="sig-name descname"><span class="pre">contradiction</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.licence.Terms.contradiction" title="Link to this definition"></a></dt>
+<dd><p>The artifact’s own statements disagree. Refuses as UNKNOWN — looks
+reports the disagreement and does not decide which statement is true.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.licence.Terms.key">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">key</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.licence.Terms.key" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">(provider,</span> <span class="pre">realisation,</span> <span class="pre">component)</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Terms.prohibition">
+<span class="sig-name descname"><span class="pre">prohibition</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.licence.Terms.prohibition" title="Link to this definition"></a></dt>
+<dd><p>the terms grant this use to nobody
+(FFmpeg’s “nonfree and unredistributable”), or to nobody here (a
+territorial exclusion). Not a rung and not a field-of-use opt-in.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A recorded, unliftable prohibition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Terms.reach">
+<span class="sig-name descname"><span class="pre">reach</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><span class="pre">Reach</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.licence.Terms.reach" title="Link to this definition"></a></dt>
+<dd><p>Override the <a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reach</span></code></a> derived from <code class="xref py py-attr docutils literal notranslate"><span class="pre">spdx</span></code>. Requires a
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">note</span></code>, because an unexplained override silently makes a row the
+most permissive of its available readings — which is how a compound
+<code class="docutils literal notranslate"><span class="pre">&quot;Apache-2.0</span> <span class="pre">AND</span> <span class="pre">GPL-3.0-or-later&quot;</span></code> row once classified PERMISSIVE.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.licence.Terms.resolved_reach">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">resolved_reach</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><span class="pre">Reach</span></a></span><a class="headerlink" href="#looks.licence.Terms.resolved_reach" title="Link to this definition"></a></dt>
+<dd><p>The declared reach, or the one <a class="reference internal" href="#looks.licence.reach_of" title="looks.licence.reach_of"><code class="xref py py-func docutils literal notranslate"><span class="pre">reach_of()</span></code></a> derives.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"p"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"system"</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">spdx</span><span class="o">=</span><span class="s2">"GPL-2.0-or-later"</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">SUBPROCESS</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">resolved_reach</span>
+<span class="go">&lt;Reach.PROGRAM: 'program'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.licence.Terms.verified">
+<span class="sig-name descname"><span class="pre">verified</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.licence.Terms.verified" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">False</span></code> refuses as UNKNOWN. A row that is recorded but not established
+is not a fact, and “do not cite as fact” has to be executable to hold.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Tier">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Tier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Tier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Tier" title="Link to this definition"></a></dt>
+<dd><p>A rung on a ladder that is <strong>policy, not fact</strong>.</p>
+<p>Deliberately a plain <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code> with no ordering of its own, so
+<code class="docutils literal notranslate"><span class="pre">&lt;</span></code> cannot silently mean the shipped ladder when a caller supplied a
+different one. Ranking goes through <a class="reference internal" href="#looks.licence.Policy.rank" title="looks.licence.Policy.rank"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Policy.rank()</span></code></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>rung</p></th>
+<th class="head"><p>tier</p></th>
+<th class="head"><p>obligation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PURE</span></code></p></td>
+<td><p>none — nothing external is reached</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PERMISSIVE</span></code></p></td>
+<td><p>notice retention on conveyance</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WEAK_COPYLEFT</span></code></p></td>
+<td><p>notice + relink; dynamic linkage only</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">COPYLEFT_TOOL</span></code></p></td>
+<td><p>none on your code; a prohibition on a <em>future</em>
+act, namely conveying the tool</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">COPYLEFT_SHIPPED</span></code></p></td>
+<td><p>full source-offer duty, inherited downstream</p></td>
+</tr>
+</tbody>
+</table>
+<p>Rungs 3 and 4 are ordered by obligation-inclusion, unambiguously. Rungs 2
+and 3 are <strong>not</strong>: in-process LGPL and subprocess GPL impose different
+duties, not more and fewer.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.licence.Verdict">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">Verdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/licence.html#Verdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.Verdict" title="Link to this definition"></a></dt>
+<dd><p>Which region of the axis space the terms landed in.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">ON_LADDER</span></code> is <strong>not</strong> “admitted”. <a class="reference internal" href="#looks.licence.classify" title="looks.licence.classify"><code class="xref py py-func docutils literal notranslate"><span class="pre">classify()</span></code></a> locates terms; it
+does not apply a ceiling, and reading <code class="docutils literal notranslate"><span class="pre">ON_LADDER</span></code> as permission is the
+false-permission direction. <a class="reference internal" href="#looks.licence.check" title="looks.licence.check"><code class="xref py py-func docutils literal notranslate"><span class="pre">check()</span></code></a> is what admits or refuses.</p>
+<p>The other three are the regions no <code class="docutils literal notranslate"><span class="pre">max_tier</span></code> reaches, kept apart because
+their remedies genuinely differ: raise the ceiling, no opt-in exists, a
+separate opt-in, supply evidence.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.assess">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">assess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(Tier.PURE,</span> <span class="pre">Tier.PERMISSIVE,</span> <span class="pre">Tier.WEAK_COPYLEFT,</span> <span class="pre">Tier.COPYLEFT_TOOL,</span> <span class="pre">Tier.COPYLEFT_SHIPPED)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.licence.Assessment" title="looks.licence.Assessment"><span class="pre">Assessment</span></a></span></span><a class="reference internal" href="../../_modules/looks/licence.html#assess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.assess" title="Link to this definition"></a></dt>
+<dd><p>Assess a provider made of several components: <strong>the worst one wins.</strong></p>
+<p>Deliberately <em>not</em> a per-axis join. Join OpenCV’s Apache-2.0 in-process C++
+with the GPL ffmpeg conveyed in the same wheel and you get “we link a GPL
+program in-process” — a chimera true of neither component, which then
+classifies FORBIDDEN. Each component keeps its own row, the caller sees
+which half is the problem, and <a class="reference internal" href="#looks.licence.check" title="looks.licence.check"><code class="xref py py-func docutils literal notranslate"><span class="pre">check()</span></code></a> applies the ceiling to <strong>every
+part</strong>, so <code class="docutils literal notranslate"><span class="pre">order</span></code> only decides which component gets named first.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">code</span> <span class="o">=</span> <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"moviepy"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"pypi:moviepy"</span><span class="p">,</span>
+<span class="gp">... </span>             <span class="n">spdx</span><span class="o">=</span><span class="s2">"MIT"</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">IN_PROCESS</span><span class="p">,</span>
+<span class="gp">... </span>             <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">CONVEYS</span><span class="p">,</span>
+<span class="gp">... </span>             <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">UNRESTRICTED</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shipped</span> <span class="o">=</span> <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"moviepy"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"pypi:moviepy"</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">component</span><span class="o">=</span><span class="s2">"transitive"</span><span class="p">,</span> <span class="n">spdx</span><span class="o">=</span><span class="s2">"GPL-2.0-or-later"</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">SUBPROCESS</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">CONVEYS</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">UNRESTRICTED</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.PERMISSIVE: 'permissive'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assess</span><span class="p">([</span><span class="n">code</span><span class="p">,</span> <span class="n">shipped</span><span class="p">])</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.COPYLEFT_SHIPPED: 'copyleft_shipped'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">assess</span><span class="p">([</span><span class="n">code</span><span class="p">,</span> <span class="n">shipped</span><span class="p">])</span><span class="o">.</span><span class="n">parts</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.assess_ffmpeg_chain">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">assess_ffmpeg_chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="environment.html#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><span class="pre">FfmpegEnv</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">realisation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'system'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.licence.Assessment" title="looks.licence.Assessment"><span class="pre">Assessment</span></a></span></span><a class="reference internal" href="../../_modules/looks/licence.html#assess_ffmpeg_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.assess_ffmpeg_chain" title="Link to this definition"></a></dt>
+<dd><p>The licence position of a filter chain on one probed binary.</p>
+<p>Joins the two things <a class="reference internal" href="environment.html#module-looks.environment" title="looks.environment"><code class="xref py py-mod docutils literal notranslate"><span class="pre">looks.environment</span></code></a> already answers — what the
+binary’s <code class="docutils literal notranslate"><span class="pre">-L</span></code> says, and which filters FFmpeg gates behind
+<code class="docutils literal notranslate"><span class="pre">--enable-gpl</span></code> — without restating either.</p>
+<p>Three rules, in the order they bite:</p>
+<ol class="arabic simple">
+<li><p><strong>A nonfree build is refused first</strong>, before any ceiling comparison.</p></li>
+<li><p><strong>A GPL-gated filter does not raise the tier; the binary already has
+it.</strong> Every filter in a GPL build is reached through a GPL program, so
+the chain’s position is the <em>binary’s</em> rung. What the gated filters
+change is the <em>reason</em>, which the refusal message needs: an <code class="docutils literal notranslate"><span class="pre">eq</span></code> look
+does not merely cost more obligations, it does not exist on an LGPL
+build at all.</p></li>
+<li><p><strong>A disagreement between the two authorities refuses.</strong> A binary whose
+<code class="docutils literal notranslate"><span class="pre">-L</span></code> says LGPL while it carries filters FFmpeg gates behind
+<code class="docutils literal notranslate"><span class="pre">--enable-gpl</span></code> is contradicting itself, exactly as <code class="docutils literal notranslate"><span class="pre">av</span></code> does, and
+<code class="docutils literal notranslate"><span class="pre">looks</span></code> reports the disagreement rather than picking a side.</p></li>
+</ol>
+<p>Availability is reported, never refused here: a filter absent from the
+declared environment is a compile-time refusal (it is the <em>stronger</em> check,
+catching <code class="docutils literal notranslate"><span class="pre">--disable-filter=eq</span></code> on a GPL build, which no tier table can),
+and that refusal belongs to the compiler. It arrives as an advisory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="environment.html#looks.environment.UnknownFilter" title="looks.environment.UnknownFilter"><strong>looks.environment.UnknownFilter</strong></a> – A name that is not an ffmpeg filter.
+    Deliberately not swallowed: this function reports a name carrying
+    no gate as GPL-free, so an unrecognised one would be a <em>computed</em>
+    false permission at the licence tier’s entry point.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gpl</span> <span class="o">=</span> <span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'/opt/homebrew/bin/ffmpeg'</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">licence</span><span class="o">=</span><span class="n">Licence</span><span class="o">.</span><span class="n">GPL3</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'lutrgb'</span><span class="p">,</span> <span class="s1">'eq'</span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">assess_ffmpeg_chain</span><span class="p">([</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'lutrgb'</span><span class="p">],</span> <span class="n">env</span><span class="o">=</span><span class="n">gpl</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;</span>
+</pre></div>
+</div>
+<p>The Que Calor chain is LGPL-clean, so the same chain on an LGPL build
+is two rungs lower — and the grade filter everyone reaches for is not:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lgpl</span> <span class="o">=</span> <span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'/usr/local/bin/ffmpeg-lgpl'</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="n">licence</span><span class="o">=</span><span class="n">Licence</span><span class="o">.</span><span class="n">LGPL21</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'lutrgb'</span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assess_ffmpeg_chain</span><span class="p">([</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'lutrgb'</span><span class="p">],</span> <span class="n">env</span><span class="o">=</span><span class="n">lgpl</span><span class="p">)</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.WEAK_COPYLEFT: 'weak_copyleft'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assess_ffmpeg_chain</span><span class="p">([</span><span class="s1">'eq'</span><span class="p">],</span> <span class="n">env</span><span class="o">=</span><span class="n">gpl</span><span class="p">)</span><span class="o">.</span><span class="n">reasons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">"it reaches filters FFmpeg gates behind --enable-gpl: ('eq',)"</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.check">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assessment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Assessment" title="looks.licence.Assessment"><span class="pre">Assessment</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Policy" title="looks.licence.Policy"><span class="pre">Policy</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">alternatives</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.check" title="Link to this definition"></a></dt>
+<dd><p>Raise unless <code class="docutils literal notranslate"><span class="pre">policy</span></code> admits <code class="docutils literal notranslate"><span class="pre">assessment</span></code>. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> on pass.</p>
+<p>Every component is checked, loudest first, so a composite can never admit
+something one of its parts would not — and so the message names the
+component that is actually the problem.</p>
+<p>A refusal message names, in order: the subject, the tier it needs, the
+ceiling in force, <em>why</em> (the resolved provider and the dated observations
+that decided it), how to opt in, and any lower-tier alternative. A refusal
+that only says no is the one people remove.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assessment</strong> – From <a class="reference internal" href="#looks.licence.classify" title="looks.licence.classify"><code class="xref py py-func docutils literal notranslate"><span class="pre">classify()</span></code></a> or <a class="reference internal" href="#looks.licence.assess" title="looks.licence.assess"><code class="xref py py-func docutils literal notranslate"><span class="pre">assess()</span></code></a>.</p></li>
+<li><p><strong>policy</strong> – The ceiling in force, plus any field-of-use opt-in.</p></li>
+<li><p><strong>subject</strong> – What is being refused — an effect name, an implementation id.</p></li>
+<li><p><strong>alternatives</strong> – Lower-tier implementations of the same capability, named
+in the message.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#looks.licence.LicenceForbidden" title="looks.licence.LicenceForbidden"><strong>LicenceForbidden</strong></a> – Off the ladder permanently; no opt-in exists.</p></li>
+<li><p><a class="reference internal" href="#looks.licence.LicenceUnknown" title="looks.licence.LicenceUnknown"><strong>LicenceUnknown</strong></a> – Undeterminable, unverified, or self-contradictory.</p></li>
+<li><p><a class="reference internal" href="#looks.licence.LicenceFieldRestricted" title="looks.licence.LicenceFieldRestricted"><strong>LicenceFieldRestricted</strong></a> – Restricted purpose, and no opt-in was given.</p></li>
+<li><p><a class="reference internal" href="#looks.licence.LicenceCeilingExceeded" title="looks.licence.LicenceCeilingExceeded"><strong>LicenceCeilingExceeded</strong></a> – On the ladder, above the ceiling.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ffmpeg</span> <span class="o">=</span> <span class="n">classify</span><span class="p">(</span><span class="n">Terms</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">provider</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"system"</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s2">"binary"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">spdx</span><span class="o">=</span><span class="s2">"GPL-3.0-or-later"</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">SUBPROCESS</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">FINDS</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">UNRESTRICTED</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check</span><span class="p">(</span><span class="n">ffmpeg</span><span class="p">,</span> <span class="n">DFLT_POLICY</span><span class="p">,</span> <span class="s2">"effect 'gamma'"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check</span><span class="p">(</span><span class="n">ffmpeg</span><span class="p">,</span> <span class="n">Policy</span><span class="p">(</span><span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">WEAK_COPYLEFT</span><span class="p">),</span> <span class="s2">"effect 'gamma'"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="gr">looks.licence.LicenceCeilingExceeded</span>: <span class="n">...</span>
+</pre></div>
+</div>
+<p>The refusal says what it is protecting against, and what to do:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">check</span><span class="p">(</span><span class="n">ffmpeg</span><span class="p">,</span> <span class="n">Policy</span><span class="p">(</span><span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">WEAK_COPYLEFT</span><span class="p">),</span> <span class="s2">"'gamma'"</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">alternatives</span><span class="o">=</span><span class="p">[</span><span class="s2">"gamma.ffmpeg.lutyuv"</span><span class="p">])</span>
+<span class="gp">... </span><span class="k">except</span> <span class="n">LicenceCeilingExceeded</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">'gamma' needs tier COPYLEFT_TOOL; the ceiling in force is WEAK_COPYLEFT.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.classify">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">classify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.licence.Assessment" title="looks.licence.Assessment"><span class="pre">Assessment</span></a></span></span><a class="reference internal" href="../../_modules/looks/licence.html#classify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.classify" title="Link to this definition"></a></dt>
+<dd><p>Locate <code class="docutils literal notranslate"><span class="pre">terms</span></code> in the axis space. Applies <strong>no</strong> ceiling.</p>
+<p>The branch order is the design, and two things about it are load-bearing.</p>
+<p><strong>A field-restricted assessment still carries its ladder rung.</strong> Dropping
+it is how the first version of this design let <code class="docutils literal notranslate"><span class="pre">Policy(max_tier=PURE,</span>
+<span class="pre">allow_field_restricted={NON_COMMERCIAL})</span></code> admit a subprocess GPL-3
+conveying provider: the opt-in was honoured, there was no tier left, and
+the ceiling test never ran.</p>
+<p><strong>Record-level unknowns come before the region checks; axis-level unknowns
+come after the field check.</strong> If the record cannot be trusted at all — it
+is unverified, or the artifact contradicts itself — nothing may be
+concluded from its axes. But a row whose reach is unreadable while its
+field of use is plainly non-commercial is more usefully refused as
+field-restricted, and nothing leaks: opting into that field leaves
+<code class="docutils literal notranslate"><span class="pre">tier</span> <span class="pre">is</span> <span class="pre">None</span></code>, and the ceiling test refuses it as unknown.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ffmpeg</span> <span class="o">=</span> <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"system"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">component</span><span class="o">=</span><span class="s2">"binary"</span><span class="p">,</span> <span class="n">spdx</span><span class="o">=</span><span class="s2">"GPL-3.0-or-later"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">SUBPROCESS</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">FINDS</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">UNRESTRICTED</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">classify</span><span class="p">(</span><span class="n">ffmpeg</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">verdict</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">(&lt;Verdict.ON_LADDER: 'on_ladder'&gt;, &lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;)</span>
+</pre></div>
+</div>
+<p>A field-restricted row keeps its rung, which is what the ceiling test
+needs after an opt-in is honoured:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nc</span> <span class="o">=</span> <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"m"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"weights:m"</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s2">"weights"</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">spdx</span><span class="o">=</span><span class="s2">"GPL-3.0-or-later"</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">SUBPROCESS</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">CONVEYS</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">NON_COMMERCIAL</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span><span class="o">.</span><span class="n">verdict</span><span class="p">,</span> <span class="n">classify</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">(&lt;Verdict.FIELD_RESTRICTED: 'field_restricted'&gt;, &lt;Tier.COPYLEFT_SHIPPED: 'copyleft_shipped'&gt;)</span>
+</pre></div>
+</div>
+<p>Unknown is a refusal, and it is a <em>different</em> refusal:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"pypi:x"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">spdx</span><span class="o">=</span><span class="s2">"LicenseRef-nobody-wrote-one"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">IN_PROCESS</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">CONVEYS</span><span class="p">))</span><span class="o">.</span><span class="n">verdict</span>
+<span class="go">&lt;Verdict.UNKNOWN: 'unknown'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.ffmpeg_terms">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">ffmpeg_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="environment.html#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><span class="pre">FfmpegEnv</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">realisation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'system'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">today</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">date</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a></span></span><a class="reference internal" href="../../_modules/looks/licence.html#ffmpeg_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.ffmpeg_terms" title="Link to this definition"></a></dt>
+<dd><p>One probed ffmpeg binary, as <a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Terms</span></code></a>.</p>
+<p><strong>The environment is an argument.</strong> This takes an <code class="xref py py-class docutils literal notranslate"><span class="pre">FfmpegEnv</span></code> a
+caller probed and never probes for itself, because there is not one ffmpeg
+on a machine: measured on the machine this package was written on, <code class="docutils literal notranslate"><span class="pre">PATH</span></code>
+is 8.1 / GPL-3 / 481 filters while <code class="docutils literal notranslate"><span class="pre">imageio-ffmpeg</span></code>’s bundled binary is
+7.1 / GPL-2 / 484, and the filter sets are non-nested. A component that
+probes on its own behalf silently binds to whichever binary was first on
+<code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env</strong> – From <a class="reference internal" href="environment.html#looks.environment.probe" title="looks.environment.probe"><code class="xref py py-func docutils literal notranslate"><span class="pre">looks.environment.probe()</span></code></a>.</p></li>
+<li><p><strong>realisation</strong> – How this binary was obtained — <code class="docutils literal notranslate"><span class="pre">&quot;system&quot;</span></code> for found on
+<code class="docutils literal notranslate"><span class="pre">PATH</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;pypi:&lt;dist&gt;&quot;</span></code> for one a distribution ships. It is
+what decides <a class="reference internal" href="#looks.licence.Conveyance" title="looks.licence.Conveyance"><code class="xref py py-class docutils literal notranslate"><span class="pre">Conveyance</span></code></a>, and therefore rung 3 versus 4.</p></li>
+<li><p><strong>today</strong> – Stamped on the evidence; for tests.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gpl</span> <span class="o">=</span> <span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'/opt/homebrew/bin/ffmpeg'</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">version</span><span class="o">=</span><span class="s1">'ffmpeg version 8.1'</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">licence</span><span class="o">=</span><span class="n">Licence</span><span class="o">.</span><span class="n">GPL3</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">,</span> <span class="s1">'eq'</span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="n">ffmpeg_terms</span><span class="p">(</span><span class="n">gpl</span><span class="p">))</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;</span>
+</pre></div>
+</div>
+<p>The same source, built without <code class="docutils literal notranslate"><span class="pre">--enable-gpl</span></code>, is two rungs lower —
+which is the whole reason a tier cannot be a constant:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lgpl</span> <span class="o">=</span> <span class="n">FfmpegEnv</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">'/usr/local/bin/ffmpeg-lgpl'</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="n">licence</span><span class="o">=</span><span class="n">Licence</span><span class="o">.</span><span class="n">LGPL21</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="n">filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s1">'lut3d'</span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="n">ffmpeg_terms</span><span class="p">(</span><span class="n">lgpl</span><span class="p">))</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.WEAK_COPYLEFT: 'weak_copyleft'&gt;</span>
+</pre></div>
+</div>
+<p>A binary nobody probed is unknown, and unknown refuses:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="n">ffmpeg_terms</span><span class="p">(</span><span class="n">FfmpegEnv</span><span class="p">()))</span><span class="o">.</span><span class="n">verdict</span>
+<span class="go">&lt;Verdict.UNKNOWN: 'unknown'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.ledger">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">ledger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#ledger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.ledger" title="Link to this definition"></a></dt>
+<dd><p>The evidence ledger: what was observed, about whom, and when.</p>
+<p><strong>No tier is stored.</strong> Every row records axes and the dated observations
+behind them; the tier comes from <a class="reference internal" href="#looks.licence.classify" title="looks.licence.classify"><code class="xref py py-func docutils literal notranslate"><span class="pre">classify()</span></code></a>, so a reader can check
+the derivation rather than trust a label — and the test suite re-derives
+every row. Rows are keyed per component, because the compound cases
+(OpenCV, moviepy) cannot round-trip through a per-package key.</p>
+<p>It is a record of observations, <strong>not a lookup table for a live machine</strong>.
+In particular, do not read the <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code>/<code class="docutils literal notranslate"><span class="pre">system</span></code> row to decide what a
+caller’s ffmpeg is: use <a class="reference internal" href="#looks.licence.ffmpeg_terms" title="looks.licence.ffmpeg_terms"><code class="xref py py-func docutils literal notranslate"><span class="pre">ffmpeg_terms()</span></code></a> on an
+<a class="reference internal" href="environment.html#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FfmpegEnv</span></code></a> they probed.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="n">ledger</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">25</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">({</span><span class="n">t</span><span class="o">.</span><span class="n">provider</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">})[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">['adobe-lut-packs', 'anime4k', 'animegan2-pytorch', 'animeganv2']</span>
+</pre></div>
+</div>
+<p>The tier is derived, and the compound case is why:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opencv</span> <span class="o">=</span> <span class="n">terms_for</span><span class="p">(</span><span class="s1">'opencv'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classify</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">opencv</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">component</span> <span class="o">==</span> <span class="s1">'code'</span><span class="p">))</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.PERMISSIVE: 'permissive'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assess</span><span class="p">(</span><span class="n">opencv</span><span class="p">)</span><span class="o">.</span><span class="n">verdict</span>
+<span class="go">&lt;Verdict.UNKNOWN: 'unknown'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.project_onto_ladder">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">project_onto_ladder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#project_onto_ladder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.project_onto_ladder" title="Link to this definition"></a></dt>
+<dd><p>Project three axes onto a rung. <strong>This is the policy half.</strong></p>
+<p>Coupling, reach and conveyance go in; a rung or <code class="docutils literal notranslate"><span class="pre">None</span></code> comes out.
+<a class="reference internal" href="#looks.licence.FieldOfUse" title="looks.licence.FieldOfUse"><code class="xref py py-class docutils literal notranslate"><span class="pre">FieldOfUse</span></code></a> is deliberately not consulted — it is not commensurable
+with copyleft strength and belongs off the ladder entirely.</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> means <em>no rung</em>: an axis is unknown, or the terms are in the
+forbidden region. Which of the two it is, is <a class="reference internal" href="#looks.licence.classify" title="looks.licence.classify"><code class="xref py py-func docutils literal notranslate"><span class="pre">classify()</span></code></a>’s answer.</p>
+<p>Note what conveyance does and does not do. It lifts rung 3 to rung 4 —
+conveying a GPL <em>program</em> is a source-offer duty you inherit — and it does
+nothing anywhere else, because that is the ladder as decided. (Section 5.7
+of the decisions document contains one row on the other side of this, the
+vendored LGPL shaders; its own manylinux-wheel row contradicts it, and both
+cannot hold under one projection.)</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">found</span> <span class="o">=</span> <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"system"</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">spdx</span><span class="o">=</span><span class="s2">"GPL-3.0-or-later"</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s2">"binary"</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">SUBPROCESS</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">FINDS</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">UNRESTRICTED</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">project_onto_ladder</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+<span class="go">&lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;</span>
+</pre></div>
+</div>
+<p>The same binary, shipped inside a wheel you declare:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project_onto_ladder</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"pypi:imageio-ffmpeg"</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">spdx</span><span class="o">=</span><span class="s2">"GPL-2.0-or-later"</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s2">"binary"</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">SUBPROCESS</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">CONVEYS</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">UNRESTRICTED</span><span class="p">))</span>
+<span class="go">&lt;Tier.COPYLEFT_SHIPPED: 'copyleft_shipped'&gt;</span>
+</pre></div>
+</div>
+<p>And linked instead of executed, which is off the ladder:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">project_onto_ladder</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Terms</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">"ultralytics"</span><span class="p">,</span> <span class="n">realisation</span><span class="o">=</span><span class="s2">"pypi:ultralytics"</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">spdx</span><span class="o">=</span><span class="s2">"AGPL-3.0-or-later"</span><span class="p">,</span> <span class="n">coupling</span><span class="o">=</span><span class="n">Coupling</span><span class="o">.</span><span class="n">IN_PROCESS</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">conveyance</span><span class="o">=</span><span class="n">Conveyance</span><span class="o">.</span><span class="n">CONVEYS</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">field_of_use</span><span class="o">=</span><span class="n">FieldOfUse</span><span class="o">.</span><span class="n">UNRESTRICTED</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.reach_of">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">reach_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spdx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><span class="pre">Reach</span></a></span></span><a class="reference internal" href="../../_modules/looks/licence.html#reach_of"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.reach_of" title="Link to this definition"></a></dt>
+<dd><p>Map one SPDX identifier onto a <a class="reference internal" href="#looks.licence.Reach" title="looks.licence.Reach"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reach</span></code></a>.</p>
+<p>Compound expressions are <strong>not</strong> parsed. A component needing <code class="docutils literal notranslate"><span class="pre">AND</span></code> or
+<code class="docutils literal notranslate"><span class="pre">OR</span></code> is not one component: the conjunction that actually occurs — a
+permissive library inside a wheel that also conveys a GPL program — is two
+rows with two couplings, not one licence, and joining their axes
+manufactures “we link a GPL program in-process”, a fact true of neither.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reach_of</span><span class="p">(</span><span class="s2">"Apache-2.0"</span><span class="p">)</span>
+<span class="go">&lt;Reach.NONE: 'none'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reach_of</span><span class="p">(</span><span class="s2">"LGPL-3.0-or-later"</span><span class="p">)</span>
+<span class="go">&lt;Reach.LIBRARY: 'library'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reach_of</span><span class="p">(</span><span class="s2">"AGPL-3.0-or-later"</span><span class="p">)</span>
+<span class="go">&lt;Reach.NETWORK: 'network'&gt;</span>
+</pre></div>
+</div>
+<p>Unlisted is unknown, which refuses — including the one that is unlisted
+deliberately, and every <code class="docutils literal notranslate"><span class="pre">LicenseRef-*</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reach_of</span><span class="p">(</span><span class="s2">"BSD-4-Clause"</span><span class="p">)</span>
+<span class="go">&lt;Reach.UNKNOWN: 'unknown'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reach_of</span><span class="p">(</span><span class="s2">"Apache-2.0 AND GPL-3.0-or-later"</span><span class="p">)</span>
+<span class="go">&lt;Reach.UNKNOWN: 'unknown'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reach_of</span><span class="p">(</span><span class="s2">"LicenseRef-AnimeGANv2-NonCommercial"</span><span class="p">)</span>
+<span class="go">&lt;Reach.UNKNOWN: 'unknown'&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.terms_for">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">terms_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">realisation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#terms_for"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.terms_for" title="Link to this definition"></a></dt>
+<dd><p>Every ledger row matching a provider, optionally narrowed.</p>
+<p>Returns <strong>all</strong> matching components, because a provider is assessed by its
+worst one and handing back a single row would be the per-package key the
+ledger deliberately does not have.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">component</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terms_for</span><span class="p">(</span><span class="s1">'moviepy'</span><span class="p">)]</span>
+<span class="go">['code', 'transitive']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assess</span><span class="p">(</span><span class="n">terms_for</span><span class="p">(</span><span class="s1">'moviepy'</span><span class="p">))</span><span class="o">.</span><span class="n">tier</span>
+<span class="go">&lt;Tier.COPYLEFT_SHIPPED: 'copyleft_shipped'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">terms_for</span><span class="p">(</span><span class="s1">'no-such-provider'</span><span class="p">)</span>
+<span class="go">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.licence.unverified_claims">
+<span class="sig-prename descclassname"><span class="pre">looks.licence.</span></span><span class="sig-name descname"><span class="pre">unverified_claims</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/licence.html#unverified_claims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.licence.unverified_claims" title="Link to this definition"></a></dt>
+<dd><p>What the research explicitly did <strong>not</strong> establish.</p>
+<p>Recorded rather than omitted: an unverified claim asserted as fact defeats
+the point of the whole design, and the claims here are the ones somebody
+will otherwise assume were checked.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">unverified_claims</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="mi">4</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="geometry.html" class="btn btn-neutral float-left" title="looks.geometry" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lut.html" class="btn btn-neutral float-right" title="looks.lut" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

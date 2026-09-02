@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks._run &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="looks.environment" href="environment.html" />
+    <link rel="prev" title="looks" href="../looks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks._run</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.Completed"><code class="docutils literal notranslate"><span class="pre">Completed</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks._run.Completed.argv"><code class="docutils literal notranslate"><span class="pre">Completed.argv</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks._run.Completed.returncode"><code class="docutils literal notranslate"><span class="pre">Completed.returncode</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks._run.Completed.stdout"><code class="docutils literal notranslate"><span class="pre">Completed.stdout</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks._run.Completed.stderr"><code class="docutils literal notranslate"><span class="pre">Completed.stderr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks._run.Completed.timed_out"><code class="docutils literal notranslate"><span class="pre">Completed.timed_out</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks._run.Completed.error"><code class="docutils literal notranslate"><span class="pre">Completed.error</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks._run.Completed.ok"><code class="docutils literal notranslate"><span class="pre">Completed.ok</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.DFLT_TIMEOUT_S"><code class="docutils literal notranslate"><span class="pre">DFLT_TIMEOUT_S</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.INFO_FLAGS"><code class="docutils literal notranslate"><span class="pre">INFO_FLAGS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.InvariantViolation"><code class="docutils literal notranslate"><span class="pre">InvariantViolation</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.NULL_SINK"><code class="docutils literal notranslate"><span class="pre">NULL_SINK</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.VALUE_OPTIONS"><code class="docutils literal notranslate"><span class="pre">VALUE_OPTIONS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.check_analysis_only"><code class="docutils literal notranslate"><span class="pre">check_analysis_only()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.output_specs"><code class="docutils literal notranslate"><span class="pre">output_specs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks._run.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks._run</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/_run.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks._run">
+<span id="looks-run"></span><h1>looks._run<a class="headerlink" href="#module-looks._run" title="Link to this heading"></a></h1>
+<p>The single place <code class="docutils literal notranslate"><span class="pre">looks</span></code> starts a process — and the invariant it enforces.</p>
+<blockquote>
+<div><p><strong>Every ffmpeg process ``looks`` starts ends in ``-f null -``.</strong></p>
+</div></blockquote>
+<p>That sentence is the boundary between this package and the one it must not
+become. It admits every measurement, every probe and every diagnostic. It
+excludes — structurally, not by convention — every render, every encode, every
+mux, every concat, and therefore <code class="docutils literal notranslate"><span class="pre">looks.render()</span></code>, which cannot be written
+without violating it.</p>
+<p>The kickoff states the rule in prose: a convenience <code class="docutils literal notranslate"><span class="pre">looks.render(clip,</span> <span class="pre">look)</span></code>
+<em>will</em> get used and <em>will</em> rebuild one big <code class="docutils literal notranslate"><span class="pre">-filter_complex</span></code>, undoing the
+bounded-memory invariant <cite>muvid.footage.assemble</cite> won after 30-cut OOM kills on
+a 3.7 GB box. Prose does not survive contact with a future contributor who has
+a good reason. This does, because it is checkable two ways: a test that
+intercepts <a class="reference internal" href="#looks._run.run" title="looks._run.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run()</span></code></a> and asserts the argv of every invocation, and a grep over
+the package for encoder flags.</p>
+<p><strong>The invariant is only enforceable because there is exactly one chokepoint.</strong>
+Every subprocess in <code class="docutils literal notranslate"><span class="pre">looks</span></code> goes through <a class="reference internal" href="#looks._run.run" title="looks._run.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run()</span></code></a>. A module that calls
+<code class="docutils literal notranslate"><span class="pre">subprocess</span></code> directly has left the perimeter, and
+<code class="docutils literal notranslate"><span class="pre">looks/tests/test_invariant.py</span></code> fails on it.</p>
+<p>Three shapes are permitted, and nothing else:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">…</span>&#160; <span class="pre">-f</span> <span class="pre">null</span> <span class="pre">-</span></code> — analysis. Frames are decoded, filters run, and the
+output is discarded. This is how a probe measures what an effect <em>does</em>
+without producing anything.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ffprobe</span> <span class="pre">…</span></code> — inspection. ffprobe cannot write media at all, so it needs no
+terminator; the constraint is structural in the binary rather than in the
+argv.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">…</span> <span class="pre">-version</span></code> / <code class="docutils literal notranslate"><span class="pre">-L</span></code> / <code class="docutils literal notranslate"><span class="pre">-filters</span></code> / <code class="docutils literal notranslate"><span class="pre">-buildconf</span></code> — the
+environment probe. No input, no output, no decoding.</p></li>
+</ul>
+<p>A caller that wants pixels on disk takes the compiled chain from <code class="docutils literal notranslate"><span class="pre">looks</span></code> and
+runs it themselves. That is the whole architecture in one sentence.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="looks._run.Completed">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">Completed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returncode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stderr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timed_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/_run.html#Completed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks._run.Completed" title="Link to this definition"></a></dt>
+<dd><p>The result of one analysis call.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks._run.Completed.argv">
+<span class="sig-name descname"><span class="pre">argv</span></span><a class="headerlink" href="#looks._run.Completed.argv" title="Link to this definition"></a></dt>
+<dd><p>Exactly what was run, kept so a caller can report or reproduce it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[str, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks._run.Completed.returncode">
+<span class="sig-name descname"><span class="pre">returncode</span></span><a class="headerlink" href="#looks._run.Completed.returncode" title="Link to this definition"></a></dt>
+<dd><p>The process’s exit status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks._run.Completed.stdout">
+<span class="sig-name descname"><span class="pre">stdout</span></span><a class="headerlink" href="#looks._run.Completed.stdout" title="Link to this definition"></a></dt>
+<dd><p>Captured standard output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks._run.Completed.stderr">
+<span class="sig-name descname"><span class="pre">stderr</span></span><a class="headerlink" href="#looks._run.Completed.stderr" title="Link to this definition"></a></dt>
+<dd><p>Captured standard error — where ffmpeg puts everything
+interesting, including filter metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks._run.Completed.timed_out">
+<span class="sig-name descname"><span class="pre">timed_out</span></span><a class="headerlink" href="#looks._run.Completed.timed_out" title="Link to this definition"></a></dt>
+<dd><p>Whether the call was abandoned at <a class="reference internal" href="#looks._run.DFLT_TIMEOUT_S" title="looks._run.DFLT_TIMEOUT_S"><code class="xref py py-data docutils literal notranslate"><span class="pre">DFLT_TIMEOUT_S</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks._run.Completed.error">
+<span class="sig-name descname"><span class="pre">error</span></span><a class="headerlink" href="#looks._run.Completed.error" title="Link to this definition"></a></dt>
+<dd><p>A description when the process could not be started at all.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks._run.Completed.ok">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ok</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks._run.Completed.ok" title="Link to this definition"></a></dt>
+<dd><p>Whether the process ran and exited zero.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Completed</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">(</span><span class="s1">'ffprobe'</span><span class="p">,),</span> <span class="n">returncode</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">ok</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Completed</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">(</span><span class="s1">'ffprobe'</span><span class="p">,),</span> <span class="n">returncode</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ok</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Completed</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="p">(</span><span class="s1">'ffprobe'</span><span class="p">,),</span> <span class="n">error</span><span class="o">=</span><span class="s1">'not found'</span><span class="p">)</span><span class="o">.</span><span class="n">ok</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks._run.DFLT_TIMEOUT_S">
+<span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">DFLT_TIMEOUT_S</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">120.0</span></span><a class="headerlink" href="#looks._run.DFLT_TIMEOUT_S" title="Link to this definition"></a></dt>
+<dd><p>How long any single analysis call may take before it is abandoned. Probes are
+short by construction (a handful of frames), so exceeding this means
+something is wrong rather than slow.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks._run.INFO_FLAGS">
+<span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">INFO_FLAGS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'-L',</span> <span class="pre">'-buildconf',</span> <span class="pre">'-codecs',</span> <span class="pre">'-filters',</span> <span class="pre">'-formats',</span> <span class="pre">'-h',</span> <span class="pre">'-version'})</span></span><a class="headerlink" href="#looks._run.INFO_FLAGS" title="Link to this definition"></a></dt>
+<dd><p>ffmpeg options that ask a question and exit without touching media. An
+invocation whose argv contains one of these needs no null sink.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks._run.InvariantViolation">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">InvariantViolation</span></span><a class="reference internal" href="../../_modules/looks/_run.html#InvariantViolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks._run.InvariantViolation" title="Link to this definition"></a></dt>
+<dd><p>An attempt to start a process that would produce media.</p>
+<p>Deliberately an <code class="xref py py-class docutils literal notranslate"><span class="pre">AssertionError</span></code> rather than a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>: this
+is not a bad argument a caller might reasonably pass and recover from, it is
+a statement that the package has stopped being what it claims to be.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks._run.NULL_SINK">
+<span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">NULL_SINK</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('-f',</span> <span class="pre">'null',</span> <span class="pre">'-')</span></span><a class="headerlink" href="#looks._run.NULL_SINK" title="Link to this definition"></a></dt>
+<dd><p>The argv tail that makes an ffmpeg invocation an analysis rather than a
+render. <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">null</span> <span class="pre">-</span></code> selects the null muxer writing to stdout, so every
+frame is decoded and filtered and none is encoded or stored.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks._run.VALUE_OPTIONS">
+<span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">VALUE_OPTIONS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'-af',</span> <span class="pre">'-analyzeduration',</span> <span class="pre">'-f',</span> <span class="pre">'-fflags',</span> <span class="pre">'-filter',</span> <span class="pre">'-filter_complex',</span> <span class="pre">'-flags',</span> <span class="pre">'-frames',</span> <span class="pre">'-frames:a',</span> <span class="pre">'-frames:v',</span> <span class="pre">'-i',</span> <span class="pre">'-lavfi',</span> <span class="pre">'-loglevel',</span> <span class="pre">'-map',</span> <span class="pre">'-max_muxing_queue_size',</span> <span class="pre">'-of',</span> <span class="pre">'-pix_fmt',</span> <span class="pre">'-print_format',</span> <span class="pre">'-probesize',</span> <span class="pre">'-r',</span> <span class="pre">'-read_intervals',</span> <span class="pre">'-s',</span> <span class="pre">'-select_streams',</span> <span class="pre">'-sexagesimal',</span> <span class="pre">'-show_entries',</span> <span class="pre">'-ss',</span> <span class="pre">'-t',</span> <span class="pre">'-threads',</span> <span class="pre">'-timeout',</span> <span class="pre">'-to',</span> <span class="pre">'-v',</span> <span class="pre">'-vf'})</span></span><a class="headerlink" href="#looks._run.VALUE_OPTIONS" title="Link to this definition"></a></dt>
+<dd><p>Options that consume the following token as their value.</p>
+<p>The list matters for correctness, not tidiness: <a class="reference internal" href="#looks._run.output_specs" title="looks._run.output_specs"><code class="xref py py-func docutils literal notranslate"><span class="pre">output_specs()</span></code></a> treats
+an option NOT listed here as taking no value, so the token after it counts as
+an <strong>output</strong> and the call is refused. That is deliberate — an unknown option
+followed by a bare token is exactly what a smuggled render looks like, and
+erring toward refusal is the only safe direction for this check. <cite>looks</cite>
+builds every argv it runs, so extending this list is a normal edit; loosening
+the rule is not.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks._run.check_analysis_only">
+<span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">check_analysis_only</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/looks/_run.html#check_analysis_only"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks._run.check_analysis_only" title="Link to this definition"></a></dt>
+<dd><p>Raise unless <code class="docutils literal notranslate"><span class="pre">argv</span></code> is one of the three permitted shapes.</p>
+<p>This is the invariant, as a function. It is called by <a class="reference internal" href="#looks._run.run" title="looks._run.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">run()</span></code></a> on every
+invocation, so violating it requires bypassing the chokepoint entirely —
+which is what the perimeter test looks for.</p>
+<p class="rubric">Examples</p>
+<p>An analysis call terminated by the null sink is fine:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_analysis_only</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="s1">'a.mp4'</span><span class="p">,</span> <span class="s1">'-vf'</span><span class="p">,</span> <span class="s1">'lut3d=x.cube'</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="s1">'-f'</span><span class="p">,</span> <span class="s1">'null'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>ffprobe needs no terminator — it cannot write media:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_analysis_only</span><span class="p">([</span><span class="s1">'ffprobe'</span><span class="p">,</span> <span class="s1">'-show_entries'</span><span class="p">,</span> <span class="s1">'frame_tags=lavfi.blur'</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>So does an environment question:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_analysis_only</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-hide_banner'</span><span class="p">,</span> <span class="s1">'-L'</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>A render is refused, and the message says what the rule is:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_analysis_only</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="s1">'a.mp4'</span><span class="p">,</span> <span class="s1">'out.mp4'</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks._run.InvariantViolation</span>: <span class="n">looks starts no process that can produce</span>
+<span class="x">media...</span>
+</pre></div>
+</div>
+<p>So is a render dressed as an analysis. The sink must be the tail
+<strong>and</strong> the only output — ffmpeg accepts several, so this passed the
+first version of the check and wrote a real H.264 file:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_analysis_only</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="s1">'a.mp4'</span><span class="p">,</span> <span class="s1">'-c:v'</span><span class="p">,</span> <span class="s1">'libx264'</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="s1">'out.mp4'</span><span class="p">,</span> <span class="s1">'-map'</span><span class="p">,</span> <span class="s1">'0:v'</span><span class="p">,</span> <span class="s1">'-f'</span><span class="p">,</span> <span class="s1">'null'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks._run.InvariantViolation</span>: <span class="n">looks starts no process that can produce</span>
+<span class="x">media...</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_analysis_only</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="s1">'a.mp4'</span><span class="p">,</span> <span class="s1">'-f'</span><span class="p">,</span> <span class="s1">'null'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span>
+<span class="gp">... </span>                     <span class="s1">'sneaky.mp4'</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks._run.InvariantViolation</span>: <span class="n">looks starts no process that can produce</span>
+<span class="x">media...</span>
+</pre></div>
+</div>
+<p>A binary that is neither ffmpeg nor ffprobe is refused outright:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_analysis_only</span><span class="p">([</span><span class="s1">'python'</span><span class="p">,</span> <span class="s1">'-c'</span><span class="p">,</span> <span class="s1">'print(1)'</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks._run.InvariantViolation</span>: <span class="n">looks starts only ffmpeg and ffprobe, not</span>
+<span class="x">'python'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks._run.output_specs">
+<span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">output_specs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/_run.html#output_specs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks._run.output_specs" title="Link to this definition"></a></dt>
+<dd><p>Every output specification in an ffmpeg argv.</p>
+<p>ffmpeg’s grammar is <code class="docutils literal notranslate"><span class="pre">ffmpeg</span> <span class="pre">[global]</span> <span class="pre">{[in-opts]</span> <span class="pre">-i</span> <span class="pre">INPUT}...</span> <span class="pre">{[out-opts]</span>
+<span class="pre">OUTPUT}...</span></code>, so an output is a bare token that is not an option’s value and
+not an input. Walking it is the only way to see them all — and seeing them
+all is the whole point, because <strong>ffmpeg accepts multiple outputs</strong>, and a
+check that looks only at the argv tail is defeated by appending nine
+characters:</p>
+<blockquote>
+<div><p>ffmpeg -i a.mp4 -c:v libx264 out.mp4 -map 0:v -f null -</p>
+</div></blockquote>
+<p>That was accepted by the first version of <a class="reference internal" href="#looks._run.check_analysis_only" title="looks._run.check_analysis_only"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_analysis_only()</span></code></a>, and
+it writes a real H.264 file. Verified.</p>
+<p>An option absent from <a class="reference internal" href="#looks._run.VALUE_OPTIONS" title="looks._run.VALUE_OPTIONS"><code class="xref py py-data docutils literal notranslate"><span class="pre">VALUE_OPTIONS</span></code></a> is treated as taking no value,
+so the token after it reads as an output and the call is refused. That
+biases toward refusal on purpose.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output_specs</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="s1">'a.mp4'</span><span class="p">,</span> <span class="s1">'-f'</span><span class="p">,</span> <span class="s1">'null'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">])</span>
+<span class="go">['-']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output_specs</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="s1">'a.mp4'</span><span class="p">,</span> <span class="s1">'-c:v'</span><span class="p">,</span> <span class="s1">'libx264'</span><span class="p">,</span> <span class="s1">'out.mp4'</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="s1">'-map'</span><span class="p">,</span> <span class="s1">'0:v'</span><span class="p">,</span> <span class="s1">'-f'</span><span class="p">,</span> <span class="s1">'null'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">])</span>
+<span class="go">['libx264', 'out.mp4', '-']</span>
+</pre></div>
+</div>
+<p>Note <code class="docutils literal notranslate"><span class="pre">libx264</span></code> in that list. <code class="docutils literal notranslate"><span class="pre">-c:v</span></code> is <strong>deliberately absent</strong> from
+<a class="reference internal" href="#looks._run.VALUE_OPTIONS" title="looks._run.VALUE_OPTIONS"><code class="xref py py-data docutils literal notranslate"><span class="pre">VALUE_OPTIONS</span></code></a>, so its value reads as an output and the call is
+refused twice over. That is not an oversight to tidy up: <cite>looks</cite> never
+encodes, so an encoder option appearing at all is evidence that
+something is being produced, and the conservative reading is the
+correct one. Adding <cite>-c:v</cite> to the value list would weaken the check.
+&gt;&gt;&gt; output_specs([‘ffmpeg’, ‘-hide_banner’, ‘-L’])
+[]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks._run.run">
+<span class="sig-prename descclassname"><span class="pre">looks._run.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">120.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks._run.Completed" title="looks._run.Completed"><span class="pre">Completed</span></a></span></span><a class="reference internal" href="../../_modules/looks/_run.html#run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks._run.run" title="Link to this definition"></a></dt>
+<dd><p>Start one analysis process, after checking the invariant.</p>
+<p>Never raises for an environment reason — a missing binary, a timeout or a
+permission error are facts about the machine that the caller wants back as
+data. It <strong>does</strong> raise <a class="reference internal" href="#looks._run.InvariantViolation" title="looks._run.InvariantViolation"><code class="xref py py-class docutils literal notranslate"><span class="pre">InvariantViolation</span></code></a>, because that is a fact
+about <em>this package</em> and there is nothing to recover from.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run</span><span class="p">([</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="s1">'-i'</span><span class="p">,</span> <span class="s1">'x.mp4'</span><span class="p">,</span> <span class="s1">'out.mp4'</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks._run.InvariantViolation</span>: <span class="n">looks starts no process that can produce</span>
+<span class="x">media...</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run</span><span class="p">([</span><span class="s1">'ffprobe-that-does-not-exist'</span><span class="p">])</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../looks.html" class="btn btn-neutral float-left" title="looks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="environment.html" class="btn btn-neutral float-right" title="looks.environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

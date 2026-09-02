@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks._run &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks._run</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks._run</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""The single place ``looks`` starts a process — and the invariant it enforces.</span>
+
+<span class="sd">    **Every ffmpeg process ``looks`` starts ends in ``-f null -``.**</span>
+
+<span class="sd">That sentence is the boundary between this package and the one it must not</span>
+<span class="sd">become. It admits every measurement, every probe and every diagnostic. It</span>
+<span class="sd">excludes — structurally, not by convention — every render, every encode, every</span>
+<span class="sd">mux, every concat, and therefore ``looks.render()``, which cannot be written</span>
+<span class="sd">without violating it.</span>
+
+<span class="sd">The kickoff states the rule in prose: a convenience ``looks.render(clip, look)``</span>
+<span class="sd">*will* get used and *will* rebuild one big ``-filter_complex``, undoing the</span>
+<span class="sd">bounded-memory invariant `muvid.footage.assemble` won after 30-cut OOM kills on</span>
+<span class="sd">a 3.7 GB box. Prose does not survive contact with a future contributor who has</span>
+<span class="sd">a good reason. This does, because it is checkable two ways: a test that</span>
+<span class="sd">intercepts :func:`run` and asserts the argv of every invocation, and a grep over</span>
+<span class="sd">the package for encoder flags.</span>
+
+<span class="sd">**The invariant is only enforceable because there is exactly one chokepoint.**</span>
+<span class="sd">Every subprocess in ``looks`` goes through :func:`run`. A module that calls</span>
+<span class="sd">``subprocess`` directly has left the perimeter, and</span>
+<span class="sd">``looks/tests/test_invariant.py`` fails on it.</span>
+
+<span class="sd">Three shapes are permitted, and nothing else:</span>
+
+<span class="sd">- ``ffmpeg …  -f null -`` — analysis. Frames are decoded, filters run, and the</span>
+<span class="sd">  output is discarded. This is how a probe measures what an effect *does*</span>
+<span class="sd">  without producing anything.</span>
+<span class="sd">- ``ffprobe …`` — inspection. ffprobe cannot write media at all, so it needs no</span>
+<span class="sd">  terminator; the constraint is structural in the binary rather than in the</span>
+<span class="sd">  argv.</span>
+<span class="sd">- ``ffmpeg … -version`` / ``-L`` / ``-filters`` / ``-buildconf`` — the</span>
+<span class="sd">  environment probe. No input, no output, no decoding.</span>
+
+<span class="sd">A caller that wants pixels on disk takes the compiled chain from ``looks`` and</span>
+<span class="sd">runs it themselves. That is the whole architecture in one sentence.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="c1">#: How long any single analysis call may take before it is abandoned. Probes are</span>
+<span class="c1">#: short by construction (a handful of frames), so exceeding this means</span>
+<span class="c1">#: something is wrong rather than slow.</span>
+<span class="n">DFLT_TIMEOUT_S</span> <span class="o">=</span> <span class="mf">120.0</span>
+
+<span class="c1">#: The argv tail that makes an ffmpeg invocation an analysis rather than a</span>
+<span class="c1">#: render. ``-f null -`` selects the null muxer writing to stdout, so every</span>
+<span class="c1">#: frame is decoded and filtered and none is encoded or stored.</span>
+<span class="n">NULL_SINK</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"-f"</span><span class="p">,</span> <span class="s2">"null"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">)</span>
+
+<span class="c1">#: ffmpeg options that ask a question and exit without touching media. An</span>
+<span class="c1">#: invocation whose argv contains one of these needs no null sink.</span>
+<span class="n">INFO_FLAGS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">"-version"</span><span class="p">,</span> <span class="s2">"-L"</span><span class="p">,</span> <span class="s2">"-filters"</span><span class="p">,</span> <span class="s2">"-buildconf"</span><span class="p">,</span> <span class="s2">"-h"</span><span class="p">,</span> <span class="s2">"-formats"</span><span class="p">,</span> <span class="s2">"-codecs"</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1">#: Options that consume the following token as their value.</span>
+<span class="c1">#:</span>
+<span class="c1">#: The list matters for correctness, not tidiness: :func:`output_specs` treats</span>
+<span class="c1">#: an option NOT listed here as taking no value, so the token after it counts as</span>
+<span class="c1">#: an **output** and the call is refused. That is deliberate — an unknown option</span>
+<span class="c1">#: followed by a bare token is exactly what a smuggled render looks like, and</span>
+<span class="c1">#: erring toward refusal is the only safe direction for this check. `looks`</span>
+<span class="c1">#: builds every argv it runs, so extending this list is a normal edit; loosening</span>
+<span class="c1">#: the rule is not.</span>
+<span class="n">VALUE_OPTIONS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">"-i"</span><span class="p">,</span>
+        <span class="s2">"-f"</span><span class="p">,</span>
+        <span class="s2">"-vf"</span><span class="p">,</span>
+        <span class="s2">"-af"</span><span class="p">,</span>
+        <span class="s2">"-filter"</span><span class="p">,</span>
+        <span class="s2">"-filter_complex"</span><span class="p">,</span>
+        <span class="s2">"-lavfi"</span><span class="p">,</span>
+        <span class="s2">"-map"</span><span class="p">,</span>
+        <span class="s2">"-t"</span><span class="p">,</span>
+        <span class="s2">"-ss"</span><span class="p">,</span>
+        <span class="s2">"-to"</span><span class="p">,</span>
+        <span class="s2">"-r"</span><span class="p">,</span>
+        <span class="s2">"-s"</span><span class="p">,</span>
+        <span class="s2">"-pix_fmt"</span><span class="p">,</span>
+        <span class="s2">"-frames"</span><span class="p">,</span>
+        <span class="s2">"-frames:v"</span><span class="p">,</span>
+        <span class="s2">"-frames:a"</span><span class="p">,</span>
+        <span class="s2">"-v"</span><span class="p">,</span>
+        <span class="s2">"-loglevel"</span><span class="p">,</span>
+        <span class="s2">"-timeout"</span><span class="p">,</span>
+        <span class="s2">"-show_entries"</span><span class="p">,</span>
+        <span class="s2">"-of"</span><span class="p">,</span>
+        <span class="s2">"-print_format"</span><span class="p">,</span>
+        <span class="s2">"-select_streams"</span><span class="p">,</span>
+        <span class="s2">"-read_intervals"</span><span class="p">,</span>
+        <span class="s2">"-sexagesimal"</span><span class="p">,</span>
+        <span class="s2">"-probesize"</span><span class="p">,</span>
+        <span class="s2">"-analyzeduration"</span><span class="p">,</span>
+        <span class="s2">"-threads"</span><span class="p">,</span>
+        <span class="s2">"-max_muxing_queue_size"</span><span class="p">,</span>
+        <span class="s2">"-fflags"</span><span class="p">,</span>
+        <span class="s2">"-flags"</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="InvariantViolation">
+<a class="viewcode-back" href="../../module_docs/looks/_run.html#looks._run.InvariantViolation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvariantViolation</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""An attempt to start a process that would produce media.</span>
+
+<span class="sd">    Deliberately an :class:`AssertionError` rather than a ``ValueError``: this</span>
+<span class="sd">    is not a bad argument a caller might reasonably pass and recover from, it is</span>
+<span class="sd">    a statement that the package has stopped being what it claims to be.</span>
+<span class="sd">    """</span></div>
+
+
+
+<div class="viewcode-block" id="Completed">
+<a class="viewcode-back" href="../../module_docs/looks/_run.html#looks._run.Completed">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Completed</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The result of one analysis call.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        argv: Exactly what was run, kept so a caller can report or reproduce it.</span>
+<span class="sd">        returncode: The process's exit status.</span>
+<span class="sd">        stdout: Captured standard output.</span>
+<span class="sd">        stderr: Captured standard error — where ffmpeg puts everything</span>
+<span class="sd">            interesting, including filter metadata.</span>
+<span class="sd">        timed_out: Whether the call was abandoned at :data:`DFLT_TIMEOUT_S`.</span>
+<span class="sd">        error: A description when the process could not be started at all.</span>
+<span class="sd">    """</span>
+
+    <span class="n">argv</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">returncode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stdout</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">stderr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">timed_out</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ok</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether the process ran and exited zero.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; Completed(argv=('ffprobe',), returncode=0).ok</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; Completed(argv=('ffprobe',), returncode=1).ok</span>
+<span class="sd">            False</span>
+<span class="sd">            &gt;&gt;&gt; Completed(argv=('ffprobe',), error='not found').ok</span>
+<span class="sd">            False</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">timed_out</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_binary</span><span class="p">(</span><span class="n">argv</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The bare binary name, ignoring any directory it was found in."""</span>
+    <span class="n">head</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">argv</span> <span class="k">else</span> <span class="s2">""</span>
+    <span class="k">return</span> <span class="n">head</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"</span><span class="se">\\</span><span class="s2">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="output_specs">
+<a class="viewcode-back" href="../../module_docs/looks/_run.html#looks._run.output_specs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">output_specs</span><span class="p">(</span><span class="n">argv</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Every output specification in an ffmpeg argv.</span>
+
+<span class="sd">    ffmpeg's grammar is ``ffmpeg [global] {[in-opts] -i INPUT}... {[out-opts]</span>
+<span class="sd">    OUTPUT}...``, so an output is a bare token that is not an option's value and</span>
+<span class="sd">    not an input. Walking it is the only way to see them all — and seeing them</span>
+<span class="sd">    all is the whole point, because **ffmpeg accepts multiple outputs**, and a</span>
+<span class="sd">    check that looks only at the argv tail is defeated by appending nine</span>
+<span class="sd">    characters:</span>
+
+<span class="sd">        ffmpeg -i a.mp4 -c:v libx264 out.mp4 -map 0:v -f null -</span>
+
+<span class="sd">    That was accepted by the first version of :func:`check_analysis_only`, and</span>
+<span class="sd">    it writes a real H.264 file. Verified.</span>
+
+<span class="sd">    An option absent from :data:`VALUE_OPTIONS` is treated as taking no value,</span>
+<span class="sd">    so the token after it reads as an output and the call is refused. That</span>
+<span class="sd">    biases toward refusal on purpose.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; output_specs(['ffmpeg', '-i', 'a.mp4', '-f', 'null', '-'])</span>
+<span class="sd">        ['-']</span>
+<span class="sd">        &gt;&gt;&gt; output_specs(['ffmpeg', '-i', 'a.mp4', '-c:v', 'libx264', 'out.mp4',</span>
+<span class="sd">        ...               '-map', '0:v', '-f', 'null', '-'])</span>
+<span class="sd">        ['libx264', 'out.mp4', '-']</span>
+
+<span class="sd">        Note ``libx264`` in that list. ``-c:v`` is **deliberately absent** from</span>
+<span class="sd">        :data:`VALUE_OPTIONS`, so its value reads as an output and the call is</span>
+<span class="sd">        refused twice over. That is not an oversight to tidy up: `looks` never</span>
+<span class="sd">        encodes, so an encoder option appearing at all is evidence that</span>
+<span class="sd">        something is being produced, and the conservative reading is the</span>
+<span class="sd">        correct one. Adding `-c:v` to the value list would weaken the check.</span>
+<span class="sd">        &gt;&gt;&gt; output_specs(['ffmpeg', '-hide_banner', '-L'])</span>
+<span class="sd">        []</span>
+<span class="sd">    """</span>
+    <span class="n">outs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># argv[0] is the binary</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">token</span> <span class="o">!=</span> <span class="s2">"-"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">VALUE_OPTIONS</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>  <span class="c1"># the option and its value</span>
+                <span class="k">continue</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># a flag with no value</span>
+            <span class="k">continue</span>
+        <span class="n">outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">outs</span></div>
+
+
+
+<div class="viewcode-block" id="check_analysis_only">
+<a class="viewcode-back" href="../../module_docs/looks/_run.html#looks._run.check_analysis_only">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_analysis_only</span><span class="p">(</span><span class="n">argv</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Raise unless ``argv`` is one of the three permitted shapes.</span>
+
+<span class="sd">    This is the invariant, as a function. It is called by :func:`run` on every</span>
+<span class="sd">    invocation, so violating it requires bypassing the chokepoint entirely —</span>
+<span class="sd">    which is what the perimeter test looks for.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        An analysis call terminated by the null sink is fine:</span>
+
+<span class="sd">        &gt;&gt;&gt; check_analysis_only(['ffmpeg', '-i', 'a.mp4', '-vf', 'lut3d=x.cube',</span>
+<span class="sd">        ...                      '-f', 'null', '-'])</span>
+
+<span class="sd">        ffprobe needs no terminator — it cannot write media:</span>
+
+<span class="sd">        &gt;&gt;&gt; check_analysis_only(['ffprobe', '-show_entries', 'frame_tags=lavfi.blur'])</span>
+
+<span class="sd">        So does an environment question:</span>
+
+<span class="sd">        &gt;&gt;&gt; check_analysis_only(['ffmpeg', '-hide_banner', '-L'])</span>
+
+<span class="sd">        A render is refused, and the message says what the rule is:</span>
+
+<span class="sd">        &gt;&gt;&gt; check_analysis_only(['ffmpeg', '-i', 'a.mp4', 'out.mp4'])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks._run.InvariantViolation: looks starts no process that can produce</span>
+<span class="sd">        media...</span>
+
+<span class="sd">        So is a render dressed as an analysis. The sink must be the tail</span>
+<span class="sd">        **and** the only output — ffmpeg accepts several, so this passed the</span>
+<span class="sd">        first version of the check and wrote a real H.264 file:</span>
+
+<span class="sd">        &gt;&gt;&gt; check_analysis_only(['ffmpeg', '-i', 'a.mp4', '-c:v', 'libx264',</span>
+<span class="sd">        ...                      'out.mp4', '-map', '0:v', '-f', 'null', '-'])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks._run.InvariantViolation: looks starts no process that can produce</span>
+<span class="sd">        media...</span>
+
+<span class="sd">        &gt;&gt;&gt; check_analysis_only(['ffmpeg', '-i', 'a.mp4', '-f', 'null', '-',</span>
+<span class="sd">        ...                      'sneaky.mp4'])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks._run.InvariantViolation: looks starts no process that can produce</span>
+<span class="sd">        media...</span>
+
+<span class="sd">        A binary that is neither ffmpeg nor ffprobe is refused outright:</span>
+
+<span class="sd">        &gt;&gt;&gt; check_analysis_only(['python', '-c', 'print(1)'])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks._run.InvariantViolation: looks starts only ffmpeg and ffprobe, not</span>
+<span class="sd">        'python'</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">argv</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvariantViolation</span><span class="p">(</span><span class="s2">"looks starts no process with an empty argv"</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">_binary</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"ffprobe"</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"ffmpeg"</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">InvariantViolation</span><span class="p">(</span><span class="sa">f</span><span class="s2">"looks starts only ffmpeg and ffprobe, not </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">INFO_FLAGS</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">argv</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="c1"># EVERY output must be the null sink, not just the last one. ffmpeg accepts</span>
+    <span class="c1"># multiple outputs, so a tail check is defeated by appending nine</span>
+    <span class="c1"># characters — see `output_specs`.</span>
+    <span class="n">outs</span> <span class="o">=</span> <span class="n">output_specs</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">tail_is_sink</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:])</span> <span class="o">==</span> <span class="n">NULL_SINK</span>
+    <span class="k">if</span> <span class="n">tail_is_sink</span> <span class="ow">and</span> <span class="n">outs</span> <span class="o">==</span> <span class="p">[</span><span class="s2">"-"</span><span class="p">]:</span>
+        <span class="k">return</span>
+    <span class="k">raise</span> <span class="n">InvariantViolation</span><span class="p">(</span>
+        <span class="s2">"looks starts no process that can produce media: an ffmpeg call must "</span>
+        <span class="s2">"end in `-f null -` with NO other output, or ask an environment "</span>
+        <span class="sa">f</span><span class="s2">"question. Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outs</span><span class="p">)</span><span class="si">}</span><span class="s2"> output specification(s): </span><span class="si">{</span><span class="n">outs</span><span class="si">}</span><span class="s2">. Got:</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="s2">"If you want pixels on disk, take the compiled chain from looks and run "</span>
+        <span class="s2">"it yourself — that is the architecture, not an inconvenience. See "</span>
+        <span class="s2">"looks/_run.py."</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="run">
+<a class="viewcode-back" href="../../module_docs/looks/_run.html#looks._run.run">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span>
+    <span class="n">argv</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DFLT_TIMEOUT_S</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Completed</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Start one analysis process, after checking the invariant.</span>
+
+<span class="sd">    Never raises for an environment reason — a missing binary, a timeout or a</span>
+<span class="sd">    permission error are facts about the machine that the caller wants back as</span>
+<span class="sd">    data. It **does** raise :class:`InvariantViolation`, because that is a fact</span>
+<span class="sd">    about *this package* and there is nothing to recover from.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; run(['ffmpeg', '-i', 'x.mp4', 'out.mp4'])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks._run.InvariantViolation: looks starts no process that can produce</span>
+<span class="sd">        media...</span>
+
+<span class="sd">        &gt;&gt;&gt; run(['ffprobe-that-does-not-exist']).error is not None</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+    <span class="n">argv</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">check_analysis_only</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">argv</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">TimeoutExpired</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Completed</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">argv</span><span class="p">),</span> <span class="n">timed_out</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s2">"timed out"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Completed</span><span class="p">(</span><span class="n">argv</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">argv</span><span class="p">),</span> <span class="n">error</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Completed</span><span class="p">(</span>
+        <span class="n">argv</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">argv</span><span class="p">),</span>
+        <span class="n">returncode</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">returncode</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="n">proc</span><span class="o">.</span><span class="n">stderr</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

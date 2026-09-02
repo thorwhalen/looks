@@ -3,5 +3,20 @@
    :caption: Contents:
 
    module_docs/looks
+   module_docs/looks/_run
+   module_docs/looks/environment
+   module_docs/looks/frame_dependency
+   module_docs/looks/geometry
+   module_docs/looks/licence
+   module_docs/looks/lut
+   module_docs/looks/measure
    module_docs/looks/tests
+   module_docs/looks/tests/test_environment
+   module_docs/looks/tests/test_frame_dependency
+   module_docs/looks/tests/test_geometry
+   module_docs/looks/tests/test_integration
+   module_docs/looks/tests/test_invariant
+   module_docs/looks/tests/test_licence
+   module_docs/looks/tests/test_lut
+   module_docs/looks/tests/test_measure
    module_docs/looks/tests/test_smoke

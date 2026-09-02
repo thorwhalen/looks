@@ -1,0 +1,681 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.frame_dependency &mdash; looks 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.frame_dependency</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.frame_dependency</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Can this effect flicker? Answered by measurement, not by judgement.</span>
+
+<span class="sd">The flagship look's central claim is that it is *frame-independent by</span>
+<span class="sd">construction* — one fixed LUT, no temporal state — so it **cannot** flicker,</span>
+<span class="sd">which is the failure mode of every per-frame palette quantiser and of the</span>
+<span class="sd">non-commercial cartoon models. That claim is worth something only if it can be</span>
+<span class="sd">checked, and it turns out to reduce to **two ffmpeg probes and a comparison**.</span>
+
+<span class="sd">Two questions, two probes, and each isolates one hazard:</span>
+
+<span class="sd">1. **Does the effect vary with time?** Apply it to a *looped still* and diff</span>
+<span class="sd">   consecutive output frames. A constant input can only produce a changing</span>
+<span class="sd">   output if the effect reads the clock or the frame index. Measured: `noise`</span>
+<span class="sd">   with the `t` flag moves 82–85/255; `lut3d`, `curves`, `gblur`, `deband` and</span>
+<span class="sd">   `noise` *without* `t` move 0.</span>
+
+<span class="sd">2. **Does the effect adapt to frame content?** Apply it to a source whose</span>
+<span class="sd">   *left half is constant* while its *right half changes*, then look only at the</span>
+<span class="sd">   left half. A content-independent effect leaves it alone; one that adapts to</span>
+<span class="sd">   global statistics changes it, because the statistics moved. Measured:</span>
+<span class="sd">   `normalize` moves the constant half by **219/255**; `lut3d`, `curves`,</span>
+<span class="sd">   `gblur` move 0.</span>
+
+<span class="sd">Question 2 is the one that matters. **A content-adaptive effect flickers** —</span>
+<span class="sd">its output for an unchanged pixel depends on what else is in the frame, so a</span>
+<span class="sd">pixel that never moves still shimmers as the shot changes around it.</span>
+
+<span class="sd">## Three things this probe gets wrong if you build it naively</span>
+
+<span class="sd">Each cost a false reading before it was fixed, and each fails **silently**.</span>
+
+<span class="sd">- **The varying half must actually move the statistic the effect adapts to,</span>
+<span class="sd">  and no single source moves them all.** This is the deepest limitation here,</span>
+<span class="sd">  and it is measured rather than theorised. A first version used `testsrc2`,</span>
+<span class="sd">  which always spans the full luma range and therefore never moves a min/max —</span>
+<span class="sd">  `normalize` read **0**, a false negative saying "cannot flicker" about an</span>
+<span class="sd">  effect that can. A *fading* half moves the range and `normalize` jumps to</span>
+<span class="sd">  **219**. But the fade leaves the colour histogram nearly alone, so `elbg` — a</span>
+<span class="sd">  vector quantiser, adaptive by definition — still read **0**. A *hue-cycling*</span>
+<span class="sd">  half moves the histogram and catches `elbg` at 5–8 — while missing</span>
+<span class="sd">  `normalize` entirely, because it does not move the range.</span>
+
+<span class="sd">  So **two** content probes run and the verdict is the larger. The pair is not</span>
+<span class="sd">  provably complete: an effect adapting to a statistic neither probe moves</span>
+<span class="sd">  reads independent. See *What this does not answer*.</span>
+<span class="sd">- **Chroma subsampling bleeds across the seam.** In `yuv420p` a chroma sample</span>
+<span class="sd">  is shared between the constant and varying halves, so the boundary column</span>
+<span class="sd">  changes for reasons that have nothing to do with the effect. `yuv444p` plus a</span>
+<span class="sd">  margin removes it.</span>
+<span class="sd">- **`tblend=difference` of identical frames is not zero in RGB.** Black in</span>
+<span class="sd">  limited-range YUV is 16, so a difference computed in RGB and then measured by</span>
+<span class="sd">  `signalstats` reads 16 everywhere. Filters that need RGB (`lut3d`, `curves`)</span>
+<span class="sd">  force that conversion, so the format is pinned on **both** sides of the</span>
+<span class="sd">  effect under test.</span>
+
+<span class="sd">## What this does not answer</span>
+
+<span class="sd">**Some temporal filters.** A third probe (below) catches the common case by</span>
+<span class="sd">running two sequences that differ only *before* a shared textured tail:</span>
+<span class="sd">`tmix=frames=3` shows **146**/255 in the tail and `hqdn3d` shows 2. But</span>
+<span class="sd">`tblend` and `atadenoise` both read **0** and are misreported as independent.</span>
+<span class="sd">Measured, and the reason is structural rather than a tuning failure: `tblend`</span>
+<span class="sd">consumes two input frames per output frame, so the trim that skips the</span>
+<span class="sd">perturbation for a normal filter lands *past* it; `atadenoise` keeps nine</span>
+<span class="sd">frames of history, more than a short probe can perturb. Lengthening the</span>
+<span class="sd">perturbation from one frame to three changed neither — verified.</span>
+
+<span class="sd">Those two are refused for an unrelated and stronger reason anyway: **every</span>
+<span class="sd">temporal filter is out of scope**, because the execution model this package</span>
+<span class="sd">serves renders one bounded ffmpeg *per cut*, so a temporal filter meets a hard</span>
+<span class="sd">discontinuity at every cut. Do not read that as making the gap harmless —</span>
+<span class="sd">it means the gap is not currently load-bearing, not that it is closed.</span>
+
+<span class="sd">**And an `INDEPENDENT` verdict is evidence, not proof.** It says: none of three</span>
+<span class="sd">probes could make this effect change a pixel it should not have touched. An</span>
+<span class="sd">effect adapting to a statistic none of them moves would pass, and so would</span>
+<span class="sd">`tblend`.</span>
+<span class="sd">That is why the flagship look's claim does **not** rest on this module — a</span>
+<span class="sd">fixed per-pixel lookup with no state cannot depend on anything else, which is a</span>
+<span class="sd">*structural* argument, and the measurement corroborates it rather than</span>
+<span class="sd">substituting for it. Use :func:`classify` to catch an effect that flickers; do</span>
+<span class="sd">not use it to certify one that does not, unless you also have the structural</span>
+<span class="sd">argument.</span>
+
+<span class="sd">Every process here goes through :mod:`looks._run`, and every one is an</span>
+<span class="sd">``ffprobe`` reading filter metadata — no pixel ever leaves ffmpeg, so the</span>
+<span class="sd">``-f null -`` invariant is preserved by construction rather than by care.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks._run</span><span class="w"> </span><span class="kn">import</span> <span class="n">run</span>
+
+<span class="c1">#: Probe geometry. Small on purpose — the classification is about *whether* a</span>
+<span class="c1">#: value changes, not by how much, so resolution buys nothing and costs time.</span>
+<span class="n">PROBE_SIZE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">PROBE_RATE</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">PROBE_DURATION</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1">#: How far in from the seam the constant half is sampled, in pixels.</span>
+<span class="c1">#:</span>
+<span class="c1">#: A spatial effect legitimately reads pixels near the boundary, so without a</span>
+<span class="c1">#: margin every blur reads as content-adaptive. The margin cannot be made large</span>
+<span class="c1">#: enough for *every* spatial effect — a Gaussian's support runs to about 3</span>
+<span class="c1">#: sigma, so `gblur=sigma=4` crosses 8 px and `sigma=10` would cross any margin</span>
+<span class="c1">#: this probe can afford.</span>
+<span class="c1">#:</span>
+<span class="c1">#: That residual error is **conservative**: an over-wide spatial filter is</span>
+<span class="c1">#: reported as `CONTENT_ADAPTIVE`, i.e. "can flicker" about something that</span>
+<span class="c1">#: cannot. For a refusal engine that is the safe direction — the unsafe one is</span>
+<span class="c1">#: calling an adaptive effect independent. Widen the margin (and the probe) if a</span>
+<span class="c1">#: specific broad filter needs a correct verdict.</span>
+<span class="n">SEAM_MARGIN</span> <span class="o">=</span> <span class="mi">12</span>
+
+<span class="c1">#: A difference at or below this (out of 255) is treated as no change.</span>
+<span class="c1">#: Not zero: a filter that round-trips through another pixel format can move a</span>
+<span class="c1">#: value by one without depending on anything.</span>
+<span class="n">NOISE_FLOOR</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="Dependency">
+<a class="viewcode-back" href="../../module_docs/looks/frame_dependency.html#looks.Dependency">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Dependency</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""What an effect's output depends on, worst case.</span>
+
+<span class="sd">    Ordered by how badly each behaves across a cut:</span>
+
+<span class="sd">    - :attr:`INDEPENDENT` — the same input pixel gives the same output pixel,</span>
+<span class="sd">      always. Cannot flicker. This is what the flagship look is.</span>
+<span class="sd">    - :attr:`INDEPENDENT` — no probe could make the effect touch a pixel it</span>
+<span class="sd">      should not have. **Evidence, not proof** — see the module docstring.</span>
+<span class="sd">      A pixel-local map and a small spatial filter both land here, and for the</span>
+<span class="sd">      flicker question that is the right grouping: neither can flicker.</span>
+<span class="sd">    - :attr:`TIME_VARYING` — output depends on the frame index or clock.</span>
+<span class="sd">      Deterministic and reproducible, but it changes: film grain is the wanted</span>
+<span class="sd">      case.</span>
+<span class="sd">    - :attr:`CONTENT_ADAPTIVE` — output depends on the frame's global</span>
+<span class="sd">      statistics. **This flickers**, and it is the class the whole</span>
+<span class="sd">      frame-independence argument is about.</span>
+<span class="sd">    - :attr:`TEMPORAL` — output at frame *n* depends on frames before it.</span>
+<span class="sd">      Structurally incompatible with the execution model this package serves:</span>
+<span class="sd">      the consumer renders one bounded ffmpeg **per cut**, so a temporal filter</span>
+<span class="sd">      meets a hard discontinuity at every cut and produces an artefact at every</span>
+<span class="sd">      one of them.</span>
+<span class="sd">    - :attr:`NONDETERMINISTIC` — two applications of the effect to the SAME</span>
+<span class="sd">      input disagree. A reproducibility hazard rather than a flicker one: a</span>
+<span class="sd">      re-render produces a different picture. Detected first, because it</span>
+<span class="sd">      invalidates every other probe here.</span>
+<span class="sd">    - :attr:`UNDETERMINED` — a probe could not run. Never a synonym for</span>
+<span class="sd">      independent.</span>
+<span class="sd">    """</span>
+
+    <span class="n">INDEPENDENT</span> <span class="o">=</span> <span class="s2">"independent"</span>
+    <span class="n">NONDETERMINISTIC</span> <span class="o">=</span> <span class="s2">"nondeterministic"</span>
+    <span class="n">TIME_VARYING</span> <span class="o">=</span> <span class="s2">"time_varying"</span>
+    <span class="n">CONTENT_ADAPTIVE</span> <span class="o">=</span> <span class="s2">"content_adaptive"</span>
+    <span class="n">TEMPORAL</span> <span class="o">=</span> <span class="s2">"temporal"</span>
+    <span class="n">UNDETERMINED</span> <span class="o">=</span> <span class="s2">"undetermined"</span></div>
+
+
+
+<span class="c1">#: Convenience alias for the value that means "no answer".</span>
+<span class="n">UNDETERMINED</span> <span class="o">=</span> <span class="n">Dependency</span><span class="o">.</span><span class="n">UNDETERMINED</span>
+
+<span class="c1">#: The classes that cannot produce flicker.</span>
+<span class="n">FLICKER_FREE</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="n">Dependency</span><span class="o">.</span><span class="n">INDEPENDENT</span><span class="p">})</span>
+
+<span class="c1">#: How many frames the determinism probe examines.</span>
+<span class="c1">#:</span>
+<span class="c1">#: **Twenty, and the number is measured rather than chosen.** Detecting</span>
+<span class="c1">#: randomness is itself probabilistic: two runs of a stochastic filter can agree</span>
+<span class="c1">#: by chance, and the more frames you compare the less likely that is across all</span>
+<span class="c1">#: of them. On `elbg` (a vector quantiser whose default `seed=-1` re-randomises</span>
+<span class="c1">#: every instantiation), detection rate over eight repeats:</span>
+<span class="c1">#:</span>
+<span class="c1">#:      3 frames -&gt; 1/6      8 frames -&gt; 7/8      20 frames -&gt; 8/8      40 -&gt; 8/8</span>
+<span class="c1">#:</span>
+<span class="c1">#: An earlier six-repeat sample read 6/6 at eight frames and set the constant</span>
+<span class="c1">#: there; a fuller sample found 7/8, and the flake surfaced as an intermittent</span>
+<span class="c1">#: test. **That is the same probabilistic-detection point one level up** — a</span>
+<span class="c1">#: small sample can agree by chance too.</span>
+<span class="c1">#:</span>
+<span class="c1">#: The consequence, and it is the honest framing of this whole verdict: a</span>
+<span class="c1">#: `NONDETERMINISTIC` result is a proof, but its **absence is not**. An effect</span>
+<span class="c1">#: random in one pixel per ten thousand would pass at any frame count here.</span>
+<span class="n">DETERMINISM_PROBE_FRAMES</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="c1">#: How many frames of the shared tail the temporal probe examines.</span>
+<span class="c1">#:</span>
+<span class="c1">#: Small on purpose, and this is the subtle part: the probe only detects a</span>
+<span class="c1">#: temporal effect if the frames it samples still have the perturbation inside</span>
+<span class="c1">#: their memory window. Trimming further in makes every temporal filter read as</span>
+<span class="c1">#: independent — measured, `tmix=frames=3` read 0 when sampling began 3 frames</span>
+<span class="c1">#: after the perturbation and 146/255 when it began 1 frame after.</span>
+<span class="n">TEMPORAL_PROBE_FRAMES</span> <span class="o">=</span> <span class="mi">3</span>
+
+
+<div class="viewcode-block" id="DependencyReport">
+<a class="viewcode-back" href="../../module_docs/looks/frame_dependency.html#looks.DependencyReport">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DependencyReport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""What the two probes measured, and what follows from it.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        dependency: The verdict.</span>
+<span class="sd">        time_delta: Largest change between consecutive output frames on a</span>
+<span class="sd">            constant input, out of 255.</span>
+<span class="sd">        content_delta: Largest change in the constant half when the rest of the</span>
+<span class="sd">            frame changed, out of 255.</span>
+<span class="sd">        temporal_delta: Largest change in a shared tail when the frames BEFORE</span>
+<span class="sd">            it differed, out of 255.</span>
+<span class="sd">        determinism_delta: Largest disagreement between two applications of the</span>
+<span class="sd">            effect to the SAME input, out of 255. Nonzero means the effect is</span>
+<span class="sd">            random, and every other number in this report is then meaningless.</span>
+<span class="sd">        can_flicker: Whether the verdict admits flicker. ``None`` when</span>
+<span class="sd">            undetermined — **not** ``False``, because "we could not tell" and</span>
+<span class="sd">            "it cannot" are different answers and only one of them is a</span>
+<span class="sd">            guarantee.</span>
+<span class="sd">        note: Why, when something could not be measured.</span>
+<span class="sd">    """</span>
+
+    <span class="n">dependency</span><span class="p">:</span> <span class="n">Dependency</span>
+    <span class="n">time_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">content_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">temporal_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">determinism_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">note</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_flicker</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependency</span> <span class="ow">is</span> <span class="n">Dependency</span><span class="o">.</span><span class="n">UNDETERMINED</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependency</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FLICKER_FREE</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_max_luma_delta</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ffprobe</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Largest ``signalstats`` YMAX over a filter graph's frames, or ``None``."""</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ffprobe</span><span class="p">,</span>
+            <span class="s2">"-v"</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
+            <span class="s2">"-f"</span><span class="p">,</span>
+            <span class="s2">"lavfi"</span><span class="p">,</span>
+            <span class="s2">"-i"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">chain</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"-show_entries"</span><span class="p">,</span>
+            <span class="s2">"frame_tags=lavfi.signalstats.YMAX"</span><span class="p">,</span>
+            <span class="s2">"-of"</span><span class="p">,</span>
+            <span class="s2">"csv=p=0"</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">continue</span>
+    <span class="c1"># The first frame has nothing to difference against, so tblend emits it</span>
+    <span class="c1"># unchanged; including it would report the picture rather than the delta.</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_still_source</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">PROBE_SIZE</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"color=c=gray:s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=</span><span class="si">{</span><span class="n">PROBE_DURATION</span><span class="si">}</span><span class="s2">"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_split_sources</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Constant left half; right halves that each move a DIFFERENT statistic.</span>
+
+<span class="sd">    Two, because neither is enough. The fading half moves the luma range and</span>
+<span class="sd">    catches ``normalize`` (219/255) while missing ``elbg`` entirely; the</span>
+<span class="sd">    hue-cycling half moves the colour histogram and catches ``elbg`` (5-8)</span>
+<span class="sd">    while missing ``normalize``. Both measured.</span>
+
+<span class="sd">    Adding a source here strictly increases sensitivity and can only turn an</span>
+<span class="sd">    ``INDEPENDENT`` verdict into ``CONTENT_ADAPTIVE``, never the reverse — so</span>
+<span class="sd">    it is a safe extension, and the right response to discovering an effect</span>
+<span class="sd">    that slipped through.</span>
+<span class="sd">    """</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">PROBE_SIZE</span>
+    <span class="n">const</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"color=c=gray:s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=</span><span class="si">{</span><span class="n">PROBE_DURATION</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="c1"># moves the luma range</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">const</span><span class="si">}</span><span class="s2">[l];"</span>
+        <span class="sa">f</span><span class="s2">"color=c=white:s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=</span><span class="si">{</span><span class="n">PROBE_DURATION</span><span class="si">}</span><span class="s2">,"</span>
+        <span class="sa">f</span><span class="s2">"fade=t=out:st=0:d=</span><span class="si">{</span><span class="n">PROBE_DURATION</span><span class="si">}</span><span class="s2">[r];[l][r]hstack"</span><span class="p">,</span>
+        <span class="c1"># moves the colour histogram</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">const</span><span class="si">}</span><span class="s2">[l];"</span>
+        <span class="sa">f</span><span class="s2">"testsrc2=s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=</span><span class="si">{</span><span class="n">PROBE_DURATION</span><span class="si">}</span><span class="s2">,hue=h=90*t[r];"</span>
+        <span class="sa">f</span><span class="s2">"[l][r]hstack"</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_determinism_probe</span><span class="p">(</span><span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A graph that applies ``chain`` twice to the SAME frames and diffs them.</span>
+
+<span class="sd">    **This must run before the others**, because every other probe here compares</span>
+<span class="sd">    two applications of the effect — so a random effect makes them differ for a</span>
+<span class="sd">    reason that has nothing to do with what is being tested. Measured: `elbg`</span>
+<span class="sd">    with its default ``seed=-1`` disagrees with itself by **70/255**, and the</span>
+<span class="sd">    temporal probe consequently reported it TEMPORAL, which it is not. With</span>
+<span class="sd">    ``seed=1`` it disagrees by 0.</span>
+
+<span class="sd">    A non-deterministic effect is a *reproducibility* hazard rather than a</span>
+<span class="sd">    flicker one: the same Look over the same clip produces a different picture</span>
+<span class="sd">    on a re-render, which defeats a content-addressed cache and makes a golden</span>
+<span class="sd">    test impossible.</span>
+<span class="sd">    """</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">PROBE_SIZE</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"testsrc2=s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=</span><span class="si">{</span><span class="n">DETERMINISM_PROBE_FRAMES</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">,"</span>
+        <span class="sa">f</span><span class="s2">"format=yuv444p,split[x][y];"</span>
+        <span class="sa">f</span><span class="s2">"[x]</span><span class="si">{</span><span class="n">chain</span><span class="si">}</span><span class="s2">,format=yuv444p[a];[y]</span><span class="si">{</span><span class="n">chain</span><span class="si">}</span><span class="s2">,format=yuv444p[b];"</span>
+        <span class="sa">f</span><span class="s2">"[a][b]blend=all_mode=difference,signalstats"</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_temporal_probe</span><span class="p">(</span><span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A graph whose two branches differ ONLY before a shared, textured tail.</span>
+
+<span class="sd">    A stateless or spatial effect produces the identical tail for both. One that</span>
+<span class="sd">    reads earlier frames does not — its output in the tail still carries the</span>
+<span class="sd">    perturbation.</span>
+
+<span class="sd">    Two construction details, each of which silently defeats the probe:</span>
+
+<span class="sd">    - **The tail must be textured.** With flat colour, `hqdn3d` has nothing to</span>
+<span class="sd">      denoise and reads 0 — a false negative for a spatio-temporal filter.</span>
+<span class="sd">    - **The sampled frames must still have the perturbation in their memory</span>
+<span class="sd">      window.** Measured: `tmix=frames=3` reads **146**/255 when sampling starts</span>
+<span class="sd">      one frame after the perturbation and **0** when it starts three frames</span>
+<span class="sd">      after. Trimming further in makes every temporal filter look independent.</span>
+<span class="sd">    """</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">PROBE_SIZE</span>
+    <span class="n">lead</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=0.2"</span>
+    <span class="n">tail</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"testsrc2=s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=1.2"</span>
+    <span class="n">trim</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"trim=start_frame=1:end_frame=</span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">TEMPORAL_PROBE_FRAMES</span><span class="si">}</span><span class="s2">,setpts=PTS-STARTPTS"</span>
+    <span class="p">)</span>
+    <span class="n">branch</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"format=yuv444p,</span><span class="si">{</span><span class="n">chain</span><span class="si">}</span><span class="s2">,format=yuv444p,</span><span class="si">{</span><span class="n">trim</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"color=c=black:</span><span class="si">{</span><span class="n">lead</span><span class="si">}</span><span class="s2">[a0];</span><span class="si">{</span><span class="n">tail</span><span class="si">}</span><span class="s2">[a1];[a0][a1]concat=n=2:v=1:a=0,</span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2">[A];"</span>
+        <span class="sa">f</span><span class="s2">"color=c=white:</span><span class="si">{</span><span class="n">lead</span><span class="si">}</span><span class="s2">[b0];</span><span class="si">{</span><span class="n">tail</span><span class="si">}</span><span class="s2">[b1];[b0][b1]concat=n=2:v=1:a=0,</span><span class="si">{</span><span class="n">branch</span><span class="si">}</span><span class="s2">[B];"</span>
+        <span class="sa">f</span><span class="s2">"[A][B]blend=all_mode=difference,signalstats"</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="classify">
+<a class="viewcode-back" href="../../module_docs/looks/frame_dependency.html#looks.classify">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">classify</span><span class="p">(</span>
+    <span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">ffprobe</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ffprobe"</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">120.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DependencyReport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Measure what ``chain`` depends on.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chain: An ffmpeg filter chain, as it would appear in ``-vf``.</span>
+<span class="sd">        ffprobe: Binary name or path.</span>
+<span class="sd">        timeout: Seconds per probe.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; classify('lut3d=look.cube').dependency        # doctest: +SKIP</span>
+<span class="sd">        &lt;Dependency.INDEPENDENT: 'independent'&gt;</span>
+<span class="sd">        &gt;&gt;&gt; classify('normalize').can_flicker             # doctest: +SKIP</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+    <span class="c1"># `format` is pinned on BOTH sides: an effect that needs RGB otherwise</span>
+    <span class="c1"># leaves tblend computing in RGB, where black is 0 but reads as 16 once</span>
+    <span class="c1"># signalstats converts it, so every effect would look time-varying.</span>
+    <span class="n">fixed</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"format=yuv444p,</span><span class="si">{</span><span class="n">chain</span><span class="si">}</span><span class="s2">,format=yuv444p"</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">PROBE_SIZE</span>
+
+    <span class="c1"># FIRST, and the ordering is load-bearing: every probe below compares two</span>
+    <span class="c1"># applications of the effect, so a random one makes them differ for reasons</span>
+    <span class="c1"># unrelated to what is being measured.</span>
+    <span class="n">determinism_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ffprobe</span><span class="p">,</span>
+            <span class="s2">"-v"</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
+            <span class="s2">"-f"</span><span class="p">,</span>
+            <span class="s2">"lavfi"</span><span class="p">,</span>
+            <span class="s2">"-i"</span><span class="p">,</span>
+            <span class="n">_determinism_probe</span><span class="p">(</span><span class="n">chain</span><span class="p">),</span>
+            <span class="s2">"-show_entries"</span><span class="p">,</span>
+            <span class="s2">"frame_tags=lavfi.signalstats.YMAX"</span><span class="p">,</span>
+            <span class="s2">"-of"</span><span class="p">,</span>
+            <span class="s2">"csv=p=0"</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+            <span class="n">tok</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tok</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tok</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        <span class="n">determinism_delta</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="k">if</span> <span class="n">vals</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">determinism_delta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DependencyReport</span><span class="p">(</span>
+            <span class="n">dependency</span><span class="o">=</span><span class="n">Dependency</span><span class="o">.</span><span class="n">UNDETERMINED</span><span class="p">,</span>
+            <span class="n">note</span><span class="o">=</span><span class="sa">f</span><span class="s2">"the determinism probe did not run for </span><span class="si">{</span><span class="n">chain</span><span class="si">!r}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">determinism_delta</span> <span class="o">&gt;</span> <span class="n">NOISE_FLOOR</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DependencyReport</span><span class="p">(</span>
+            <span class="n">dependency</span><span class="o">=</span><span class="n">Dependency</span><span class="o">.</span><span class="n">NONDETERMINISTIC</span><span class="p">,</span>
+            <span class="n">determinism_delta</span><span class="o">=</span><span class="n">determinism_delta</span><span class="p">,</span>
+            <span class="n">note</span><span class="o">=</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">chain</span><span class="si">!r}</span><span class="s2"> disagrees with itself by </span><span class="si">{</span><span class="n">determinism_delta</span><span class="si">}</span><span class="s2">/255 on "</span>
+                <span class="sa">f</span><span class="s2">"identical input, so no other measurement here would mean "</span>
+                <span class="sa">f</span><span class="s2">"anything. Pin its seed if it has one."</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="n">time_delta</span> <span class="o">=</span> <span class="n">_max_luma_delta</span><span class="p">(</span>
+        <span class="n">_still_source</span><span class="p">(),</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fixed</span><span class="si">}</span><span class="s2">,tblend=all_mode=difference,signalstats"</span><span class="p">,</span>
+        <span class="n">ffprobe</span><span class="o">=</span><span class="n">ffprobe</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">time_delta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DependencyReport</span><span class="p">(</span>
+            <span class="n">dependency</span><span class="o">=</span><span class="n">Dependency</span><span class="o">.</span><span class="n">UNDETERMINED</span><span class="p">,</span>
+            <span class="n">note</span><span class="o">=</span><span class="sa">f</span><span class="s2">"the time probe did not run for </span><span class="si">{</span><span class="n">chain</span><span class="si">!r}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">keep</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">SEAM_MARGIN</span>
+    <span class="n">tail</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fixed</span><span class="si">}</span><span class="s2">,crop=</span><span class="si">{</span><span class="n">keep</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:0:0,tblend=all_mode=difference,signalstats"</span>
+    <span class="n">deltas</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">_max_luma_delta</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">ffprobe</span><span class="o">=</span><span class="n">ffprobe</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">_split_sources</span><span class="p">()</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">deltas</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DependencyReport</span><span class="p">(</span>
+            <span class="n">dependency</span><span class="o">=</span><span class="n">Dependency</span><span class="o">.</span><span class="n">UNDETERMINED</span><span class="p">,</span>
+            <span class="n">time_delta</span><span class="o">=</span><span class="n">time_delta</span><span class="p">,</span>
+            <span class="n">note</span><span class="o">=</span><span class="sa">f</span><span class="s2">"a content probe did not run for </span><span class="si">{</span><span class="n">chain</span><span class="si">!r}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="c1"># The LARGER of the two: each source moves a different statistic, and an</span>
+    <span class="c1"># effect only has to adapt to one of them to flicker.</span>
+    <span class="n">content_delta</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span>
+
+    <span class="c1"># The third probe: does the output depend on EARLIER frames? Neither probe</span>
+    <span class="c1"># above separates this — a looped still through a frame-averager is still</span>
+    <span class="c1"># constant, and so is the constant half.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">ffprobe</span><span class="p">,</span>
+            <span class="s2">"-v"</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
+            <span class="s2">"-f"</span><span class="p">,</span>
+            <span class="s2">"lavfi"</span><span class="p">,</span>
+            <span class="s2">"-i"</span><span class="p">,</span>
+            <span class="n">_temporal_probe</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">chain</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="s2">"-show_entries"</span><span class="p">,</span>
+            <span class="s2">"frame_tags=lavfi.signalstats.YMAX"</span><span class="p">,</span>
+            <span class="s2">"-of"</span><span class="p">,</span>
+            <span class="s2">"csv=p=0"</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">temporal_delta</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+            <span class="n">token</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">continue</span>
+        <span class="n">temporal_delta</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">values</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">temporal_delta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DependencyReport</span><span class="p">(</span>
+            <span class="n">dependency</span><span class="o">=</span><span class="n">Dependency</span><span class="o">.</span><span class="n">UNDETERMINED</span><span class="p">,</span>
+            <span class="n">time_delta</span><span class="o">=</span><span class="n">time_delta</span><span class="p">,</span>
+            <span class="n">content_delta</span><span class="o">=</span><span class="n">content_delta</span><span class="p">,</span>
+            <span class="n">note</span><span class="o">=</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"the temporal probe did not run for </span><span class="si">{</span><span class="n">chain</span><span class="si">!r}</span><span class="s2"> — a filter that "</span>
+                <span class="sa">f</span><span class="s2">"changes the frame count (tblend, framestep) breaks its trim "</span>
+                <span class="sa">f</span><span class="s2">"indices, and that is itself a sign of temporal behaviour"</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">time_delta</span> <span class="o">&gt;</span> <span class="n">NOISE_FLOOR</span><span class="p">:</span>
+        <span class="n">verdict</span> <span class="o">=</span> <span class="n">Dependency</span><span class="o">.</span><span class="n">TIME_VARYING</span>
+    <span class="k">elif</span> <span class="n">temporal_delta</span> <span class="o">&gt;</span> <span class="n">NOISE_FLOOR</span><span class="p">:</span>
+        <span class="n">verdict</span> <span class="o">=</span> <span class="n">Dependency</span><span class="o">.</span><span class="n">TEMPORAL</span>
+    <span class="k">elif</span> <span class="n">content_delta</span> <span class="o">&gt;</span> <span class="n">NOISE_FLOOR</span><span class="p">:</span>
+        <span class="n">verdict</span> <span class="o">=</span> <span class="n">Dependency</span><span class="o">.</span><span class="n">CONTENT_ADAPTIVE</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">verdict</span> <span class="o">=</span> <span class="n">Dependency</span><span class="o">.</span><span class="n">INDEPENDENT</span>
+    <span class="k">return</span> <span class="n">DependencyReport</span><span class="p">(</span>
+        <span class="n">dependency</span><span class="o">=</span><span class="n">verdict</span><span class="p">,</span>
+        <span class="n">time_delta</span><span class="o">=</span><span class="n">time_delta</span><span class="p">,</span>
+        <span class="n">content_delta</span><span class="o">=</span><span class="n">content_delta</span><span class="p">,</span>
+        <span class="n">temporal_delta</span><span class="o">=</span><span class="n">temporal_delta</span><span class="p">,</span>
+        <span class="n">determinism_delta</span><span class="o">=</span><span class="n">determinism_delta</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="assert_flicker_free">
+<a class="viewcode-back" href="../../module_docs/looks/frame_dependency.html#looks.assert_flicker_free">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">assert_flicker_free</span><span class="p">(</span><span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DependencyReport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Raise unless ``chain`` provably cannot flicker.</span>
+
+<span class="sd">    **What a pass means, precisely: three probes could not make this effect</span>
+<span class="sd">    depend on anything they varied.** It is not a proof of frame independence —</span>
+<span class="sd">    `tblend` and `atadenoise` pass and are temporal. For an effect whose class</span>
+<span class="sd">    matters, pair this with the structural argument (a stateless per-pixel</span>
+<span class="sd">    lookup cannot depend on anything else) or with a declared class this</span>
+<span class="sd">    function is used to *falsify*.</span>
+
+<span class="sd">    An ``UNDETERMINED`` verdict **raises**: "we could not tell" must not be</span>
+<span class="sd">    reported as "it cannot", which is the same unknown-is-a-refusal rule the</span>
+<span class="sd">    licence tier follows, applied to the other guarantee this package makes.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AssertionError: The chain can flicker, or could not be shown not to.</span>
+<span class="sd">    """</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="n">classify</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">report</span><span class="o">.</span><span class="n">dependency</span> <span class="ow">is</span> <span class="n">Dependency</span><span class="o">.</span><span class="n">UNDETERMINED</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"could not determine whether </span><span class="si">{</span><span class="n">chain</span><span class="si">!r}</span><span class="s2"> can flicker"</span>
+            <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">": </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">note</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">report</span><span class="o">.</span><span class="n">note</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">". Unknown is not a guarantee."</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">report</span><span class="o">.</span><span class="n">can_flicker</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">chain</span><span class="si">!r}</span><span class="s2"> is </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">dependency</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"(time delta </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">time_delta</span><span class="si">}</span><span class="s2">, content delta "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">content_delta</span><span class="si">}</span><span class="s2"> out of 255), so it can flicker across a "</span>
+            <span class="sa">f</span><span class="s2">"cut: its output for an unchanged pixel depends on what else is "</span>
+            <span class="sa">f</span><span class="s2">"in the frame."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">report</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
