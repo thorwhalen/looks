@@ -59,6 +59,7 @@ Nothing here executes a filter, decodes a frame, or writes a file. It runs
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shutil
@@ -146,6 +147,58 @@ _FILTER_ROW = re.compile(
 
 
 @dataclass(frozen=True)
+class EnvFingerprint:
+    """The part of an environment that determines pixels, as comparable data.
+
+    A :class:`~looks.spec.LookPlan` is compiled against **one binary**, whose
+    filter set and licence are part of what decides the output — so a plan says
+    which one, and this enters its hash. The portable artifact is the ``Look``;
+    the plan is deliberately not portable, and this is the field that says so.
+
+    :attr:`filters_digest` is a hash rather than the set itself: the set is ~481
+    names, a plan is a document, and "which filters existed" only ever needs to
+    be compared, never read.
+
+    Attributes:
+        path: The resolved binary. Two ffmpegs on one machine is the normal
+            case, not the exotic one.
+        version: Its version line.
+        licence: What ``ffmpeg -L`` said.
+        filters_digest: SHA-256 over the sorted filter names.
+
+    Examples:
+        >>> a = EnvFingerprint(path='/usr/bin/ffmpeg', version='8.1',
+        ...                    licence='gpl3', filters_digest='abc')
+        >>> a == EnvFingerprint(path='/usr/bin/ffmpeg', version='8.1',
+        ...                     licence='gpl3', filters_digest='abc')
+        True
+    """
+
+    path: str
+    version: str
+    licence: str
+    filters_digest: str
+
+    def to_dict(self) -> dict:
+        """A JSON-able form, for a plan's serialisation and its hash."""
+        return {
+            "path": self.path,
+            "version": self.version,
+            "licence": self.licence,
+            "filters_digest": self.filters_digest,
+        }
+
+    @classmethod
+    def from_dict(cls, d: Mapping[str, str]) -> "EnvFingerprint":
+        return cls(
+            path=d["path"],
+            version=d["version"],
+            licence=d["licence"],
+            filters_digest=d["filters_digest"],
+        )
+
+
+@dataclass(frozen=True)
 class FfmpegEnv:
     """One machine's ffmpeg, as far as it can be determined without running it.
 
@@ -196,6 +249,36 @@ class FfmpegEnv:
             False
         """
         return name in self.filters
+
+    def fingerprint(self) -> EnvFingerprint:
+        """The comparable summary a compiled plan records.
+
+        Raises:
+            RuntimeError: The probe did not run. A fingerprint of an
+                environment nobody looked at would make two plans compiled
+                against unknown binaries compare equal, which is the false
+                direction.
+
+        Examples:
+            >>> FfmpegEnv().fingerprint()
+            Traceback (most recent call last):
+            ...
+            RuntimeError: cannot fingerprint an ffmpeg that did not answer...
+        """
+        if not self.available:
+            raise RuntimeError(
+                f"cannot fingerprint an ffmpeg that did not answer: "
+                f"{self.notes or ('no probe was run',)}"
+            )
+        digest = hashlib.sha256(
+            ",".join(sorted(self.filters)).encode("utf-8")
+        ).hexdigest()
+        return EnvFingerprint(
+            path=self.path or "",
+            version=self.version or "",
+            licence=self.licence.value,
+            filters_digest=digest,
+        )
 
     def missing(self, names: Sequence[str]) -> tuple[str, ...]:
         """Which of ``names`` this build does not have, in the order given.
