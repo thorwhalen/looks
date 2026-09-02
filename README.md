@@ -5,7 +5,7 @@ Named video effects that compile to a backend command, each carrying a **licence
 ```python
 from looks.environment import needs_gpl
 
-needs_gpl(['scale', 'eq', 'lut3d'])       # -> ('eq',)
+needs_gpl(["scale", "eq", "lut3d"])  # -> ('eq',)
 ```
 
 `eq` is the obvious brightness/contrast/gamma filter. It exists **only in a GPL build of ffmpeg**. Nothing in the ffmpeg CLI will tell you, because the binary on your machine runs it fine — and the LGPL-clean way to do the same thing (`curves`, `colorlevels`, `exposure`) is one substitution away. That gap is what this package is for.
@@ -18,7 +18,7 @@ needs_gpl(['scale', 'eq', 'lut3d'])       # -> ('eq',)
 from looks.geometry import Size, placement, ffmpeg_chain, social_size
 
 # a vertical phone clip, filled into a 16:9 frame
-p = placement(Size(480, 850), social_size('youtube'), mode='fill')
+p = placement(Size(480, 850), social_size("youtube"), mode="fill")
 ffmpeg_chain(p)
 # 'scale=1920:3400,crop=1920:1080:0:1160'
 ```
@@ -27,20 +27,24 @@ ffmpeg_chain(p)
 from looks.lut import Ramp, gradient_map, write_cube
 
 # a look, as a colour ramp indexed by lightness
-look = gradient_map(Ramp.from_hex([
-    (8.2,   '#2E0C18'),   # the shadow floor — NOT black
-    (46.8,  '#D5254A'),
-    (100.0, '#FEF0DC'),   # the highlight — NOT white
-]))
-write_cube(look, 'look.cube')      # ffmpeg: -vf lut3d=look.cube
+look = gradient_map(
+    Ramp.from_hex(
+        [
+            (8.2, "#2E0C18"),  # the shadow floor — NOT black
+            (46.8, "#D5254A"),
+            (100.0, "#FEF0DC"),  # the highlight — NOT white
+        ]
+    )
+)
+write_cube(look, "look.cube")  # ffmpeg: -vf lut3d=look.cube
 ```
 
 ```python
 from looks.measure import measure, dispersion
 
 # how far apart do three sources look, after the effect?
-stats = [measure(clip, source_id=name, vf='lut3d=look.cube') for name, clip in sources]
-dispersion(stats)       # 2.98 -> the spread you are trying to close
+stats = [measure(clip, source_id=name, vf="lut3d=look.cube") for name, clip in sources]
+dispersion(stats)  # 2.98 -> the spread you are trying to close
 ```
 
 ## Why it exists
