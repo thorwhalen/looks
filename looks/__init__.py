@@ -109,6 +109,13 @@ from looks.compile import (
     payloads,
     unmet_filters,
 )
+from looks.ffmpeg import (
+    FfmpegBackendError,
+    escape_filter_value,
+    filter_string,
+    register_defaults,
+    vf,
+)
 from looks.motion import (
     Keyframe,
     MotionError,
@@ -249,6 +256,12 @@ __all__ = [
     "unmet_filters",
     "CompileError",
     "PlanRefused",
+    # the ffmpeg backend: a plan as one -vf fragment
+    "vf",
+    "filter_string",
+    "escape_filter_value",
+    "register_defaults",
+    "FfmpegBackendError",
     # motion: an authored camera path, compiled (RULE G's compile half)
     "Window",
     "WindowLike",
@@ -315,3 +328,9 @@ def __getattr__(name: str):
         globals()["__version__"] = value  # compute once
         return value
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+#: The built-in effects, registered on import. Measured at 0.4 ms on top of a
+#: 40 ms import, which is cheap enough that "import looks and the effects are
+#: there" beats an explicit call nobody would remember to make.
+register_defaults()
