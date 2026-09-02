@@ -77,7 +77,9 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-docs/*
+# NOT `docs/*` (the wads template's line). `docs/` here is hand-written and
+# committed — the research notes and the decisions-of-record — matching the
+# fleet's recent convention (reelee, paces). `docs/*` silently swallows them.
 
 # PyBuilder
 target/
