@@ -1018,3 +1018,124 @@ Local sources were read directly in this session. Web references are cited as po
 [13] `opencv-python` wheel licence payload — read from the installed distributions on this machine, not from the web: `site-packages/cv2/LICENSE.txt` (MIT), `site-packages/cv2/LICENSE-3RD-PARTY.txt` (Apache-2.0 + LGPL-2.1 + LGPL-3 + MPL-2.0, and the FFmpeg-redistribution paragraph), and `site-packages/cv2/.dylibs/` (93 shared libraries incl. `libx264`, `libx265`, `libpostproc`, `libvidstab`). Versions inspected 2026-09-02: `opencv-python 4.12.0.88`, `opencv-python-headless 4.13.0.92`, `opencv-contrib-python 4.13.0.92`, macOS arm64. Upstream project page for context: [opencv-python on PyPI](https://pypi.org/project/opencv-python/) — **pointer only, not fetched**.
 
 [14] [x264 licensing](https://www.videolan.org/developers/x264.html) and [FFmpeg legal / licensing](https://ffmpeg.org/legal.html) — the GPL-2.0-or-later status of `libx264` / `libx265` and the GPL-only status of `libpostproc` that §3.6 turns on. **Pointers only, not fetched in this session**; the *presence* of those binaries in the wheel was measured (§A.11), their licences are taken as common knowledge and should be re-confirmed against each project's own COPYING file before the tier is written into code.
+
+---
+
+## Adversarial review (2026-09-02)
+
+Independent re-run of every claim on the same machine (ffmpeg 8.1 homebrew `--enable-gpl --enable-version3`, no `--enable-libzimg`; `libavcodec 62.28.100`; `~/.pyenv/versions/p12` = `cv2 4.13.0` / `numpy 2.2.6`; macOS 15 arm64). Commands re-executed, wheels re-downloaded from PyPI, upstream licence texts fetched. Appended by a reviewer; the author's text above is unchanged.
+
+### Confirmed — reproduced exactly
+
+- **§2.1 / §2.3 pixel-format negotiation.** `lut3d` format list is RGB-only; `picking rgb24 out of 26` on `yuv420p`, `picking gbrp10le out of 26` on `yuv420p10le`, and `format=rgb24,lut3d` on a 10-bit source forces `-> fmt:rgb24`. `lutrgb` `picking rgb24 out of 18`. Adjacent RGB filters share one `auto_scale`; strengthened — with a **real `libx264 -pix_fmt yuv420p` encode**, 1, 2 and 4 chained RGB filters all produce exactly **2** `auto_scale` insertions, so "two conversions total, not 2n" holds end to end, not only with `-f null`.
+- **§2.2 the colour table.** Re-derived from scratch (swatches → ffv1 `yuv420p` `-color_range pc` → raw planes, no scaler inserted → four reads): every one of the 32 RGB triples matches, and 27 / 19 / 20 / 2 reproduce exactly. This is the strongest-evidenced claim in the note.
+- **§2.4 `zscale` absence and costs.** Homebrew's configuration line carries no `--enable-libzimg`; `ffmpeg -filters` lists `TS colorspace`, no `zscale`. Timings (300 frames, best of 3): decode 0.14 s, scale-declare 0.14 s (0.00 ms/f), real range convert 0.18 s, RGB round trip 0.24 s, `lut3d` 0.71 s (1.88 ms/f), `lut3d+lutrgb` 0.76 s (2.06 ms/f), `colorspace` 0.83 s (2.29 ms/f). Rule C4's qualitative claim holds.
+  - One correction to the *mechanism*: the declaring `scale` is free not because "in == out takes the copy path" but because in the position Rule C4 actually puts it — immediately before an RGB filter — it **absorbs** the auto-inserted scaler. `-loglevel debug` on `scale=in_range=tv:...:out_color_matrix=bt709,lut3d=…` shows **no** `auto-inserting filter 'auto_scale'` at all; `Parsed_scale_0` itself does `yuv420p -> rgb24`. The rule is right; the stated reason is not.
+- **§2.5 encode-side tagging.** Reproduced digit for digit: `x_plain` Y=106 / all tags unknown; `-colorspace bt709` Y=**95**, tags `tv,bt709,unknown,unknown`; adding `-color_primaries`/`-color_trc` changes nothing (still `unknown,unknown`); `-x264-params colorprim/transfer/colormatrix=bt709` gives `tv,bt709,bt709,bt709` with Y=**106** — a mislabelled file.
+- **§1.2 / §1.4 simple filtergraphs.** Branching `-vf` OK; two container inputs refused with the quoted message; `movie=hald.png[h];[in][h]haldclut` OK; the `movie=grain.mkv` softlight chain OK; `[in]`/`[out]` OK.
+- **§1.5(a) timeline flags.** `.. crop`, `.. scale`, `.. pad`, `.. zoompan` carry no `T`; `TS lut3d/lutrgb/blend/overlay/haldclut/noise/unsharp/colorchannelmixer/colorspace`, `T. eq/hue`. Also confirmed that `enable=` on `crop`/`scale` **errors loudly** (`Timeline ('enable' option) not supported with filter 'crop'`) rather than being ignored.
+- **§1.5(b) input-side `-ss` rebases.** Reproduced (178.8/178.8/126.7/126.7 at both `-ss 0` and `-ss 4`), and the reading is sound: had the timeline *not* rebased, all four means would read 126.7.
+- **§3.1 / §A.9 multi-input RSS.** N=40/24/12/4/1 → 724/499/339/209/143 MB (note: 694/482/328/208/143). Same shape, ≈143 MB + ≈15 MB per input. Peak RSS 377 MB for `ffmpeg lut3d` (identical to the note) and 380 MB for the Python pipe.
+- **§5.1 ordering.** All six numbers reproduced exactly: `mean|d| 4.24 / max 55 / 100.0%`, 51 vs 96 colours; `2.60 / 122 / 26.8%`, 77 vs 359.
+- **§3.6 the macOS cv2 payload.** 93 dylibs incl. `libx264.164`, `libx265.215`, `libpostproc.58.3.100`, `libvidstab.1.2`; `otool -L` on the bundled `libavcodec` shows `@loader_path/libx264.164.dylib` and `libx265.215.dylib`; PyPI `License: Apache 2.0` on all three dists; `cv2/LICENSE.txt` is MIT; the FFmpeg-redistribution paragraph is at line 243 of a 177,835-byte `LICENSE-3RD-PARTY.txt` present in all three `dist-info` dirs. Confirmed for the **headless** wheel specifically by downloading `opencv_python_headless-4.13.0.92-cp37-abi3-macosx_13_0_arm64.whl` from PyPI and listing it — the shared `site-packages/cv2/` install could not have told the three variants apart.
+- **Claim 11, which the note marked unverified, is now verified.** x264 `COPYING` is GPL v2 and `x264.h`'s header reads "either version 2 of the License, or (at your option) any later version" → **GPL-2.0-or-later**. Same for x265 (`COPYING` GPL v2, `source/x265.h` "or any later version"). libpostproc: FFmpeg `release/7.1` `configure` has `postproc_deps="avutil gpl"` and `pp_filter_deps="gpl postproc"` → **GPL-only**, confirmed from FFmpeg's own build system rather than folklore. (Incidental: `postproc` is gone from `LIBRARY_LIST` in `release/8.1`, so the wheel's `libpostproc.58` comes from an FFmpeg ≤ 7.x build — consistent with its `libavcodec.61`.)
+
+### Refuted or materially narrowed
+
+**R1 — the cv2 GPL finding is macOS-only. On Linux and Windows the wheels ship no GPL binaries at all.** The note flagged this as unverified and said it matters because CI runs on Linux; it does, and the answer inverts the conclusion for two of three platforms. Same package, same version (`opencv-python-headless 4.13.0.92`), wheels downloaded from PyPI 2026-09-02:
+
+| wheel | GPL payload | evidence |
+|---|---|---|
+| `macosx_13_0_arm64` | **yes** — x264, x265, postproc, vidstab | 94 binaries listed; 11 copyleft-named |
+| `manylinux_2_28_x86_64` | **no** | bundled `libavcodec-*.so.62.11.100` embeds `--prefix=/ffmpeg_build … --enable-openssl --enable-libvpx --enable-shared --enable-pic` — **no `--enable-gpl`, no `--enable-libx264/5`**. Whole `.libs/` = aom, avif, vpx, png, openssl, openblas, gfortran, quadmath, drm |
+| `win_amd64` | **no** | `cv2/opencv_videoio_ffmpeg4130_64.dll` embeds `--enable-cross-compile … --enable-libopenh264 --enable-libvpx --enable-libaom` and self-reports `libavcodec license: LGPL version 2.1 or later` for all seven libs |
+
+The `LICENSE-3RD-PARTY.txt` is one generic document shipped identically on every platform (it names "opencv-python **macOS** packages" for the LGPL set and Qt5 for "non-headless **Linux and macOS**"), so **reading it tells you nothing about the wheel you are holding.** Consequence for the design: recommendation 8 writes `cv2 -> copyleft-binary` as a static registry field. On Linux and Windows that is a **false refusal** for a caller who asked for commercial-safe — the exact failure the licence gate exists to avoid, in the direction that makes the package useless. The cv2 tier has to be resolved from the installed payload (or scoped explicitly to macOS wheels in both code and README). Correspondingly, "genuinely avoiding it means `-DWITH_FFMPEG=OFF` or a distro package — neither of which is a `pip install` anybody will do" is false: on Linux and Windows a plain `pip install opencv-python-headless` already avoids it.
+
+**R2 — the §4.3 boundary cost does not reproduce, and its sign is not stable.** The note's headline ("a raw-frame boundary costs ≈4.4 ms/frame, ≈1.8× the entire `lut3d`+posterise chain it displaces") comes from differences of ~0.15 s across **62-frame** runs, where ffmpeg process startup (~0.1–0.2 s) is the same order as the whole signal. Re-run at **300 frames**, same clip, same `libx264 -crf 16 -preset medium`:
+
+```
+  no filter      1.23 s
+  lut3d+lutrgb   1.62 s   -> chain     1.30 ms/frame
+  raw pipe no-op 1.32 s   -> boundary  0.33 ms/frame     ratio 0.25x
+```
+
+and by CPU time (`/usr/bin/time -l`, robust to load): chain +10.93 ms/frame, boundary +2.67 ms/frame — ratio **0.24×**. Across five repeats under load the pipe run was consistently *faster* in wall clock than the single-process encode, because the decoder and encoder are separate processes that run concurrently. The direction is stable across three measurement methods and it is the **opposite** of the note's: the boundary is roughly a quarter of the chain, not 1.8× it. Recommendation 11's quotable rule — "never cross a boundary for something ffmpeg can do" — may still be right for other reasons (a Python loop that does real work; GIL; higher resolutions), but it is **not** supported by this measurement and must not be presented as measured. The note's own §2.4 filter number (2.47 ms/f at 300 frames) is stable and reproduced (2.06); only the 62-frame boundary number is not.
+*(The byte-rate arithmetic is fine: 1280·720·3·30 = 82.9 MB/s, 1920·1080·3·30 = 186.6 MB/s.)*
+
+**R3 — "silently dropped by the libx264/mp4 path" mis-attributes the cause, and the prescribed fix is encoder-specific and fails silently off x264.** The `-color_primaries`/`-color_trc` drop is not an mp4 or x264 behaviour: it reproduces identically with **libx264/mkv, ffv1/mkv and libx265/mp4** (all four give `tv,bt709,unknown,unknown`). And `-x264-params` on a non-x264 encoder is **accepted, ignored, and exits 0** — `-c:v libx265 -x264-params colorprim=bt709` produces a file tagged `unknown,unknown,unknown`, as does `hevc_videotoolbox`. A `ColorContract`-to-argv helper built on recommendation 6 therefore emits a silently-untagged file for every caller not using libx264.
+
+**There is a simpler mechanism the note never considered, and it lives inside the seam `looks` already owns.** The `setparams` filter (core lavfi, no external library, present in this 8.1 build) sets all four tags, and combined with `scale=out_color_matrix=bt709` produces both the correct planes *and* the correct labels, identically across encoders and containers:
+
+```
+-vf "scale=out_color_matrix=bt709,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv"
+  libx264/mp4  -> tv,bt709,bt709,bt709   Y=95
+  libx265/mp4  -> tv,bt709,bt709,bt709   Y=95
+  ffv1/mkv     -> tv,bt709,bt709,bt709   Y=95
+```
+
+This is strictly better for `looks`: it is codec- and muxer-agnostic, it needs no cooperation from the host's encoder arguments, and it is a *filter string* — the one artefact `looks` produces. Recommendation 6 should be rewritten around it, keeping the `ColorContract` as data.
+
+**R4 — `movie=` chains are not splice-able, which breaks Rule C2, §1.3 rule 3 and `FilterStage.is_linear` for the one case the note recommends `movie=` for.** `movie` is a *source* filter with zero input pads, so a stage whose first chain begins with `movie=` is not "one pad in, one pad out" from the host's point of view:
+
+```
+-vf "hue=s=0,movie=hald.png[h];[in][h]haldclut"     -> "expected exactly 1 input and 1 output.
+                                                        However, it had 2 input(s) and 2 output(s)"
+-filter_complex "[0:v]movie=hald.png[h];[0:v][h]haldclut[v]"
+                                                    -> "More input link labels specified for filter
+                                                        'movie' than it has inputs: 1 > 0"
+```
+
+So §1.3's "the first filter of the stage takes the implicit input" is false for exactly the grain-plate / Hald-CLUT effects §1.4 designs around, and §1.3's advice against `[in]`/`[out]` labels ("naming them costs splice-ability") is backwards here — the label is what makes it work at all. There is a clean fix, verified: give the stage a **leading `null` sink** for the host's input pad, `null[b];movie=hald.png[h];[b][h]haldclut`, which works in `-vf` bare, comma-spliced (`hue=s=0,null[b];…`) **and** with `[0:v]` prefixed in `-filter_complex`. Adopt that as a rule, or `FilterStage` needs a field saying which chain index the host's input pad attaches to — the current `chains: tuple[str, ...]` + `is_linear` cannot express it.
+
+**R5 — folding (Rule C6) silently rebases `enable=`, and the note never connects its own two findings.** §1.5(b) establishes that `at` must compile against a declared origin; §4.2 establishes that a downstream `FilterStage` becomes the `FrameStage`'s **encoder** `-vf`. Together those are a correctness bug: the encoder half of a raw-frame pipe reads `-f rawvideo -r 30`, which has no container timestamps, so its filter `t` starts at 0 regardless of the decoder's timeline. Measured — decoder given output-side `-ss 4` (source time 4–6 s), downstream chain carrying `enable='between(t,4,5)'`:
+
+```
+  encoder-half means at 0.2/0.8/1.2/1.8 s = 126.7 126.7 126.7 126.7   (LUT never fires)
+  positive control, enable='between(t,0,1)' = 178.8 178.8 126.7 126.7 (fires, pipe-local)
+```
+
+The fold therefore has to rewrite every `enable=` expression it moves across the pipe boundary by subtracting the pipe origin — or refuse to fold a chain that carries one. Neither is stated, and the failure is exactly the one §1.5 names: the right look on the wrong frames, with no error anywhere.
+
+**R6 — §1.5(b) is verified only for input-side `-ss`; output-side seeking does **not** rebase, and the note states the rule unconditionally.** Same command, three seek styles:
+
+```
+  -ss 4 -i big.mp4  (input)   enable='between(t,0,1)' -> 178.8 178.8 126.7 126.7   (rebased)
+  -i big.mp4 -ss 4  (output)  enable='between(t,0,1)' -> 126.7 126.7 126.7 126.7   (NOT rebased)
+```
+
+So `ClipContext.origin` is a function of *the host's seek style*, not just the clip's in-point. A caller who sets `origin=clip_in` for an output-seeking host gets the look on the wrong frames, silently. The field is right; the documentation of what goes in it is missing.
+
+**R7 — a small licence fact inside the licence finding is wrong.** §3.6 annotates `libvidstab.1.2.dylib <- GPL-2.0+`. vid.stab's own `LICENSE` reads "vid.stab is free software under the GNU **Lesser** General Public License, version 2.1 or (at your option) any later version." It is LGPL-2.1-or-later. The conclusion is unaffected (x264/x265/postproc carry it), but in a package whose product is licence facts, the annotation should be right.
+
+**R8 — "the GPL components are unused codecs sitting in the same directory" understates the macOS linkage.** `otool -L site-packages/cv2/cv2.abi3.so` shows the extension module itself links `@loader_path/.dylibs/libavcodec.61.19.101.dylib` and `libavformat.61.7.100.dylib`, and that `libavcodec` links `libx264`/`libx265`. So on macOS `import cv2` loads a GPL-linked chain into the process; the exposure is dynamic linking of the imported module, not mere co-location. Whether that changes the legal reading is a lawyer's call — but the factual premise a reader would rely on is wrong as written, and the co-location framing is what recommendation 8 rests on.
+
+### Code in the note: does it run?
+
+Blocks §3.2 + §3.3 + §3.4 concatenated import cleanly on CPython 3.12.12. Three executed defects:
+
+- `hash(Effect(name="posterise", params={"step": 18}))` → **`TypeError: unhashable type: 'dict'`**. `frozen=True` + a `Mapping` field means `Effect`, `ResolvedEffect` and `ClipContext` are all unhashable. The design's whole premise is a plan that is "inspectable, persistable, diffable", and §6 says cache identity must cover the *resolved* parameters — none of which works with an unhashable, un-canonicalised dict. Normalise params to a frozen, ordered structure (or key on a canonical JSON digest) in v1, not later.
+- `issubclass(SomeBackend, Backend)` → **`TypeError: Protocols with non-method members don't support issubclass()`** (because of `name: str` / `tier: Tier`). `isinstance` works. A registry that validates registrations with `issubclass` — the obvious thing to write — fails at import time.
+- `typing.get_type_hints(FrameStage)` → **`NameError: name 'FrameBuffer' is not defined`**. `FrameBuffer` is acknowledged as a placeholder but `FrameContext` is never mentioned anywhere in the note. Anything that resolves hints (docs tooling, schema generation, a serialiser) breaks on the central type.
+
+§3.5's `compile_look` is pseudocode and does not execute (`Look`, `CompiledLook`, `LicenceRefused`, `ColorUnknown`, `_resolve`, `_rank`, `_reconcile_color`, `_needs_rgb`, `_check_order`, `_runs`, `_fold`, `_output_color` are all undefined). Two logic problems visible in it regardless:
+- The docstring says the licence gate is structural — "the registry declines to hand out a backend" — but the code gates on `r.tier`, the *effect's* tier, and `_resolve(e, clip)` receives neither `backends` nor `max_tier`. Resolution must already have consulted a backend to populate `r.backend`/`r.tier`, so the "restricted backend is never consulted" property does not hold as written. Two different gates are described as one.
+- Nothing rejects an `Effect.at` on a `kind="geometry"` effect, so a `Look` that ffmpeg will reject with `Timeline ('enable' option) not supported with filter 'crop'` compiles clean — against the note's own stated discipline of "refusing early with a name".
+
+### Against the non-negotiables
+
+- **Zero hard dependencies:** honoured. `numpy` kept out of signatures, `cv2` behind an extra and never imported at module load.
+- **Never `av`, never `imageio-ffmpeg`:** honoured, and §3.6 extends the same test to a package nobody had tested. Good.
+- **Refusal-not-warning / unknown-is-refusal:** honoured for licence (Rule 2) and colour (Rule C5); the ordering rule is deliberately a warning and the note argues the distinction well.
+- **Execution and muxing out:** *partly*. `FrameStage.apply` and `RenderedStage.render` hold live `Callable`s, so a `CompiledLook` is not serialisable, not diffable and not hashable — the three properties the `falaw.Plan` analogy is invoked for. falaw's `CallPlan` holds only data. A `FrameStage` should carry a registry **name** plus resolved params (resolved to a callable at execution time), not the closure.
+- **Cut/EDL out:** honoured.
+- **The measured Que Calor facts** (per-source flattening scale, normalise the output, `pyrMeanShiftFiltering`, frame-independence) are used correctly and are what `ClipContext.measurements` exists for.
+
+### Two things the note did not check that a careful reader wants
+
+- **Filtergraph escaping.** `looks` emits filter *strings* whose parameters include user-supplied **file paths** (`lut3d=file=`, `movie=`, `haldclut`). A path containing `,` or `:` breaks the graph: `-vf "lut3d=file=dir with space/id,with:comma.cube"` → `No such filter: 'with:comma.cube'`. Escaped (`id\,with\\:comma.cube`) it works. A space alone survives. There is no mention of escaping anywhere in the note, and this is the one place a compiler that emits strings *must* be correct — it is the injection surface of the whole design.
+- **The tier vocabulary collapses two exposures the KICKOFF separates.** Both `"ffmpeg"` (shells out to a binary the user installed) and `"cv2"` (a wheel that puts GPL binaries on the user's disk) are assigned `copyleft-binary`, which is also the *default* `max_tier`. But the KICKOFF bans `av` and `imageio-ffmpeg` **specifically for redistribution**, and permits shelling out. Under this vocabulary `looks` would refuse `av` while silently permitting a structurally identical exposure through `cv2` — with no tier name able to express the difference. Split the tier (e.g. `shells-out-to-copyleft` vs `redistributes-copyleft`), and let the second one be off by default. R1 then also has somewhere to land: on Linux/Windows the cv2 extra is genuinely in the first bucket, on macOS the second.
+
+### Verdict
+
+**Sound with corrections.** The colour work (§2.2, §2.5), the filtergraph work (§1.2–1.4), the ordering measurements (§5.1) and the multi-input memory reproduction (§3.1) are exact and are the strongest parts. Two things must change before code: **the cv2 tier is platform-dependent** (R1) and **the boundary-cost rule is not measured** (R2). Three should change: `setparams` replaces the `-x264-params` recommendation (R3), `movie=` stages need the `null`-sink form or an attach-index field (R4), and the fold must rewrite or refuse `enable=` (R5).

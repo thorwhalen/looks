@@ -389,3 +389,75 @@ L13 deserves the last word because it is the rule most likely to be violated by 
 [26] thorwhalen/muvid issue #63 — [*Video stylization: propose a new facade package (`looks`)*](https://github.com/thorwhalen/muvid/issues/63). The proposal issue; open as of 2026-09-02.
 
 [27] [FFmpeg](https://ffmpeg.org/) — versions observed on this machine on 2026-09-02: homebrew `8.1_1` on `PATH` (`--enable-gpl --enable-version3`, no `--enable-libzimg`, 481 filters) and the binary bundled by [imageio-ffmpeg 0.6.0](https://pypi.org/project/imageio-ffmpeg/) (`ffmpeg-macos-aarch64-v7.1`: `--enable-gpl`, no `--enable-version3`, `--enable-libzimg`, 484 filters).
+
+---
+
+## Adversarial review (2026-09-02)
+
+An independent reviewer re-ran every command this note cites, fetched the licence texts it names, and benchmarked the two things it left unverified. Findings are appended, not merged; the author's text above is unchanged.
+
+### Confirmed, first-hand
+
+- **The bundled ffmpeg (§3.4, claim 1).** Re-ran `imageio_ffmpeg.get_ffmpeg_exe()` under CPython 3.12.12 from `$PP` → `…/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1`; `-version` reports `ffmpeg version 7.1`, configuration containing `--enable-gpl --enable-libx264 --enable-libx265 --enable-libvidstab --enable-libzimg --enable-postproc` and **no** `--enable-version3`. GPL-2.0-or-later is the right reading. `imageio-ffmpeg` 0.6.0, `moviepy` 2.2.1 confirmed installed.
+- **The two-binary finding (§3.4, claim 2), exactly.** 484 filters bundled / 481 on `PATH`; only-bundled = `ass drawtext pp subtitles vidstabdetect vidstabtransform zscale`; only-`PATH` = `colordetect premultiply_dynamic transpose_vt yadif_videotoolbox`. PATH build is homebrew 8.1_1, `--enable-gpl --enable-version3`, no `--enable-libzimg`, `zscale` absent. Rule **L7 stands.**
+- **`nw.transforms.cache_key` (§1.2d) verbatim**, including the "spends money or CPU **without** going through fal (ElevenLabs TTS, an ffmpeg extraction)" sentence; `braidio/transforms/_segment.py` line 1 does say "A **local-render** Transform"; `_common.cached_output` does say "one convention, not one per genre". `python -c "import nw; ..."` → `cache_key` and `cached_output` are **not** in `dir(nw)`; `register_transform`/`Transform`/`BaseTransform` are.
+- **`burns` deps** (`numpy`, `moviepy`, `pillow`) and `moviepy`'s hard `imageio_ffmpeg>=0.2.0`. `looks → burns` is correctly forbidden.
+- **`paces` → `mixing`** at `derivation.py` 694 / 889 / 923 and `tests/test_vertical_slice.py` 105 / 150, with `mixing>=0.0.39` in `[media]`. *Additionally*: `derivation.py:363` does `from mixing.util import ffmpeg_exe`, which strengthens §3.3 further. `mixing.util.ffmpeg_exe` prefers `imageio_ffmpeg`; `video_util.py` imports moviepy at module top. **§3.3's PORT-not-MOVE verdict is correct.**
+- **The licence facts carried forward (claim 8), now verified independently.** AnimeGANv2 has **no LICENSE file** (`gh api repos/... .license` → `null`); its README §License reads *"freely available to academic and non-academic entities for non-commercial purposes"*. White-box Cartoonization likewise has no LICENSE file; README: *"Licensed under the CC BY-NC-SA 4.0 … Commercial application is prohibited."* `ultralytics` 8.4.75 metadata `License: AGPL-3.0`. All three confirmed. **Nuance worth carrying:** the two cartoon models are not merely "non-commercial", they grant **no licence at all** in-repo — which lands them in `looks`' *unknown → refusal* branch, not its *field-of-use* branch.
+- **`eq` is GPL-only, from primary source.** `configure` at tag `n8.1` line 4128: `eq_filter_deps="gpl"`. 33 `*_filter_deps=…gpl…` entries total. §5.1's argument holds.
+- **muvid#66 and nw#29** read verbatim; open as of 2026-09-02. nw open issues are exactly #55 #44 #29 #9 #5, so §1.3's "no issue names the CPU-invisibility gap" is right.
+- **`burns.backends`** docstring, the `RenderBackend` signature, and "an FFmpeg `zoompan` fast-path" as the declared second backend.
+
+### Newly measured — the ffmpeg fast path IS faster (§4.4, §7 item 5, resolved)
+
+3840×2160 source, 5 s, 30 fps, 1920×1080 out, push-in:
+
+| | wall |
+|---|---|
+| `burns.ken_burns_video(..., backend="pillow")` | **22.49 s** |
+| ffmpeg one-pass ramp + `scale`, `libx264` | **2.28 s** (16.0 s user; multithreaded) |
+
+Both 150 frames at 1920×1080/30. **~9.9× wall-clock.** The inherited claim is now measured and holds.
+
+### REFUTED — three findings, one of them fatal to the §4 implementation story
+
+**1. FATAL: an ffmpeg `crop` cannot ramp its SIZE, so a "keyframed-`crop` compiler" cannot compile a zoom.** `crop`'s `w`/`h` are evaluated once at filter configuration; only `x`/`y` are per-frame. Measured on a concentric-ring source (a 2× zoom would be unmistakable):
+
+```
+crop=w='iw*(0.5+0.5*min(t/5,1))':h='...':x='(iw-out_w)/2':y='...',scale=960:540
+  → PATH 8.1  : mean |frame0 − frame149| = 0.002    (no zoom; encoder noise)
+  → bundled7.1: mean |frame0 − frame149| = 0.0019   (no zoom)
+crop w/h ramp with no scale → output stream is 3840×2160, i.e. w/h froze at full size.
+control, x-only ramp (muvid's shape) → 2.555  (pan works, per-frame, as muvid relies on)
+```
+
+This refutes, in order: §4.4's "shape of the adapter … hands them to `looks` for compilation into a `crop`+`scale` fragment"; §4.3's table row *"muvid#66's in-shot punch-in — executed as a ramped `crop` in a `-vf`"*; §3.1's "a keyframed-`crop` compiler taking `(t, Rect)` pairs"; and §4.3's productive corollary *"over video input the execution is an ffmpeg `crop` with ramped expressions"*. **Rule G and "burns stays separate" survive** — they rest on the dependency direction, which is confirmed — but the mechanism that makes Rule G *productive* does not exist as described.
+
+**2. `zoompan` is not the wrong filter — it is the only filter that zooms, and it works on video.** §4.4's warning propagates muvid's `_crop_filter` docstring beyond its evidence. Measured on a real 150-frame 5 s video input:
+
+```
+zoompan=z='min(1+0.006*on,1.9)':d=1:x=…:y=…:s=960x540:fps=30
+  → 150 frames out of 150 in, duration 5.000000, r_frame_rate 30/1  (NO frame duplication)
+  → mean |f0−f74| = 103.2, |f74−f149| = 109.7  (a real zoom)
+```
+
+The duplication muvid warns about comes from the **default `d=90`**, not from video input. And "no `t` at all" is literally true but materially misleading: `in_time` (seconds) is accepted and works on **both** binaries — `z='min(1+0.18*in_time,1.9)'` gives first-vs-last diff 103.7, 150 frames, 5.000 s. `zoompan_filter_deps="swscale"` in `configure` n8.1 — **not** GPL-gated. muvid's docstring should be corrected too; note 11 inherited it rather than testing it.
+
+**3. `illustration` and `walkthru` do NOT get the fast path for free.** §3.1's table row (*"Zero code change — they get the ffmpeg fast path for free"*) and §4.5 (*"by selecting a backend name"*) are both wrong, and mutually inconsistent. `burns/backends.py`'s own docstring says the multi-panel renderer *"deliberately does not go through this registry"*, and `inspect.signature` confirms: `ken_burns_film(panels, saveas, fps, audio_path, codec, audio_codec, **write_kwargs)` — **no `backend` parameter**, versus `ken_burns_video(..., backend=…)`. `illustration/video.py:_default_render` returns `ken_burns_film`; `walkthru`'s `render_target` defaults to `reelee.kenburns_video.default_film_renderer`. Only `reelee/transforms/panel_to_clip.py` reaches `ken_burns_video`. A `RENDER_BACKENDS` entry reaches **one** call site in the federation, not three.
+
+### Understated, not wrong
+
+- **§2.3 / §3.4 name the wrong (and milder) GPL route for `mixing`.** `mixing` hard-declares `opencv-contrib-python`. `cv2.abi3.so` **dynamically links** `libavformat/libavcodec/libswscale/libavutil` from `cv2/.dylibs/`, and those carry the embedded configuration `--prefix=/opt/homebrew/Cellar/ffmpeg/7.1.1_3 … --enable-gpl --enable-version3 … --enable-libx264 --enable-libx265 --enable-libopencore-amrnb --enable-frei0r`; `libavcodec` links `@loader_path/libx264.164.dylib` and `libx265.215.dylib`. That is **GPL-3.0-or-later** (version3 + gpl), it is **linking**, not shelling out, and the wheel metadata says `License: Apache 2.0`. Note 06 §7 has this and escalates it correctly; note 11 does not carry it, so §2.3's "through `moviepy → imageio-ffmpeg`" reads as the whole exposure when it is the milder half. This matters directly for `looks`, whose first shipped look needs `cv2.pyrMeanShiftFiltering`.
+- **§3.2's "one splice in `_render_part`" is two splices.** The same `vf` template appears at `assemble.py:267` (`_render_part`) and again at `:356` (`_norm`, the transition A/B path), and a look must land identically on both or a cut's two sides disagree.
+- **muvid's `_crop_filter` cannot express a zoom even in its own EDL**, and worse, its moving-window predicate is `abs(e.x−c.x)<1e-9 and abs(e.y−c.y)<1e-9` — it never inspects `w`/`h`, so a `crop_end` that changes only size is silently classified as *static* and compiled at the start window. §3.1's **Small** effort estimate for muvid does not cover the muvid#66 half.
+
+### Design objections
+
+- **Rule N (§5.3) misclassifies `looks`' own colour work.** Note 05's `ColorContract` conform is a *normalisation* whose target is **external and fixed** (a delivery spec) and which needs exactly one clip's probe. Under Rule N it must either be labelled `intent="style"` — a lie — or be forced through `resolve_across`, which demands a set it does not need. The honest axis is *where the target comes from* (external vs the set's own distribution), which §5.3 states correctly one paragraph earlier and then collapses onto the style/grade word pair. Either drop `intent` and let the **resolver** be the only distinction, or value it `external | set_relative`.
+- **§4.3's Rule G table lists `cropdetect` as a `looks`-owned effect, which rules L3/L12 forbid.** `cropdetect` measures — it prints to the log and crops nothing — so performing it is a subprocess and a measurement. It belongs on the `Probe` side of the seam. (It is also `cropdetect_filter_deps="gpl"`, verified.)
+- **The body schema in `nw` on day one contradicts the note's own rule of three.** §2.2 puts the Transform in `muvid` until a second consumer appears, but puts the migration-required body schema in the shared package immediately. Co-locating both in `muvid` and graduating them together is cheaper and keeps the artefact that *needs a migration* out of the shared package until something else reads it.
+- **The `looks`-in-the-loop value for a `burns` ffmpeg backend is thinner than §4.5 claims**, now that the filter is known to be `zoompan`: it is not GPL-gated, so tier resolution decides nothing here, and the compiled fragment is a handful of expressions. The backend is still worth building (9.9× measured) — the open question is whether it needs to route through `looks` at all, which §4.5 does not ask.
+
+### One thing not checked by either party
+
+`burns.RenderBackend` takes `img_np: np.ndarray` — **already-decoded pixels**. An ffmpeg backend registered there must first write that array back out (temp PNG or a rawvideo pipe) before ffmpeg can start, which the 2.28 s benchmark above does not include (it read a PNG from disk). The measured speedup is real for the `looks`/muvid path, where the source is already a file; for `burns`' registry it is bounded by a re-encode the contract forces.
