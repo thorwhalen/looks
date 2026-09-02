@@ -51,11 +51,11 @@ dispersion(stats)  # 2.98 -> the spread you are trying to close
 # a Look whose flattening scale must be MEASURED per clip, not guessed
 look = looks.Look(
     name="que_calor",
-    target=looks.Target.SET_RELATIVE,          # the target is the set's own spread
+    target=looks.Target.SET_RELATIVE,  # the target is the set's own spread
     steps=(looks.Effect(name="flatten", params={"scale": looks.Ref("flatten_scale")}),),
 )
-looks.resolve(look, {"flatten_scale": 0.5})    # -> refused: one clip cannot answer it
-looks.resolve_across(look, probes)             # -> one resolved Look per clip
+looks.resolve(look, {"flatten_scale": 0.5})  # -> refused: one clip cannot answer it
+looks.resolve_across(look, probes)  # -> one resolved Look per clip
 ```
 
 ## Why it exists
