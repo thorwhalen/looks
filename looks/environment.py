@@ -62,12 +62,13 @@ from __future__ import annotations
 import json
 import re
 import shutil
-import subprocess
 from dataclasses import dataclass
 from enum import Enum
 from functools import lru_cache
 from pathlib import Path
 from typing import Mapping, Optional, Sequence
+
+from looks._run import run
 
 #: How long any single probe subprocess may take. Generous: these are trivial
 #: commands, so exceeding it means something is wrong (a network filesystem, a
@@ -207,25 +208,23 @@ class FfmpegEnv:
         return tuple(n for n in names if n not in self.filters)
 
 
-def _run(argv: Sequence[str], *, timeout: float) -> Optional[str]:
-    """Run ``argv`` and return its combined output, or ``None`` if it could not.
+def _ask(argv: Sequence[str], *, timeout: float) -> Optional[str]:
+    """Ask ffmpeg one question and return its combined output, or ``None``.
 
-    Never raises for an environment reason: a missing binary, a timeout, or a
-    permission error are all facts about the machine that the caller wants back
-    as data. A probe that raises turns "I could not determine this" into "your
-    program stopped", which is exactly the wrong trade for a diagnostic.
+    Goes through :func:`looks._run.run`, the package's single process
+    chokepoint, so these calls are covered by the ``-f null -`` invariant like
+    every other — they qualify under its environment-question clause, since
+    ``-L`` / ``-filters`` / ``-version`` open no input and write no output.
+
+    Never surfaces an environment failure as an exception: a missing binary, a
+    timeout or a permission error are facts about the machine that the caller
+    wants back as data. A probe that raises turns "I could not determine this"
+    into "your program stopped", which is the wrong trade for a diagnostic.
     """
-    try:
-        proc = subprocess.run(
-            list(argv),
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            check=False,
-        )
-    except (OSError, subprocess.SubprocessError):
+    result = run(argv, timeout=timeout)
+    if result.error is not None or result.timed_out:
         return None
-    return (proc.stdout or "") + (proc.stderr or "")
+    return result.stdout + result.stderr
 
 
 def parse_licence(text: str) -> Licence:
@@ -344,7 +343,7 @@ def probe(
 
     notes: list[str] = []
 
-    licence_out = _run([resolved, "-hide_banner", "-L"], timeout=timeout)
+    licence_out = _ask([resolved, "-hide_banner", "-L"], timeout=timeout)
     if licence_out is None:
         notes.append("`ffmpeg -L` did not run; licence is unknown")
         licence = Licence.UNKNOWN
@@ -353,7 +352,7 @@ def probe(
         if licence is Licence.UNKNOWN:
             notes.append("`ffmpeg -L` output matched no known licence statement")
 
-    filters_out = _run([resolved, "-hide_banner", "-filters"], timeout=timeout)
+    filters_out = _ask([resolved, "-hide_banner", "-filters"], timeout=timeout)
     if filters_out is None:
         notes.append("`ffmpeg -filters` did not run; no filter is known to exist")
         filters = frozenset()
@@ -362,7 +361,7 @@ def probe(
         if not filters:
             notes.append("`ffmpeg -filters` listed nothing")
 
-    version_out = _run([resolved, "-hide_banner", "-version"], timeout=timeout)
+    version_out = _ask([resolved, "-hide_banner", "-version"], timeout=timeout)
     version = None
     configuration = None
     if version_out:
