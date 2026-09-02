@@ -1854,3 +1854,106 @@ One further caveat on the measurements: the `pyrMeanShiftFiltering` timings are 
 14. looks — the kickoff: non-negotiables, the two things to keep out, the measured Que Calor findings. Local source: `$PP/t/looks/KICKOFF.md`.
 15. VideoLAN — [x264](https://www.videolan.org/developers/x264.html), GPL-2.0-or-later. Referenced for the §11 finding; the licence statement itself is **not** re-verified here.
 16. Python — [`dataclasses`](https://docs.python.org/3/library/dataclasses.html): `frozen`, `slots` (3.10+), `kw_only` (3.10+), `replace`. Verified working on 3.10.13.
+
+---
+
+## Adversarial review (2026-09-02)
+
+*An independent session re-ran every command in §14, fetched every external licence text, and attacked the design against the kickoff's non-negotiables. Nothing below rewrites the author's text; it records what survived and what did not.*
+
+### Confirmed — re-verified independently, not taken on trust
+
+- **The code is real.** Block 0 was re-extracted from this markdown by regex into `looks/spec.py` and run: `doctest.testmod(m, optionflags=doctest.ELLIPSIS)` → `TestResults(failed=0, attempted=80)` on CPython **3.10.13, 3.11.11, 3.12.12 and 3.13.2** (two more interpreters than claimed). An AST scan of the imports finds only `__future__, dataclasses, enum, hashlib, json, typing` — **stdlib-only, confirmed**. `ruff check --select D100 --ignore D203,E501,B905 --target-version py310` → *All checks passed*.
+- **The ffmpeg timeline flags are exactly as stated** on the local 8.1: `lut3d lutrgb curves gblur unsharp colorchannelmixer` → `TS`; `eq hue` → `T.`; `scale` → `..`. Strengthening the finding: **`crop`, `pad` and `scale_vt` also carry no `T`**, so the whole geometry tier is un-gateable, not just `scale`.
+- **The §12 pipeline reproduces exactly**: `total=1138.5 rt=7.25x` and `total=3318.8 rt=21.14x`, two distinct `plan_hash`es. `MS_PARAMS = {c01:(0.5,12,60), c02:(0.5,12,60), c03:(0.75,12,40)}`, `W, H, FPS = 1280, 720, 30` and `format=duration → 156.968005` all verified at source.
+- **The ffmpeg cost figures reproduce within run-to-run noise**: baseline 0.52 s, lut3d 3.60, lutrgb 1.04, both 3.87 → **lut3d 10.3 ms/frame, lutrgb 1.73 ms/frame** against the note's 8.7 / 1.07. The flatten:LUT ratio lands at 22×–27× rather than exactly 27×; the qualitative point is untouched.
+- **§11's OpenCV finding is correct in every particular.** Both wheels' `RECORD` list `cv2/.dylibs/libx264.164.dylib` and `libx265.215.dylib` at **identical sha256**; `otool -L libavcodec.61.19.101.dylib` → `@loader_path/libx264.164.dylib`, `@loader_path/libx265.215.dylib`; `cv2.abi3.so` links `libavformat.61 / libavcodec.61 / libswscale.8 / libavutil.59`; the embedded configuration reads `--prefix=/opt/homebrew/Cellar/ffmpeg/7.1.1_3 … --enable-version3 … --enable-gpl … --enable-libx264 --enable-libx265`; `METADATA` says `License: Apache 2.0`. This is the most valuable thing in the note.
+- **The three claims §14 marked "unverified" are now verified**, and one is *worse* than stated:
+  - `av` **16.0.1** — `License-Expression: BSD-3-Clause`, ships `av/.dylibs/libx264.165.dylib` + `libx265.215.dylib`, and `otool -L` shows its `libavcodec.62` linking both. **Refinement:** its bundled FFmpeg's configuration string contains `--enable-libx264 --enable-libx265` and **no `--enable-gpl` at all** (grep count 0), because PyAV patches `configure` to move those out of `EXTERNAL_LIBRARY_GPL_LIST` — so the binary *self-reports* LGPL-3 while linking GPL codec libraries. The wheel's dist-info mentions neither `x264` nor `GPL` outside the `RECORD` filenames.
+  - `imageio-ffmpeg` **0.6.0** — `License: BSD-2-Clause`, ships a 49.4 MB `binaries/ffmpeg-macos-aarch64-v7.1` whose configuration contains `--enable-gpl --enable-libx264 --enable-libx265`.
+  - `burns` **0.0.9** → `Requires-Dist: moviepy` (unconditional) → `moviepy` 2.2.1 → `Requires-Dist: imageio_ffmpeg>=0.2.0` (unconditional). `pip install burns` does redistribute that binary.
+  - **White-box Cartoonization** — CC BY-NC-SA 4.0, verbatim: *"Commercial application is prohibited, please remain this license if you clone this repo"*. **AnimeGANv2** — README §License: *"made freely available to academic and non-academic entities for non-commercial purposes … please contact us via email to help you obtain the authorization letter"*.
+- **Every ancestor claim checks out at source**: falaw's four cost properties, its omit-if-empty `key_extra` / omit-if-default `backend`, and `canonical_blob`'s no-fallback rule; nw's `stamp_transform_identity` with "every key ever issued stays byte-identical"; `burns/path.py:169,178` accepting a callable easing and raising at `to_dict`.
+- **Recommendations 2, 3, 5, 6, 10 and 11 could not be broken.** `Ref` over callables, no-default-is-a-refusal, dropping the omit-if-default sentinel, the three identity levels with `output_key` taking a *digest*, registry-keys-not-import-paths, and `(kind, from_version)` for the future migration registry are all sound and well-argued.
+
+### Refuted
+
+**1 · FATAL — the ladder produces a mechanical false permission, and it disarms the kickoff's two named "never".** §4 claims that "never depend on `av`, never on `imageio-ffmpeg` stops being a rule in a document and becomes a comparison in the data". It does not. `COPYLEFT_LINK` sits *below* `NONCOMMERCIAL`, so a caller who raises the ceiling one rung for an unrelated reason — to admit one research model — silently admits both. Run against the proposed `select_impl`:
+
+```
+look = Look(steps=(Effect('cartoon'), Effect('decode'), Effect('encode')), max_tier=Tier.NONCOMMERCIAL)
+  admitted: cartoon.torch.animeganv2
+  admitted: decode.av.pyav
+  admitted: encode.imageio.ffmpeg
+```
+
+The cause is that a **total order over incommensurable axes** is not a risk ladder: field-of-use ("may not be sold") is not "more copyleft than GPL". The sibling brief `06_licence_tiers.md` reaches the same conclusion independently and takes field-of-use off the ladder entirely as a separate opt-in. §13's framing — "`TIER_ORDER` is one tuple; changing it is a one-line edit" — badly under-scopes this.
+
+**2 · FATAL — `ImplRef.tier` as a frozen constant is the wrong shape for the flagship backend.** The note declares it "the only place a tier is ever declared" and pins every ffmpeg implementation at `COPYLEFT_TOOL` because *this machine's* binary is GPL. Two measurements refute the shape:
+
+- FFmpeg's own `configure` at tag `n8.1` gates licences **per filter**: `eq_filter_deps="gpl"`, while `lut3d`, `lutrgb`, `curves`, `gblur`, `unsharp` and `colorchannelmixer` have no gpl dependency at all. So `COPYLEFT_TOOL` is a **false refusal** for most of the colour vocabulary. Worse: the note's own `Look` docstring uses `Look(name="grade", steps=(Effect(name="eq"),), max_tier=Tier.PERMISSIVE)` as its exemplar of a commercial-safe Look — `eq` is the one filter in that list that can never be permissive under any ffmpeg.
+- The tier of a *shell-out* backend is an environment fact. `ffmpeg -L` on the local binary — the least-editable statement, per this repo's own `looks/environment.py` — says **"GNU General Public License … version 3 or later"**, which is both stronger than the note reports and obtained a different way: §14 read the `configuration:` line, which `environment.py` documents as editable *and which PyAV demonstrably edits* (see above). Same `ImplRef`, different machine, different truth.
+
+`06_licence_tiers.md` states the correction directly: *"The tier is resolved from the environment rather than declared as a constant, because it genuinely varies"* — `resolved_terms = declared_terms ⊔ probe(provider)`, with `ImplRef.tier=None` for probed providers. The two notes are in direct structural conflict on this design's headline decision.
+
+**3 · SERIOUS — `select_impl` checks `timeline` after choosing, so recommendation 9 refuses runs that should succeed.** Two candidates for one spanned effect, both within the ceiling, one gateable:
+
+```
+ImplRef('blur.a.nogate', tier=PERMISSIVE,    timeline=False)
+ImplRef('blur.b.gated',  tier=COPYLEFT_TOOL, timeline=True)
+select_impl(Effect(name='blur', at=Span(0.0, 2.0)), cands)
+→ SpanUnsupported: 'blur.a.nogate' cannot be gated to a time span
+```
+
+`blur.b.gated` was available, within the ceiling, and could do the job. `timeline` is a hard *requirement*, so it must filter in step 1, not be re-checked on the winner.
+
+**4 · SERIOUS — the `Tier`/`str` comparison hole is not closed.** Overriding all four operators to return `NotImplemented` for a non-`Tier` hands the comparison to the reflected `str` method, which is exactly the lexicographic path the comment says was dodged. `Tier` subclasses `str` *precisely so the wire form is a plain string*, so a ceiling arriving from JSON or a config as `str` is the normal case. 8 of 25 pairs diverge from the ladder, **4 of them in the false-permission direction**:
+
+```
+COPYLEFT_TOOL <= 'permissive'    → True   (ladder: False)
+COPYLEFT_LINK <= 'permissive'    → True   (ladder: False)
+COPYLEFT_LINK <= 'copyleft-tool' → True   (ladder: False)
+NONCOMMERCIAL <= 'permissive'    → True   (ladder: False)
+```
+
+Raise `TypeError` instead of returning `NotImplemented`, or stop subclassing `str` (nothing needs it — every serializer already writes `.value`).
+
+**5 · SERIOUS — `plan_hash`'s promise is false, because `ClipSpec` omits the clip's colour state.** §8 says `plan_hash` answers *"will this produce the same pixels from the same input?"*. `ClipSpec` carries `width, height, fps, duration_s` and nothing else. This repo's own `00b_colour_range_trap_evidence.md`, produced the same day, measured the same LUT under the two colour-range assumptions differing on **99.6% of bytes, max 15/255, mean 6.05/255**, and concluded *"a clip's `color_range` is part of its measured state, and untagged is a third value"*. The words `color_range`, `pix_fmt` and `color_space` appear **zero times** in this note.
+
+**6 · SERIOUS — the cost estimate is keyed on parameters that do not include the one that dominates it.** `_MEANSHIFT_S_PER_FRAME` is keyed on `(width, height, scale)` and ignores `sr`. Measured here on a real photographic frame at 1280×720, `sp=12`, single-threaded, opencv 4.13.0:
+
+```
+sr=30 → 0.783 s/frame     sr=40 → 0.637     sr=60 → 0.408
+```
+
+`sr` moves the true cost by **1.9× at fixed geometry**, and the sketch returns the identical `3318.8 CPU-s` for `sr=40` and `sr=60`. This is the note's own D1 shape — an identity that omits something that changes the answer — applied to cost.
+
+**7 · SERIOUS — the appendix cannot express the look it claims to compile.** `render_v2c.py` calls `cv2.pyrMeanShiftFiltering(small, sp, sr, maxLevel=2)`. `maxLevel` is absent from `defaults={"scale","sp","sr"}`, and `compile_look` hard-refuses undeclared parameters:
+
+```
+maxLevel -> ValueError: 'flatten.opencv.meanshift' has no parameter(s) ['maxLevel']; declared: ['scale', 'sp', 'sr'].
+```
+
+`maxLevel` changes the pixels (and the cost — 0.184 vs 0.143 s/frame at 640×360, sr=60), so it must be in `params` and therefore in `plan_hash`.
+
+**8 · The published §12 numbers are not reproducible from the Look literal the note prints.** Running the note's own `Effect(name="flatten", params={"scale": Ref("flatten_scale"), "sr": 60})` gives `look_hash 13027b859dcd` and c03 `plan_hash 7abf6dedbde5`, not the reported `b767465ae062` / `8cd3abc98d92`. A search over candidate literals recovers the actual one: **`"sr": Ref("flatten_sr")`** — two Refs, not one. The design point ("one `look_hash`, two `plan_hash`es") is *true and stronger* than shown, since the shipped look defers `sr` per clip as well; the printed code is simply not the code that produced the numbers, and as printed it hard-codes `sr: 60` — one global default for a parameter the measured evidence says is per-source (60 / 60 / 40).
+
+**9 · Claim 4's conclusion survives; its stated reason does not.** The three points varied resolution *and* `sr` *and*, through the resize, image content. Isolating area at `sr=60` on a real frame: **0.804 → 0.567 → 0.443 → 0.307 s/Mpx** across 0.23 → 2.07 Mpx — genuinely sub-linear, so `estimate()` must indeed be allowed to return `None`. But on a smooth synthetic frame the same operator is *perfectly* linear (0.059 / 0.055 / 0.058 s/Mpx), so the non-linearity is a property of **content**, not of area, and the note names the wrong variable.
+
+**10 · The ffmpeg per-megapixel rate was extrapolated from one resolution** — the very linearity assumption the note refutes two paragraphs earlier, with no test. Tested here, `lut3d` *is* approximately linear (0.01244 / 0.01132 / 0.01043 s/Mpx over a 9× area range), so the model holds — but the shipped constant `0.0087/0.9216 = 0.00944` under-estimates by 10–30%, and the measured `lutrgb` marginal (1.73 ms/frame) is 62% above the shipped 1.07.
+
+**11 · Smaller, all reproduced:**
+
+- `_canonical_blob` takes only half of falaw's rule. falaw raises the typed `FalNonCanonicalArgument` via `ensure_canonical`; this lets a bare `TypeError` escape. The most likely authoring mistake in this domain — `params={"cube": Path(...)}` — dies as `TypeError: Object of type PosixPath is not JSON serializable`, outside `LooksError` entirely.
+- `Tier(d["tier"])` in `look_from_dict` / `_impl_from_json` raises bare `ValueError`, so a document from a build with a new rung fails outside the package's refusal tree.
+- **There is no audit function.** §9 claims a stored `LookPlan` "can be audited for licence with nothing imported", but `plan_from_dict` happily reconstructs a plan whose worst step exceeds its own `max_tier` (`plan.max_tier=PERMISSIVE`, `plan.tier=NONCOMMERCIAL`), and `__all__` exports nothing that would catch it. The refusal exists only at compile time; the *document* is what crosses machines.
+- **"Frozen" is advertised, not enforced.** `params` / `metadata` / `payload` / `probe` are plain mutable dicts: mutating `effect.params` in place changes `look_hash` after the fact, and `hash(Look(...))` raises `TypeError: unhashable type: 'dict'`.
+- **AnimeGANv2 has no licence file at all** (`gh api repos/TachibanaYoshino/AnimeGANv2 --jq .license` → `null`) — only a README paragraph. Under this note's own doctrine (`UNKNOWN` = "you cannot bound what you have not read", strictest rung) the flagship `NONCOMMERCIAL` example is arguably an `UNKNOWN` one.
+- **Recommendation 12's counter-argument is not actually dodged.** Ties break by registration order, and since every ffmpeg implementation sits on the same rung, ties are the *common* case — so among ffmpeg impls the default is import order after all.
+
+### What it did not check
+
+- **`enable=` does not mean what `Span` says it means, and this is measured.** `Span` is documented as "relative to the start of the clip the plan is compiled against", and §3 asserts the ffmpeg boundary "speaks seconds anyway". With the same gate `enable='between(t,1,3)'` on ffmpeg 8.1: no seek → black at source 1–3 s; `-ss 2 -i` → the gate lands 2 s later in the source; `-ss 2 -copyts -i` → source-relative but the leading window is truncated. The compiled payload's meaning depends on an executor flag that is not in the plan. Nothing in the design notices, and `SpanUnsupported` does not address it.
+- **No rung for `--enable-nonfree`.** A binary built with it is not redistributable at all; on this ladder it can only be spelled `UNKNOWN`.
+- **The probe is a chicken-and-egg the note does not name.** The validated rule is a closed loop over the *output* — you cannot know whether 7.25× or 21.14× applies until you have already run the flatten on sample frames. So "you learn both numbers before a single frame is decoded" is true of a plan and false of the decision that selects it. Nobody is assigned the cost of the sample render.
+- **A simpler alternative was never weighed.** §5 rejects option (d) "as the *only* option", but never considers **(d) plus a named-variant table on the `Look`** — `variants: dict[str, dict[str, Any]]`, one entry per clip, selected by name at compile time. That is JSON-native, diffable, keeps one `look_hash`, needs no reserved `$ref` marker inside a parameter *value*, and needs no new type. It should have been the baseline that `Ref` had to beat.

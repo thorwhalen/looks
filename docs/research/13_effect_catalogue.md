@@ -779,6 +779,29 @@ Two shape decisions in that listing are load-bearing and easy to get wrong.
 
 **`compile()` stays pure and `materialize()` is separate.** This is `burns`'s "the spec never touches I/O" taken one step further [10], and it is what keeps note 05's rule intact — `looks` emits argv as data and someone else runs it [12]. A compiled `Step` for a gradient map carries `{"cube_key": …, "cube_source": {…spec…}}`; `materialize(plan)` walks the plan, writes what is missing, and returns a plan with `file=` filled. A caller who wants to inspect or cost a `Look` never writes a byte.
 
+**And the `title` lives in the spec rather than in a `cube_text(spec, *, title=…)` argument**, which was the shape I wrote first. A second channel into the file's bytes that bypasses `cube_key` means two artifacts differing only by title collide in the cache — I found it by writing the LUT through `materialize` and getting a file one byte larger than `cube_text` had returned. `cube_text` is now a pure function of the spec *alone*, which is what makes `cube_key` a true content address rather than an approximation of one.
+
+### 6.3 The listing above was executed
+
+The federation's working rule 11 is that code in a design document which has never run is a hypothesis [12]. So this note's Python was extracted from the fence, written to a file, and run.
+
+```
+$ python3 -m doctest gradient_module.py && echo "ALL DOCTESTS PASS"
+ALL DOCTESTS PASS
+$ python3 rebuild_que_calor.py
+spec JSON: 566 bytes
+cube_text: 970374 bytes in 0.402s
+BYTE IDENTICAL to the shipped que_calor_b.cube: True
+materialize -> 8dd26bcfa92574a1062454ec32bdf677.cube  970374 bytes  idempotent=True  matches_cube_text=True
+full Que Calor look through ffmpeg 8.1: OK
+ramp JSON -> .cube expansion: 1714x
+title enters the key: True
+```
+
+Every doctest passes under `ELLIPSIS` alone — no `NORMALIZE_WHITESPACE`, no `IGNORE_EXCEPTION_DETAIL` — matching note 03's standard [10]. The 306-line module rebuilds the shipped Que Calor LUT byte for byte, `materialize` is idempotent and its bytes equal `cube_text`'s, and ffmpeg 8.1 runs the full look (`lut3d` + `posterize`) off the generated file.
+
+**One honest regression to record: the API costs 0.402 s where the flat script costs 0.141 s**, a 2.9× slowdown for the same 970,374 bytes. The cause is that `Ramp.sample` re-reads `self.stops` and calls `Stop.rgb()` — re-parsing hex — on all 35,937 samples, where `mklut_b.py` precomputed a 256-entry table once [5]. The fix is to hoist that table into `__post_init__` as a non-compare cached field, which is the shape `burns.BurnsPath` already uses for its cached easing [10]. I have left the listing in its readable form and am recording the number rather than quietly optimising it, because 0.4 s is still far below anything that matters here and the readable version is the better thing to review.
+
 ---
 
 ## 7. How a `.cube` is managed — the decision, with the sizes that force it
@@ -797,7 +820,7 @@ Five reasons, four of them measured.
 
 A 65³ LUT inlined into a `Look` document is 7 MiB of base64 in something meant to be diffed. A 33³ is 948 KiB of it. Neither is a document.
 
-**2. Generation is cheaper than fetching.** 0.141 s for 33³, 0.019 s for 17³ — a lower cost than reading 948 KiB from any store that is not local disk, and comparable to reading it from local disk once you count the parse.
+**2. Generation is cheaper than fetching.** 0.141 s for 33³ and 0.019 s for 17³ in the flat form, 0.402 s for 33³ through the API as written (§6.3) — a lower cost than reading 948 KiB from any store that is not local disk, and comparable to reading it from local disk once you count the parse. And it is paid **once per distinct spec**, because the cache is content-addressed.
 
 **3. A path is not content, so a `Look` referencing one is not self-contained.** This is note 03's argument for a persistable spec [10]; the same logic that rejects a callable easing parameter rejects a filesystem handle in `params`.
 
