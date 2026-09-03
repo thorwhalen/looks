@@ -109,3 +109,33 @@ From building the first real look (Que Calor V2), and independently reproduced h
 - Never write a doctest from what you expect the output to be. **Run it first.** Two bugs in this repo passed their doctests and failed against reality: a filter-row regex tested against a hand-invented sample returned zero filters from the real binary, and a "neutral" ramp that is not an identity.
 - Never compare two `ClipStats` whose `stage`, `instrument`, `luma_space` or `sample_spec` differ. `compare()` raises; the measured disagreements are larger than the effects being chosen between.
 - Never add a dependency without checking what its wheel *ships*, not what it *declares*.
+
+## Testing against more than one ffmpeg
+
+CI installs ffmpeg (`[tool.wads.ops.ffmpeg]` in `pyproject.toml`; `uv-ci.yml` already calls `install-system-deps`). Before that landed the suite ran **890 passed / 346 skipped** in CI, so every claim this package makes about pixels, licence tiers and filter behaviour was verified on one laptop while a green tick suggested otherwise.
+
+Ubuntu ships **ffmpeg 6.1.1**, so that is what CI executes — several major versions behind Homebrew. Keep a second build on hand and run the suite against both:
+
+```bash
+brew install ffmpeg@6                              # keg-only; does not shadow the default
+python -m pytest -q                                # the current Homebrew build
+PATH="/opt/homebrew/opt/ffmpeg@6/bin:$PATH" python -m pytest -q   # what CI runs
+```
+
+Four assumptions were found and removed the first time this ran, and each is the same shape — **a value chosen because it worked here**:
+
+| assumption | 8.1+ | 6.1 |
+|---|---|---|
+| FFV1 in an `.mp4` container | accepted | `EINVAL` |
+| a lavfi source of height 1 (`s=256x1`) | accepted | "Picture size 256x0 is invalid" |
+| `gradients` with `speed=0` | accepted | out of range `[1e-05, 1]` |
+| `vidstabtransform` absent | true on Homebrew | false — Ubuntu builds `--enable-libvidstab` |
+
+So: derive an environment-dependent value from the probe (`known_filters() - env.filters`) rather than naming one; pick the value **every** build accepts rather than the extreme one; and prefer the container or filter that has been stable longest.
+
+`brew install ffmpeg@6` may upgrade a shared library and break the default ffmpeg (it upgraded `x265` and left `libx265.216.dylib` dangling). `brew reinstall ffmpeg` repairs it.
+
+## Two more things that are enforced rather than documented
+
+- **Zero dependencies.** `test_invariant.py` scans every file — tests included — and fails on an import that is neither the standard library, `looks`, nor a distribution declared in `pyproject.toml`'s extras. The allowlist is derived from pyproject, so it cannot drift. One pattern is excused: `try: import x / except ImportError: pytest.skip(...)`, which is how an optional cross-check (`imageio_ffmpeg`, `mixing`) skips instead of reddening. A bare import has no such fallback, and one in a test passed here and failed CI on 3.10 and Windows.
+- **Two implementations of one effect must agree on the picture** (rule 29b), and the test for that must render **colour** and compare **every channel**. `contrast`'s two paths were asserted interchangeable by 51 tests over a grey ramp reading one channel of three — grey being exactly the input on which a luma contrast and a per-RGB-channel contrast agree. A reviewer mutated the compiler to touch only red and all 51 passed.

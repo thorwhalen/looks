@@ -12,6 +12,7 @@ why the atomicity test spawns real processes rather than asserting that
 """
 
 import os
+import pathlib
 import subprocess
 import sys
 import tempfile
@@ -410,3 +411,78 @@ class TestThePlanLevelVerb:
 
         request = self._plan().steps[0].payload[PENDING]
         json.dumps(request)  # raises if anything in there is not plain data
+
+
+class TestTheWindowsRenameRefusal:
+    """`os.replace` is atomic on Windows and on POSIX, but not equally TOTAL:
+    Windows refuses the rename while another process holds the destination
+    open, where POSIX succeeds and leaves that reader on the old inode.
+
+    This package exists to be fanned out, so concurrent read-while-write is
+    the normal case rather than an edge one — and it showed up as a FLAKY
+    Windows leg (`[WinError 5] Access is denied`, three `TestTheRace` tests,
+    the same commit green on a re-run). A flake is worse than a failure
+    because it gets re-run instead of read.
+
+    Simulated rather than skipped off-Windows: the refusal is a raise from one
+    call, so injecting it exercises the handling on every platform. A guard
+    that only runs on the machine where the bug happens is a guard that is
+    never run by the person who breaks it.
+
+    The fake must publish the winner's file **from inside the failing
+    replace** — that is what "another writer won while we were writing" means.
+    A first draft wrote the file before calling `cube_file`, so the
+    `path.exists()` fast return fired and `_publish` was never reached at all:
+    two mutations survived, including reverting the whole fix.
+    """
+
+    @staticmethod
+    def _loser(destination_bytes):
+        """An `os.replace` that loses the race exactly as Windows loses it."""
+
+        def refuses(src, dst):
+            # The winner lands its file, then our rename is denied.
+            pathlib.Path(dst).write_bytes(destination_bytes)
+            raise PermissionError(5, "Access is denied")
+
+        return refuses
+
+    def test_a_lost_race_is_a_cache_hit_not_an_exception(self, tmp_path, monkeypatch):
+        import looks.cache as cache_module
+
+        ramp = Ramp.from_hex(STOPS)
+        # What the winner will have written — byte-identical, because the name
+        # is a hash of the content.
+        winner = cube_file(ramp, size=9, into=tmp_path / "reference").path.read_bytes()
+
+        monkeypatch.setattr(cache_module.os, "replace", self._loser(winner))
+        got = cube_file(ramp, size=9, into=tmp_path)
+        assert got.path.read_bytes() == winner, (
+            "the loser must end up on the winner's file"
+        )
+
+    def test_and_leaves_no_partial_behind(self, tmp_path, monkeypatch):
+        """A `.partial` surviving the race is how a later sweep mistakes
+        debris for a cache entry."""
+        import looks.cache as cache_module
+
+        ramp = Ramp.from_hex(STOPS)
+        winner = cube_file(ramp, size=9, into=tmp_path / "reference").path.read_bytes()
+        monkeypatch.setattr(cache_module.os, "replace", self._loser(winner))
+        cube_file(ramp, size=9, into=tmp_path)
+        leftovers = [p for p in tmp_path.rglob("*.partial")]
+        assert leftovers == [], leftovers
+
+    def test_but_a_refusal_with_no_winner_still_raises(self, tmp_path, monkeypatch):
+        """The other half. Tolerating the refusal only makes sense when the
+        destination really is there; swallowing it unconditionally would turn
+        a broken cache directory into a silent success returning a path that
+        does not exist."""
+        import looks.cache as cache_module
+
+        def refuses(src, dst):
+            raise PermissionError(5, "Access is denied")
+
+        monkeypatch.setattr(cache_module.os, "replace", refuses)
+        with pytest.raises(PermissionError):
+            cube_file(Ramp.from_hex(STOPS), size=9, into=tmp_path)
