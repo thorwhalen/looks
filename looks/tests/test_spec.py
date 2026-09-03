@@ -110,7 +110,48 @@ class TestRefRefusesRatherThanFallsBack:
         e = Effect(name="x", params={"a": [Ref("p"), 2], "b": {"c": Ref("q")}})
         assert {r.key for r in e.refs} == {"p", "q"}
         got = e.resolved({"p": 1, "q": 3})
-        assert got.params["a"] == [1, 2] and got.params["b"]["c"] == 3
+        # A frozen sequence is a TUPLE. `params` is part of what `look_hash`
+        # addresses, so freezing it has to reach the containers too — a list
+        # left inside stayed aliased to the caller's object and moved the hash
+        # after the Look was built. It still serialises as a JSON array.
+        assert tuple(got.params["a"]) == (1, 2)
+        assert got.params["b"]["c"] == 3
+
+    def test_a_frozen_param_container_is_a_tuple_and_still_serialises(self):
+        import json
+
+        from looks.spec import look_to_dict
+
+        look = Look(steps=(Effect(name="x", params={"a": [1, 2], "b": {"c": 3}}),))
+        assert isinstance(look.steps[0].params["a"], tuple)
+        assert json.loads(json.dumps(look_to_dict(look)))["steps"][0]["params"]["a"] == [
+            1,
+            2,
+        ]
+
+    def test_frozen_really_means_frozen_all_the_way_down(self):
+        """§4.9's guarantee, which a one-level freeze did not keep: the caller's
+        nested object stayed aliased, so mutating it moved the hash."""
+        from looks.spec import look_hash
+
+        nested = {"stops": [[8.2, "#2E0C18"]]}
+        look = Look(steps=(Effect(name="gradient_map", params=nested),))
+        before = look_hash(look)
+        nested["stops"][0][0] = 99.9
+        assert look_hash(look) == before
+
+    def test_and_the_values_are_hashable_despite_carrying_mappings(self):
+        """`frozen=True` generates a `__hash__`, and a proxy over a dict made
+        every one of them raise — including for values carrying no mapping at
+        all, because the DEFAULT was one."""
+        assert isinstance(hash(Effect(name="x")), int)
+        assert isinstance(hash(Look(steps=(Effect(name="x"),))), int)
+        assert len({Effect(name="x"), Effect(name="x")}) == 1
+
+    def test_a_frozen_mapping_refuses_mutation_by_name(self):
+        look = Look(steps=(Effect(name="x", params={"a": 1}),))
+        with pytest.raises(TypeError, match="frozen"):
+            look.steps[0].params["a"] = 2
 
     def test_resolve_is_the_identity_on_a_concrete_look(self):
         """A caller who already has numbers never meets this function."""

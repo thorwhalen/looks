@@ -115,7 +115,7 @@ REF_MARKER = "$ref"
 #: it, so a mutable default lets :func:`look_hash` change after a Look has been
 #: built, hashed and stored — and makes the objects unhashable despite the
 #: decorator generating ``__hash__``.
-EMPTY: Mapping[str, Any] = MappingProxyType({})
+EMPTY: "Mapping[str, Any]" = None  # set below, once FrozenMap exists
 
 _NO_DEFAULT = object()
 
@@ -142,8 +142,100 @@ class SchemaError(SpecError):
     """A serialised document this build cannot read."""
 
 
+class FrozenMap(dict):
+    """A read-only mapping that is frozen **all the way down**, and hashable.
+
+    Two defects it closes, both of which the old one-level
+    ``MappingProxyType(dict(...))`` had and both of which :data:`EMPTY`'s own
+    docstring already warned about:
+
+    - **Shallow freezing does not freeze.** A nested list or dict stayed aliased
+      to the caller's object, so mutating it after construction moved
+      :func:`look_hash` and :func:`plan_hash` for a supposedly frozen value.
+      Measured: a ``params={"stops": [[8.2, "#000"]]}`` whose inner list the
+      caller edited afterwards changed its Look's hash.
+    - **A proxy over a dict is unhashable**, so every frozen dataclass here
+      raised ``TypeError`` from the ``__hash__`` that ``frozen=True`` generated
+      — including ones carrying no mapping at all, because the *default* was one.
+
+    Nested dicts become :class:`FrozenMap`, sequences become tuples, and sets
+    become frozensets. Its ``repr`` is the underlying dict's, so a frozen
+    mapping reads as the data it holds.
+
+    Examples:
+        >>> m = FrozenMap({"a": 1, "b": {"c": [1, 2]}})
+        >>> m["b"]["c"]
+        (1, 2)
+        >>> isinstance(hash(m), int)
+        True
+
+        The caller's object cannot reach in afterwards:
+
+        >>> nested = {"stops": [[1.0, "#000"]]}
+        >>> frozen = FrozenMap({"p": nested})
+        >>> nested["stops"][0][0] = 99.9
+        >>> frozen["p"]["stops"][0][0]
+        1.0
+    """
+
+    def __init__(self, data: Optional[Mapping[str, Any]] = None) -> None:
+        super().__init__({k: _frozen_value(v) for k, v in dict(data or {}).items()})
+
+    def _frozen(self, *args, **kwargs):
+        raise TypeError(
+            "this mapping is frozen: it is part of a value whose hash is its "
+            "identity, and mutating it would move that hash after the value "
+            "was built. Build a new one with dataclasses.replace()."
+        )
+
+    # A `dict` subclass rather than a bare Mapping, deliberately: a plan is a
+    # DOCUMENT, and `json.dumps` must work on a payload without a caller having
+    # to know this type exists. Every mutating door is closed instead.
+    __setitem__ = _frozen
+    __delitem__ = _frozen
+    clear = _frozen
+    pop = _frozen
+    popitem = _frozen
+    update = _frozen
+    setdefault = _frozen
+
+    def __hash__(self) -> int:
+        return hash(frozenset(self.items()))
+
+
+EMPTY = FrozenMap()
+
+
+def _frozen_value(value: Any) -> Any:
+    """One value, frozen as deeply as its type allows."""
+    if isinstance(value, FrozenMap):
+        return value
+    if isinstance(value, Mapping):
+        return FrozenMap(value)
+    if isinstance(value, (list, tuple)):
+        return tuple(_frozen_value(v) for v in value)
+    if isinstance(value, (set, frozenset)):
+        return frozenset(_frozen_value(v) for v in value)
+    return value
+
+
+def _plain(value: Any) -> Any:
+    """The inverse, for serialisation: frozen structures back to JSON types.
+
+    >>> _plain(FrozenMap({"a": (1, 2)}))
+    {'a': [1, 2]}
+    """
+    if isinstance(value, Mapping):
+        return {k: _plain(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_plain(v) for v in value]
+    if isinstance(value, frozenset):
+        return sorted(_plain(v) for v in value)
+    return value
+
+
 def _freeze(mapping: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
-    """A read-only view over a **copy** — see :data:`EMPTY` for why.
+    """A read-only, deeply frozen copy — see :data:`EMPTY` for why.
 
     Examples:
         >>> d = {"a": 1}
@@ -152,7 +244,7 @@ def _freeze(mapping: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
         >>> frozen["a"]              # ours does not
         1
     """
-    return EMPTY if not mapping else MappingProxyType(dict(mapping))
+    return EMPTY if not mapping else FrozenMap(mapping)
 
 
 class Target(str, enum.Enum):
