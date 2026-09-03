@@ -118,6 +118,14 @@ from looks.cache import (
     pending,
     sweep,
 )
+from looks.across import (
+    AcrossError,
+    Candidate,
+    Choice,
+    Spread,
+    probes_for,
+    solve_across,
+)
 from looks.pipe import (
     FilterSegment,
     FrameSegment,
@@ -275,6 +283,13 @@ __all__ = [
     "unmet_filters",
     "CompileError",
     "PlanRefused",
+    # across: one parameter per clip, so a SET looks consistent
+    "solve_across",
+    "probes_for",
+    "Candidate",
+    "Choice",
+    "Spread",
+    "AcrossError",
     # the pipe: a mixed-backend plan as processes, emitted as data
     "pipe_plan",
     "PipePlan",
