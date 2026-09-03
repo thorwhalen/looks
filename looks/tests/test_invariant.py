@@ -316,3 +316,64 @@ class TestTheCuratedNamespace:
         import looks
 
         assert looks.needs_gpl(["scale", "eq", "lut3d"]) == ("eq",)
+
+
+def test_no_module_doctest_needs_ffmpeg():
+    """A doctest that needs a binary is a doctest CI does not run.
+
+    This has now cost two red CI runs on two different modules — `materialize`'s
+    example and `pipe_plan`'s — each calling `probe()` and `compile_look`, each
+    green locally and each dying on the runner with
+    ``CompileError: ... the probed binary is not usable: no 'ffmpeg' on PATH``.
+    Documenting the rule did not stop the second one, so here is the rule as a
+    mechanism.
+
+    It runs the package's own module doctests in a subprocess whose PATH holds
+    no ffmpeg — the CI condition exactly — rather than scanning the source for
+    spellings, because the question is whether they RUN, not whether they
+    mention a name.
+
+    Tests under ``looks/tests`` are deliberately out of scope: they may and do
+    require ffmpeg, and they say so with a skip.
+
+    **What it catches, stated precisely, because the first mutation I wrote to
+    check it was not representative and passed.** A bare ``probe()`` is harmless
+    — it returns an env with ``available=False`` rather than raising, so a
+    doctest may call it freely. What fails on a runner is *acting* on that env:
+    ``compile_look(..., env=probe())`` raises ``CompileError`` for any ffmpeg
+    step, because an unusable binary is a refusal. Mutation-tested with that
+    shape: caught.
+    """
+    import os
+    import pathlib
+    import shutil
+    import subprocess
+    import sys
+
+    import looks
+
+    package = pathlib.Path(looks.__file__).parent
+    modules = sorted(
+        str(p) for p in package.glob("*.py") if not p.name.startswith("__")
+    )
+    assert len(modules) > 8, f"expected the package's modules, found {modules}"
+
+    stripped = os.environ.copy()
+    kept = [
+        d
+        for d in stripped.get("PATH", "").split(os.pathsep)
+        if d and not shutil.which("ffmpeg", path=d)
+    ]
+    stripped["PATH"] = os.pathsep.join(kept)
+    if shutil.which("ffmpeg", path=stripped["PATH"]):
+        pytest.skip("could not construct a PATH without ffmpeg")
+
+    proc = subprocess.run(
+        [sys.executable, "-m", "pytest", "--doctest-modules", "-q", "--no-header",
+         "-p", "no:cacheprovider", *modules],
+        capture_output=True, text=True, env=stripped, cwd=str(package.parent),
+    )
+    assert proc.returncode == 0, (
+        "a module doctest needs ffmpeg, so CI will not run it:\n"
+        + proc.stdout[-2500:]
+    )

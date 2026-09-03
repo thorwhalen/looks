@@ -51,6 +51,7 @@ PARAMS = {
     "gamma": {"gamma": 1.2},
     "levels": {"black": 0.02, "white": 0.98},
     "posterize": {"levels": 6},
+    "flatten": {"spatial": 20, "range": 0.05},
     "blur": {"sigma": 2},
     "sharpen": {"amount": 1.0},
     "fit": {"target": "320x240"},
@@ -392,3 +393,112 @@ class TestTheFilterStringItself:
 
     def test_no_options_is_the_bare_name(self):
         assert filter_string("null", {}) == "null"
+
+
+class TestAnOpenEndedSpanIsGatedNotCrashed:
+    """`Span` declares both ends `Optional`, and `gated` formatted them blind.
+
+    All three open forms raised a bare `TypeError: unsupported format string
+    passed to NoneType.__format__` — not a refusal, not a message, just the
+    formatter failing. This is the code path a fold's `enable=` rebase would
+    have taken, which is how it surfaced.
+    """
+
+    @pytest.mark.parametrize(
+        "span,expected",
+        [
+            (Span(1.0, 2.0), "gblur=sigma=2:enable='between(t,1,2)'"),
+            (Span(1.0, None), "gblur=sigma=2:enable='gte(t,1)'"),
+            (Span(None, 3.0), "gblur=sigma=2:enable='lte(t,3)'"),
+            (Span(None, None), "gblur=sigma=2"),
+            (None, "gblur=sigma=2"),
+        ],
+        ids=["closed", "open-end", "open-start", "open-both", "no-span"],
+    )
+    def test_every_form_of_span(self, span, expected):
+        assert gated("gblur=sigma=2", span) == expected
+
+    def test_a_span_open_at_both_ends_emits_no_gate(self):
+        """It bounds nothing, so `enable=` would be an option that always
+        evaluates true — noise in the string and a lie in a diff."""
+        assert "enable=" not in gated("gblur=sigma=2", Span(None, None))
+
+    @pytest.mark.parametrize(
+        "span", [Span(0.1, 0.3), Span(0.1, None), Span(None, 0.3)],
+        ids=["closed", "open-end", "open-start"],
+    )
+    def test_ffmpeg_accepts_each_one(self, span, env):
+        """The expressions are different per form, so each needs the binary's
+        opinion rather than one representative's."""
+        _ffmpeg_or_skip()
+        assert configure(gated("gblur=sigma=2", span)).returncode == 0
+
+
+class TestGatingDoesNotCutInsideAnExpression:
+    """`gated()` split on every comma — but rule 21's escaping puts `\\,` inside
+    filter options routinely, and this package's own effects produce them.
+
+    Gating the shipped `gamma` effect emitted
+    ``lutrgb=r=maxval*pow(val/maxval\\:enable='between(t,1,2)',0.83)`` — the gate
+    spliced into the middle of the expression, from a perfectly valid Look.
+    """
+
+    @pytest.mark.parametrize("effect,params", [
+        ("gamma", {"gamma": 1.2}),
+        ("posterize", {"levels": 6}),
+        ("saturation", {"amount": 1.3}),
+        ("contrast", {"amount": 1.2}),
+    ])
+    def test_a_gated_expression_effect_still_parses(self, effect, params, env):
+        _ffmpeg_or_skip()
+        plan = compile_look(
+            Look(steps=(Effect(name=effect, params=params, at=Span(1.0, 2.0)),)),
+            clip=CLIP, env=env,
+        )
+        fragment = vf(plan)
+        assert ":enable=" in fragment
+        assert configure(fragment).returncode == 0, fragment
+
+    def test_an_escaped_comma_does_not_split_a_filter(self):
+        from looks.ffmpeg import split_filters
+
+        assert split_filters(r"lutrgb=r=pow(val\,2)") == [r"lutrgb=r=pow(val\,2)"]
+        assert len(split_filters(r"lutrgb=r=pow(val\,2),gblur=sigma=1")) == 2
+
+    def test_the_gate_lands_after_the_expression_not_inside_it(self):
+        got = gated(r"lutrgb=r=maxval*pow(val/maxval\,0.83)", Span(1, 2))
+        assert got.endswith(":enable='between(t,1,2)'")
+        assert r"pow(val/maxval\,0.83)" in got
+
+
+class TestGeometryCannotBeGated:
+    """`scale` and `pad` have no timeline support, and ffmpeg refuses the graph
+    outright. The registry used to declare `timeline=True` for them, which
+    defeated `vf()`'s own guard with its own data — the refusal existed and
+    never fired, and the binary rejected the command instead."""
+
+    def test_ffmpeg_really_refuses_a_gated_scale(self):
+        _ffmpeg_or_skip()
+        proc = configure("scale=32:24:enable='between(t,1,2)'")
+        assert proc.returncode != 0
+        assert "Timeline" in proc.stderr or "not supported" in proc.stderr
+
+    @pytest.mark.parametrize("effect", ["fit", "fill", "stretch"])
+    def test_so_looks_refuses_it_at_selection(self, effect, env):
+        from looks.spec import SpanUnsupported
+
+        with pytest.raises(SpanUnsupported, match="can be gated"):
+            compile_look(
+                Look(steps=(Effect(name=effect, params={"target": "320x240"},
+                                   at=Span(1.0, 2.0)),)),
+                clip=CLIP, env=env,
+            )
+
+    @pytest.mark.parametrize("effect", ["fit", "fill", "stretch"])
+    def test_and_ungated_they_still_work(self, effect, env):
+        _ffmpeg_or_skip()
+        plan = compile_look(
+            Look(steps=(Effect(name=effect, params={"target": "320x240"}),)),
+            clip=CLIP, env=env,
+        )
+        assert configure(vf(plan)).returncode == 0

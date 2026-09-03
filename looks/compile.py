@@ -144,7 +144,7 @@ def compile_look(
     return LookPlan(
         steps=tuple(steps),
         clip=clip,
-        env=None if env is None else env.fingerprint,
+        env=None if env is None else env.fingerprint(),
         look_name=concrete.name,
         policy=ceiling,
         probe=probe,
