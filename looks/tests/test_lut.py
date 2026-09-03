@@ -81,9 +81,18 @@ GOLD_STOPS = [
 #: to be bit-reproducible with no pinning; `gradients` is not. Pin the geometry
 #: (`x0/y0/x1/y1`), pin `speed=0`, and check any new source for a `seed` before
 #: comparing its output to anything.
+#: `speed` is pinned to the SMALLEST VALUE EVERY BUILD ACCEPTS, not to zero.
+#: ffmpeg 8.1 takes `speed=0`; 6.1.1 — what Ubuntu ships, and therefore what
+#: CI runs — refuses it: "Value 0.000000 for parameter 'speed' out of range
+#: [1e-05 - 1]". So the pin that made this source deterministic on one build
+#: made it unrunnable on another, which is the same class of mistake as naming
+#: a filter one laptop happens to lack. Determinism does not need zero: with
+#: `seed` pinned, three runs of this exact source are bit-identical (measured),
+#: because `speed` varies the gradient over TIME and both sides of every
+#: comparison here render the same frames of the same source.
 GREY_RAMP_SOURCE = (
     "gradients=size=64x36:c0=0x000000:c1=0xFFFFFF:type=linear:nb_colors=2:"
-    "x0=0:y0=0:x1=63:y1=35:speed=0:seed=1:d=1:r=5"
+    "x0=0:y0=0:x1=63:y1=35:speed=1e-05:seed=1:d=1:r=5"
 )
 
 
