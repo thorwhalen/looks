@@ -317,14 +317,17 @@ def pipe_plan(
             a gate baked into a filter string.
 
     Examples:
-        A plan of pure ffmpeg steps is one segment and costs no boundary:
+        A plan of pure ffmpeg steps is one segment and costs no boundary. The
+        plan is built here by hand rather than compiled, so the example needs no
+        ffmpeg — a doctest that needs a binary is a doctest CI does not run.
 
-        >>> from looks import ClipSpec, Effect, Look, compile_look, probe
-        >>> env = probe()
-        >>> clip = ClipSpec(width=64, height=48, fps=10)
-        >>> look = Look(steps=(Effect(name='blur', params={'sigma': 2}),))
-        >>> arranged = pipe_plan(compile_look(look, clip=clip, env=env),
-        ...                      source='in.mp4')
+        >>> from looks.licence import Tier, terms_for
+        >>> from looks.spec import ImplRef, LookPlan, Step
+        >>> impl = ImplRef(effect='blur', impl='blur.ffmpeg.gblur',
+        ...                backend='ffmpeg', terms=terms_for('ffmpeg')[0])
+        >>> plan = LookPlan(steps=(Step(effect='blur', impl=impl,
+        ...     tier=Tier.COPYLEFT_TOOL, payload={'filter': 'gblur=sigma=2'}),))
+        >>> arranged = pipe_plan(plan, source='in.mp4')
         >>> len(arranged), arranged.boundaries
         (1, 0)
     """
