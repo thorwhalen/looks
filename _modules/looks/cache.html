@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.cache &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.cache</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.cache</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""A `.cube` is a build artifact. This is where it gets built, once.</span>
+
+<span class="sd">A 33-cube is ~950 KB; the spec that determines it is ~566 bytes of JSON. So a</span>
+<span class="sd">Look carries the **spec** and a cache carries the **file**, addressed by a hash</span>
+<span class="sd">of everything that determines its bytes. Two Looks with the same ramp share one</span>
+<span class="sd">file; a changed ramp cannot reuse a stale one; and nothing that reaches the</span>
+<span class="sd">bytes is allowed to bypass the address.</span>
+
+<span class="sd">Generating rather than downloading is measured, not assumed: 33³ takes 0.141 s</span>
+<span class="sd">with nothing but the standard library, which beats a network read and needs no</span>
+<span class="sd">registry, no credentials and no availability.</span>
+
+<span class="sd">## Atomicity is the whole difficulty</span>
+
+<span class="sd">This package exists to be fanned out — one process per cut, several at once, all</span>
+<span class="sd">of them wanting the same LUT. Two of them will race, and the loser must not be</span>
+<span class="sd">able to hand ffmpeg a half-written file. **A half-written `.cube` is not an</span>
+<span class="sd">error, it is a silently wrong picture**: ffmpeg reads what is there and</span>
+<span class="sd">interpolates the rest of the lattice from nothing.</span>
+
+<span class="sd">So a write is `mkstemp` in the destination directory plus :func:`os.replace`,</span>
+<span class="sd">which is atomic on POSIX and on Windows. A deterministic ``&lt;key&gt;.tmp`` path is</span>
+<span class="sd">**not** good enough — two writers would open the same temp file and interleave</span>
+<span class="sd">into it, which is the race in a costume rather than a fix.</span>
+
+<span class="sd">## What is deliberately absent</span>
+
+<span class="sd">No eviction, no size cap, no TTL. A content-addressed store where every entry is</span>
+<span class="sd">reproducible from its key does not need one: deleting the whole directory is</span>
+<span class="sd">always safe and always correct, which is a stronger property than any policy</span>
+<span class="sd">would give. :func:`sweep` exists for a caller who wants that, and says so.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.lut</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DFLT_CUBE_SIZE</span><span class="p">,</span>
+    <span class="n">DFLT_CUBE_TITLE</span><span class="p">,</span>
+    <span class="n">GradientMap</span><span class="p">,</span>
+    <span class="n">LutError</span><span class="p">,</span>
+    <span class="n">Ramp</span><span class="p">,</span>
+    <span class="n">cube_key</span><span class="p">,</span>
+    <span class="n">cube_text</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1">#: Where cubes land when a caller names no directory. Under the user's cache</span>
+<span class="c1">#: dir rather than the package or the working directory, because a build</span>
+<span class="c1">#: artifact belongs to the machine, not to the source tree or to whatever</span>
+<span class="c1">#: directory a process happened to start in.</span>
+<span class="n">DFLT_CACHE_ENV</span> <span class="o">=</span> <span class="s2">"LOOKS_CACHE_DIR"</span>
+
+<span class="c1">#: The extension every entry carries. Part of the filename rather than the key,</span>
+<span class="c1">#: so a directory listing is readable and `lut3d=file=` gets what it expects.</span>
+<span class="n">CUBE_SUFFIX</span> <span class="o">=</span> <span class="s2">".cube"</span>
+
+
+<div class="viewcode-block" id="CacheError">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.CacheError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CacheError</span><span class="p">(</span><span class="n">LutError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""The cache could not produce a usable file."""</span></div>
+
+
+
+<div class="viewcode-block" id="cache_dir">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.cache_dir">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cache_dir</span><span class="p">(</span><span class="n">into</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Where cubes are kept, resolved in one place.</span>
+
+<span class="sd">    ``into`` wins, then ``$LOOKS_CACHE_DIR``, then the platform cache directory.</span>
+<span class="sd">    The directory is created if absent — a cache that refuses to exist is not a</span>
+<span class="sd">    cache.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">into</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">into</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DFLT_CACHE_ENV</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">DFLT_CACHE_ENV</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"XDG_CACHE_HOME"</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="k">if</span> <span class="n">base</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".cache"</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"looks"</span> <span class="o">/</span> <span class="s2">"cubes"</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+
+<div class="viewcode-block" id="Materialised">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.Materialised">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Materialised</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One cube on disk, and whether this call is what put it there.</span>
+
+<span class="sd">    ``hit`` is reported rather than inferred because it is the only way a caller</span>
+<span class="sd">    can tell a cache that is working from one that is silently regenerating —</span>
+<span class="sd">    the file is identical either way, and only the clock differs.</span>
+<span class="sd">    """</span>
+
+    <span class="n">path</span><span class="p">:</span> <span class="n">Path</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">hit</span><span class="p">:</span> <span class="nb">bool</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__fspath__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""So it can be handed straight to `open`, `Path`, or a filter string."""</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="cube_file">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.cube_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cube_file</span><span class="p">(</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Ramp</span><span class="p">,</span> <span class="n">GradientMap</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_CUBE_SIZE</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DFLT_CUBE_TITLE</span><span class="p">,</span>
+    <span class="n">into</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Materialised</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Ensure the cube for ``spec`` exists on disk, and say where.</span>
+
+<span class="sd">    Idempotent and safe to call concurrently. The second caller finds the file</span>
+<span class="sd">    the first one wrote; a caller racing another mid-write finds either the</span>
+<span class="sd">    complete previous file or the complete new one, never a partial.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        size: The lattice size. Part of the address — a 17-cube and a 33-cube of</span>
+<span class="sd">            one ramp are different files.</span>
+<span class="sd">        title: Written into the file's first line, and therefore into the</span>
+<span class="sd">            address. See :func:`looks.lut.cube_key`.</span>
+<span class="sd">        into: The cache directory. Defaults to :func:`cache_dir`.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import tempfile</span>
+<span class="sd">        &gt;&gt;&gt; from looks import Ramp</span>
+<span class="sd">        &gt;&gt;&gt; ramp = Ramp.from_hex([(8.2, '#2E0C18'), (100.0, '#FEF0DC')])</span>
+<span class="sd">        &gt;&gt;&gt; with tempfile.TemporaryDirectory() as tmp:</span>
+<span class="sd">        ...     first = cube_file(ramp, size=9, into=tmp)</span>
+<span class="sd">        ...     again = cube_file(ramp, size=9, into=tmp)</span>
+<span class="sd">        ...     (first.hit, again.hit, first.path == again.path)</span>
+<span class="sd">        (False, True, True)</span>
+
+<span class="sd">        It is a path-like, so it goes straight into a filter string:</span>
+
+<span class="sd">        &gt;&gt;&gt; import os</span>
+<span class="sd">        &gt;&gt;&gt; with tempfile.TemporaryDirectory() as tmp:</span>
+<span class="sd">        ...     cube = cube_file(ramp, size=9, into=tmp)</span>
+<span class="sd">        ...     os.fspath(cube).endswith('.cube')</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">cube_key</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">cache_dir</span><span class="p">(</span><span class="n">into</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}{</span><span class="n">CUBE_SUFFIX</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">Materialised</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">hit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">cube_text</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="c1"># mkstemp in the DESTINATION directory: os.replace is only atomic within a</span>
+    <span class="c1"># filesystem, and a temp dir elsewhere can be on another one. The unique</span>
+    <span class="c1"># name is what makes two concurrent writers safe — a deterministic</span>
+    <span class="c1"># "&lt;key&gt;.tmp" would have them interleaving into one file.</span>
+    <span class="n">handle</span><span class="p">,</span> <span class="n">temporary</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span>
+        <span class="nb">dir</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">".partial"</span>
+    <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">fsync</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">temporary</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">temporary</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">raise</span>
+    <span class="k">return</span> <span class="n">Materialised</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">hit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="materialize_many">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.materialize_many">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">materialize_many</span><span class="p">(</span>
+    <span class="n">specs</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DFLT_CUBE_SIZE</span><span class="p">,</span> <span class="n">into</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Materialised</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Materialise several specs into one directory.</span>
+
+<span class="sd">    Deduplicates by address on the way, so a set of Looks sharing a ramp</span>
+<span class="sd">    generates its cube once rather than once per Look.</span>
+<span class="sd">    """</span>
+    <span class="n">seen</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Materialised</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">specs</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">cube_key</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">seen</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">cube_file</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">into</span><span class="o">=</span><span class="n">into</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seen</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="entries">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.entries">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">entries</span><span class="p">(</span><span class="n">into</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Every cube in the cache. Partial writes in flight are not listed."""</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">(</span><span class="n">into</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">"*</span><span class="si">{</span><span class="n">CUBE_SUFFIX</span><span class="si">}</span><span class="s2">"</span><span class="p">)):</span>
+        <span class="k">yield</span> <span class="n">path</span></div>
+
+
+
+<div class="viewcode-block" id="sweep">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.sweep">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sweep</span><span class="p">(</span>
+    <span class="n">into</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">keep</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">set</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Delete cached cubes, optionally keeping a set of keys. Returns what went.</span>
+
+<span class="sd">    There is no eviction policy and this is not one — it is the caller's own</span>
+<span class="sd">    decision, made explicit. Every entry is reproducible from its key, so</span>
+<span class="sd">    deleting all of them is always safe; the only cost is regenerating, at</span>
+<span class="sd">    0.141 s per 33-cube.</span>
+<span class="sd">    """</span>
+    <span class="n">removed</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">(</span><span class="n">into</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">keep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">stem</span> <span class="ow">in</span> <span class="n">keep</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="n">removed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">removed</span><span class="p">)</span></div>
+
+
+
+<span class="c1">#: The payload key a step uses to say "I need a cube that does not exist yet".</span>
+<span class="c1">#: A REQUEST, not a path: `compile_look` writes no files, so a compiled plan</span>
+<span class="c1">#: names the artifact it wants and :func:`materialize` is what supplies it.</span>
+<span class="n">PENDING</span> <span class="o">=</span> <span class="s2">"cube_request"</span>
+
+
+<div class="viewcode-block" id="pending">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.pending">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pending</span><span class="p">(</span><span class="n">plan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""The cube addresses this plan needs and has not been given.</span>
+
+<span class="sd">    Empty means the plan is ready to run. This is the question a caller should</span>
+<span class="sd">    ask before handing a plan to a backend, and it is what</span>
+<span class="sd">    :func:`looks.ffmpeg.vf` answers with a refusal rather than a guess.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+        <span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="n">PENDING</span><span class="p">][</span><span class="s2">"key"</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">,</span> <span class="p">())</span>
+        <span class="k">if</span> <span class="n">PENDING</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">payload</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="materialize">
+<a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.materialize">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">materialize</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">into</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Build every artifact this plan asks for, and return a plan that has them.</span>
+
+<span class="sd">    The split this preserves is the reason it is a separate verb rather than</span>
+<span class="sd">    part of compiling: **`compile_look` starts no process and writes no file**,</span>
+<span class="sd">    so a plan is pure data that can be hashed, stored, diffed and sent</span>
+<span class="sd">    somewhere else. Artifacts are what a plan needs to actually *run*, and</span>
+<span class="sd">    acquiring them is a side effect with a directory, a disk and a race in it.</span>
+
+<span class="sd">    Returns a new plan — the input is left alone, because a caller may well</span>
+<span class="sd">    want to keep the portable one.</span>
+
+<span class="sd">    Idempotent: a plan with nothing pending is returned unchanged, and running</span>
+<span class="sd">    it twice writes nothing the second time.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        A plan is built here by hand rather than by :func:`looks.compile_look`,</span>
+<span class="sd">        so this example needs no ffmpeg — the point is the verb, and a doctest</span>
+<span class="sd">        that needs a binary is a doctest that does not run in CI.</span>
+
+<span class="sd">        &gt;&gt;&gt; import tempfile</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import Tier, terms_for</span>
+<span class="sd">        &gt;&gt;&gt; from looks.spec import ImplRef, LookPlan, Step</span>
+<span class="sd">        &gt;&gt;&gt; impl = ImplRef(effect='gradient_map', backend='ffmpeg',</span>
+<span class="sd">        ...                impl='gradient_map.ffmpeg.lut3d',</span>
+<span class="sd">        ...                terms=terms_for('ffmpeg')[0])</span>
+<span class="sd">        &gt;&gt;&gt; request = {'stops': [[8.2, '#2E0C18'], [100.0, '#FEF0DC']],</span>
+<span class="sd">        ...            'size': 9, 'title': 'demo', 'contrast': 1.0, 'lift': 0.0,</span>
+<span class="sd">        ...            'key': 'unused', 'filter_template': 'lut3d=file={file}'}</span>
+<span class="sd">        &gt;&gt;&gt; plan = LookPlan(steps=(Step(effect='gradient_map', impl=impl,</span>
+<span class="sd">        ...     tier=Tier.COPYLEFT_TOOL, payload={PENDING: request}),))</span>
+<span class="sd">        &gt;&gt;&gt; len(pending(plan))                      # not built yet</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; with tempfile.TemporaryDirectory() as tmp:</span>
+<span class="sd">        ...     ready = materialize(plan, into=tmp)</span>
+<span class="sd">        ...     pending(ready) == ()</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; ready.steps[0].payload['filter'].startswith('lut3d=file=')</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+
+    <span class="n">steps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">changed</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PENDING</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">request</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">built</span> <span class="o">=</span> <span class="n">cube_file</span><span class="p">(</span>
+            <span class="n">_spec_from</span><span class="p">(</span><span class="n">request</span><span class="p">),</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">request</span><span class="p">[</span><span class="s2">"size"</span><span class="p">],</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">request</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+            <span class="n">into</span><span class="o">=</span><span class="n">into</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">PENDING</span><span class="p">}</span>
+        <span class="n">payload</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">request</span><span class="p">[</span><span class="s2">"filter_template"</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">file</span><span class="o">=</span><span class="n">_escaped</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">built</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">payload</span><span class="p">[</span><span class="s2">"cube"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">built</span><span class="p">)</span>
+        <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">payload</span><span class="p">))</span>
+        <span class="n">changed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">steps</span><span class="p">))</span> <span class="k">if</span> <span class="n">changed</span> <span class="k">else</span> <span class="n">plan</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_escaped</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.ffmpeg</span><span class="w"> </span><span class="kn">import</span> <span class="n">escape_filter_value</span>
+
+    <span class="k">return</span> <span class="n">escape_filter_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_spec_from</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientMap</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A cube request back into the spec it addresses.</span>
+
+<span class="sd">    Rebuilt from the request rather than carried as an object, because a plan is</span>
+<span class="sd">    serialisable data — a live `GradientMap` in a payload is exactly what stops</span>
+<span class="sd">    it crossing a process boundary.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.lut</span><span class="w"> </span><span class="kn">import</span> <span class="n">Accent</span>
+
+    <span class="n">ramp</span> <span class="o">=</span> <span class="n">Ramp</span><span class="o">.</span><span class="n">from_hex</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span> <span class="k">for</span> <span class="n">stop</span> <span class="ow">in</span> <span class="n">request</span><span class="p">[</span><span class="s2">"stops"</span><span class="p">]])</span>
+    <span class="n">accent</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"accent"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">GradientMap</span><span class="p">(</span>
+        <span class="n">ramp</span><span class="o">=</span><span class="n">ramp</span><span class="p">,</span>
+        <span class="n">accent</span><span class="o">=</span><span class="n">Accent</span><span class="p">(</span><span class="o">**</span><span class="n">accent</span><span class="p">)</span> <span class="k">if</span> <span class="n">accent</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">contrast</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"contrast"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="n">lift</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"lift"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

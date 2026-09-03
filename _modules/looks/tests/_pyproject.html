@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.tests._pyproject &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.tests._pyproject</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.tests._pyproject</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Read this package's own ``pyproject.toml``, on every Python it claims to run.</span>
+
+<span class="sd">``tomllib`` arrived in 3.11 and this package's floor is 3.10. Two of the guards</span>
+<span class="sd">that matter most read the declaration — the extras-ledger coverage test and the</span>
+<span class="sd">zero-dependency scan — and on the 3.10 leg one of them **skipped itself** while</span>
+<span class="sd">the other raised. A licence guard that reports "skipped" on one of the two</span>
+<span class="sd">interpreters CI runs is the worse of those, because a skip reads as a pass.</span>
+
+<span class="sd">So this is a small reader for the shapes this one file actually uses: table</span>
+<span class="sd">headers, string values, and arrays of strings. It is **not** a TOML parser and</span>
+<span class="sd">must not be described as one. What makes it trustworthy is not its coverage of</span>
+<span class="sd">the grammar but :mod:`looks.tests.test_pyproject_reader`, which runs it against</span>
+<span class="sd">``tomllib`` on every interpreter that has one — over the real file, comparing</span>
+<span class="sd">every table and every key. The fallback is therefore never trusted, only</span>
+<span class="sd">checked, and it is checked against the same bytes the 3.10 leg will read.</span>
+
+<span class="sd">A value that is neither a string nor an array of strings is returned as its raw</span>
+<span class="sd">text (``"0"``, ``"true"``). Nothing here reads one, and the cross-check does not</span>
+<span class="sd">compare them — which is a scope limit, not an oversight.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="c1">#: The file. Two levels up from ``looks/tests/``.</span>
+<span class="n">PYPROJECT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"pyproject.toml"</span>
+
+<span class="n">Value</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span>
+
+<span class="n">_TABLE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^\[([^\[\]]+)\]$"</span><span class="p">)</span>
+<span class="n">_KEY</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"^(\S.*?)\s*=\s*(.*)$"</span><span class="p">)</span>
+<span class="c1">#: A basic string (escapes honoured) or a literal string (escapes are literal).</span>
+<span class="n">_STRING</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">'"(?:[^"</span><span class="se">\\</span><span class="s1">]|</span><span class="se">\\</span><span class="s1">.)*"'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"|'[^']*'"</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="uncommented">
+<a class="viewcode-back" href="../../../module_docs/looks/tests/_pyproject.html#looks.tests._pyproject.uncommented">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">uncommented</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Drop a ``#`` comment — unless the ``#`` is inside a string.</span>
+
+<span class="sd">    Both directions are load-bearing in the real file: a publish marker is</span>
+<span class="sd">    spelled ``"[skip ci]"``, and a comment two lines above an array says</span>
+<span class="sd">    "CI's publish job", whose apostrophe would open a string that never closes.</span>
+
+<span class="sd">    &gt;&gt;&gt; uncommented('name = "looks"  # the package')</span>
+<span class="sd">    'name = "looks"'</span>
+<span class="sd">    &gt;&gt;&gt; uncommented('publish_marker = "[publish]"')</span>
+<span class="sd">    'publish_marker = "[publish]"'</span>
+<span class="sd">    &gt;&gt;&gt; uncommented("    # ruff formats Python inside CI's Markdown fences")</span>
+<span class="sd">    ''</span>
+<span class="sd">    """</span>
+    <span class="n">out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">quote</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">"#"</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">'"</span><span class="p">:</span>
+                <span class="n">quote</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span> <span class="ow">and</span> <span class="n">quote</span> <span class="o">==</span> <span class="s1">'"'</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_unquote</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One quoted token to its value. A literal string keeps its backslashes.</span>
+
+<span class="sd">    &gt;&gt;&gt; _unquote('"a\\\\nb"')</span>
+<span class="sd">    'a\\nb'</span>
+<span class="sd">    &gt;&gt;&gt; _unquote(r"'a\\nb'")</span>
+<span class="sd">    'a\\\\nb'</span>
+<span class="sd">    """</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">token</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"'"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">body</span>
+    <span class="n">escapes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"n"</span><span class="p">:</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"t"</span><span class="p">:</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">:</span> <span class="s2">"</span><span class="se">\r</span><span class="s2">"</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"</span><span class="se">\\</span><span class="s2">(.)"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">escapes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">body</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_open_brackets</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Unclosed ``[`` outside of strings — how a multi-line array is detected.</span>
+
+<span class="sd">    Counting them naively would be wrong: ``"[skip ci]"`` is balanced but</span>
+<span class="sd">    ``"looks[cli]"`` is not, and an extra spelled that way would swallow the</span>
+<span class="sd">    rest of the file.</span>
+
+<span class="sd">    &gt;&gt;&gt; _open_brackets('deps = [')</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; _open_brackets('marker = "[skip ci]"')</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; _open_brackets('deps = ["looks[cli]"]')</span>
+<span class="sd">    0</span>
+<span class="sd">    """</span>
+    <span class="n">masked</span> <span class="o">=</span> <span class="n">_STRING</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">masked</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"["</span><span class="p">)</span> <span class="o">-</span> <span class="n">masked</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"]"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_value</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Value</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"["</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_unquote</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">_STRING</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">text</span><span class="p">)]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">_STRING</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_unquote</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span>
+
+
+<div class="viewcode-block" id="tables">
+<a class="viewcode-back" href="../../../module_docs/looks/tests/_pyproject.html#looks.tests._pyproject.tables">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tables</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">PYPROJECT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Value</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""``{table_name: {key: value}}``, table names dotted as they are written.</span>
+
+<span class="sd">    A key outside any table lands under ``""``.</span>
+
+<span class="sd">    &gt;&gt;&gt; read = tables()</span>
+<span class="sd">    &gt;&gt;&gt; read["project"]["name"]</span>
+<span class="sd">    'looks'</span>
+<span class="sd">    &gt;&gt;&gt; read["project"]["dependencies"]</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; sorted(read["project.optional-dependencies"])</span>
+<span class="sd">    ['cli', 'dev', 'docs']</span>
+<span class="sd">    """</span>
+    <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Value</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">""</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">""</span><span class="p">]</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">buf</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">for</span> <span class="n">raw</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">uncommented</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">_TABLE</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="p">{})</span>
+                <span class="k">continue</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="n">_KEY</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">entry</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">raw_key</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">_unquote</span><span class="p">(</span><span class="n">raw_key</span><span class="p">)</span> <span class="k">if</span> <span class="n">raw_key</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">'"</span> <span class="k">else</span> <span class="n">raw_key</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">buf</span> <span class="o">+=</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">line</span>
+        <span class="k">if</span> <span class="n">_open_brackets</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">_value</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="optional_dependencies">
+<a class="viewcode-back" href="../../../module_docs/looks/tests/_pyproject.html#looks.tests._pyproject.optional_dependencies">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">optional_dependencies</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">PYPROJECT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""The extras, ``{name: [requirement, ...]}``.</span>
+
+<span class="sd">    &gt;&gt;&gt; optional_dependencies()["cli"]</span>
+<span class="sd">    ['cw']</span>
+<span class="sd">    """</span>
+    <span class="n">got</span> <span class="o">=</span> <span class="n">tables</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"project.optional-dependencies"</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">specs</span> <span class="ow">in</span> <span class="n">got</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+
+<div class="viewcode-block" id="distribution_names">
+<a class="viewcode-back" href="../../../module_docs/looks/tests/_pyproject.html#looks.tests._pyproject.distribution_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">distribution_names</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""The distribution named by each requirement, with version and extras cut.</span>
+
+<span class="sd">    &gt;&gt;&gt; sorted(distribution_names(["pytest&gt;=7.0", "looks[cli]", "ruff"]))</span>
+<span class="sd">    ['looks', 'pytest', 'ruff']</span>
+<span class="sd">    """</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">specs</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[&lt;&gt;=!~;\[\s]"</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

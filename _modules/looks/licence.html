@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.licence &mdash; looks 0.0.7 documentation</title>
+  <title>looks.licence &mdash; looks 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -60,6 +60,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
@@ -77,6 +78,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
@@ -300,7 +302,7 @@
 
 
 <div class="viewcode-block" id="Coupling">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Coupling">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Coupling">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Coupling</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""How the implementation is reached — whether copyleft can touch us.</span>
 
@@ -319,7 +321,7 @@
 
 
 <div class="viewcode-block" id="Reach">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Reach">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Reach">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Reach</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""How far the implementation's copyleft extends."""</span>
 
@@ -333,7 +335,7 @@
 
 
 <div class="viewcode-block" id="Conveyance">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Conveyance">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Conveyance">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Conveyance</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Whether a *declared dependency closure* ships the implementation.</span>
 
@@ -353,7 +355,7 @@
 
 
 <div class="viewcode-block" id="FieldOfUse">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.FieldOfUse">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.FieldOfUse">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FieldOfUse</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Whether the *purpose* is permitted. Orthogonal to every axis above.</span>
 
@@ -445,7 +447,7 @@
 
 
 <div class="viewcode-block" id="reach_of">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.reach_of">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.reach_of">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reach_of</span><span class="p">(</span><span class="n">spdx</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Reach</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Map one SPDX identifier onto a :class:`Reach`.</span>
 
@@ -485,7 +487,7 @@
 
 
 <div class="viewcode-block" id="Tier">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Tier">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Tier">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Tier</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""A rung on a ladder that is **policy, not fact**.</span>
 
@@ -518,7 +520,7 @@
 
 
 <div class="viewcode-block" id="Verdict">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Verdict">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Verdict">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Verdict</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Which region of the axis space the terms landed in.</span>
 
@@ -587,7 +589,7 @@
 
 
 <div class="viewcode-block" id="Patent">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Patent">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Patent">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Patent</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A patent encumbrance, which no copyright vocabulary can express.</span>
@@ -612,7 +614,7 @@
     <span class="n">source_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Patent.is_live">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Patent.is_live">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Patent.is_live">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_live</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">today</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Whether it is still, or might still be, in force.</span>
 
@@ -638,7 +640,7 @@
 
 
 <div class="viewcode-block" id="Evidence">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Evidence">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Evidence">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Evidence</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""One observation, with enough context to be re-checked or disbelieved."""</span>
@@ -650,7 +652,7 @@
     <span class="n">source_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Evidence.is_stale">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Evidence.is_stale">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Evidence.is_stale">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_stale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">today</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Older than :data:`STALE_AFTER_DAYS`. Reported, never auto-refused.</span>
 
@@ -670,7 +672,7 @@
 
 
 <div class="viewcode-block" id="Terms">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Terms">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Terms">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Terms</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""What one component declares about itself. **Terms, never a tier.**</span>
@@ -753,7 +755,7 @@
 
 
 <div class="viewcode-block" id="Assessment">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Assessment">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Assessment">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Assessment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Where :func:`classify` located some terms. Not a permission.</span>
@@ -786,7 +788,7 @@
 
 
 <div class="viewcode-block" id="Policy">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Policy">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Policy">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Policy</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A ceiling, plus the thing a ceiling deliberately cannot reach.</span>
@@ -832,7 +834,7 @@
             <span class="p">)</span>
 
 <div class="viewcode-block" id="Policy.rank">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Policy.rank">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Policy.rank">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">rank</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tier</span><span class="p">:</span> <span class="n">Tier</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Position on *this* policy's ladder."""</span>
         <span class="k">try</span><span class="p">:</span>
@@ -845,7 +847,7 @@
 
 
 <div class="viewcode-block" id="Policy.admits">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.Policy.admits">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.Policy.admits">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">admits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tier</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tier</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Whether the ceiling reaches ``tier``. ``None`` is never admitted."""</span>
         <span class="k">return</span> <span class="n">tier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">tier</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_tier</span><span class="p">)</span></div>
@@ -865,35 +867,35 @@
 
 
 <div class="viewcode-block" id="LooksLicenceError">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.LooksLicenceError">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.LooksLicenceError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LooksLicenceError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base for every licence refusal."""</span></div>
 
 
 
 <div class="viewcode-block" id="LicenceCeilingExceeded">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.LicenceCeilingExceeded">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.LicenceCeilingExceeded">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LicenceCeilingExceeded</span><span class="p">(</span><span class="n">LooksLicenceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""On the ladder, above the ceiling. Raise it, or pick a lower provider."""</span></div>
 
 
 
 <div class="viewcode-block" id="LicenceForbidden">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.LicenceForbidden">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.LicenceForbidden">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LicenceForbidden</span><span class="p">(</span><span class="n">LooksLicenceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Off the ladder, permanently. There is no opt-in and no ceiling."""</span></div>
 
 
 
 <div class="viewcode-block" id="LicenceFieldRestricted">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.LicenceFieldRestricted">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.LicenceFieldRestricted">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LicenceFieldRestricted</span><span class="p">(</span><span class="n">LooksLicenceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Non-commercial / research-only / no-derivatives. Its OWN opt-in."""</span></div>
 
 
 
 <div class="viewcode-block" id="LicenceUnknown">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.LicenceUnknown">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.LicenceUnknown">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LicenceUnknown</span><span class="p">(</span><span class="n">LooksLicenceError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Undeterminable, unprobeable, or self-contradictory. Unknown refuses."""</span></div>
 
@@ -905,7 +907,7 @@
 
 
 <div class="viewcode-block" id="project_onto_ladder">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.project_onto_ladder">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.project_onto_ladder">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">project_onto_ladder</span><span class="p">(</span><span class="n">terms</span><span class="p">:</span> <span class="n">Terms</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tier</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Project three axes onto a rung. **This is the policy half.**</span>
 
@@ -1016,7 +1018,7 @@
 
 
 <div class="viewcode-block" id="classify">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.classify">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.classify">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">classify</span><span class="p">(</span><span class="n">terms</span><span class="p">:</span> <span class="n">Terms</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">today</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Assessment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Locate ``terms`` in the axis space. Applies **no** ceiling.</span>
 
@@ -1135,7 +1137,7 @@
 
 
 <div class="viewcode-block" id="assess">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.assess">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.assess">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">assess</span><span class="p">(</span>
     <span class="n">terms</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Terms</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
@@ -1301,7 +1303,7 @@
 
 
 <div class="viewcode-block" id="check">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.check">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.check">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span>
     <span class="n">assessment</span><span class="p">:</span> <span class="n">Assessment</span><span class="p">,</span>
     <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">,</span>
@@ -1392,7 +1394,7 @@
 
 
 <div class="viewcode-block" id="ffmpeg_terms">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.ffmpeg_terms">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.ffmpeg_terms">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ffmpeg_terms</span><span class="p">(</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">FfmpegEnv</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -1511,7 +1513,7 @@
 
 
 <div class="viewcode-block" id="assess_ffmpeg_chain">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.assess_ffmpeg_chain">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.assess_ffmpeg_chain">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">assess_ffmpeg_chain</span><span class="p">(</span>
     <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
@@ -1774,7 +1776,7 @@
 
 
 <div class="viewcode-block" id="ledger">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.ledger">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.ledger">[docs]</a>
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">ledger</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Terms</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""The evidence ledger: what was observed, about whom, and when.</span>
@@ -1819,7 +1821,7 @@
 
 
 <div class="viewcode-block" id="terms_for">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.terms_for">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.terms_for">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">terms_for</span><span class="p">(</span>
     <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">realisation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1850,7 +1852,7 @@
 
 
 <div class="viewcode-block" id="unverified_claims">
-<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.licence.unverified_claims">[docs]</a>
+<a class="viewcode-back" href="../../module_docs/looks/licence.html#looks.unverified_claims">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">unverified_claims</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""What the research explicitly did **not** establish.</span>
 

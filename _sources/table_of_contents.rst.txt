@@ -16,6 +16,7 @@
    module_docs/looks/lut
    module_docs/looks/measure
    module_docs/looks/motion
+   module_docs/looks/pipe
    module_docs/looks/registry
    module_docs/looks/spec
    module_docs/looks/tests
@@ -33,6 +34,7 @@
    module_docs/looks/tests/test_lut
    module_docs/looks/tests/test_measure
    module_docs/looks/tests/test_motion
+   module_docs/looks/tests/test_pipe
    module_docs/looks/tests/test_pyproject_reader
    module_docs/looks/tests/test_smoke
    module_docs/looks/tests/test_spec

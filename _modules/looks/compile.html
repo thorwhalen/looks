@@ -1,0 +1,519 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.compile &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.compile</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.compile</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""A Look plus a clip plus a binary, compiled into a plan — and re-checked.</span>
+
+<span class="sd">:func:`compile_look` is the join: a portable ``Look`` (what was asked for) meets</span>
+<span class="sd">a ``ClipSpec`` (what it is being applied to) and an ``FfmpegEnv`` (what this</span>
+<span class="sd">machine can actually do), and the result is a ``LookPlan`` — a document saying</span>
+<span class="sd">what will run, at which tier, against which binary.</span>
+
+<span class="sd">## An ffmpeg step's tier belongs to the binary, so the binary is required</span>
+
+<span class="sd">An ``ImplRef`` declares ``terms`` — what was observed about the implementation.</span>
+<span class="sd">For an **ffmpeg-backed** implementation that declaration cannot be the whole</span>
+<span class="sd">answer, because there is not one ffmpeg on a machine: measured here, ``PATH``</span>
+<span class="sd">is 8.1 / GPL-3 / 481 filters while ``imageio-ffmpeg``'s bundled binary is 7.1 /</span>
+<span class="sd">GPL-2 / 484, and the filter sets are non-nested. The same registered</span>
+<span class="sd">implementation is a different licence position on each.</span>
+
+<span class="sd">So the compiler **substitutes the probed binary's terms** into every ffmpeg</span>
+<span class="sd">candidate before selection, and selection, the step's tier, and a later</span>
+<span class="sd">:func:`audit` all read that one substituted value. The consequence is that</span>
+<span class="sd">``env`` is **required** for an ffmpeg step: without it the tier is unknown, and</span>
+<span class="sd">unknown is a refusal rather than a default.</span>
+
+<span class="sd">What this deliberately does *not* do is raise a step's tier because it uses a</span>
+<span class="sd">GPL-gated filter. :mod:`looks.licence` settles that — *"a GPL-gated filter does</span>
+<span class="sd">not raise the tier; the binary already has it"* — and the mechanism that keeps</span>
+<span class="sd">an ``eq`` look off an LGPL build is simpler and stronger: on such a build ``eq``</span>
+<span class="sd">is not compiled in at all, so it is absent from ``env.filters`` and selection</span>
+<span class="sd">drops the candidate. A licence ceiling and a missing capability are different</span>
+<span class="sd">refusals, and :func:`unmet_filters` keeps them apart.</span>
+
+<span class="sd">## Why :func:`audit` exists, and why it re-derives instead of reading</span>
+
+<span class="sd">A ``LookPlan`` is data, so it travels: written to a file, sent across a process</span>
+<span class="sd">boundary, stored in a graph, replayed a week later. Every one of those is a gap</span>
+<span class="sd">in which the thing that vouched for it stopped being present.</span>
+
+<span class="sd">So a plan carries both its :class:`~looks.licence.Policy` (the ceiling it was</span>
+<span class="sd">compiled under) and, on each step, a ``tier``. **The audit trusts neither of</span>
+<span class="sd">them about the step's actual position.** It goes back to the implementation's</span>
+<span class="sd">``terms`` — what was *observed* about the licence — and re-derives the tier from</span>
+<span class="sd">those. A plan whose stored tier disagrees with what its terms classify to is not</span>
+<span class="sd">a plan with a stale field; it is a plan asserting a position it is not entitled</span>
+<span class="sd">to, and it is refused by name.</span>
+
+<span class="sd">That is the same argument that keeps a tier off ``Effect`` and off ``ImplRef``:</span>
+<span class="sd">anything that can declare its own tier can declare itself acceptable. A stored</span>
+<span class="sd">plan is just the version of that with a filesystem in between.</span>
+
+<span class="sd">The audit also refuses a plan naming an implementation this process does not</span>
+<span class="sd">have, or one whose ``impl_version`` has moved. Both mean the same thing — the</span>
+<span class="sd">plan describes behaviour this build does not implement — and guessing a</span>
+<span class="sd">substitute is exactly the failure the version lock exists to prevent.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">FfmpegEnv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">Policy</span><span class="p">,</span> <span class="n">classify</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="n">ffmpeg_terms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">REGISTRY</span><span class="p">,</span> <span class="n">EffectRegistry</span><span class="p">,</span> <span class="n">UnknownImpl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.spec</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ClipSpec</span><span class="p">,</span>
+    <span class="n">Effect</span><span class="p">,</span>
+    <span class="n">EMPTY</span><span class="p">,</span>
+    <span class="n">Look</span><span class="p">,</span>
+    <span class="n">LookPlan</span><span class="p">,</span>
+    <span class="n">SpecError</span><span class="p">,</span>
+    <span class="n">Step</span><span class="p">,</span>
+    <span class="n">resolve</span><span class="p">,</span>
+    <span class="n">select_impl</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="CompileError">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.CompileError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompileError</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A Look that cannot be compiled against this clip and this binary."""</span></div>
+
+
+
+<div class="viewcode-block" id="PlanRefused">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.PlanRefused">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlanRefused</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A stored plan that may not be run as it stands. Never a warning."""</span></div>
+
+
+
+<div class="viewcode-block" id="compile_look">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.compile_look">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compile_look</span><span class="p">(</span>
+    <span class="n">look</span><span class="p">:</span> <span class="n">Look</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">clip</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClipSpec</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FfmpegEnv</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">policy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Policy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">probe</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">EMPTY</span><span class="p">,</span>
+    <span class="n">registry</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EffectRegistry</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LookPlan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Compile a Look into a plan. No process is started and no file is written.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        look: What was asked for. Portable data.</span>
+<span class="sd">        clip: What it is being applied to. Needed by any effect whose answer</span>
+<span class="sd">            depends on the frame — its absence is only an error if an effect</span>
+<span class="sd">            asks for it.</span>
+<span class="sd">        env: Which binary. When given, an implementation whose filters this</span>
+<span class="sd">            build lacks is dropped from selection rather than discovered at</span>
+<span class="sd">            run time.</span>
+<span class="sd">        policy: The ceiling. Defaults to the Look's own.</span>
+<span class="sd">        probe: Measurements that :class:`~looks.spec.Ref` parameters resolve</span>
+<span class="sd">            against.</span>
+<span class="sd">        registry: Which implementations exist. Defaults to</span>
+<span class="sd">            :data:`looks.registry.REGISTRY`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A :class:`~looks.spec.LookPlan` holding no live callables — the runner</span>
+<span class="sd">        resolves each step's code from the registry by key.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        CompileError: If an effect has no admissible implementation. The</span>
+<span class="sd">            message says which constraint emptied the pool, because "no</span>
+<span class="sd">            implementation available" alone is the least useful refusal in the</span>
+<span class="sd">            package.</span>
+<span class="sd">        looks.licence.LooksLicenceError: If the selected implementation exceeds</span>
+<span class="sd">            the ceiling. Selection already filters by policy, so this fires</span>
+<span class="sd">            only when nothing admissible existed.</span>
+<span class="sd">    """</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">REGISTRY</span> <span class="k">if</span> <span class="n">registry</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">registry</span>
+    <span class="n">ceiling</span> <span class="o">=</span> <span class="n">look</span><span class="o">.</span><span class="n">policy</span> <span class="k">if</span> <span class="n">policy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">policy</span>
+    <span class="n">concrete</span> <span class="o">=</span> <span class="n">resolve</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="n">probe</span><span class="p">)</span> <span class="k">if</span> <span class="n">probe</span> <span class="k">else</span> <span class="n">look</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">available</span> <span class="k">else</span> <span class="n">env</span><span class="o">.</span><span class="n">filters</span>
+
+    <span class="n">steps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">effect</span> <span class="ow">in</span> <span class="n">concrete</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+        <span class="n">impl</span> <span class="o">=</span> <span class="n">_select</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">ceiling</span><span class="p">,</span> <span class="n">available</span><span class="o">=</span><span class="n">available</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">_payload</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">impl</span><span class="p">,</span> <span class="n">effect</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="n">clip</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+        <span class="n">steps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Step</span><span class="p">(</span>
+                <span class="n">effect</span><span class="o">=</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">impl</span><span class="o">=</span><span class="n">impl</span><span class="p">,</span>
+                <span class="n">tier</span><span class="o">=</span><span class="n">_tier</span><span class="p">(</span><span class="n">impl</span><span class="p">),</span>
+                <span class="n">params</span><span class="o">=</span><span class="n">effect</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+                <span class="n">at</span><span class="o">=</span><span class="n">effect</span><span class="o">.</span><span class="n">at</span><span class="p">,</span>
+                <span class="n">payload</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+                <span class="n">cpu_seconds</span><span class="o">=</span><span class="n">_cost</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">impl</span><span class="p">,</span> <span class="n">effect</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="n">clip</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">),</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="n">effect</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">LookPlan</span><span class="p">(</span>
+        <span class="n">steps</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">steps</span><span class="p">),</span>
+        <span class="n">clip</span><span class="o">=</span><span class="n">clip</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">env</span><span class="o">.</span><span class="n">fingerprint</span><span class="p">(),</span>
+        <span class="n">look_name</span><span class="o">=</span><span class="n">concrete</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">policy</span><span class="o">=</span><span class="n">ceiling</span><span class="p">,</span>
+        <span class="n">probe</span><span class="o">=</span><span class="n">probe</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_select</span><span class="p">(</span>
+    <span class="n">effect</span><span class="p">:</span> <span class="n">Effect</span><span class="p">,</span>
+    <span class="n">registry</span><span class="p">:</span> <span class="n">EffectRegistry</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">,</span>
+    <span class="n">available</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">],</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FfmpegEnv</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">implementations</span><span class="p">(</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CompileError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"no implementation is registered for </span><span class="si">{</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">. This "</span>
+            <span class="sa">f</span><span class="s2">"process has </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">registry</span><span class="o">.</span><span class="n">effects</span><span class="p">())</span><span class="si">}</span><span class="s2">. An effect nobody "</span>
+            <span class="s2">"implements is a refusal, not a no-op."</span>
+        <span class="p">)</span>
+    <span class="n">grounded</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_ground</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">select_impl</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span> <span class="n">grounded</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span> <span class="n">available_filters</span><span class="o">=</span><span class="n">available</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ground</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FfmpegEnv</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">"""An ffmpeg implementation, re-stated in terms of the binary that will run it.</span>
+
+<span class="sd">    The substitution is the point. An ``ImplRef``'s declared terms are what a</span>
+<span class="sd">    registrant observed; which ffmpeg is present is what actually determines</span>
+<span class="sd">    the licence position, and the two are not the same fact. Selection, the</span>
+<span class="sd">    step's tier and a later audit then all read one value — the probed one.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">impl</span><span class="o">.</span><span class="n">backend</span> <span class="o">!=</span> <span class="s2">"ffmpeg"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">impl</span>
+    <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CompileError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> runs on ffmpeg, and an ffmpeg step's licence "</span>
+            <span class="s2">"position is a property of the binary, not of the effect — this "</span>
+            <span class="s2">"machine has more than one. Pass env=looks.probe(). An unknown "</span>
+            <span class="s2">"binary is a refusal, not a default."</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CompileError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> runs on ffmpeg and the probed binary is not usable"</span>
+            <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">": </span><span class="si">{</span><span class="s1">'; '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">notes</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">notes</span> <span class="k">else</span> <span class="s2">"."</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="n">ffmpeg_terms</span><span class="p">(</span><span class="n">env</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_tier</span><span class="p">(</span><span class="n">impl</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The step's tier, **derived** from terms — never read off anything."""</span>
+    <span class="n">assessment</span> <span class="o">=</span> <span class="n">classify</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">terms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">assessment</span><span class="o">.</span><span class="n">tier</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CompileError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> classifies to no tier (</span><span class="si">{</span><span class="n">assessment</span><span class="o">.</span><span class="n">verdict</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">). "</span>
+            <span class="s2">"Three regions sit off the ladder on purpose and no ceiling "</span>
+            <span class="s2">"reaches them, so there is nothing to compile against."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">assessment</span><span class="o">.</span><span class="n">tier</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_payload</span><span class="p">(</span>
+    <span class="n">registry</span><span class="p">:</span> <span class="n">EffectRegistry</span><span class="p">,</span> <span class="n">impl</span><span class="p">,</span> <span class="n">effect</span><span class="p">:</span> <span class="n">Effect</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">clip</span><span class="p">,</span> <span class="n">env</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">compiler</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">)(</span><span class="n">effect</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="n">clip</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">CompileError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> returned </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">, not a mapping. "</span>
+            <span class="s2">"A payload is about to be hashed and serialised, so it is plain "</span>
+            <span class="s2">"data by definition."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">payload</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_cost</span><span class="p">(</span><span class="n">registry</span><span class="p">:</span> <span class="n">EffectRegistry</span><span class="p">,</span> <span class="n">impl</span><span class="p">,</span> <span class="n">effect</span><span class="p">:</span> <span class="n">Effect</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">clip</span><span class="p">,</span> <span class="n">env</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""CPU-seconds, or ``None`` for unknown — which is never zero."""</span>
+    <span class="n">estimator</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">estimator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">estimator</span><span class="p">(</span><span class="n">effect</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="n">clip</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="audit">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.audit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">audit</span><span class="p">(</span>
+    <span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">policy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Policy</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">registry</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EffectRegistry</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Re-check a plan against its own declared ceiling. Raises, or returns None.</span>
+
+<span class="sd">    Call this on any plan that crossed a boundary — read from a file, received</span>
+<span class="sd">    over a wire, replayed from a graph. It answers one question: *may this run</span>
+<span class="sd">    here, now, as it stands?*</span>
+
+<span class="sd">    Nothing the plan says about its own position is believed. Each step's tier</span>
+<span class="sd">    is re-derived from the implementation's ``terms`` and compared to what the</span>
+<span class="sd">    step claims; a disagreement is a refusal naming the step, not a field to</span>
+<span class="sd">    refresh.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        policy: The ceiling to check against. Defaults to the plan's own —</span>
+<span class="sd">            which is the right default and the weaker check, since a plan</span>
+<span class="sd">            carrying a permissive policy vouches for itself. Pass your own to</span>
+<span class="sd">            ask whether it may run under *your* ceiling.</span>
+<span class="sd">        registry: Which implementations exist here.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        PlanRefused: If a step names an implementation this process lacks, or</span>
+<span class="sd">            one whose ``impl_version`` has moved, or one whose stored tier</span>
+<span class="sd">            disagrees with its terms.</span>
+<span class="sd">        looks.licence.LooksLicenceError: If a step exceeds the ceiling.</span>
+<span class="sd">    """</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">REGISTRY</span> <span class="k">if</span> <span class="n">registry</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">registry</span>
+    <span class="n">ceiling</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="n">policy</span> <span class="k">if</span> <span class="n">policy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">policy</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">):</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"step </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2"> via </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2">)"</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">known</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">impl</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">UnknownImpl</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PlanRefused</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="k">if</span> <span class="n">known</span><span class="o">.</span><span class="n">impl_version</span> <span class="o">!=</span> <span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl_version</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PlanRefused</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2"> was compiled against impl_version "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl_version</span><span class="si">!r}</span><span class="s2">; this process has "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">known</span><span class="o">.</span><span class="n">impl_version</span><span class="si">!r}</span><span class="s2">. A version lock moves when behaviour "</span>
+                <span class="s2">"changes, so running it here would produce different pixels "</span>
+                <span class="s2">"under the same plan hash."</span>
+            <span class="p">)</span>
+        <span class="n">derived</span> <span class="o">=</span> <span class="n">classify</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">terms</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">derived</span><span class="o">.</span><span class="n">tier</span> <span class="o">!=</span> <span class="n">step</span><span class="o">.</span><span class="n">tier</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PlanRefused</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2"> claims tier </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">tier</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s2">, but its own terms "</span>
+                <span class="sa">f</span><span class="s2">"classify to "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">derived</span><span class="o">.</span><span class="n">tier</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">derived</span><span class="o">.</span><span class="n">tier</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">derived</span><span class="o">.</span><span class="n">verdict</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s2">"</span>
+                <span class="s2">". A plan that could assert its position could assert itself "</span>
+                <span class="s2">"acceptable."</span>
+            <span class="p">)</span>
+        <span class="n">check</span><span class="p">(</span><span class="n">derived</span><span class="p">,</span> <span class="n">ceiling</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2"> in plan </span><span class="si">{</span><span class="n">plan</span><span class="o">.</span><span class="n">look_name</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">'&lt;unnamed&gt;'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="unmet_filters">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.unmet_filters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">unmet_filters</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">FfmpegEnv</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Filters this plan needs that this binary does not have.</span>
+
+<span class="sd">    Separate from :func:`audit` on purpose: a licence refusal is about what a</span>
+<span class="sd">    caller may do, and a missing filter is about what a machine can do. They</span>
+<span class="sd">    fail for different reasons, are fixed by different people, and collapsing</span>
+<span class="sd">    them produces a message that helps neither.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="nb">sorted</span><span class="p">({</span><span class="n">f</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">requires_filters</span><span class="p">})</span>
+        <span class="p">)</span>
+    <span class="n">needed</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">requires_filters</span><span class="p">}</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">needed</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">filters</span><span class="p">)))</span></div>
+
+
+
+<div class="viewcode-block" id="payloads">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.payloads">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">payloads</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Mapping</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Every step's payload, optionally for one backend.</span>
+
+<span class="sd">    The reading surface for a stored plan: an ``ffmpeg`` payload is fully</span>
+<span class="sd">    inspectable, so this is how a caller sees the exact filtergraph a plan</span>
+<span class="sd">    stands for without running anything.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+        <span class="n">step</span><span class="o">.</span><span class="n">payload</span>
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span>
+        <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="n">backend</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="describe">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.describe">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A plan as a few lines of text — for a CLI, a log, or a review.</span>
+
+<span class="sd">    Deliberately not a round-trippable format. Serialisation is</span>
+<span class="sd">    :func:`looks.spec.plan_to_dict`'s job, and a second one would be a second</span>
+<span class="sd">    thing to keep in sync.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"(empty plan)"</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">):</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="s2">"unknown"</span> <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">cpu_seconds</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s"</span>
+        <span class="n">span</span> <span class="o">=</span> <span class="s2">""</span> <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"  at=</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">at</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">effect</span><span class="si">}</span><span class="s2"> via </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">tier</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">] cpu=</span><span class="si">{</span><span class="n">cost</span><span class="si">}{</span><span class="n">span</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="n">total_cpu_seconds</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="s2">"total cpu: unknown (some steps do not estimate)"</span>
+        <span class="k">if</span> <span class="n">plan</span><span class="o">.</span><span class="n">has_unknown_costs</span>
+        <span class="k">else</span> <span class="sa">f</span><span class="s2">"total cpu: </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s"</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="compile_all">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.compile_all">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compile_all</span><span class="p">(</span><span class="n">looks_</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Look</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">LookPlan</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Compile several Looks under one set of arguments.</span>
+
+<span class="sd">    A convenience with one real property: it compiles **all or none**. A</span>
+<span class="sd">    partially-compiled batch invites a caller to run the half that worked,</span>
+<span class="sd">    which for a set-relative Look is precisely the mistake ``resolve_across``</span>
+<span class="sd">    exists to prevent.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">compile_look</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">look</span> <span class="ow">in</span> <span class="n">looks_</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

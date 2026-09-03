@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.ffmpeg &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.ffmpeg</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.ffmpeg</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""The ffmpeg backend: filter strings, escaping, and the first effects.</span>
+
+<span class="sd">This is where a `Step`'s payload becomes text another process will parse, which</span>
+<span class="sd">is the whole reason the escaping in here is not a detail. Everything else in the</span>
+<span class="sd">package produces data; this module produces a *string handed to a parser*, and</span>
+<span class="sd">the flagship effect takes a caller-supplied file path.</span>
+
+<span class="sd">## Escaping, and why once is not enough</span>
+
+<span class="sd">ffmpeg unescapes a filter option **twice**. The filtergraph parser reads the</span>
+<span class="sd">whole graph first, splitting on ``,`` ``;`` ``[`` ``]`` and consuming one layer</span>
+<span class="sd">of quoting; only then is each surviving per-filter argument split into options</span>
+<span class="sd">on ``:``, consuming a second. So escaping runs in the **mirror order** — option</span>
+<span class="sd">level first, graph level over that result — and each ffmpeg pass peels off</span>
+<span class="sd">exactly one layer.</span>
+
+<span class="sd">Ported from ``muvid.visualize.canvas.escape_filter_value``, with its recorded</span>
+<span class="sd">negative kept: **``%`` is deliberately not escaped.** Neither parser treats it</span>
+<span class="sd">as special, so ``\\%`` was simply unescaped back to ``%`` and escaping it never</span>
+<span class="sd">did anything. ``drawtext``'s ``%{...}`` expansion is a third level belonging to</span>
+<span class="sd">one filter's ``text`` option, and is out of scope for a general escaper.</span>
+
+<span class="sd">Verified here rather than inherited: ``-vf "lut3d=file=id,with:comma.cube"``</span>
+<span class="sd">fails, and the escaped form works.</span>
+
+<span class="sd">## LGPL first, and the alternate says why</span>
+
+<span class="sd">Where an effect has both a GPL-gated and an LGPL implementation, **both are</span>
+<span class="sd">registered** and the LGPL one carries the lower ``preference``. That is not a</span>
+<span class="sd">licence judgement made here — the registry records what exists and a</span>
+<span class="sd">:class:`~looks.licence.Policy` refuses at selection — it is an ordering, so that</span>
+<span class="sd">a caller who never thinks about licences gets the portable answer by default and</span>
+<span class="sd">a caller who needs the GPL one can still pin it.</span>
+
+<span class="sd">``eq`` is the case worth naming: the obvious grade filter is GPL-only, three of</span>
+<span class="sd">its jobs have LGPL substitutes in the same binary, and `muvid` ships a single</span>
+<span class="sd">``eq=`` for a cosmetic dim. That one filter call is the concrete argument for</span>
+<span class="sd">this package existing.</span>
+
+<span class="sd">## What is deliberately absent</span>
+
+<span class="sd">No encoder arguments, no output file, no process. A payload here is a filter</span>
+<span class="sd">fragment and nothing more — the moment this module grows an opinion about</span>
+<span class="sd">``-c:v`` it has become the second muvid, and the ``-f null -`` invariant that</span>
+<span class="sd">keeps the package honest would have nothing left to protect.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Size</span><span class="p">,</span> <span class="n">ffmpeg_chain</span><span class="p">,</span> <span class="n">placement</span><span class="p">,</span> <span class="n">social_size</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">Terms</span><span class="p">,</span> <span class="n">terms_for</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">REGISTRY</span><span class="p">,</span> <span class="n">EffectRegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImplRef</span><span class="p">,</span> <span class="n">LookPlan</span><span class="p">,</span> <span class="n">Span</span><span class="p">,</span> <span class="n">SpecError</span>
+
+<span class="c1">#: Characters the **option** parser gives meaning to, within one filter's</span>
+<span class="c1">#: arguments. Must lead with ``\\``: the backslashes introduced for the later</span>
+<span class="c1">#: characters must not themselves be escaped by the ``\\`` pass.</span>
+<span class="n">OPTION_LEVEL_SPECIALS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"</span><span class="se">\\</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"'"</span><span class="p">,</span> <span class="s2">":"</span><span class="p">)</span>
+
+<span class="c1">#: Characters the **filtergraph** parser gives meaning to across the graph:</span>
+<span class="c1">#: ``,`` chains, ``;`` separates, ``[]`` delimit pad labels, ``\\`` and ``'``</span>
+<span class="c1">#: do that parser's quoting.</span>
+<span class="n">GRAPH_LEVEL_SPECIALS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"</span><span class="se">\\</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"'"</span><span class="p">,</span> <span class="s2">","</span><span class="p">,</span> <span class="s2">";"</span><span class="p">,</span> <span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="FfmpegBackendError">
+<a class="viewcode-back" href="../../module_docs/looks/ffmpeg.html#looks.FfmpegBackendError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FfmpegBackendError</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A step that cannot be expressed as a filter fragment."""</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_backslash_escape</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">specials</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">specials</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span> <span class="o">+</span> <span class="n">char</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<div class="viewcode-block" id="escape_filter_value">
+<a class="viewcode-back" href="../../module_docs/looks/ffmpeg.html#looks.escape_filter_value">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">escape_filter_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""Escape a value for use as a filter option inside a filtergraph.</span>
+
+<span class="sd">    &gt;&gt;&gt; escape_filter_value("plain.cube")</span>
+<span class="sd">    'plain.cube'</span>
+
+<span class="sd">    A comma would end the filter and a colon would end the option, so both are</span>
+<span class="sd">    escaped twice — once for each parser that will read them:</span>
+
+<span class="sd">    &gt;&gt;&gt; escape_filter_value("id,with:comma.cube")</span>
+<span class="sd">    'id\\,with\\\\:comma.cube'</span>
+
+<span class="sd">    ``%`` is left alone, on purpose — neither parser treats it as special, so</span>
+<span class="sd">    escaping it only produced a backslash that was unescaped away again:</span>
+
+<span class="sd">    &gt;&gt;&gt; escape_filter_value("100%.cube")</span>
+<span class="sd">    '100%.cube'</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_backslash_escape</span><span class="p">(</span>
+        <span class="n">_backslash_escape</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">OPTION_LEVEL_SPECIALS</span><span class="p">),</span> <span class="n">GRAPH_LEVEL_SPECIALS</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="filter_string">
+<a class="viewcode-back" href="../../module_docs/looks/ffmpeg.html#looks.filter_string">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_string</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""One filter, with its options escaped.</span>
+
+<span class="sd">    &gt;&gt;&gt; filter_string("gblur", {"sigma": 2})</span>
+<span class="sd">    'gblur=sigma=2'</span>
+<span class="sd">    &gt;&gt;&gt; filter_string("null")</span>
+<span class="sd">    'null'</span>
+
+<span class="sd">    A path with a comma in it survives, which is the whole point:</span>
+
+<span class="sd">    &gt;&gt;&gt; filter_string("lut3d", {"file": "a,b.cube"})</span>
+<span class="sd">    'lut3d=file=a\\,b.cube'</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">escape_filter_value</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="s1">':'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">parts</span> <span class="k">else</span> <span class="n">name</span></div>
+
+
+
+<div class="viewcode-block" id="gated">
+<a class="viewcode-back" href="../../module_docs/looks/ffmpeg.html#looks.gated">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gated</span><span class="p">(</span><span class="n">fragment</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Span</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Restrict a fragment to a span, using ffmpeg's own timeline support.</span>
+
+<span class="sd">    &gt;&gt;&gt; gated("gblur=sigma=2", None)</span>
+<span class="sd">    'gblur=sigma=2'</span>
+<span class="sd">    &gt;&gt;&gt; gated("gblur=sigma=2", Span(1.0, 3.5))</span>
+<span class="sd">    "gblur=sigma=2:enable='between(t,1,3.5)'"</span>
+
+<span class="sd">    A fragment of several filters is gated **per filter**, because ``enable`` is</span>
+<span class="sd">    an option on a filter and not on a chain — writing it once at the end would</span>
+<span class="sd">    gate only the last one, silently:</span>
+
+<span class="sd">    &gt;&gt;&gt; gated("scale=2:2,crop=1:1", Span(0.0, 1.0))</span>
+<span class="sd">    "scale=2:2:enable='between(t,0,1)',crop=1:1:enable='between(t,0,1)'"</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">at</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">at</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># A Span open at BOTH ends bounds nothing, so it is not a gate. Emitting</span>
+        <span class="c1"># `enable=` for it would be a filter option that always evaluates true —</span>
+        <span class="c1"># noise in the string and a lie in a diff.</span>
+        <span class="k">return</span> <span class="n">fragment</span>
+    <span class="k">if</span> <span class="n">at</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"enable='lte(t,</span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">end</span><span class="p">)</span><span class="si">}</span><span class="s2">)'"</span>
+    <span class="k">elif</span> <span class="n">at</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"enable='gte(t,</span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">start</span><span class="p">)</span><span class="si">}</span><span class="s2">)'"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"enable='between(t,</span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">start</span><span class="p">)</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">end</span><span class="p">)</span><span class="si">}</span><span class="s2">)'"</span>
+    <span class="k">return</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">part</span><span class="si">}{</span><span class="s1">':'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">'='</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">part</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'='</span><span class="si">}{</span><span class="n">window</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">split_filters</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="split_filters">
+<a class="viewcode-back" href="../../module_docs/looks/ffmpeg.html#looks.split_filters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_filters</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""A chain into its filters, splitting on UNESCAPED commas only.</span>
+
+<span class="sd">    A comma inside a filter option is escaped — rule 21, and this package's own</span>
+<span class="sd">    :func:`escape_filter_value` produces it routinely. Splitting on every comma</span>
+<span class="sd">    cuts *inside* an expression: the shipped ``gamma`` effect compiles to</span>
+<span class="sd">    ``lutrgb=r=maxval*pow(val/maxval\,0.833333):...``, and the naive split</span>
+<span class="sd">    turned that into an unparseable chain the moment it was gated —</span>
+<span class="sd">    ``pow(val/maxval\:enable='between(t,1,2)',0.83)``.</span>
+
+<span class="sd">    &gt;&gt;&gt; split_filters("scale=2:2,crop=1:1")</span>
+<span class="sd">    ['scale=2:2', 'crop=1:1']</span>
+
+<span class="sd">    An escaped comma stays inside its filter:</span>
+
+<span class="sd">    &gt;&gt;&gt; split_filters(r"lutrgb=r=pow(val\,2),gblur=sigma=1") == [</span>
+<span class="sd">    ...     r"lutrgb=r=pow(val\,2)", "gblur=sigma=1"]</span>
+<span class="sd">    True</span>
+
+<span class="sd">    An escaped BACKSLASH does not escape the comma after it:</span>
+
+<span class="sd">    &gt;&gt;&gt; split_filters("a=x\\\\,b=y") == ["a=x\\\\", "b=y"]</span>
+<span class="sd">    True</span>
+<span class="sd">    """</span>
+    <span class="n">parts</span><span class="p">,</span> <span class="n">current</span><span class="p">,</span> <span class="n">backslashes</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">fragment</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">","</span> <span class="ow">and</span> <span class="n">backslashes</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
+            <span class="n">current</span><span class="p">,</span> <span class="n">backslashes</span> <span class="o">=</span> <span class="p">[],</span> <span class="mi">0</span>
+            <span class="k">continue</span>
+        <span class="n">backslashes</span> <span class="o">=</span> <span class="n">backslashes</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">current</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+    <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">parts</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_num</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"0"</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span> <span class="ow">or</span> <span class="s2">"0"</span>
+
+
+<div class="viewcode-block" id="vf">
+<a class="viewcode-back" href="../../module_docs/looks/ffmpeg.html#looks.vf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">vf</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">gate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A whole plan as one ``-vf`` fragment: input-index-free, splice-ready.</span>
+
+<span class="sd">    The seam every consumer asked for is one string — ``muvid`` splices it into</span>
+<span class="sd">    the filter chain ``_render_part`` already builds, and that only works if</span>
+<span class="sd">    nothing here names a stream.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FfmpegBackendError: If a step is not ffmpeg-backed, or is gated to a</span>
+<span class="sd">            span its filter cannot honour. The second is why</span>
+<span class="sd">            :attr:`~looks.spec.ImplRef.timeline` exists: ``zoompan`` and</span>
+<span class="sd">            ``elbg`` carry no timeline support, so an ``at`` on them would be</span>
+<span class="sd">            accepted by the string and ignored by the binary.</span>
+<span class="sd">    """</span>
+    <span class="n">fragments</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">backend</span> <span class="o">!=</span> <span class="s2">"ffmpeg"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"step </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2">) runs on "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">backend</span><span class="si">!r}</span><span class="s2">, which has no filter form. A plan "</span>
+                <span class="s2">"mixing backends is compiled per backend, never flattened."</span>
+            <span class="p">)</span>
+        <span class="n">fragment</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fragment</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">looks.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">PENDING</span>
+
+            <span class="k">if</span> <span class="n">PENDING</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"step </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2">) needs an artifact that has "</span>
+                    <span class="sa">f</span><span class="s2">"not been built: cube </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="n">PENDING</span><span class="p">][</span><span class="s1">'key'</span><span class="p">][:</span><span class="mi">12</span><span class="p">]</span><span class="si">}</span><span class="s2">…. "</span>
+                    <span class="s2">"Call looks.materialize(plan) first — compiling writes no "</span>
+                    <span class="s2">"files on purpose, so acquiring artifacts is its own step."</span>
+                <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"step </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2">) has no 'filter' in its payload"</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gate</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">timeline</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"step </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2">) is gated to </span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">at</span><span class="si">}</span><span class="s2">, but "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> has no timeline support — ffmpeg would "</span>
+                    <span class="s2">"accept the option and ignore it, which is a look that "</span>
+                    <span class="s2">"silently applies everywhere."</span>
+                <span class="p">)</span>
+            <span class="n">fragment</span> <span class="o">=</span> <span class="n">gated</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span><span class="p">)</span>
+        <span class="n">fragments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fragments</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------- the effects</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ffmpeg_terms</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Terms</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The static declaration. :func:`looks.compile.compile_look` replaces it</span>
+<span class="sd">    with the probed binary's, which is the one that decides a tier."""</span>
+    <span class="k">return</span> <span class="n">terms_for</span><span class="p">(</span><span class="s2">"ffmpeg"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_target_size</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"target"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+            <span class="s2">"a geometry effect needs a 'target' — a size like '1920x1080' or a "</span>
+            <span class="s2">"preset name like 'shorts'"</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">Size</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">target</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"x"</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">social_size</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_geometry</span><span class="p">(</span><span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compiler</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">_kw</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"the </span><span class="si">{</span><span class="n">mode</span><span class="si">!r}</span><span class="s2"> effect is derived from the source's size, so it "</span>
+                <span class="s2">"needs a ClipSpec. Pass clip= to compile_look()."</span>
+            <span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">_target_size</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">place</span> <span class="o">=</span> <span class="n">placement</span><span class="p">(</span><span class="n">Size</span><span class="p">(</span><span class="n">clip</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">clip</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">target</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+        <span class="c1"># `out_size` is a CONTRACT, not decoration: a pipe declares the frame</span>
+        <span class="c1"># size its consumer must read, and rawvideo has no header to correct a</span>
+        <span class="c1"># wrong guess. Any implementation that changes the frame's geometry has</span>
+        <span class="c1"># to say so here or the pipe's declared stride is a lie.</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"filter"</span><span class="p">:</span> <span class="n">ffmpeg_chain</span><span class="p">(</span><span class="n">place</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"null"</span><span class="p">,</span>
+            <span class="s2">"out_size"</span><span class="p">:</span> <span class="p">[</span><span class="n">target</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">height</span><span class="p">],</span>
+        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">compiler</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_simple</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">build</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compiler</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">_kw</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"filter"</span><span class="p">:</span> <span class="n">filter_string</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">build</span><span class="p">(</span><span class="n">params</span><span class="p">))}</span>
+
+    <span class="k">return</span> <span class="n">compiler</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_gamma_expression</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Gamma through `lutrgb`, because rule 13 forbids the offset alternative.</span>
+
+<span class="sd">    An additive brightness offset lifts the black floor and reads as haze; a</span>
+<span class="sd">    gamma curve keeps the endpoints. ``eq=gamma=`` would say this in one option</span>
+<span class="sd">    and is GPL-only, so the LGPL form composes the same curve as a lookup.</span>
+<span class="sd">    """</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"gamma"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">gamma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"gamma must be positive, got </span><span class="si">{</span><span class="n">gamma</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">curve</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"maxval*pow(val/maxval,</span><span class="si">{</span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">gamma</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">)"</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"r"</span><span class="p">:</span> <span class="n">curve</span><span class="p">,</span> <span class="s2">"g"</span><span class="p">:</span> <span class="n">curve</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">curve</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_posterize_expression</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Quantise through `lutrgb`, not `elbg`.</span>
+
+<span class="sd">    ``elbg`` is ffmpeg's own posterizer and is **non-deterministic**: measured</span>
+<span class="sd">    while building the flicker classifier, two runs of one command disagreed by</span>
+<span class="sd">    70-86/255. A look that differs from itself between renders is not a look.</span>
+<span class="sd">    """</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"levels"</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">levels</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"posterize needs at least 2 levels, got </span><span class="si">{</span><span class="n">levels</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"round(val*</span><span class="si">{</span><span class="n">levels</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/maxval)*maxval/</span><span class="si">{</span><span class="n">levels</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"r"</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span> <span class="s2">"g"</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">step</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_gradient_map_compiler</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">_kw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A ramp in, a cube REQUEST out — never a file.</span>
+
+<span class="sd">    `compile_look` writes nothing, so this emits the artifact's address and the</span>
+<span class="sd">    spec that reproduces it, and :func:`looks.cache.materialize` supplies the</span>
+<span class="sd">    file. That is what keeps a compiled plan portable: it can be hashed, stored</span>
+<span class="sd">    and sent to another machine, which then builds the same cube from the same</span>
+<span class="sd">    spec and gets the same bytes.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">PENDING</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.lut</span><span class="w"> </span><span class="kn">import</span> <span class="n">DFLT_CUBE_SIZE</span><span class="p">,</span> <span class="n">DFLT_CUBE_TITLE</span><span class="p">,</span> <span class="n">Ramp</span><span class="p">,</span> <span class="n">cube_key</span><span class="p">,</span> <span class="n">gradient_map</span>
+
+    <span class="n">stops</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stops"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stops</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+            <span class="s2">"the 'gradient_map' effect needs 'stops': [(L*, '#rrggbb'), ...] — "</span>
+            <span class="s2">"the ramp the look maps luminance onto"</span>
+        <span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"size"</span><span class="p">,</span> <span class="n">DFLT_CUBE_SIZE</span><span class="p">))</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"title"</span><span class="p">,</span> <span class="n">DFLT_CUBE_TITLE</span><span class="p">))</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">gradient_map</span><span class="p">(</span>
+        <span class="n">Ramp</span><span class="o">.</span><span class="n">from_hex</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stops</span><span class="p">]),</span>
+        <span class="n">contrast</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"contrast"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span>
+        <span class="n">lift</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"lift"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"stops"</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stops</span><span class="p">],</span>
+        <span class="s2">"size"</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s2">"contrast"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"contrast"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span>
+        <span class="s2">"lift"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"lift"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)),</span>
+        <span class="s2">"key"</span><span class="p">:</span> <span class="n">cube_key</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">),</span>
+        <span class="c1"># The template rather than the filter, because the path is not known</span>
+        <span class="c1"># until the artifact exists. `{file}` is filled in by materialize with</span>
+        <span class="c1"># an ESCAPED path — the flagship effect takes a caller-supplied</span>
+        <span class="c1"># directory, and a comma in it would otherwise end the filter.</span>
+        <span class="s2">"filter_template"</span><span class="p">:</span> <span class="s2">"lut3d=file=</span><span class="si">{file}</span><span class="s2">:interp="</span>
+        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"interp"</span><span class="p">,</span> <span class="s2">"tetrahedral"</span><span class="p">)),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">PENDING</span><span class="p">:</span> <span class="n">request</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="register_defaults">
+<a class="viewcode-back" href="../../module_docs/looks/ffmpeg.html#looks.register_defaults">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">register_defaults</span><span class="p">(</span><span class="n">registry</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EffectRegistry</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EffectRegistry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Register the built-in ffmpeg effects. Idempotent per registry.</span>
+
+<span class="sd">    Called once on ``import looks``. Pass your own registry to get an</span>
+<span class="sd">    independent set — the module-level default is the one</span>
+<span class="sd">    :func:`looks.compile.compile_look` uses.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; reg = register_defaults(EffectRegistry())</span>
+<span class="sd">        &gt;&gt;&gt; "saturation" in reg.effects() and "lut3d" in reg.effects()</span>
+<span class="sd">        True</span>
+
+<span class="sd">        Both ways to saturate are registered, and the LGPL one sorts first:</span>
+
+<span class="sd">        &gt;&gt;&gt; [i.impl for i in reg.implementations("saturation")]</span>
+<span class="sd">        ['saturation.ffmpeg.colorchannelmixer', 'saturation.ffmpeg.eq']</span>
+<span class="sd">    """</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">REGISTRY</span> <span class="k">if</span> <span class="n">registry</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">registry</span>
+    <span class="k">if</span> <span class="s2">"lut3d.ffmpeg.default"</span> <span class="ow">in</span> <span class="n">reg</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">reg</span>
+    <span class="n">terms</span> <span class="o">=</span> <span class="n">_ffmpeg_terms</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">compiler</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">preference</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">timeline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">()):</span>
+        <span class="n">effect</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">_variant</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+        <span class="n">reg</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+            <span class="n">ImplRef</span><span class="p">(</span>
+                <span class="n">effect</span><span class="o">=</span><span class="n">effect</span><span class="p">,</span>
+                <span class="n">impl</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+                <span class="n">terms</span><span class="o">=</span><span class="n">terms</span><span class="p">,</span>
+                <span class="n">requires_filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span>
+                <span class="n">preference</span><span class="o">=</span><span class="n">preference</span><span class="p">,</span>
+                <span class="n">timeline</span><span class="o">=</span><span class="n">timeline</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">compiler</span><span class="p">,</span>
+            <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># --- colour, LGPL first -------------------------------------------------</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"gradient_map.ffmpeg.lut3d"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"lut3d"</span><span class="p">,),</span>
+        <span class="n">_gradient_map_compiler</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"lut3d.ffmpeg.default"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"lut3d"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span>
+            <span class="s2">"lut3d"</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"file"</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">"cube"</span><span class="p">],</span> <span class="s2">"interp"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"interp"</span><span class="p">,</span> <span class="s2">"tetrahedral"</span><span class="p">)},</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"saturation.ffmpeg.colorchannelmixer"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"colorchannelmixer"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"colorchannelmixer"</span><span class="p">,</span> <span class="n">_saturation_matrix</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"saturation.ffmpeg.eq"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"eq"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"eq"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"saturation"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}),</span>
+        <span class="n">preference</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s2">"gpl-gated"</span><span class="p">,),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"contrast.ffmpeg.curves"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"curves"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"curves"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"all"</span><span class="p">:</span> <span class="n">_contrast_curve</span><span class="p">(</span><span class="n">p</span><span class="p">)}),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"contrast.ffmpeg.eq"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"eq"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"eq"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"contrast"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}),</span>
+        <span class="n">preference</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s2">"gpl-gated"</span><span class="p">,),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span><span class="s2">"gamma.ffmpeg.lutrgb"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,),</span> <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,</span> <span class="n">_gamma_expression</span><span class="p">))</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"levels.ffmpeg.colorlevels"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"colorlevels"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span>
+            <span class="s2">"colorlevels"</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"rimin"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"black"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s2">"gimin"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"black"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s2">"bimin"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"black"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="s2">"rimax"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="s2">"gimax"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="s2">"bimax"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"posterize.ffmpeg.lutrgb"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,),</span> <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,</span> <span class="n">_posterize_expression</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"flatten.ffmpeg.bilateral"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"bilateral"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span>
+            <span class="s2">"bilateral"</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"sigmaS"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"spatial"</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span>
+                <span class="s2">"sigmaR"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"range"</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span>
+                <span class="c1"># All three planes. bilateral's default is 1 — luma only — which</span>
+                <span class="c1"># smooths the detail and leaves behind the chroma noise the</span>
+                <span class="c1"># flatten was for.</span>
+                <span class="s2">"planes"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"planes"</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># --- spatial ------------------------------------------------------------</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"blur.ffmpeg.gblur"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"gblur"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"gblur"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"sigma"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sigma"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"blur.ffmpeg.boxblur"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"boxblur"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"boxblur"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"luma_radius"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"radius"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}),</span>
+        <span class="n">preference</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s2">"gpl-gated"</span><span class="p">,),</span>
+    <span class="p">)</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"sharpen.ffmpeg.unsharp"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"unsharp"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span>
+            <span class="s2">"unsharp"</span><span class="p">,</span>
+            <span class="c1"># `luma_amount`, not `amount`: unsharp has no such option and</span>
+            <span class="c1"># ffmpeg answers "Option not found" at configure time. Caught by</span>
+            <span class="c1"># the registry sweep, which is what that sweep is for.</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"luma_amount"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)},</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># --- geometry, wrapping looks.geometry ----------------------------------</span>
+    <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"fit"</span><span class="p">,</span> <span class="s2">"fill"</span><span class="p">,</span> <span class="s2">"stretch"</span><span class="p">):</span>
+        <span class="c1"># timeline=False: `scale` and `pad` have NO timeline support, and ffmpeg</span>
+        <span class="c1"># refuses the graph outright ("Timeline ('enable' option) not supported</span>
+        <span class="c1"># with filter 'scale'"). Declaring True defeated `vf()`'s own guard with</span>
+        <span class="c1"># its own registry data — the refusal existed and never fired, and the</span>
+        <span class="c1"># binary rejected the command instead. A gated geometry step is now</span>
+        <span class="c1"># refused at SELECTION, which is where a caller can act on it.</span>
+        <span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">.ffmpeg.scale"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"scale"</span><span class="p">,),</span> <span class="n">_geometry</span><span class="p">(</span><span class="n">mode</span><span class="p">),</span> <span class="n">timeline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># --- motion, wrapping looks.motion --------------------------------------</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"motion.ffmpeg.crop"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"crop"</span><span class="p">,</span> <span class="s2">"setpts"</span><span class="p">),</span>
+        <span class="n">_motion_compiler</span><span class="p">,</span>
+        <span class="n">timeline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">reg</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_saturation_matrix</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Saturation as a scaled luma-preserving matrix.</span>
+
+<span class="sd">    The LGPL answer to ``eq=saturation=``. Rec.709 luma coefficients, so a</span>
+<span class="sd">    fully desaturated result is the same grey the encoder would compute.</span>
+
+<span class="sd">    Note the recorded trap from `muvid`: ``colorchannelmixer`` is a silent</span>
+<span class="sd">    no-op on YUV, so a caller wanting it on YUV input must convert first.</span>
+<span class="sd">    """</span>
+    <span class="n">amount</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="n">lr</span><span class="p">,</span> <span class="n">lg</span><span class="p">,</span> <span class="n">lb</span> <span class="o">=</span> <span class="mf">0.2126</span><span class="p">,</span> <span class="mf">0.7152</span><span class="p">,</span> <span class="mf">0.0722</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">base</span><span class="p">,</span> <span class="n">weight</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">weight</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">base</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">weight</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span>  <span class="c1"># noqa: E731</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"rr"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lr</span><span class="p">),</span>
+        <span class="s2">"rg"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lg</span><span class="p">),</span>
+        <span class="s2">"rb"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lb</span><span class="p">),</span>
+        <span class="s2">"gr"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lr</span><span class="p">),</span>
+        <span class="s2">"gg"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lg</span><span class="p">),</span>
+        <span class="s2">"gb"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lb</span><span class="p">),</span>
+        <span class="s2">"br"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lr</span><span class="p">),</span>
+        <span class="s2">"bg"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lg</span><span class="p">),</span>
+        <span class="s2">"bb"</span><span class="p">:</span> <span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lb</span><span class="p">),</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_contrast_curve</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Contrast as a three-point curve pinned at both ends.</span>
+
+<span class="sd">    The LGPL answer to ``eq=contrast=``. Pivoting about mid-grey keeps black</span>
+<span class="sd">    black and white white, which is rule 13's point in a different filter.</span>
+<span class="sd">    """</span>
+    <span class="n">amount</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="n">mid</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mid</span> <span class="o">-</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">amount</span><span class="p">)</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">amount</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"0/0 </span><span class="si">{</span><span class="n">low</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">/0.25 </span><span class="si">{</span><span class="n">high</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">/0.75 1/1"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_motion_compiler</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">_kw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A camera path, via :mod:`looks.motion`.</span>
+
+<span class="sd">    The registry entry that makes RULE G's compile half reachable from a</span>
+<span class="sd">    ``Look``, so a camera move is a step in a plan like any other rather than a</span>
+<span class="sd">    separate call a caller has to remember to make.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Size</span> <span class="k">as</span> <span class="n">_Size</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.motion</span><span class="w"> </span><span class="kn">import</span> <span class="n">Keyframe</span><span class="p">,</span> <span class="n">Window</span><span class="p">,</span> <span class="n">compile_motion</span>
+
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"keyframes"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">frames</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FfmpegBackendError</span><span class="p">(</span>
+            <span class="s2">"the 'motion' effect needs 'keyframes': [(t, (x, y, w, h)), ...] in "</span>
+            <span class="s2">"burns' normalised convention"</span>
+        <span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Keyframe</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">Window</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">window</span><span class="p">)))</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">frames</span>
+    <span class="p">]</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_target_size</span><span class="p">({</span><span class="s2">"target"</span><span class="p">:</span> <span class="n">params</span><span class="p">[</span><span class="s2">"output"</span><span class="p">]})</span>
+    <span class="k">elif</span> <span class="n">clip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_Size</span><span class="p">(</span><span class="n">clip</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">clip</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+    <span class="n">fps</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fps"</span><span class="p">,</span> <span class="n">clip</span><span class="o">.</span><span class="n">fps</span> <span class="k">if</span> <span class="n">clip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"filter"</span><span class="p">:</span> <span class="n">compile_motion</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">)}</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">payload</span><span class="p">[</span><span class="s2">"out_size"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">height</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">payload</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

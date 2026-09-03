@@ -1,0 +1,4 @@
+looks.tests.test_pipe
+=====================
+.. automodule:: looks.tests.test_pipe
+   :members:

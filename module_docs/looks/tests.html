@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.tests &mdash; looks 0.0.7 documentation</title>
+  <title>looks.tests &mdash; looks 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -63,6 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipe.html">looks.pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="registry.html">looks.registry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spec.html">looks.spec</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">looks.tests</a></li>
@@ -80,6 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pipe.html">looks.tests.test_pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
@@ -109,8 +111,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="looks-tests">
-<h1>looks.tests<a class="headerlink" href="#looks-tests" title="Link to this heading"></a></h1>
+  <section id="module-looks.tests">
+<span id="looks-tests"></span><h1>looks.tests<a class="headerlink" href="#module-looks.tests" title="Link to this heading"></a></h1>
+<p>Tests for <a class="reference internal" href="../looks.html#module-looks" title="looks"><code class="xref py py-mod docutils literal notranslate"><span class="pre">looks</span></code></a>. They live inside the package because CI runs
+<code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">--doctest-modules</span> <span class="pre">looks</span></code> — a repo-root <code class="docutils literal notranslate"><span class="pre">tests/</span></code> is never collected.</p>
 </section>
 
 

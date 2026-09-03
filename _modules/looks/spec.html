@@ -1,0 +1,1656 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.spec &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.spec</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.spec</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""What a stylization *is*, before anything runs. Pure data, no I/O, no registry.</span>
+
+<span class="sd">Five types carry the design, and one small one carries the hard part.</span>
+
+<span class="sd">- :class:`Effect` — one named operation the caller **asks for**. It never says</span>
+<span class="sd">  which implementation will serve it, and **it carries no licence tier**.</span>
+<span class="sd">- :class:`Look` — an ordered stack of Effects plus a :class:`~looks.licence.Policy`.</span>
+<span class="sd">  The authoring artifact; the thing you persist, diff and ship.</span>
+<span class="sd">- :class:`ImplRef` — what an implementation **declares about itself**, including</span>
+<span class="sd">  its :class:`~looks.licence.Terms`. Not a tier: a tier is derived.</span>
+<span class="sd">- :class:`Step` and :class:`LookPlan` — the compiled form. A tier appears here</span>
+<span class="sd">  for the first time, **read** off the selected implementation against a</span>
+<span class="sd">  resolved environment.</span>
+<span class="sd">- :class:`Ref` — a parameter that cannot be known until the clip is measured.</span>
+
+<span class="sd">**The load-bearing decision: `Effect` has no tier field.** If a caller could</span>
+<span class="sd">write ``Effect(..., tier=PERMISSIVE)``, the refusal is theatre — the party who</span>
+<span class="sd">wants the answer to be yes would be asserting it. The tier belongs to the</span>
+<span class="sd">implementation and the environment, so it can only appear at compile time, which</span>
+<span class="sd">is also the only moment anything decides what will actually run.</span>
+
+<span class="sd">**A `Ref` is pure data, never a callable.** A callable would be evaluated during</span>
+<span class="sd">resolution, so the *plan* would stay serialisable — but the **Look** is the</span>
+<span class="sd">artifact, and a Look you cannot write to disk is a local variable, not an asset.</span>
+<span class="sd">It also destroys diffability (two Looks print ``&lt;function &lt;lambda&gt; at 0x...&gt;``)</span>
+<span class="sd">and any honest cache key.</span>
+
+<span class="sd">**The cost unit is CPU-seconds, not dollars**, with ``falaw``'s</span>
+<span class="sd">unknown-is-not-zero arithmetic transposed for its reasons: a sum must be total</span>
+<span class="sd">to compose, and a headline ratio a human acts on must not fabricate.</span>
+
+<span class="sd">Nothing here consults a registry, probes an environment, or opens a file. A Look</span>
+<span class="sd">authored against a newer plugin set must still load, print and diff in a process</span>
+<span class="sd">that lacks it — the discipline that lets an old build read a newer document.</span>
+
+<span class="sd">    &gt;&gt;&gt; look = Look(</span>
+<span class="sd">    ...     name="que_calor",</span>
+<span class="sd">    ...     steps=(</span>
+<span class="sd">    ...         Effect(name="flatten", params={"scale": Ref("flatten_scale")}),</span>
+<span class="sd">    ...         Effect(name="lut3d", params={"cube": "que_calor.cube"}),</span>
+<span class="sd">    ...         Effect(name="posterize", params={"levels": 18}),</span>
+<span class="sd">    ...     ),</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; look.is_resolved</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; resolve(look, {"flatten_scale": 0.75})[0].params["scale"]</span>
+<span class="sd">    0.75</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">replace</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProxyType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnvFingerprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">DFLT_POLICY</span><span class="p">,</span> <span class="n">Policy</span><span class="p">,</span> <span class="n">Terms</span><span class="p">,</span> <span class="n">Tier</span><span class="p">,</span> <span class="n">classify</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"EMPTY"</span><span class="p">,</span>
+    <span class="s2">"LOOK_SCHEMA"</span><span class="p">,</span>
+    <span class="s2">"LOOK_VERSION"</span><span class="p">,</span>
+    <span class="s2">"PLAN_SCHEMA"</span><span class="p">,</span>
+    <span class="s2">"PLAN_VERSION"</span><span class="p">,</span>
+    <span class="s2">"REF_MARKER"</span><span class="p">,</span>
+    <span class="s2">"ClipSpec"</span><span class="p">,</span>
+    <span class="s2">"Effect"</span><span class="p">,</span>
+    <span class="s2">"ImplRef"</span><span class="p">,</span>
+    <span class="s2">"Look"</span><span class="p">,</span>
+    <span class="s2">"LookPlan"</span><span class="p">,</span>
+    <span class="s2">"Ref"</span><span class="p">,</span>
+    <span class="s2">"SchemaError"</span><span class="p">,</span>
+    <span class="s2">"Span"</span><span class="p">,</span>
+    <span class="s2">"SpanUnsupported"</span><span class="p">,</span>
+    <span class="s2">"SpecError"</span><span class="p">,</span>
+    <span class="s2">"Step"</span><span class="p">,</span>
+    <span class="s2">"Target"</span><span class="p">,</span>
+    <span class="s2">"UnresolvedParameter"</span><span class="p">,</span>
+    <span class="s2">"look_from_dict"</span><span class="p">,</span>
+    <span class="s2">"look_hash"</span><span class="p">,</span>
+    <span class="s2">"look_to_dict"</span><span class="p">,</span>
+    <span class="s2">"output_key"</span><span class="p">,</span>
+    <span class="s2">"plan_from_dict"</span><span class="p">,</span>
+    <span class="s2">"plan_hash"</span><span class="p">,</span>
+    <span class="s2">"plan_to_dict"</span><span class="p">,</span>
+    <span class="s2">"resolve"</span><span class="p">,</span>
+    <span class="s2">"resolve_across"</span><span class="p">,</span>
+    <span class="s2">"select_impl"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1">#: Schema tags. Two kinds, two independent lifecycles — which is exactly why a</span>
+<span class="c1">#: future migration registry must be keyed on ``(kind, from_version)`` and never</span>
+<span class="c1">#: on ``(from, to)``. `an` paid for that with an#77: two kinds at the same</span>
+<span class="c1">#: version number, and the wrong migration silently running against the wrong</span>
+<span class="c1">#: document.</span>
+<span class="n">LOOK_SCHEMA</span> <span class="o">=</span> <span class="s2">"looks.look/v1"</span>
+<span class="n">LOOK_VERSION</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">PLAN_SCHEMA</span> <span class="o">=</span> <span class="s2">"looks.plan/v1"</span>
+<span class="n">PLAN_VERSION</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1">#: The reserved key that marks a deferred parameter in serialised form.</span>
+<span class="c1">#:</span>
+<span class="c1">#: Documented cost: a parameter whose legitimate value is a mapping containing</span>
+<span class="c1">#: this exact key is inexpressible. The decoder is strict about the shape, so</span>
+<span class="c1">#: the ambiguity raises rather than being hit silently.</span>
+<span class="n">REF_MARKER</span> <span class="o">=</span> <span class="s2">"$ref"</span>
+
+<span class="c1">#: An empty, immutable mapping — the default for every mapping field here.</span>
+<span class="c1">#:</span>
+<span class="c1">#: A shared frozen singleton rather than ``field(default_factory=dict)``:</span>
+<span class="c1">#: ``frozen=True`` prevents *rebinding* a field, not mutating the dict behind</span>
+<span class="c1">#: it, so a mutable default lets :func:`look_hash` change after a Look has been</span>
+<span class="c1">#: built, hashed and stored — and makes the objects unhashable despite the</span>
+<span class="c1">#: decorator generating ``__hash__``.</span>
+<span class="n">EMPTY</span><span class="p">:</span> <span class="s2">"Mapping[str, Any]"</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># set below, once FrozenMap exists</span>
+
+<span class="n">_NO_DEFAULT</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="SpecError">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.SpecError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpecError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A Look or a plan that cannot mean what it says."""</span></div>
+
+
+
+<div class="viewcode-block" id="UnresolvedParameter">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.UnresolvedParameter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnresolvedParameter</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A :class:`Ref` the probe did not answer, and which has no default.</span>
+
+<span class="sd">    Deliberately a refusal rather than a fallback. The measured lesson: one</span>
+<span class="sd">    global flattening scale made the softest of three sources softer still</span>
+<span class="sd">    (46 -&gt; 38, against 35 -&gt; 72 and 117 -&gt; 114), so it became the softest thing</span>
+<span class="sd">    on screen. A silent global fallback is exactly that mistake, re-armed.</span>
+<span class="sd">    """</span></div>
+
+
+
+<div class="viewcode-block" id="SpanUnsupported">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.SpanUnsupported">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpanUnsupported</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""An :attr:`Effect.at` given to an implementation that cannot be gated."""</span></div>
+
+
+
+<div class="viewcode-block" id="SchemaError">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.SchemaError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SchemaError</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A serialised document this build cannot read."""</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FrozenMap</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A read-only mapping that is frozen **all the way down**, and hashable.</span>
+
+<span class="sd">    Two defects it closes, both of which the old one-level</span>
+<span class="sd">    ``MappingProxyType(dict(...))`` had and both of which :data:`EMPTY`'s own</span>
+<span class="sd">    docstring already warned about:</span>
+
+<span class="sd">    - **Shallow freezing does not freeze.** A nested list or dict stayed aliased</span>
+<span class="sd">      to the caller's object, so mutating it after construction moved</span>
+<span class="sd">      :func:`look_hash` and :func:`plan_hash` for a supposedly frozen value.</span>
+<span class="sd">      Measured: a ``params={"stops": [[8.2, "#000"]]}`` whose inner list the</span>
+<span class="sd">      caller edited afterwards changed its Look's hash.</span>
+<span class="sd">    - **A proxy over a dict is unhashable**, so every frozen dataclass here</span>
+<span class="sd">      raised ``TypeError`` from the ``__hash__`` that ``frozen=True`` generated</span>
+<span class="sd">      — including ones carrying no mapping at all, because the *default* was one.</span>
+
+<span class="sd">    Nested dicts become :class:`FrozenMap`, sequences become tuples, and sets</span>
+<span class="sd">    become frozensets. Its ``repr`` is the underlying dict's, so a frozen</span>
+<span class="sd">    mapping reads as the data it holds.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; m = FrozenMap({"a": 1, "b": {"c": [1, 2]}})</span>
+<span class="sd">        &gt;&gt;&gt; m["b"]["c"]</span>
+<span class="sd">        (1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; isinstance(hash(m), int)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        The caller's object cannot reach in afterwards:</span>
+
+<span class="sd">        &gt;&gt;&gt; nested = {"stops": [[1.0, "#000"]]}</span>
+<span class="sd">        &gt;&gt;&gt; frozen = FrozenMap({"p": nested})</span>
+<span class="sd">        &gt;&gt;&gt; nested["stops"][0][0] = 99.9</span>
+<span class="sd">        &gt;&gt;&gt; frozen["p"]["stops"][0][0]</span>
+<span class="sd">        1.0</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">_frozen_value</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">data</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_frozen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">"this mapping is frozen: it is part of a value whose hash is its "</span>
+            <span class="s2">"identity, and mutating it would move that hash after the value "</span>
+            <span class="s2">"was built. Build a new one with dataclasses.replace()."</span>
+        <span class="p">)</span>
+
+    <span class="c1"># A `dict` subclass rather than a bare Mapping, deliberately: a plan is a</span>
+    <span class="c1"># DOCUMENT, and `json.dumps` must work on a payload without a caller having</span>
+    <span class="c1"># to know this type exists. Every mutating door is closed instead.</span>
+    <span class="fm">__setitem__</span> <span class="o">=</span> <span class="n">_frozen</span>
+    <span class="fm">__delitem__</span> <span class="o">=</span> <span class="n">_frozen</span>
+    <span class="n">clear</span> <span class="o">=</span> <span class="n">_frozen</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">_frozen</span>
+    <span class="n">popitem</span> <span class="o">=</span> <span class="n">_frozen</span>
+    <span class="n">update</span> <span class="o">=</span> <span class="n">_frozen</span>
+    <span class="n">setdefault</span> <span class="o">=</span> <span class="n">_frozen</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+
+<span class="n">EMPTY</span> <span class="o">=</span> <span class="n">FrozenMap</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_frozen_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One value, frozen as deeply as its type allows."""</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">FrozenMap</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FrozenMap</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_frozen_value</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">set</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">_frozen_value</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plain</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The inverse, for serialisation: frozen structures back to JSON types.</span>
+
+<span class="sd">    &gt;&gt;&gt; _plain(FrozenMap({"a": (1, 2)}))</span>
+<span class="sd">    {'a': [1, 2]}</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_plain</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_plain</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_plain</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_freeze</span><span class="p">(</span><span class="n">mapping</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""A read-only, deeply frozen copy — see :data:`EMPTY` for why.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; d = {"a": 1}</span>
+<span class="sd">        &gt;&gt;&gt; frozen = _freeze(d)</span>
+<span class="sd">        &gt;&gt;&gt; d["a"] = 2               # the caller's dict moves on</span>
+<span class="sd">        &gt;&gt;&gt; frozen["a"]              # ours does not</span>
+<span class="sd">        1</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">EMPTY</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">mapping</span> <span class="k">else</span> <span class="n">FrozenMap</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Target">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Target">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Target</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""What a Look's parameters resolve **against** — RULE N.</span>
+
+<span class="sd">    - :attr:`EXTERNAL` — a fixed target outside the material: a delivery</span>
+<span class="sd">      contract, a reference palette, a colour conform. One clip's probe answers</span>
+<span class="sd">      it, and :func:`resolve` serves it.</span>
+<span class="sd">    - :attr:`SET_RELATIVE` — the target *is the set's own distribution*. The</span>
+<span class="sd">      answer for one clip depends on every other clip, so only</span>
+<span class="sd">      :func:`resolve_across` can serve it and :func:`resolve` **raises**.</span>
+
+<span class="sd">    That refusal is the measured lesson as a type: normalising the OUTPUT across</span>
+<span class="sd">    sources is not a thing you can compute from one clip.</span>
+
+<span class="sd">    The field is ``target`` and **not** ``intent="style"|"grade"``: a colour</span>
+<span class="sd">    conform is a *normalisation* whose target is external and fixed, and under a</span>
+<span class="sd">    style/grade wording it would have to be mislabelled.</span>
+<span class="sd">    """</span>
+
+    <span class="n">EXTERNAL</span> <span class="o">=</span> <span class="s2">"external"</span>
+    <span class="n">SET_RELATIVE</span> <span class="o">=</span> <span class="s2">"set_relative"</span></div>
+
+
+
+<div class="viewcode-block" id="Span">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Span">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Span</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Seconds, relative to frame 0 **as the host's decoder will see it**.</span>
+
+<span class="sd">    Says *where a look applies*. It never says where a cut is — that is the</span>
+<span class="sd">    caller's, and the distinction is what keeps this package out of the EDL.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Span(1.0, 3.5).duration</span>
+<span class="sd">        2.5</span>
+<span class="sd">        &gt;&gt;&gt; Span(None, None).is_whole</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; Span(3.0, 1.0)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SpecError: a Span must not end before it starts: 3.0 -&gt; 1.0</span>
+<span class="sd">    """</span>
+
+    <span class="n">start</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">end</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"a Span must not end before it starts: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_whole</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether this span covers everything (both ends open)."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">duration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Length in seconds, or ``None`` when either end is open."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span></div>
+
+
+
+<div class="viewcode-block" id="ClipSpec">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.ClipSpec">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ClipSpec</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The clip a plan is compiled **against**. Not a file, not bytes.</span>
+
+<span class="sd">    The colour fields are not decoration; without them the plan's central</span>
+<span class="sd">    promise is false. Measured on an untagged full-range source against a</span>
+<span class="sd">    correctly-tagged reference, the max channel error is 27/255 fixing</span>
+<span class="sd">    **neither** range nor matrix, **19** fixing range only, **20** fixing matrix</span>
+<span class="sd">    only, and **2** fixing both. Two independent unknowns, and half a fix is</span>
+<span class="sd">    barely a fix — so two clips identical in geometry but differing in colour</span>
+<span class="sd">    produce visibly different pixels through the same LUT, and a</span>
+<span class="sd">    :func:`plan_hash` that omits them is lying.</span>
+
+<span class="sd">    ``sar`` is here because ``xfade`` silently tolerates a sample-aspect</span>
+<span class="sd">    mismatch and stamps its output 1:1 — the false-permission direction, in a</span>
+<span class="sd">    package built on refusal.</span>
+
+<span class="sd">    ``None`` means **not declared**, which is a third value and never a synonym</span>
+<span class="sd">    for a default.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; c = ClipSpec(width=1920, height=1080, fps=30.0)</span>
+<span class="sd">        &gt;&gt;&gt; c.color_range is None            # untagged is a THIRD value</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; c.aspect</span>
+<span class="sd">        1.7777777777777777</span>
+<span class="sd">        &gt;&gt;&gt; ClipSpec(width=0, height=1080, fps=30.0)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SpecError: a ClipSpec needs positive dimensions, got 0x1080</span>
+<span class="sd">    """</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">duration_s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pix_fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">color_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">color_space</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sar</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">#: The filter-timeline time of this part's frame 0, as the host's decoder</span>
+    <span class="c1">#: will see it. **`None` means undeclared, and undeclared is not 0.**</span>
+    <span class="c1">#:</span>
+    <span class="c1">#: Measured (rule 28): an INPUT-side ``-ss`` rebases the filter timeline to</span>
+    <span class="c1">#: 0, an OUTPUT-side one does not. So what a :class:`Span` of "4 s to 5 s"</span>
+    <span class="c1">#: selects is a property of *the host's seek style*, not of the clip — and</span>
+    <span class="c1">#: assuming 0 for a host that seeks on the output side puts the right look</span>
+    <span class="c1">#: on the wrong frames, with no error anywhere. `muvid` seeks input-side, so</span>
+    <span class="c1">#: 0 is correct for the first consumer and wrong in general, which is</span>
+    <span class="c1">#: exactly why it must be said rather than defaulted.</span>
+    <span class="n">origin_s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"a ClipSpec needs positive dimensions, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fps</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"a ClipSpec needs a positive fps, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aspect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Display aspect, honouring :attr:`sar` when it is declared."""</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sar</span><span class="p">:</span>
+            <span class="n">num</span><span class="p">,</span> <span class="n">den</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sar</span>
+            <span class="n">ratio</span> <span class="o">*=</span> <span class="n">num</span> <span class="o">/</span> <span class="n">den</span>
+        <span class="k">return</span> <span class="n">ratio</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">colour_is_declared</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether both colour unknowns are answered.</span>
+
+<span class="sd">        Read this before trusting a colour operation: half the tags is barely</span>
+<span class="sd">        better than none.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; ClipSpec(width=2, height=2, fps=1.0).colour_is_declared</span>
+<span class="sd">            False</span>
+<span class="sd">            &gt;&gt;&gt; ClipSpec(width=2, height=2, fps=1.0, color_range="limited",</span>
+<span class="sd">            ...          color_space="bt709").colour_is_declared</span>
+<span class="sd">            True</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">color_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">color_space</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="Ref">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Ref">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Ref</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A parameter that cannot be known until the clip is measured.</span>
+
+<span class="sd">    Serialised as ``{"$ref": "flatten_scale", "default": 0.5}``. Per-parameter</span>
+<span class="sd">    on purpose: a diff shows exactly which knobs are clip-dependent, and a Ref</span>
+<span class="sd">    with no default that the probe does not answer **raises**.</span>
+
+<span class="sd">    Rejected alternative — a per-clip ``variants`` table. It is JSON-native and</span>
+<span class="sd">    would work, but it cannot express the design's central rule (*this parameter</span>
+<span class="sd">    must be measured, and there is no global fallback*), because a missing entry</span>
+<span class="sd">    is either a ``KeyError`` or a silent fall-through to the base.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Ref("flatten_scale").has_default</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; Ref("flatten_scale", 0.5).has_default</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">default</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">_NO_DEFAULT</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span><span class="s2">"a Ref needs a non-empty key"</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">has_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether absence from the probe is tolerable."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">_NO_DEFAULT</span>
+
+<div class="viewcode-block" id="Ref.resolve">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Ref.resolve">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probe</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">where</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The value for this Ref, or raise.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; Ref("s", 0.5).resolve({})</span>
+<span class="sd">            0.5</span>
+<span class="sd">            &gt;&gt;&gt; Ref("s").resolve({}, where="flatten.scale")</span>
+<span class="sd">            Traceback (most recent call last):</span>
+<span class="sd">            ...</span>
+<span class="sd">            looks.spec.UnresolvedParameter: flatten.scale needs 's'...</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="n">probe</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">probe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_default</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span>
+        <span class="k">raise</span> <span class="n">UnresolvedParameter</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">'a parameter'</span><span class="si">}</span><span class="s2"> needs </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="si">!r}</span><span class="s2">, the probe does not "</span>
+            <span class="sa">f</span><span class="s2">"provide it, and it has no default. That is deliberate: a silent "</span>
+            <span class="sa">f</span><span class="s2">"global fallback is the mistake this type exists to prevent — one "</span>
+            <span class="sa">f</span><span class="s2">"global flattening scale made the softest of three sources softer "</span>
+            <span class="sa">f</span><span class="s2">"still. Measure it, or give the Ref a default you can defend."</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_refs_in</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Ref</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Every :class:`Ref` reachable inside a parameter value."""</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Ref</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">value</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">yield from</span> <span class="n">_refs_in</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">yield from</span> <span class="n">_refs_in</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">probe</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">where</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Ref</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">probe</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_resolve_value</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">probe</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_resolve_value</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">probe</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">_resolve_value</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">probe</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<div class="viewcode-block" id="Effect">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Effect">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Effect</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One named operation the caller asks for. Pure data; no tier, no impl.</span>
+
+<span class="sd">    :attr:`name` is the **capability** (``"flatten"``, ``"posterize"``), never an</span>
+<span class="sd">    implementation. :attr:`impl` and :attr:`backend` pin *which* answer serves</span>
+<span class="sd">    it — and neither bypasses the ceiling: a pinned implementation above the</span>
+<span class="sd">    policy is still refused, because a pin says which one you want, not that you</span>
+<span class="sd">    may have it.</span>
+
+<span class="sd">    :attr:`metadata` is identity-free labelling and never enters</span>
+<span class="sd">    :func:`look_hash`.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; e = Effect(name="posterize", params={"levels": 18})</span>
+<span class="sd">        &gt;&gt;&gt; e.name, e.params["levels"]</span>
+<span class="sd">        ('posterize', 18)</span>
+<span class="sd">        &gt;&gt;&gt; e.is_resolved</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; Effect(name="flatten", params={"scale": Ref("s")}).is_resolved</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; Effect(name="")</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SpecError: an Effect needs a capability name</span>
+<span class="sd">    """</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+    <span class="n">at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Span</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">impl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span><span class="s2">"an Effect needs a capability name"</span><span class="p">)</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Ref</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Every deferred parameter, in no particular order."""</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">r</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">_refs_in</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_resolved</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether every parameter is concrete."""</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refs</span>
+
+<div class="viewcode-block" id="Effect.resolved">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Effect.resolved">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolved</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probe</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">"Effect"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A copy with every :class:`Ref` replaced, or raise."""</span>
+        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">_resolve_value</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">probe</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">},</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stricter_policy</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Policy</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Policy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Policy</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The stricter of two policies, per field.</span>
+
+<span class="sd">    A guarantee that composition can silently relax is not a guarantee, so</span>
+<span class="sd">    ``+`` never widens: the lower ceiling wins, and only restrictions **both**</span>
+<span class="sd">    sides accepted survive.</span>
+<span class="sd">    """</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">order</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">max_tier</span> <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">max_tier</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">order</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">max_tier</span><span class="p">)</span> <span class="k">else</span> <span class="n">b</span><span class="o">.</span><span class="n">max_tier</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">replace</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">,</span>
+        <span class="n">max_tier</span><span class="o">=</span><span class="n">lower</span><span class="p">,</span>
+        <span class="n">allow_field_restricted</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">allow_field_restricted</span><span class="p">)</span>
+        <span class="o">&amp;</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">allow_field_restricted</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stricter_target</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Target</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Target</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Target</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""``SET_RELATIVE`` wins: it demands the more capable resolver."""</span>
+    <span class="k">return</span> <span class="n">Target</span><span class="o">.</span><span class="n">SET_RELATIVE</span> <span class="k">if</span> <span class="n">Target</span><span class="o">.</span><span class="n">SET_RELATIVE</span> <span class="ow">in</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">else</span> <span class="n">Target</span><span class="o">.</span><span class="n">EXTERNAL</span>
+
+
+<div class="viewcode-block" id="Look">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Look">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Look</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""An ordered stack of Effects plus a policy. The artifact you ship.</span>
+
+<span class="sd">    ``a + b`` concatenates the steps and takes the **stricter** of the two</span>
+<span class="sd">    policies, never the looser — a guarantee composition can silently relax is</span>
+<span class="sd">    not a guarantee. Widening is always a separate deliberate act</span>
+<span class="sd">    (:meth:`with_policy`).</span>
+
+<span class="sd">    :attr:`policy` is **not** part of :func:`look_hash`: a ceiling changes what</span>
+<span class="sd">    a Look is *allowed* to compile to, never what it asks for.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import Policy, Tier</span>
+<span class="sd">        &gt;&gt;&gt; safe = Look(name="grade", steps=(Effect(name="gamma"),),</span>
+<span class="sd">        ...             policy=Policy(max_tier=Tier.PERMISSIVE))</span>
+<span class="sd">        &gt;&gt;&gt; lab = Look(steps=(Effect(name="flatten"),))</span>
+<span class="sd">        &gt;&gt;&gt; (safe + lab).policy.max_tier          # the STRICTER survives</span>
+<span class="sd">        &lt;Tier.PERMISSIVE: 'permissive'&gt;</span>
+<span class="sd">        &gt;&gt;&gt; len((safe + lab).steps)</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; (safe + lab).with_policy(lab.policy).policy.max_tier</span>
+<span class="sd">        &lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;</span>
+<span class="sd">    """</span>
+
+    <span class="n">steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Effect</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span> <span class="o">=</span> <span class="n">DFLT_POLICY</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Target</span> <span class="o">=</span> <span class="n">Target</span><span class="o">.</span><span class="n">EXTERNAL</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">LOOK_VERSION</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Look"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Look"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Look</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">steps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">steps</span><span class="p">,</span>
+            <span class="n">policy</span><span class="o">=</span><span class="n">_stricter_policy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">policy</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">policy</span><span class="p">),</span>
+            <span class="n">target</span><span class="o">=</span><span class="n">_stricter_target</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Effect</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Ref</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Every deferred parameter across every step."""</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">r</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">refs</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_resolved</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether the whole Look is concrete."""</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refs</span>
+
+<div class="viewcode-block" id="Look.with_policy">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Look.with_policy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Look"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""A copy under a different ceiling — the deliberate widening act."""</span>
+        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="resolve">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.resolve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="n">look</span><span class="p">:</span> <span class="n">Look</span><span class="p">,</span> <span class="n">probe</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">EMPTY</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Look</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Replace every :class:`Ref` from one clip's ``probe``.</span>
+
+<span class="sd">    The **identity** on a Look holding no Refs, so a caller who already has</span>
+<span class="sd">    numbers never meets this function.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        SpecError: The Look is ``SET_RELATIVE`` — RULE N. Its target is the</span>
+<span class="sd">            set's own distribution, which one clip cannot supply.</span>
+<span class="sd">        UnresolvedParameter: A Ref with no default that ``probe`` does not</span>
+<span class="sd">            answer.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; look = Look(steps=(Effect(name="flatten", params={"scale": Ref("s")}),))</span>
+<span class="sd">        &gt;&gt;&gt; resolve(look, {"s": 0.75})[0].params["scale"]</span>
+<span class="sd">        0.75</span>
+<span class="sd">        &gt;&gt;&gt; resolve(Look(steps=(Effect(name="lut3d"),)))     # identity</span>
+<span class="sd">        Look(steps=(Effect(name='lut3d', ...),), ...)</span>
+
+<span class="sd">        A set-relative Look refuses the single-clip resolver:</span>
+
+<span class="sd">        &gt;&gt;&gt; resolve(Look(target=Target.SET_RELATIVE), {})</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SpecError: this Look is SET_RELATIVE...</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">look</span><span class="o">.</span><span class="n">target</span> <span class="ow">is</span> <span class="n">Target</span><span class="o">.</span><span class="n">SET_RELATIVE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+            <span class="s2">"this Look is SET_RELATIVE: its target is the set's own "</span>
+            <span class="s2">"distribution, so one clip's probe cannot answer it. Use "</span>
+            <span class="s2">"resolve_across(look, probes). Normalising the OUTPUT across "</span>
+            <span class="s2">"sources is the measured rule, and it is not computable from one "</span>
+            <span class="s2">"clip."</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">look</span><span class="o">.</span><span class="n">is_resolved</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">look</span>
+    <span class="k">return</span> <span class="n">replace</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">resolved</span><span class="p">(</span><span class="n">probe</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">look</span><span class="o">.</span><span class="n">steps</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="resolve_across">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.resolve_across">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_across</span><span class="p">(</span><span class="n">look</span><span class="p">:</span> <span class="n">Look</span><span class="p">,</span> <span class="n">probes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Look</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""One resolved Look per probe — N in, N out.</span>
+
+<span class="sd">    The resolver for a target that is the set's own distribution. This function</span>
+<span class="sd">    does **not** compute the cross-clip answer: it applies per-clip probes a</span>
+<span class="sd">    caller has already solved for, because choosing them requires running the</span>
+<span class="sd">    effect, and running things is not this package's job. See</span>
+<span class="sd">    :mod:`looks.measure` for the measurement half.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; look = Look(target=Target.SET_RELATIVE,</span>
+<span class="sd">        ...             steps=(Effect(name="flatten", params={"scale": Ref("s")}),))</span>
+<span class="sd">        &gt;&gt;&gt; got = resolve_across(look, [{"s": 0.5}, {"s": 0.5}, {"s": 0.75}])</span>
+<span class="sd">        &gt;&gt;&gt; [lk[0].params["scale"] for lk in got]</span>
+<span class="sd">        [0.5, 0.5, 0.75]</span>
+
+<span class="sd">        Each result is EXTERNAL: the set-relative question has been answered,</span>
+<span class="sd">        and re-resolving would ask it again against a different set.</span>
+
+<span class="sd">        &gt;&gt;&gt; got[0].target</span>
+<span class="sd">        &lt;Target.EXTERNAL: 'external'&gt;</span>
+<span class="sd">        &gt;&gt;&gt; resolve_across(look, [])</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SpecError: resolve_across needs at least one probe...</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">probes</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+            <span class="s2">"resolve_across needs at least one probe; an empty set has no "</span>
+            <span class="s2">"distribution to normalise against"</span>
+        <span class="p">)</span>
+    <span class="n">plain</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">Target</span><span class="o">.</span><span class="n">EXTERNAL</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">plain</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">probes</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ImplRef">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.ImplRef">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImplRef</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""What an implementation declares about itself — **terms, never a tier**.</span>
+
+<span class="sd">    A tier is a position on a policy ladder; terms are what was observed. An</span>
+<span class="sd">    implementation that could declare its own tier could declare itself</span>
+<span class="sd">    acceptable, which is the same failure as an ``Effect`` carrying one.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        effect: The capability served.</span>
+<span class="sd">        impl: ``"&lt;effect&gt;.&lt;backend&gt;.&lt;variant&gt;"``, globally unique.</span>
+<span class="sd">        backend: ``"ffmpeg"`` | ``"frame"`` | ``"external"``.</span>
+<span class="sd">        terms: What it is. See :class:`looks.licence.Terms`.</span>
+<span class="sd">        requires_filters: ffmpeg filters this implementation emits.</span>
+<span class="sd">        impl_version: A behaviour lock, not a receipt — "same interface,</span>
+<span class="sd">            changed behaviour" bumps it, and it enters :func:`plan_hash`</span>
+<span class="sd">            **unconditionally**.</span>
+<span class="sd">        timeline: Whether it can be gated to an :attr:`Effect.at`.</span>
+<span class="sd">        preference: Explicit tiebreak within one tier; lower wins.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import terms_for</span>
+<span class="sd">        &gt;&gt;&gt; impl = ImplRef(effect="lut3d", impl="lut3d.ffmpeg.default",</span>
+<span class="sd">        ...                backend="ffmpeg", terms=terms_for("ffmpeg")[0],</span>
+<span class="sd">        ...                requires_filters=("lut3d",))</span>
+<span class="sd">        &gt;&gt;&gt; impl.impl_version</span>
+<span class="sd">        '1'</span>
+<span class="sd">        &gt;&gt;&gt; impl.timeline</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+
+    <span class="n">effect</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">impl</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">terms</span><span class="p">:</span> <span class="n">Terms</span>
+    <span class="n">requires_filters</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">impl_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"1"</span>
+    <span class="n">timeline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">preference</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">impl</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span><span class="s2">"an ImplRef needs both an effect and an impl key"</span><span class="p">)</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"requires_filters"</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requires_filters</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tier</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""The rung its terms project onto, or ``None`` when off the ladder.</span>
+
+<span class="sd">        Derived on read, never stored — so it cannot drift from the terms.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">classify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">terms</span><span class="p">)</span><span class="o">.</span><span class="n">tier</span></div>
+
+
+
+<div class="viewcode-block" id="select_impl">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.select_impl">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_impl</span><span class="p">(</span>
+    <span class="n">effect</span><span class="p">:</span> <span class="n">Effect</span><span class="p">,</span>
+    <span class="n">candidates</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ImplRef</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span> <span class="o">=</span> <span class="n">DFLT_POLICY</span><span class="p">,</span>
+    <span class="n">available_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImplRef</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Choose an implementation for ``effect``, or raise saying why not.</span>
+
+<span class="sd">    In order: honour an explicit ``impl`` or ``backend`` pin, drop anything the</span>
+<span class="sd">    environment cannot run, drop anything the policy refuses, drop anything that</span>
+<span class="sd">    cannot be gated when the effect has a span, then take the lowest tier and</span>
+<span class="sd">    break ties on :attr:`ImplRef.preference`.</span>
+
+<span class="sd">    **A pin narrows, it never permits.** A pinned implementation the policy</span>
+<span class="sd">    refuses is still refused — otherwise the pin is a way to assert a tier,</span>
+<span class="sd">    which is the thing :class:`Effect` deliberately cannot do.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        SpecError: Nothing survived, with the reason.</span>
+<span class="sd">        SpanUnsupported: Every survivor refuses a span the effect carries.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import terms_for, Policy, Tier</span>
+<span class="sd">        &gt;&gt;&gt; ff = terms_for("ffmpeg")[0]</span>
+<span class="sd">        &gt;&gt;&gt; cands = [ImplRef(effect="blur", impl="blur.ffmpeg.gblur",</span>
+<span class="sd">        ...                  backend="ffmpeg", terms=ff, requires_filters=("gblur",))]</span>
+<span class="sd">        &gt;&gt;&gt; select_impl(Effect(name="blur"), cands).impl</span>
+<span class="sd">        'blur.ffmpeg.gblur'</span>
+
+<span class="sd">        A filter this build lacks removes the candidate:</span>
+
+<span class="sd">        &gt;&gt;&gt; select_impl(Effect(name="blur"), cands,</span>
+<span class="sd">        ...             available_filters=frozenset({"scale"}))</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SpecError: no implementation of 'blur' survived...</span>
+<span class="sd">    """</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"no implementation is registered for </span><span class="si">{</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">; "</span>
+            <span class="sa">f</span><span class="s2">"candidates offered: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">({</span><span class="n">c</span><span class="o">.</span><span class="n">effect</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">candidates</span><span class="p">})</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+    <span class="n">why</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">effect</span><span class="o">.</span><span class="n">impl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pool</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">impl</span> <span class="o">==</span> <span class="n">effect</span><span class="o">.</span><span class="n">impl</span><span class="p">]</span>
+        <span class="n">why</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"pinned impl=</span><span class="si">{</span><span class="n">effect</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">effect</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pool</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="n">effect</span><span class="o">.</span><span class="n">backend</span><span class="p">]</span>
+        <span class="n">why</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"pinned backend=</span><span class="si">{</span><span class="n">effect</span><span class="o">.</span><span class="n">backend</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">available_filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pool</span> <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">requires_filters</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="n">available_filters</span><span class="p">)]</span>
+        <span class="n">why</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"filters this build has"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">effect</span><span class="o">.</span><span class="n">at</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gated</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pool</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">timeline</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">pool</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">gated</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SpanUnsupported</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> carries a span (</span><span class="si">{</span><span class="n">effect</span><span class="o">.</span><span class="n">at</span><span class="si">}</span><span class="s2">), and no surviving "</span>
+                <span class="sa">f</span><span class="s2">"implementation can be gated to one. Apply it to the whole clip, "</span>
+                <span class="sa">f</span><span class="s2">"or split the clip where the caller already knows the boundary."</span>
+            <span class="p">)</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">gated</span>
+        <span class="n">why</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"timeline-gateable"</span><span class="p">)</span>
+
+    <span class="n">admitted</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pool</span> <span class="k">if</span> <span class="n">_admits</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span> <span class="n">c</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">admitted</span><span class="p">:</span>
+        <span class="n">detail</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" after </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">why</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">why</span> <span class="k">else</span> <span class="s2">""</span>
+        <span class="n">blocked</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">impl</span><span class="si">}</span><span class="s2"> (tier </span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">tier</span><span class="o">.</span><span class="n">value</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">tier</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'off-ladder'</span><span class="si">}</span><span class="s2">)"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pool</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"no implementation of </span><span class="si">{</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> survived</span><span class="si">{</span><span class="n">detail</span><span class="si">}</span><span class="s2"> under a "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">policy</span><span class="o">.</span><span class="n">max_tier</span><span class="o">.</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> ceiling."</span>
+            <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">" Refused: </span><span class="si">{</span><span class="n">blocked</span><span class="si">}</span><span class="s2">."</span> <span class="k">if</span> <span class="n">blocked</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">" Raise the ceiling deliberately with look.with_policy(...), pick "</span>
+            <span class="s2">"another effect, or install an implementation that clears it."</span>
+        <span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">order</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span>
+        <span class="n">admitted</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="p">(</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">tier</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">tier</span> <span class="ow">in</span> <span class="n">order</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">preference</span><span class="p">,</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">impl</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_admits</span><span class="p">(</span><span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span><span class="p">,</span> <span class="n">impl</span><span class="p">:</span> <span class="n">ImplRef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Whether ``policy`` allows ``impl``, delegating the judgement to `licence`.</span>
+
+<span class="sd">    Never re-derives the rule. The one place a tier is compared to a ceiling is</span>
+<span class="sd">    :func:`looks.licence.check`, so a second comparison here could drift from it</span>
+<span class="sd">    — and drift in a refusal engine means either a false refusal or a false</span>
+<span class="sd">    permission.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">LooksLicenceError</span><span class="p">,</span> <span class="n">check</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">check</span><span class="p">(</span><span class="n">classify</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">terms</span><span class="p">),</span> <span class="n">policy</span><span class="p">,</span> <span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">LooksLicenceError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<div class="viewcode-block" id="Step">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.Step">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Step</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One compiled operation. A tier appears here, read and not asserted.</span>
+
+<span class="sd">    :attr:`payload` is backend-shaped and the asymmetry is deliberate: an</span>
+<span class="sd">    ``ffmpeg`` payload is fully inspectable (read a stored plan and see the</span>
+<span class="sd">    exact filtergraph), while ``frame`` and ``external`` payloads are only</span>
+<span class="sd">    *nameable*.</span>
+
+<span class="sd">    **A payload names a registry key, never a ``module:attr`` import path.** A</span>
+<span class="sd">    plan is a document, documents arrive from places, and a document that can</span>
+<span class="sd">    name ``os:system`` is a remote-code-execution primitive wearing a schema</span>
+<span class="sd">    tag.</span>
+
+<span class="sd">    :attr:`cpu_seconds` is ``None`` for unknown, **never zero**.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import terms_for</span>
+<span class="sd">        &gt;&gt;&gt; impl = ImplRef(effect="lut3d", impl="lut3d.ffmpeg.default",</span>
+<span class="sd">        ...                backend="ffmpeg", terms=terms_for("ffmpeg")[0])</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import Tier</span>
+<span class="sd">        &gt;&gt;&gt; s = Step(effect="lut3d", impl=impl, tier=Tier.WEAK_COPYLEFT,</span>
+<span class="sd">        ...          payload={"filter": "lut3d=look.cube"})</span>
+<span class="sd">        &gt;&gt;&gt; s.payload["filter"]</span>
+<span class="sd">        'lut3d=look.cube'</span>
+<span class="sd">        &gt;&gt;&gt; s.cpu_seconds is None            # unknown, not free</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+
+    <span class="n">effect</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">impl</span><span class="p">:</span> <span class="n">ImplRef</span>
+    <span class="n">tier</span><span class="p">:</span> <span class="n">Tier</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+    <span class="n">at</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Span</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">payload</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+    <span class="n">cpu_seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">leftover</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">_refs_in</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">leftover</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnresolvedParameter</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"step </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2"> still holds unresolved parameters "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">key</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">leftover</span><span class="p">]</span><span class="si">}</span><span class="s2">; a compiled Step is concrete by "</span>
+                <span class="sa">f</span><span class="s2">"definition. Call resolve() before compiling."</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"cpu_seconds must be non-negative or None, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cpu_seconds</span><span class="si">!r}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"payload"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload</span><span class="p">))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="LookPlan">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.LookPlan">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LookPlan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The compiled pipeline: what will run, against which clip and which binary.</span>
+
+<span class="sd">    The **env fingerprint belongs here and not on the Look**. A ``Look`` is</span>
+<span class="sd">    portable data; a ``LookPlan`` is compiled against one binary whose filter</span>
+<span class="sd">    set and licence are part of what determines the pixels — so it says which</span>
+<span class="sd">    one, and that enters :func:`plan_hash`. Folding the environment in does not</span>
+<span class="sd">    break portability, because the portable artifact is the Look.</span>
+
+<span class="sd">    **The plan holds no live callables.** A plan with a closure in it cannot be</span>
+<span class="sd">    serialised, diffed or hashed, which is the entire reason this shape was</span>
+<span class="sd">    adopted. The callable is resolved from the registry at execution time, by</span>
+<span class="sd">    the runner.</span>
+
+<span class="sd">    Deliberately not modelled: peak memory and streaming shape. Those are the</span>
+<span class="sd">    executor's invariant, and a plan claiming to predict them is an invitation</span>
+<span class="sd">    to write the ``looks.render()`` this package is chartered to stay out of.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; plan = LookPlan()</span>
+<span class="sd">        &gt;&gt;&gt; plan.total_cpu_seconds</span>
+<span class="sd">        0.0</span>
+<span class="sd">        &gt;&gt;&gt; plan.has_unknown_costs</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; plan.realtime_factor is None     # no clip to divide by</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+
+    <span class="n">steps</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Step</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">clip</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClipSpec</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EnvFingerprint</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">look_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">policy</span><span class="p">:</span> <span class="n">Policy</span> <span class="o">=</span> <span class="n">DFLT_POLICY</span>
+    <span class="n">probe</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">FrozenMap</span><span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">PLAN_VERSION</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"steps"</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"probe"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probe</span><span class="p">))</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Step</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_cpu_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Sum with unknown coerced to ``0.0`` — a documented **lower bound**.</span>
+
+<span class="sd">        Total so sums compose. Read it beside :attr:`unknown_step_count`, never</span>
+<span class="sd">        alone: the true cost is this *plus an unknown amount* spread over that</span>
+<span class="sd">        many steps.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">((</span><span class="n">s</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">known_cpu_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The priced part only — the honest half of the pair."""</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+            <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unknown_step_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""How many steps carry no cost at all."""</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">has_unknown_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Whether anything is unpriced. A gate reads this, not the sum."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_step_count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">realtime_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""CPU-seconds per second of output, or ``None`` when anything is unknown.</span>
+
+<span class="sd">        The asymmetry against :attr:`total_cpu_seconds` is deliberate: a sum</span>
+<span class="sd">        must be total to compose, but a headline ratio a human acts on must not</span>
+<span class="sd">        fabricate. Returning ``0.0`` for "we did not know" is reelee#208's</span>
+<span class="sd">        failure mode, where a ``$0.00``-because-unknown read as "under the</span>
+<span class="sd">        threshold, spend freely".</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_unknown_costs</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">duration_s</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_cpu_seconds</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">duration_s</span></div>
+
+
+
+<span class="c1"># --- serialisation ----------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_param_to_json</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Ref</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{</span><span class="n">REF_MARKER</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">key</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">has_default</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="s2">"default"</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">default</span>
+        <span class="k">return</span> <span class="n">out</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">REF_MARKER</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"a parameter value may not contain the reserved key "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">REF_MARKER</span><span class="si">!r}</span><span class="s2">; it would be indistinguishable from a Ref"</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_param_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_param_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_param_from_json</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="n">REF_MARKER</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="n">REF_MARKER</span><span class="p">,</span> <span class="s2">"default"</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"a $ref carries unexpected keys: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">extra</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">Ref</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="n">REF_MARKER</span><span class="p">],</span> <span class="n">value</span><span class="p">[</span><span class="s2">"default"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">"default"</span> <span class="ow">in</span> <span class="n">value</span>
+            <span class="k">else</span> <span class="n">Ref</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="n">REF_MARKER</span><span class="p">])</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_param_from_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_param_from_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_span_to_json</span><span class="p">(</span><span class="n">span</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Span</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">span</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{</span><span class="s2">"start"</span><span class="p">:</span> <span class="n">span</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="s2">"end"</span><span class="p">:</span> <span class="n">span</span><span class="o">.</span><span class="n">end</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_span_from_json</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Span</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Span</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"start"</span><span class="p">),</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"end"</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="look_to_dict">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.look_to_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">look_to_dict</span><span class="p">(</span><span class="n">look</span><span class="p">:</span> <span class="n">Look</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A JSON-able form of a Look, carrying its schema tag.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; d = look_to_dict(Look(name="x", steps=(Effect(name="lut3d"),)))</span>
+<span class="sd">        &gt;&gt;&gt; d["schema"], d["name"]</span>
+<span class="sd">        ('looks.look/v1', 'x')</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"schema"</span><span class="p">:</span> <span class="n">LOOK_SCHEMA</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="n">look</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="n">look</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">"target"</span><span class="p">:</span> <span class="n">look</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="s2">"policy"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"max_tier"</span><span class="p">:</span> <span class="n">look</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">max_tier</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">"allow_field_restricted"</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">look</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">allow_field_restricted</span>
+            <span class="p">),</span>
+        <span class="p">},</span>
+        <span class="s2">"steps"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_param_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+                <span class="s2">"at"</span><span class="p">:</span> <span class="n">_span_to_json</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">at</span><span class="p">),</span>
+                <span class="s2">"impl"</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">impl</span><span class="p">,</span>
+                <span class="s2">"backend"</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
+                <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">metadata</span><span class="p">),</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">look</span><span class="o">.</span><span class="n">steps</span>
+        <span class="p">],</span>
+        <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">look</span><span class="o">.</span><span class="n">metadata</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="look_from_dict">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.look_from_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">look_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Look</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Rebuild a Look. An unrecognised tag is refused; a missing one is v1.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; look = Look(name="x", steps=(Effect(name="lut3d", params={"a": Ref("r")}),))</span>
+<span class="sd">        &gt;&gt;&gt; back = look_from_dict(look_to_dict(look))</span>
+<span class="sd">        &gt;&gt;&gt; back.steps[0].params["a"]</span>
+<span class="sd">        Ref(key='r', default=&lt;object object at ...&gt;)</span>
+<span class="sd">        &gt;&gt;&gt; look_from_dict({"schema": "looks.look/v9"})</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SchemaError: this build reads 'looks.look/v1'...</span>
+<span class="sd">    """</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"schema"</span><span class="p">,</span> <span class="n">LOOK_SCHEMA</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="n">LOOK_SCHEMA</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"this build reads </span><span class="si">{</span><span class="n">LOOK_SCHEMA</span><span class="si">!r}</span><span class="s2">; the document says </span><span class="si">{</span><span class="n">tag</span><span class="si">!r}</span><span class="s2">. "</span>
+            <span class="sa">f</span><span class="s2">"A newer document needs a newer looks, and refusing loudly beats "</span>
+            <span class="sa">f</span><span class="s2">"reading half of it."</span>
+        <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">FieldOfUse</span>
+
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"policy"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">policy</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">replace</span><span class="p">(</span>
+            <span class="n">DFLT_POLICY</span><span class="p">,</span>
+            <span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="p">(</span><span class="n">pol</span><span class="p">[</span><span class="s2">"max_tier"</span><span class="p">]),</span>
+            <span class="n">allow_field_restricted</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">(</span>
+                <span class="n">FieldOfUse</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pol</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"allow_field_restricted"</span><span class="p">,</span> <span class="p">())</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">pol</span>
+        <span class="k">else</span> <span class="n">DFLT_POLICY</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">Look</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"version"</span><span class="p">,</span> <span class="n">LOOK_VERSION</span><span class="p">),</span>
+        <span class="n">target</span><span class="o">=</span><span class="n">Target</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"target"</span><span class="p">,</span> <span class="n">Target</span><span class="o">.</span><span class="n">EXTERNAL</span><span class="o">.</span><span class="n">value</span><span class="p">)),</span>
+        <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">EMPTY</span><span class="p">,</span>
+        <span class="n">steps</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">Effect</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+                    <span class="n">k</span><span class="p">:</span> <span class="n">_param_from_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"params"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">},</span>
+                <span class="n">at</span><span class="o">=</span><span class="n">_span_from_json</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"at"</span><span class="p">)),</span>
+                <span class="n">impl</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"impl"</span><span class="p">),</span>
+                <span class="n">backend</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"backend"</span><span class="p">),</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">EMPTY</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"steps"</span><span class="p">,</span> <span class="p">())</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="plan_from_dict">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.plan_from_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plan_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">impls</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ImplRef</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">LookPlan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Rebuild a plan, given the implementations its steps name.</span>
+
+<span class="sd">    **``impls`` is required, and a step naming one that is absent raises.** A</span>
+<span class="sd">    serialised step carries its implementation's *key*, not its</span>
+<span class="sd">    :class:`~looks.licence.Terms` — and reconstructing an ``ImplRef`` from a key</span>
+<span class="sd">    alone would mean inventing the terms, which is inventing a licence verdict.</span>
+<span class="sd">    In a package whose thesis is that unknown refuses, a plan that rehydrates</span>
+<span class="sd">    into a confident tier nobody observed is the worst possible artifact.</span>
+
+<span class="sd">    So the caller supplies the registry it trusts, and a plan built against</span>
+<span class="sd">    implementations this process does not have is a refusal rather than a guess.</span>
+<span class="sd">    That is also what makes a stored plan safe to receive from elsewhere: it</span>
+<span class="sd">    cannot name its way into a capability the receiving process did not already</span>
+<span class="sd">    install.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        SchemaError: An unrecognised schema tag, or a step naming an</span>
+<span class="sd">            implementation ``impls`` does not carry.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import terms_for, Tier</span>
+<span class="sd">        &gt;&gt;&gt; impl = ImplRef(effect="lut3d", impl="lut3d.ffmpeg.default",</span>
+<span class="sd">        ...                backend="ffmpeg", terms=terms_for("ffmpeg")[0])</span>
+<span class="sd">        &gt;&gt;&gt; plan = LookPlan(steps=(Step(effect="lut3d", impl=impl,</span>
+<span class="sd">        ...                             tier=Tier.WEAK_COPYLEFT,</span>
+<span class="sd">        ...                             payload={"filter": "lut3d=x.cube"}),))</span>
+<span class="sd">        &gt;&gt;&gt; back = plan_from_dict(plan_to_dict(plan), impls={impl.impl: impl})</span>
+<span class="sd">        &gt;&gt;&gt; plan_hash(back) == plan_hash(plan)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        A plan naming an implementation this process lacks is refused, not</span>
+<span class="sd">        approximated:</span>
+
+<span class="sd">        &gt;&gt;&gt; plan_from_dict(plan_to_dict(plan), impls={})</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SchemaError: this plan names implementations this process</span>
+<span class="sd">        does not have: ['lut3d.ffmpeg.default']...</span>
+<span class="sd">    """</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"schema"</span><span class="p">,</span> <span class="n">PLAN_SCHEMA</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="n">PLAN_SCHEMA</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"this build reads </span><span class="si">{</span><span class="n">PLAN_SCHEMA</span><span class="si">!r}</span><span class="s2">; the document says </span><span class="si">{</span><span class="n">tag</span><span class="si">!r}</span><span class="s2">."</span>
+        <span class="p">)</span>
+    <span class="n">steps_raw</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"steps"</span><span class="p">,</span> <span class="p">()))</span>
+    <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">s</span><span class="p">[</span><span class="s2">"impl"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">steps_raw</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="s2">"impl"</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">impls</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"this plan names implementations this process does not have: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">unknown</span><span class="si">}</span><span class="s2">. They are not reconstructible from the document, "</span>
+            <span class="sa">f</span><span class="s2">"because a step carries an implementation's KEY and not its terms "</span>
+            <span class="sa">f</span><span class="s2">"— and inventing the terms would invent a licence verdict. Install "</span>
+            <span class="sa">f</span><span class="s2">"them, or pass the registry that has them."</span>
+        <span class="p">)</span>
+    <span class="n">policy_raw</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"policy"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">policy_raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">DFLT_POLICY</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">FieldOfUse</span>
+
+        <span class="n">policy</span> <span class="o">=</span> <span class="n">Policy</span><span class="p">(</span>
+            <span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="p">(</span><span class="n">policy_raw</span><span class="p">[</span><span class="s2">"max_tier"</span><span class="p">]),</span>
+            <span class="n">allow_field_restricted</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">(</span>
+                <span class="n">FieldOfUse</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">policy_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"allow_field_restricted"</span><span class="p">,</span> <span class="p">())</span>
+            <span class="p">),</span>
+            <span class="n">order</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">Tier</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">policy_raw</span><span class="p">[</span><span class="s2">"order"</span><span class="p">]),</span>
+        <span class="p">)</span>
+    <span class="n">clip_raw</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"clip"</span><span class="p">)</span>
+    <span class="n">clip</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">clip_raw</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="n">ClipSpec</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">clip_raw</span><span class="p">[</span><span class="s2">"width"</span><span class="p">],</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">clip_raw</span><span class="p">[</span><span class="s2">"height"</span><span class="p">],</span>
+            <span class="n">fps</span><span class="o">=</span><span class="n">clip_raw</span><span class="p">[</span><span class="s2">"fps"</span><span class="p">],</span>
+            <span class="n">duration_s</span><span class="o">=</span><span class="n">clip_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"duration_s"</span><span class="p">),</span>
+            <span class="n">pix_fmt</span><span class="o">=</span><span class="n">clip_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pix_fmt"</span><span class="p">),</span>
+            <span class="n">color_range</span><span class="o">=</span><span class="n">clip_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"color_range"</span><span class="p">),</span>
+            <span class="n">color_space</span><span class="o">=</span><span class="n">clip_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"color_space"</span><span class="p">),</span>
+            <span class="n">sar</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">clip_raw</span><span class="p">[</span><span class="s2">"sar"</span><span class="p">])</span> <span class="k">if</span> <span class="n">clip_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sar"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">origin_s</span><span class="o">=</span><span class="n">clip_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"origin_s"</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">env_raw</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"env"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">LookPlan</span><span class="p">(</span>
+        <span class="n">version</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"version"</span><span class="p">,</span> <span class="n">PLAN_VERSION</span><span class="p">),</span>
+        <span class="n">look_name</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"look_name"</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
+        <span class="n">policy</span><span class="o">=</span><span class="n">policy</span><span class="p">,</span>
+        <span class="n">clip</span><span class="o">=</span><span class="n">clip</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">env_raw</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">EnvFingerprint</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">env_raw</span><span class="p">),</span>
+        <span class="n">probe</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"probe"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">EMPTY</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">EMPTY</span><span class="p">,</span>
+        <span class="n">steps</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">Step</span><span class="p">(</span>
+                <span class="n">effect</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="s2">"effect"</span><span class="p">],</span>
+                <span class="n">impl</span><span class="o">=</span><span class="n">impls</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="s2">"impl"</span><span class="p">]],</span>
+                <span class="n">tier</span><span class="o">=</span><span class="n">Tier</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"tier"</span><span class="p">]),</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+                    <span class="n">k</span><span class="p">:</span> <span class="n">_param_from_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"params"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">},</span>
+                <span class="n">at</span><span class="o">=</span><span class="n">_span_from_json</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"at"</span><span class="p">)),</span>
+                <span class="n">payload</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"payload"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">EMPTY</span><span class="p">,</span>
+                <span class="n">cpu_seconds</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cpu_seconds"</span><span class="p">),</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">EMPTY</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">steps_raw</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_canonical_blob</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Sorted-key JSON, no ``default=str`` fallback, no NaN.</span>
+
+<span class="sd">    ``falaw.canonical``'s rule for its reason: a value the form cannot represent</span>
+<span class="sd">    faithfully must **raise** rather than collide with something else's</span>
+<span class="sd">    ``repr``.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+        <span class="n">payload</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span> <span class="s2">":"</span><span class="p">),</span> <span class="n">allow_nan</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="look_hash">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.look_hash">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">look_hash</span><span class="p">(</span><span class="n">look</span><span class="p">:</span> <span class="n">Look</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Structural identity of the authored **intent**.</span>
+
+<span class="sd">    Registry-independent, environment-independent, **policy-independent**.</span>
+<span class="sd">    ``metadata`` is excluded (labelling, not identity) and so is ``policy``: a</span>
+<span class="sd">    ceiling changes what a Look may compile to, never what it asks for.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import Policy, Tier</span>
+<span class="sd">        &gt;&gt;&gt; a = Look(name="x", steps=(Effect(name="gamma", params={"g": 1.1}),))</span>
+<span class="sd">        &gt;&gt;&gt; look_hash(a) == look_hash(replace(a, name="y"))       # name IS identity</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; look_hash(a) == look_hash(replace(a, metadata={"who": "thor"}))</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; look_hash(a) == look_hash(a.with_policy(Policy(max_tier=Tier.PURE)))</span>
+<span class="sd">        True</span>
+<span class="sd">    """</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"schema"</span><span class="p">:</span> <span class="n">LOOK_SCHEMA</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="n">look</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s2">"target"</span><span class="p">:</span> <span class="n">look</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="s2">"steps"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_param_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">())},</span>
+                <span class="s2">"at"</span><span class="p">:</span> <span class="n">_span_to_json</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">at</span><span class="p">),</span>
+                <span class="s2">"impl"</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">impl</span><span class="p">,</span>
+                <span class="s2">"backend"</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">look</span><span class="o">.</span><span class="n">steps</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">_canonical_blob</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="plan_to_dict">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.plan_to_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plan_to_dict</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A JSON-able form of a plan, carrying its schema tag."""</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"schema"</span><span class="p">:</span> <span class="n">PLAN_SCHEMA</span><span class="p">,</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+        <span class="s2">"look_name"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">look_name</span><span class="p">,</span>
+        <span class="s2">"clip"</span><span class="p">:</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="s2">"width"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="s2">"height"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
+            <span class="s2">"fps"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">fps</span><span class="p">,</span>
+            <span class="s2">"duration_s"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">duration_s</span><span class="p">,</span>
+            <span class="s2">"pix_fmt"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">pix_fmt</span><span class="p">,</span>
+            <span class="s2">"color_range"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">color_range</span><span class="p">,</span>
+            <span class="s2">"color_space"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">color_space</span><span class="p">,</span>
+            <span class="s2">"sar"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">sar</span><span class="p">)</span> <span class="k">if</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">sar</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"origin_s"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span><span class="o">.</span><span class="n">origin_s</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="c1"># The CEILING the plan was compiled under. Without it a stored plan</span>
+        <span class="c1"># rehydrates at the shipped default, so `audit()` — whose documented</span>
+        <span class="c1"># default is "the plan's own" — returns a different verdict for the</span>
+        <span class="c1"># same document before and after a round trip, in BOTH directions.</span>
+        <span class="c1"># Deliberately absent from `plan_hash`: a ceiling changes what a plan</span>
+        <span class="c1"># may do, never what pixels it makes.</span>
+        <span class="s2">"policy"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"max_tier"</span><span class="p">:</span> <span class="n">plan</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">max_tier</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">"allow_field_restricted"</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">allow_field_restricted</span>
+            <span class="p">),</span>
+            <span class="s2">"order"</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">order</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="s2">"env"</span><span class="p">:</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">plan</span><span class="o">.</span><span class="n">env</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">plan</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="s2">"steps"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"effect"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">effect</span><span class="p">,</span>
+                <span class="s2">"impl"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">,</span>
+                <span class="s2">"impl_version"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl_version</span><span class="p">,</span>
+                <span class="s2">"backend"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
+                <span class="s2">"tier"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tier</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_param_to_json</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+                <span class="s2">"at"</span><span class="p">:</span> <span class="n">_span_to_json</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">at</span><span class="p">),</span>
+                <span class="s2">"payload"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">payload</span><span class="p">),</span>
+                <span class="s2">"cpu_seconds"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">cpu_seconds</span><span class="p">,</span>
+                <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">metadata</span><span class="p">),</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span>
+        <span class="p">],</span>
+        <span class="s2">"probe"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">probe</span><span class="p">),</span>
+        <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">metadata</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="plan_hash">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.plan_hash">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plan_hash</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Identity of the compiled pipeline — *will this produce the same pixels?*</span>
+
+<span class="sd">    Folds, per step: the implementation key **and its version**, the resolved</span>
+<span class="sd">    parameters, the span and the compiled payload; plus the clip's geometry</span>
+<span class="sd">    **and its colour state**, and the environment fingerprint.</span>
+
+<span class="sd">    ``impl_version`` folds in **unconditionally**. ``nw`` and ``falaw`` omit</span>
+<span class="sd">    theirs when it equals its default; that is a *migration device* protecting</span>
+<span class="sd">    an installed base of cache keys, and `looks` has no installed base. Do not</span>
+<span class="sd">    copy the sentinel.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; plan_hash(LookPlan()) == plan_hash(LookPlan())</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; a = LookPlan(clip=ClipSpec(width=2, height=2, fps=1.0))</span>
+<span class="sd">        &gt;&gt;&gt; b = LookPlan(clip=ClipSpec(width=2, height=2, fps=1.0,</span>
+<span class="sd">        ...                            color_range="full"))</span>
+<span class="sd">        &gt;&gt;&gt; plan_hash(a) == plan_hash(b)      # colour state is identity</span>
+<span class="sd">        False</span>
+<span class="sd">    """</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">plan_to_dict</span><span class="p">(</span><span class="n">plan</span><span class="p">)</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"schema"</span><span class="p">:</span> <span class="n">PLAN_SCHEMA</span><span class="p">,</span>
+        <span class="s2">"clip"</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">"clip"</span><span class="p">],</span>
+        <span class="s2">"env"</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">"env"</span><span class="p">],</span>
+        <span class="s2">"steps"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"effect"</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">"effect"</span><span class="p">],</span>
+                <span class="s2">"impl"</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">"impl"</span><span class="p">],</span>
+                <span class="s2">"impl_version"</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">"impl_version"</span><span class="p">],</span>
+                <span class="s2">"params"</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">"params"</span><span class="p">],</span>
+                <span class="s2">"at"</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">"at"</span><span class="p">],</span>
+                <span class="s2">"payload"</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="s2">"payload"</span><span class="p">],</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s2">"steps"</span><span class="p">]</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">_canonical_blob</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="output_key">
+<a class="viewcode-back" href="../../module_docs/looks/spec.html#looks.output_key">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">output_key</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">,</span> <span class="n">source_digest</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The content-addressed key of what this plan makes from these bytes.</span>
+
+<span class="sd">    ``source_digest`` is a digest of the source's **content**, never its path or</span>
+<span class="sd">    its URL. That signature is `falaw`'s D1 defect stated as a type: keying on</span>
+<span class="sd">    upstream *URLs* made a byte-identical regeneration miss the cache.</span>
+
+<span class="sd">    `looks` computes the formula and **refuses to open the file**, because</span>
+<span class="sd">    reading bytes is execution.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; k = output_key(LookPlan(), "a" * 64)</span>
+<span class="sd">        &gt;&gt;&gt; len(k)</span>
+<span class="sd">        64</span>
+<span class="sd">        &gt;&gt;&gt; k == output_key(LookPlan(), "b" * 64)</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; output_key(LookPlan(), "/path/to/clip.mp4")</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.spec.SpecError: source_digest must be a content digest...</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="s2">"/"</span> <span class="ow">in</span> <span class="n">source_digest</span> <span class="ow">or</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span> <span class="ow">in</span> <span class="n">source_digest</span> <span class="ow">or</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">source_digest</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"source_digest must be a content digest, not a path: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">source_digest</span><span class="si">!r}</span><span class="s2">. Keying on a path rather than on bytes is how a "</span>
+            <span class="sa">f</span><span class="s2">"byte-identical regeneration misses its own cache entry."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span>
+        <span class="n">_canonical_blob</span><span class="p">({</span><span class="s2">"plan"</span><span class="p">:</span> <span class="n">plan_hash</span><span class="p">(</span><span class="n">plan</span><span class="p">),</span> <span class="s2">"source"</span><span class="p">:</span> <span class="n">source_digest</span><span class="p">})</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

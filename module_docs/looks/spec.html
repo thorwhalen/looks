@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.spec &mdash; looks 0.0.7 documentation</title>
+  <title>looks.spec &mdash; looks 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -63,8 +63,78 @@
 <li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipe.html">looks.pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="registry.html">looks.registry</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.spec</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.spec</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.ClipSpec"><code class="docutils literal notranslate"><span class="pre">ClipSpec</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ClipSpec.aspect"><code class="docutils literal notranslate"><span class="pre">ClipSpec.aspect</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ClipSpec.colour_is_declared"><code class="docutils literal notranslate"><span class="pre">ClipSpec.colour_is_declared</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ClipSpec.origin_s"><code class="docutils literal notranslate"><span class="pre">ClipSpec.origin_s</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.EMPTY"><code class="docutils literal notranslate"><span class="pre">EMPTY</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Effect"><code class="docutils literal notranslate"><span class="pre">Effect</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Effect.is_resolved"><code class="docutils literal notranslate"><span class="pre">Effect.is_resolved</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Effect.refs"><code class="docutils literal notranslate"><span class="pre">Effect.refs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Effect.resolved"><code class="docutils literal notranslate"><span class="pre">Effect.resolved()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.ImplRef"><code class="docutils literal notranslate"><span class="pre">ImplRef</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.effect"><code class="docutils literal notranslate"><span class="pre">ImplRef.effect</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.impl"><code class="docutils literal notranslate"><span class="pre">ImplRef.impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.backend"><code class="docutils literal notranslate"><span class="pre">ImplRef.backend</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.terms"><code class="docutils literal notranslate"><span class="pre">ImplRef.terms</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.requires_filters"><code class="docutils literal notranslate"><span class="pre">ImplRef.requires_filters</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.impl_version"><code class="docutils literal notranslate"><span class="pre">ImplRef.impl_version</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.timeline"><code class="docutils literal notranslate"><span class="pre">ImplRef.timeline</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.preference"><code class="docutils literal notranslate"><span class="pre">ImplRef.preference</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.tier"><code class="docutils literal notranslate"><span class="pre">ImplRef.tier</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.LOOK_SCHEMA"><code class="docutils literal notranslate"><span class="pre">LOOK_SCHEMA</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Look"><code class="docutils literal notranslate"><span class="pre">Look</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Look.is_resolved"><code class="docutils literal notranslate"><span class="pre">Look.is_resolved</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Look.refs"><code class="docutils literal notranslate"><span class="pre">Look.refs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Look.with_policy"><code class="docutils literal notranslate"><span class="pre">Look.with_policy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.LookPlan"><code class="docutils literal notranslate"><span class="pre">LookPlan</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.has_unknown_costs"><code class="docutils literal notranslate"><span class="pre">LookPlan.has_unknown_costs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.known_cpu_seconds"><code class="docutils literal notranslate"><span class="pre">LookPlan.known_cpu_seconds</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.realtime_factor"><code class="docutils literal notranslate"><span class="pre">LookPlan.realtime_factor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.total_cpu_seconds"><code class="docutils literal notranslate"><span class="pre">LookPlan.total_cpu_seconds</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.unknown_step_count"><code class="docutils literal notranslate"><span class="pre">LookPlan.unknown_step_count</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.REF_MARKER"><code class="docutils literal notranslate"><span class="pre">REF_MARKER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Ref"><code class="docutils literal notranslate"><span class="pre">Ref</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Ref.has_default"><code class="docutils literal notranslate"><span class="pre">Ref.has_default</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Ref.resolve"><code class="docutils literal notranslate"><span class="pre">Ref.resolve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.SchemaError"><code class="docutils literal notranslate"><span class="pre">SchemaError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Span"><code class="docutils literal notranslate"><span class="pre">Span</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Span.duration"><code class="docutils literal notranslate"><span class="pre">Span.duration</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Span.is_whole"><code class="docutils literal notranslate"><span class="pre">Span.is_whole</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.SpanUnsupported"><code class="docutils literal notranslate"><span class="pre">SpanUnsupported</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.SpecError"><code class="docutils literal notranslate"><span class="pre">SpecError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Step"><code class="docutils literal notranslate"><span class="pre">Step</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.UnresolvedParameter"><code class="docutils literal notranslate"><span class="pre">UnresolvedParameter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.look_from_dict"><code class="docutils literal notranslate"><span class="pre">look_from_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.look_hash"><code class="docutils literal notranslate"><span class="pre">look_hash()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.look_to_dict"><code class="docutils literal notranslate"><span class="pre">look_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.output_key"><code class="docutils literal notranslate"><span class="pre">output_key()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.plan_from_dict"><code class="docutils literal notranslate"><span class="pre">plan_from_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.plan_hash"><code class="docutils literal notranslate"><span class="pre">plan_hash()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.plan_to_dict"><code class="docutils literal notranslate"><span class="pre">plan_to_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.resolve"><code class="docutils literal notranslate"><span class="pre">resolve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.resolve_across"><code class="docutils literal notranslate"><span class="pre">resolve_across()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.select_impl"><code class="docutils literal notranslate"><span class="pre">select_impl()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/_pyproject.html">looks.tests._pyproject</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_cache.html">looks.tests.test_cache</a></li>
@@ -80,6 +150,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pipe.html">looks.tests.test_pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
@@ -109,8 +180,812 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="looks-spec">
-<h1>looks.spec<a class="headerlink" href="#looks-spec" title="Link to this heading"></a></h1>
+  <section id="module-looks.spec">
+<span id="looks-spec"></span><h1>looks.spec<a class="headerlink" href="#module-looks.spec" title="Link to this heading"></a></h1>
+<p>What a stylization <em>is</em>, before anything runs. Pure data, no I/O, no registry.</p>
+<p>Five types carry the design, and one small one carries the hard part.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#looks.spec.Effect" title="looks.spec.Effect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Effect</span></code></a> — one named operation the caller <strong>asks for</strong>. It never says
+which implementation will serve it, and <strong>it carries no licence tier</strong>.</p></li>
+<li><p><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><code class="xref py py-class docutils literal notranslate"><span class="pre">Look</span></code></a> — an ordered stack of Effects plus a <a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Policy</span></code></a>.
+The authoring artifact; the thing you persist, diff and ship.</p></li>
+<li><p><a class="reference internal" href="#looks.spec.ImplRef" title="looks.spec.ImplRef"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImplRef</span></code></a> — what an implementation <strong>declares about itself</strong>, including
+its <a class="reference internal" href="licence.html#looks.licence.Terms" title="looks.licence.Terms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Terms</span></code></a>. Not a tier: a tier is derived.</p></li>
+<li><p><a class="reference internal" href="#looks.spec.Step" title="looks.spec.Step"><code class="xref py py-class docutils literal notranslate"><span class="pre">Step</span></code></a> and <a class="reference internal" href="#looks.spec.LookPlan" title="looks.spec.LookPlan"><code class="xref py py-class docutils literal notranslate"><span class="pre">LookPlan</span></code></a> — the compiled form. A tier appears here
+for the first time, <strong>read</strong> off the selected implementation against a
+resolved environment.</p></li>
+<li><p><a class="reference internal" href="#looks.spec.Ref" title="looks.spec.Ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ref</span></code></a> — a parameter that cannot be known until the clip is measured.</p></li>
+</ul>
+<p><strong>The load-bearing decision: `Effect` has no tier field.</strong> If a caller could
+write <code class="docutils literal notranslate"><span class="pre">Effect(...,</span> <span class="pre">tier=PERMISSIVE)</span></code>, the refusal is theatre — the party who
+wants the answer to be yes would be asserting it. The tier belongs to the
+implementation and the environment, so it can only appear at compile time, which
+is also the only moment anything decides what will actually run.</p>
+<p><strong>A `Ref` is pure data, never a callable.</strong> A callable would be evaluated during
+resolution, so the <em>plan</em> would stay serialisable — but the <strong>Look</strong> is the
+artifact, and a Look you cannot write to disk is a local variable, not an asset.
+It also destroys diffability (two Looks print <code class="docutils literal notranslate"><span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;</span> <span class="pre">at</span> <span class="pre">0x...&gt;</span></code>)
+and any honest cache key.</p>
+<p><strong>The cost unit is CPU-seconds, not dollars</strong>, with <code class="docutils literal notranslate"><span class="pre">falaw</span></code>’s
+unknown-is-not-zero arithmetic transposed for its reasons: a sum must be total
+to compose, and a headline ratio a human acts on must not fabricate.</p>
+<p>Nothing here consults a registry, probes an environment, or opens a file. A Look
+authored against a newer plugin set must still load, print and diff in a process
+that lacks it — the discipline that lets an old build read a newer document.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">look</span> <span class="o">=</span> <span class="n">Look</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">"que_calor"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">steps</span><span class="o">=</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"flatten"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"scale"</span><span class="p">:</span> <span class="n">Ref</span><span class="p">(</span><span class="s2">"flatten_scale"</span><span class="p">)}),</span>
+<span class="gp">... </span>        <span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"cube"</span><span class="p">:</span> <span class="s2">"que_calor.cube"</span><span class="p">}),</span>
+<span class="gp">... </span>        <span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"posterize"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"levels"</span><span class="p">:</span> <span class="mi">18</span><span class="p">}),</span>
+<span class="gp">... </span>    <span class="p">),</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">look</span><span class="o">.</span><span class="n">is_resolved</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="p">{</span><span class="s2">"flatten_scale"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale"</span><span class="p">]</span>
+<span class="go">0.75</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.ClipSpec">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">ClipSpec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pix_fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#ClipSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.ClipSpec" title="Link to this definition"></a></dt>
+<dd><p>The clip a plan is compiled <strong>against</strong>. Not a file, not bytes.</p>
+<p>The colour fields are not decoration; without them the plan’s central
+promise is false. Measured on an untagged full-range source against a
+correctly-tagged reference, the max channel error is 27/255 fixing
+<strong>neither</strong> range nor matrix, <strong>19</strong> fixing range only, <strong>20</strong> fixing matrix
+only, and <strong>2</strong> fixing both. Two independent unknowns, and half a fix is
+barely a fix — so two clips identical in geometry but differing in colour
+produce visibly different pixels through the same LUT, and a
+<a class="reference internal" href="#looks.spec.plan_hash" title="looks.spec.plan_hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">plan_hash()</span></code></a> that omits them is lying.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sar</span></code> is here because <code class="docutils literal notranslate"><span class="pre">xfade</span></code> silently tolerates a sample-aspect
+mismatch and stamps its output 1:1 — the false-permission direction, in a
+package built on refusal.</p>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> means <strong>not declared</strong>, which is a third value and never a synonym
+for a default.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">ClipSpec</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1920</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">color_range</span> <span class="ow">is</span> <span class="kc">None</span>            <span class="c1"># untagged is a THIRD value</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">aspect</span>
+<span class="go">1.7777777777777777</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ClipSpec</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SpecError</span>: <span class="n">a ClipSpec needs positive dimensions, got 0x1080</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.ClipSpec.aspect">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">aspect</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#looks.spec.ClipSpec.aspect" title="Link to this definition"></a></dt>
+<dd><p>Display aspect, honouring <code class="xref py py-attr docutils literal notranslate"><span class="pre">sar</span></code> when it is declared.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.ClipSpec.colour_is_declared">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">colour_is_declared</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.spec.ClipSpec.colour_is_declared" title="Link to this definition"></a></dt>
+<dd><p>Whether both colour unknowns are answered.</p>
+<p>Read this before trusting a colour operation: half the tags is barely
+better than none.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ClipSpec</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">colour_is_declared</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ClipSpec</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color_range</span><span class="o">=</span><span class="s2">"limited"</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">color_space</span><span class="o">=</span><span class="s2">"bt709"</span><span class="p">)</span><span class="o">.</span><span class="n">colour_is_declared</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ClipSpec.origin_s">
+<span class="sig-name descname"><span class="pre">origin_s</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.spec.ClipSpec.origin_s" title="Link to this definition"></a></dt>
+<dd><p>The filter-timeline time of this part’s frame 0, as the host’s decoder
+will see it. <strong>`None` means undeclared, and undeclared is not 0.</strong></p>
+<p>Measured (rule 28): an INPUT-side <code class="docutils literal notranslate"><span class="pre">-ss</span></code> rebases the filter timeline to
+0, an OUTPUT-side one does not. So what a <a class="reference internal" href="#looks.spec.Span" title="looks.spec.Span"><code class="xref py py-class docutils literal notranslate"><span class="pre">Span</span></code></a> of “4 s to 5 s”
+selects is a property of <em>the host’s seek style</em>, not of the clip — and
+assuming 0 for a host that seeks on the output side puts the right look
+on the wrong frames, with no error anywhere. <cite>muvid</cite> seeks input-side, so
+0 is correct for the first consumer and wrong in general, which is
+exactly why it must be said rather than defaulted.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.spec.EMPTY">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">EMPTY</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></span><a class="headerlink" href="#looks.spec.EMPTY" title="Link to this definition"></a></dt>
+<dd><p>An empty, immutable mapping — the default for every mapping field here.</p>
+<p>A shared frozen singleton rather than <code class="docutils literal notranslate"><span class="pre">field(default_factory=dict)</span></code>:
+<code class="docutils literal notranslate"><span class="pre">frozen=True</span></code> prevents <em>rebinding</em> a field, not mutating the dict behind
+it, so a mutable default lets <a class="reference internal" href="#looks.spec.look_hash" title="looks.spec.look_hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">look_hash()</span></code></a> change after a Look has been
+built, hashed and stored — and makes the objects unhashable despite the
+decorator generating <code class="docutils literal notranslate"><span class="pre">__hash__</span></code>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.Effect">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">Effect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.Span" title="looks.spec.Span"><span class="pre">Span</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#Effect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Effect" title="Link to this definition"></a></dt>
+<dd><p>One named operation the caller asks for. Pure data; no tier, no impl.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code> is the <strong>capability</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;flatten&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;posterize&quot;</span></code>), never an
+implementation. <code class="xref py py-attr docutils literal notranslate"><span class="pre">impl</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">backend</span></code> pin <em>which</em> answer serves
+it — and neither bypasses the ceiling: a pinned implementation above the
+policy is still refused, because a pin says which one you want, not that you
+may have it.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">metadata</span></code> is identity-free labelling and never enters
+<a class="reference internal" href="#looks.spec.look_hash" title="looks.spec.look_hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">look_hash()</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"posterize"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"levels"</span><span class="p">:</span> <span class="mi">18</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"levels"</span><span class="p">]</span>
+<span class="go">('posterize', 18)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">is_resolved</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"flatten"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"scale"</span><span class="p">:</span> <span class="n">Ref</span><span class="p">(</span><span class="s2">"s"</span><span class="p">)})</span><span class="o">.</span><span class="n">is_resolved</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SpecError</span>: <span class="n">an Effect needs a capability name</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Effect.is_resolved">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_resolved</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.spec.Effect.is_resolved" title="Link to this definition"></a></dt>
+<dd><p>Whether every parameter is concrete.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Effect.refs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">refs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.spec.Ref" title="looks.spec.Ref"><span class="pre">Ref</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.spec.Effect.refs" title="Link to this definition"></a></dt>
+<dd><p>Every deferred parameter, in no particular order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.spec.Effect.resolved">
+<span class="sig-name descname"><span class="pre">resolved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.spec.Effect" title="looks.spec.Effect"><span class="pre">Effect</span></a></span></span><a class="reference internal" href="../../_modules/looks/spec.html#Effect.resolved"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Effect.resolved" title="Link to this definition"></a></dt>
+<dd><p>A copy with every <a class="reference internal" href="#looks.spec.Ref" title="looks.spec.Ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ref</span></code></a> replaced, or raise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.ImplRef">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">ImplRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">requires_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#ImplRef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.ImplRef" title="Link to this definition"></a></dt>
+<dd><p>What an implementation declares about itself — <strong>terms, never a tier</strong>.</p>
+<p>A tier is a position on a policy ladder; terms are what was observed. An
+implementation that could declare its own tier could declare itself
+acceptable, which is the same failure as an <code class="docutils literal notranslate"><span class="pre">Effect</span></code> carrying one.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#looks.spec.ImplRef.effect" title="Link to this definition"></a></dt>
+<dd><p>The capability served.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.impl">
+<span class="sig-name descname"><span class="pre">impl</span></span><a class="headerlink" href="#looks.spec.ImplRef.impl" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">&quot;&lt;effect&gt;.&lt;backend&gt;.&lt;variant&gt;&quot;</span></code>, globally unique.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.backend">
+<span class="sig-name descname"><span class="pre">backend</span></span><a class="headerlink" href="#looks.spec.ImplRef.backend" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">&quot;ffmpeg&quot;</span></code> | <code class="docutils literal notranslate"><span class="pre">&quot;frame&quot;</span></code> | <code class="docutils literal notranslate"><span class="pre">&quot;external&quot;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.terms">
+<span class="sig-name descname"><span class="pre">terms</span></span><a class="headerlink" href="#looks.spec.ImplRef.terms" title="Link to this definition"></a></dt>
+<dd><p>What it is. See <a class="reference internal" href="licence.html#looks.licence.Terms" title="looks.licence.Terms"><code class="xref py py-class docutils literal notranslate"><span class="pre">looks.licence.Terms</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="licence.html#looks.licence.Terms" title="looks.licence.Terms">looks.licence.Terms</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.requires_filters">
+<span class="sig-name descname"><span class="pre">requires_filters</span></span><a class="headerlink" href="#looks.spec.ImplRef.requires_filters" title="Link to this definition"></a></dt>
+<dd><p>ffmpeg filters this implementation emits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[str, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.impl_version">
+<span class="sig-name descname"><span class="pre">impl_version</span></span><a class="headerlink" href="#looks.spec.ImplRef.impl_version" title="Link to this definition"></a></dt>
+<dd><p>A behaviour lock, not a receipt — “same interface,
+changed behaviour” bumps it, and it enters <a class="reference internal" href="#looks.spec.plan_hash" title="looks.spec.plan_hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">plan_hash()</span></code></a>
+<strong>unconditionally</strong>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.timeline">
+<span class="sig-name descname"><span class="pre">timeline</span></span><a class="headerlink" href="#looks.spec.ImplRef.timeline" title="Link to this definition"></a></dt>
+<dd><p>Whether it can be gated to an <code class="xref py py-attr docutils literal notranslate"><span class="pre">Effect.at</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.preference">
+<span class="sig-name descname"><span class="pre">preference</span></span><a class="headerlink" href="#looks.spec.ImplRef.preference" title="Link to this definition"></a></dt>
+<dd><p>Explicit tiebreak within one tier; lower wins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">terms_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span> <span class="o">=</span> <span class="n">ImplRef</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="s2">"lut3d.ffmpeg.default"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">backend</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="n">terms_for</span><span class="p">(</span><span class="s2">"ffmpeg"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="n">requires_filters</span><span class="o">=</span><span class="p">(</span><span class="s2">"lut3d"</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span><span class="o">.</span><span class="n">impl_version</span>
+<span class="go">'1'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span><span class="o">.</span><span class="n">timeline</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.tier">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">tier</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="licence.html#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.spec.ImplRef.tier" title="Link to this definition"></a></dt>
+<dd><p>The rung its terms project onto, or <code class="docutils literal notranslate"><span class="pre">None</span></code> when off the ladder.</p>
+<p>Derived on read, never stored — so it cannot drift from the terms.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.spec.LOOK_SCHEMA">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">LOOK_SCHEMA</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'looks.look/v1'</span></span><a class="headerlink" href="#looks.spec.LOOK_SCHEMA" title="Link to this definition"></a></dt>
+<dd><p>Schema tags. Two kinds, two independent lifecycles — which is exactly why a
+future migration registry must be keyed on <code class="docutils literal notranslate"><span class="pre">(kind,</span> <span class="pre">from_version)</span></code> and never
+on <code class="docutils literal notranslate"><span class="pre">(from,</span> <span class="pre">to)</span></code>. <cite>an</cite> paid for that with an#77: two kinds at the same
+version number, and the wrong migration silently running against the wrong
+document.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.Look">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">Look</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple[~looks.spec.Effect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">...]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><span class="pre">Policy</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Policy(max_tier=&lt;Tier.COPYLEFT_TOOL:</span> <span class="pre">'copyleft_tool'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_field_restricted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(&lt;Tier.PURE:</span> <span class="pre">'pure'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.PERMISSIVE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'permissive'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.WEAK_COPYLEFT</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'weak_copyleft'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.COPYLEFT_TOOL</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'copyleft_tool'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.COPYLEFT_SHIPPED</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'copyleft_shipped'&gt;))</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.Target" title="looks.spec.Target"><span class="pre">Target</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Target.EXTERNAL</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#Look"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Look" title="Link to this definition"></a></dt>
+<dd><p>An ordered stack of Effects plus a policy. The artifact you ship.</p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code> concatenates the steps and takes the <strong>stricter</strong> of the two
+policies, never the looser — a guarantee composition can silently relax is
+not a guarantee. Widening is always a separate deliberate act
+(<a class="reference internal" href="#looks.spec.Look.with_policy" title="looks.spec.Look.with_policy"><code class="xref py py-meth docutils literal notranslate"><span class="pre">with_policy()</span></code></a>).</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">policy</span></code> is <strong>not</strong> part of <a class="reference internal" href="#looks.spec.look_hash" title="looks.spec.look_hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">look_hash()</span></code></a>: a ceiling changes what
+a Look is <em>allowed</em> to compile to, never what it asks for.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">Policy</span><span class="p">,</span> <span class="n">Tier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">safe</span> <span class="o">=</span> <span class="n">Look</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"grade"</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"gamma"</span><span class="p">),),</span>
+<span class="gp">... </span>            <span class="n">policy</span><span class="o">=</span><span class="n">Policy</span><span class="p">(</span><span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">PERMISSIVE</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lab</span> <span class="o">=</span> <span class="n">Look</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"flatten"</span><span class="p">),))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">safe</span> <span class="o">+</span> <span class="n">lab</span><span class="p">)</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">max_tier</span>          <span class="c1"># the STRICTER survives</span>
+<span class="go">&lt;Tier.PERMISSIVE: 'permissive'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">((</span><span class="n">safe</span> <span class="o">+</span> <span class="n">lab</span><span class="p">)</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">safe</span> <span class="o">+</span> <span class="n">lab</span><span class="p">)</span><span class="o">.</span><span class="n">with_policy</span><span class="p">(</span><span class="n">lab</span><span class="o">.</span><span class="n">policy</span><span class="p">)</span><span class="o">.</span><span class="n">policy</span><span class="o">.</span><span class="n">max_tier</span>
+<span class="go">&lt;Tier.COPYLEFT_TOOL: 'copyleft_tool'&gt;</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Look.is_resolved">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_resolved</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.spec.Look.is_resolved" title="Link to this definition"></a></dt>
+<dd><p>Whether the whole Look is concrete.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Look.refs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">refs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.spec.Ref" title="looks.spec.Ref"><span class="pre">Ref</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#looks.spec.Look.refs" title="Link to this definition"></a></dt>
+<dd><p>Every deferred parameter across every step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.spec.Look.with_policy">
+<span class="sig-name descname"><span class="pre">with_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><span class="pre">Policy</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></span><a class="reference internal" href="../../_modules/looks/spec.html#Look.with_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Look.with_policy" title="Link to this definition"></a></dt>
+<dd><p>A copy under a different ceiling — the deliberate widening act.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.LookPlan">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">LookPlan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple[~looks.spec.Step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">...]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.ClipSpec" title="looks.spec.ClipSpec"><span class="pre">ClipSpec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="environment.html#looks.environment.EnvFingerprint" title="looks.environment.EnvFingerprint"><span class="pre">EnvFingerprint</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">look_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><span class="pre">Policy</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Policy(max_tier=&lt;Tier.COPYLEFT_TOOL:</span> <span class="pre">'copyleft_tool'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_field_restricted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(&lt;Tier.PURE:</span> <span class="pre">'pure'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.PERMISSIVE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'permissive'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.WEAK_COPYLEFT</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'weak_copyleft'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.COPYLEFT_TOOL</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'copyleft_tool'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;Tier.COPYLEFT_SHIPPED</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">'copyleft_shipped'&gt;))</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#LookPlan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.LookPlan" title="Link to this definition"></a></dt>
+<dd><p>The compiled pipeline: what will run, against which clip and which binary.</p>
+<p>The <strong>env fingerprint belongs here and not on the Look</strong>. A <code class="docutils literal notranslate"><span class="pre">Look</span></code> is
+portable data; a <code class="docutils literal notranslate"><span class="pre">LookPlan</span></code> is compiled against one binary whose filter
+set and licence are part of what determines the pixels — so it says which
+one, and that enters <a class="reference internal" href="#looks.spec.plan_hash" title="looks.spec.plan_hash"><code class="xref py py-func docutils literal notranslate"><span class="pre">plan_hash()</span></code></a>. Folding the environment in does not
+break portability, because the portable artifact is the Look.</p>
+<p><strong>The plan holds no live callables.</strong> A plan with a closure in it cannot be
+serialised, diffed or hashed, which is the entire reason this shape was
+adopted. The callable is resolved from the registry at execution time, by
+the runner.</p>
+<p>Deliberately not modelled: peak memory and streaming shape. Those are the
+executor’s invariant, and a plan claiming to predict them is an invitation
+to write the <code class="docutils literal notranslate"><span class="pre">looks.render()</span></code> this package is chartered to stay out of.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plan</span> <span class="o">=</span> <span class="n">LookPlan</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plan</span><span class="o">.</span><span class="n">total_cpu_seconds</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plan</span><span class="o">.</span><span class="n">has_unknown_costs</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plan</span><span class="o">.</span><span class="n">realtime_factor</span> <span class="ow">is</span> <span class="kc">None</span>     <span class="c1"># no clip to divide by</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.LookPlan.has_unknown_costs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">has_unknown_costs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.spec.LookPlan.has_unknown_costs" title="Link to this definition"></a></dt>
+<dd><p>Whether anything is unpriced. A gate reads this, not the sum.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.LookPlan.known_cpu_seconds">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">known_cpu_seconds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#looks.spec.LookPlan.known_cpu_seconds" title="Link to this definition"></a></dt>
+<dd><p>The priced part only — the honest half of the pair.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.LookPlan.realtime_factor">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">realtime_factor</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.spec.LookPlan.realtime_factor" title="Link to this definition"></a></dt>
+<dd><p>CPU-seconds per second of output, or <code class="docutils literal notranslate"><span class="pre">None</span></code> when anything is unknown.</p>
+<p>The asymmetry against <a class="reference internal" href="#looks.spec.LookPlan.total_cpu_seconds" title="looks.spec.LookPlan.total_cpu_seconds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">total_cpu_seconds</span></code></a> is deliberate: a sum
+must be total to compose, but a headline ratio a human acts on must not
+fabricate. Returning <code class="docutils literal notranslate"><span class="pre">0.0</span></code> for “we did not know” is reelee#208’s
+failure mode, where a <code class="docutils literal notranslate"><span class="pre">$0.00</span></code>-because-unknown read as “under the
+threshold, spend freely”.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.LookPlan.total_cpu_seconds">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">total_cpu_seconds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#looks.spec.LookPlan.total_cpu_seconds" title="Link to this definition"></a></dt>
+<dd><p>Sum with unknown coerced to <code class="docutils literal notranslate"><span class="pre">0.0</span></code> — a documented <strong>lower bound</strong>.</p>
+<p>Total so sums compose. Read it beside <a class="reference internal" href="#looks.spec.LookPlan.unknown_step_count" title="looks.spec.LookPlan.unknown_step_count"><code class="xref py py-attr docutils literal notranslate"><span class="pre">unknown_step_count</span></code></a>, never
+alone: the true cost is this <em>plus an unknown amount</em> spread over that
+many steps.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.LookPlan.unknown_step_count">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">unknown_step_count</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#looks.spec.LookPlan.unknown_step_count" title="Link to this definition"></a></dt>
+<dd><p>How many steps carry no cost at all.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.spec.REF_MARKER">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">REF_MARKER</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'$ref'</span></span><a class="headerlink" href="#looks.spec.REF_MARKER" title="Link to this definition"></a></dt>
+<dd><p>The reserved key that marks a deferred parameter in serialised form.</p>
+<p>Documented cost: a parameter whose legitimate value is a mapping containing
+this exact key is inexpressible. The decoder is strict about the shape, so
+the ambiguity raises rather than being hit silently.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.Ref">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">Ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;object</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#Ref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Ref" title="Link to this definition"></a></dt>
+<dd><p>A parameter that cannot be known until the clip is measured.</p>
+<p>Serialised as <code class="docutils literal notranslate"><span class="pre">{&quot;$ref&quot;:</span> <span class="pre">&quot;flatten_scale&quot;,</span> <span class="pre">&quot;default&quot;:</span> <span class="pre">0.5}</span></code>. Per-parameter
+on purpose: a diff shows exactly which knobs are clip-dependent, and a Ref
+with no default that the probe does not answer <strong>raises</strong>.</p>
+<p>Rejected alternative — a per-clip <code class="docutils literal notranslate"><span class="pre">variants</span></code> table. It is JSON-native and
+would work, but it cannot express the design’s central rule (<em>this parameter
+must be measured, and there is no global fallback</em>), because a missing entry
+is either a <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> or a silent fall-through to the base.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Ref</span><span class="p">(</span><span class="s2">"flatten_scale"</span><span class="p">)</span><span class="o">.</span><span class="n">has_default</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Ref</span><span class="p">(</span><span class="s2">"flatten_scale"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">has_default</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Ref.has_default">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">has_default</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.spec.Ref.has_default" title="Link to this definition"></a></dt>
+<dd><p>Whether absence from the probe is tolerable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="looks.spec.Ref.resolve">
+<span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">where</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/looks/spec.html#Ref.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Ref.resolve" title="Link to this definition"></a></dt>
+<dd><p>The value for this Ref, or raise.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Ref</span><span class="p">(</span><span class="s2">"s"</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">({})</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Ref</span><span class="p">(</span><span class="s2">"s"</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">({},</span> <span class="n">where</span><span class="o">=</span><span class="s2">"flatten.scale"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.UnresolvedParameter</span>: <span class="n">flatten.scale needs 's'...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.spec.SchemaError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">SchemaError</span></span><a class="reference internal" href="../../_modules/looks/spec.html#SchemaError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.SchemaError" title="Link to this definition"></a></dt>
+<dd><p>A serialised document this build cannot read.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.Span">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">Span</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#Span"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Span" title="Link to this definition"></a></dt>
+<dd><p>Seconds, relative to frame 0 <strong>as the host’s decoder will see it</strong>.</p>
+<p>Says <em>where a look applies</em>. It never says where a cut is — that is the
+caller’s, and the distinction is what keeps this package out of the EDL.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Span</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span><span class="o">.</span><span class="n">duration</span>
+<span class="go">2.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Span</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">is_whole</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Span</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SpecError</span>: <span class="n">a Span must not end before it starts: 3.0 -&gt; 1.0</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Span.duration">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">duration</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.spec.Span.duration" title="Link to this definition"></a></dt>
+<dd><p>Length in seconds, or <code class="docutils literal notranslate"><span class="pre">None</span></code> when either end is open.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Span.is_whole">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_whole</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><a class="headerlink" href="#looks.spec.Span.is_whole" title="Link to this definition"></a></dt>
+<dd><p>Whether this span covers everything (both ends open).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.spec.SpanUnsupported">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">SpanUnsupported</span></span><a class="reference internal" href="../../_modules/looks/spec.html#SpanUnsupported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.SpanUnsupported" title="Link to this definition"></a></dt>
+<dd><p>An <code class="xref py py-attr docutils literal notranslate"><span class="pre">Effect.at</span></code> given to an implementation that cannot be gated.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.spec.SpecError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">SpecError</span></span><a class="reference internal" href="../../_modules/looks/spec.html#SpecError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.SpecError" title="Link to this definition"></a></dt>
+<dd><p>A Look or a plan that cannot mean what it says.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.Step">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">Step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.ImplRef" title="looks.spec.ImplRef"><span class="pre">ImplRef</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Tier" title="looks.licence.Tier"><span class="pre">Tier</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.Span" title="looks.spec.Span"><span class="pre">Span</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpu_seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Any]</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#Step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Step" title="Link to this definition"></a></dt>
+<dd><p>One compiled operation. A tier appears here, read and not asserted.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">payload</span></code> is backend-shaped and the asymmetry is deliberate: an
+<code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> payload is fully inspectable (read a stored plan and see the
+exact filtergraph), while <code class="docutils literal notranslate"><span class="pre">frame</span></code> and <code class="docutils literal notranslate"><span class="pre">external</span></code> payloads are only
+<em>nameable</em>.</p>
+<p><strong>A payload names a registry key, never a ``module:attr`` import path.</strong> A
+plan is a document, documents arrive from places, and a document that can
+name <code class="docutils literal notranslate"><span class="pre">os:system</span></code> is a remote-code-execution primitive wearing a schema
+tag.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">cpu_seconds</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code> for unknown, <strong>never zero</strong>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">terms_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span> <span class="o">=</span> <span class="n">ImplRef</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="s2">"lut3d.ffmpeg.default"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">backend</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="n">terms_for</span><span class="p">(</span><span class="s2">"ffmpeg"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Step</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="n">impl</span><span class="p">,</span> <span class="n">tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">WEAK_COPYLEFT</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s2">"filter"</span><span class="p">:</span> <span class="s2">"lut3d=look.cube"</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">payload</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span>
+<span class="go">'lut3d=look.cube'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">cpu_seconds</span> <span class="ow">is</span> <span class="kc">None</span>            <span class="c1"># unknown, not free</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.spec.Target">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">Target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#Target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.Target" title="Link to this definition"></a></dt>
+<dd><p>What a Look’s parameters resolve <strong>against</strong> — RULE N.</p>
+<ul class="simple">
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">EXTERNAL</span></code> — a fixed target outside the material: a delivery
+contract, a reference palette, a colour conform. One clip’s probe answers
+it, and <a class="reference internal" href="#looks.spec.resolve" title="looks.spec.resolve"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve()</span></code></a> serves it.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">SET_RELATIVE</span></code> — the target <em>is the set’s own distribution</em>. The
+answer for one clip depends on every other clip, so only
+<a class="reference internal" href="#looks.spec.resolve_across" title="looks.spec.resolve_across"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_across()</span></code></a> can serve it and <a class="reference internal" href="#looks.spec.resolve" title="looks.spec.resolve"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve()</span></code></a> <strong>raises</strong>.</p></li>
+</ul>
+<p>That refusal is the measured lesson as a type: normalising the OUTPUT across
+sources is not a thing you can compute from one clip.</p>
+<p>The field is <code class="docutils literal notranslate"><span class="pre">target</span></code> and <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">intent=&quot;style&quot;|&quot;grade&quot;</span></code>: a colour
+conform is a <em>normalisation</em> whose target is external and fixed, and under a
+style/grade wording it would have to be mislabelled.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.spec.UnresolvedParameter">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">UnresolvedParameter</span></span><a class="reference internal" href="../../_modules/looks/spec.html#UnresolvedParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.UnresolvedParameter" title="Link to this definition"></a></dt>
+<dd><p>A <a class="reference internal" href="#looks.spec.Ref" title="looks.spec.Ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ref</span></code></a> the probe did not answer, and which has no default.</p>
+<p>Deliberately a refusal rather than a fallback. The measured lesson: one
+global flattening scale made the softest of three sources softer still
+(46 -&gt; 38, against 35 -&gt; 72 and 117 -&gt; 114), so it became the softest thing
+on screen. A silent global fallback is exactly that mistake, re-armed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.look_from_dict">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">look_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></span><a class="reference internal" href="../../_modules/looks/spec.html#look_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.look_from_dict" title="Link to this definition"></a></dt>
+<dd><p>Rebuild a Look. An unrecognised tag is refused; a missing one is v1.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">look</span> <span class="o">=</span> <span class="n">Look</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">Ref</span><span class="p">(</span><span class="s2">"r"</span><span class="p">)}),))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">back</span> <span class="o">=</span> <span class="n">look_from_dict</span><span class="p">(</span><span class="n">look_to_dict</span><span class="p">(</span><span class="n">look</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">back</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span>
+<span class="go">Ref(key='r', default=&lt;object object at ...&gt;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">look_from_dict</span><span class="p">({</span><span class="s2">"schema"</span><span class="p">:</span> <span class="s2">"looks.look/v9"</span><span class="p">})</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SchemaError</span>: <span class="n">this build reads 'looks.look/v1'...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.look_hash">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">look_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">look</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/spec.html#look_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.look_hash" title="Link to this definition"></a></dt>
+<dd><p>Structural identity of the authored <strong>intent</strong>.</p>
+<p>Registry-independent, environment-independent, <strong>policy-independent</strong>.
+<code class="docutils literal notranslate"><span class="pre">metadata</span></code> is excluded (labelling, not identity) and so is <code class="docutils literal notranslate"><span class="pre">policy</span></code>: a
+ceiling changes what a Look may compile to, never what it asks for.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">Policy</span><span class="p">,</span> <span class="n">Tier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Look</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"gamma"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"g"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">}),))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">look_hash</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">look_hash</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"y"</span><span class="p">))</span>       <span class="c1"># name IS identity</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">look_hash</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">look_hash</span><span class="p">(</span><span class="n">replace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"who"</span><span class="p">:</span> <span class="s2">"thor"</span><span class="p">}))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">look_hash</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">look_hash</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">with_policy</span><span class="p">(</span><span class="n">Policy</span><span class="p">(</span><span class="n">max_tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">PURE</span><span class="p">)))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.look_to_dict">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">look_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">look</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/looks/spec.html#look_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.look_to_dict" title="Link to this definition"></a></dt>
+<dd><p>A JSON-able form of a Look, carrying its schema tag.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">look_to_dict</span><span class="p">(</span><span class="n">Look</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">),)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="p">[</span><span class="s2">"schema"</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+<span class="go">('looks.look/v1', 'x')</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.output_key">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">output_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_digest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/spec.html#output_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.output_key" title="Link to this definition"></a></dt>
+<dd><p>The content-addressed key of what this plan makes from these bytes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">source_digest</span></code> is a digest of the source’s <strong>content</strong>, never its path or
+its URL. That signature is <cite>falaw</cite>’s D1 defect stated as a type: keying on
+upstream <em>URLs</em> made a byte-identical regeneration miss the cache.</p>
+<p><cite>looks</cite> computes the formula and <strong>refuses to open the file</strong>, because
+reading bytes is execution.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">=</span> <span class="n">output_key</span><span class="p">(</span><span class="n">LookPlan</span><span class="p">(),</span> <span class="s2">"a"</span> <span class="o">*</span> <span class="mi">64</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="go">64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">==</span> <span class="n">output_key</span><span class="p">(</span><span class="n">LookPlan</span><span class="p">(),</span> <span class="s2">"b"</span> <span class="o">*</span> <span class="mi">64</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output_key</span><span class="p">(</span><span class="n">LookPlan</span><span class="p">(),</span> <span class="s2">"/path/to/clip.mp4"</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SpecError</span>: <span class="n">source_digest must be a content digest...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.plan_from_dict">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">plan_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">impls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#looks.spec.ImplRef" title="looks.spec.ImplRef"><span class="pre">ImplRef</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></span><a class="reference internal" href="../../_modules/looks/spec.html#plan_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.plan_from_dict" title="Link to this definition"></a></dt>
+<dd><p>Rebuild a plan, given the implementations its steps name.</p>
+<p><strong>``impls`` is required, and a step naming one that is absent raises.</strong> A
+serialised step carries its implementation’s <em>key</em>, not its
+<a class="reference internal" href="licence.html#looks.licence.Terms" title="looks.licence.Terms"><code class="xref py py-class docutils literal notranslate"><span class="pre">Terms</span></code></a> — and reconstructing an <code class="docutils literal notranslate"><span class="pre">ImplRef</span></code> from a key
+alone would mean inventing the terms, which is inventing a licence verdict.
+In a package whose thesis is that unknown refuses, a plan that rehydrates
+into a confident tier nobody observed is the worst possible artifact.</p>
+<p>So the caller supplies the registry it trusts, and a plan built against
+implementations this process does not have is a refusal rather than a guess.
+That is also what makes a stored plan safe to receive from elsewhere: it
+cannot name its way into a capability the receiving process did not already
+install.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#looks.spec.SchemaError" title="looks.spec.SchemaError"><strong>SchemaError</strong></a> – An unrecognised schema tag, or a step naming an
+    implementation <code class="docutils literal notranslate"><span class="pre">impls</span></code> does not carry.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">terms_for</span><span class="p">,</span> <span class="n">Tier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span> <span class="o">=</span> <span class="n">ImplRef</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="s2">"lut3d.ffmpeg.default"</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">backend</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="n">terms_for</span><span class="p">(</span><span class="s2">"ffmpeg"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plan</span> <span class="o">=</span> <span class="n">LookPlan</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Step</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="n">impl</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">WEAK_COPYLEFT</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s2">"filter"</span><span class="p">:</span> <span class="s2">"lut3d=x.cube"</span><span class="p">}),))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">back</span> <span class="o">=</span> <span class="n">plan_from_dict</span><span class="p">(</span><span class="n">plan_to_dict</span><span class="p">(</span><span class="n">plan</span><span class="p">),</span> <span class="n">impls</span><span class="o">=</span><span class="p">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">:</span> <span class="n">impl</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plan_hash</span><span class="p">(</span><span class="n">back</span><span class="p">)</span> <span class="o">==</span> <span class="n">plan_hash</span><span class="p">(</span><span class="n">plan</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>A plan naming an implementation this process lacks is refused, not
+approximated:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plan_from_dict</span><span class="p">(</span><span class="n">plan_to_dict</span><span class="p">(</span><span class="n">plan</span><span class="p">),</span> <span class="n">impls</span><span class="o">=</span><span class="p">{})</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SchemaError</span>: <span class="n">this plan names implementations this process</span>
+<span class="x">does not have: ['lut3d.ffmpeg.default']...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.plan_hash">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">plan_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/spec.html#plan_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.plan_hash" title="Link to this definition"></a></dt>
+<dd><p>Identity of the compiled pipeline — <em>will this produce the same pixels?</em></p>
+<p>Folds, per step: the implementation key <strong>and its version</strong>, the resolved
+parameters, the span and the compiled payload; plus the clip’s geometry
+<strong>and its colour state</strong>, and the environment fingerprint.</p>
+<p><code class="docutils literal notranslate"><span class="pre">impl_version</span></code> folds in <strong>unconditionally</strong>. <code class="docutils literal notranslate"><span class="pre">nw</span></code> and <code class="docutils literal notranslate"><span class="pre">falaw</span></code> omit
+theirs when it equals its default; that is a <em>migration device</em> protecting
+an installed base of cache keys, and <cite>looks</cite> has no installed base. Do not
+copy the sentinel.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plan_hash</span><span class="p">(</span><span class="n">LookPlan</span><span class="p">())</span> <span class="o">==</span> <span class="n">plan_hash</span><span class="p">(</span><span class="n">LookPlan</span><span class="p">())</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">LookPlan</span><span class="p">(</span><span class="n">clip</span><span class="o">=</span><span class="n">ClipSpec</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">LookPlan</span><span class="p">(</span><span class="n">clip</span><span class="o">=</span><span class="n">ClipSpec</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">color_range</span><span class="o">=</span><span class="s2">"full"</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plan_hash</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">plan_hash</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>      <span class="c1"># colour state is identity</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.plan_to_dict">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">plan_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/looks/spec.html#plan_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.plan_to_dict" title="Link to this definition"></a></dt>
+<dd><p>A JSON-able form of a plan, carrying its schema tag.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.resolve">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">look</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></span><a class="reference internal" href="../../_modules/looks/spec.html#resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.resolve" title="Link to this definition"></a></dt>
+<dd><p>Replace every <a class="reference internal" href="#looks.spec.Ref" title="looks.spec.Ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ref</span></code></a> from one clip’s <code class="docutils literal notranslate"><span class="pre">probe</span></code>.</p>
+<p>The <strong>identity</strong> on a Look holding no Refs, so a caller who already has
+numbers never meets this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#looks.spec.SpecError" title="looks.spec.SpecError"><strong>SpecError</strong></a> – The Look is <code class="docutils literal notranslate"><span class="pre">SET_RELATIVE</span></code> — RULE N. Its target is the
+    set’s own distribution, which one clip cannot supply.</p></li>
+<li><p><a class="reference internal" href="#looks.spec.UnresolvedParameter" title="looks.spec.UnresolvedParameter"><strong>UnresolvedParameter</strong></a> – A Ref with no default that <code class="docutils literal notranslate"><span class="pre">probe</span></code> does not
+    answer.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">look</span> <span class="o">=</span> <span class="n">Look</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"flatten"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"scale"</span><span class="p">:</span> <span class="n">Ref</span><span class="p">(</span><span class="s2">"s"</span><span class="p">)}),))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="p">{</span><span class="s2">"s"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale"</span><span class="p">]</span>
+<span class="go">0.75</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve</span><span class="p">(</span><span class="n">Look</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"lut3d"</span><span class="p">),)))</span>     <span class="c1"># identity</span>
+<span class="go">Look(steps=(Effect(name='lut3d', ...),), ...)</span>
+</pre></div>
+</div>
+<p>A set-relative Look refuses the single-clip resolver:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">resolve</span><span class="p">(</span><span class="n">Look</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">Target</span><span class="o">.</span><span class="n">SET_RELATIVE</span><span class="p">),</span> <span class="p">{})</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SpecError</span>: <span class="n">this Look is SET_RELATIVE...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.resolve_across">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">resolve_across</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">look</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">probes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/spec.html#resolve_across"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.resolve_across" title="Link to this definition"></a></dt>
+<dd><p>One resolved Look per probe — N in, N out.</p>
+<p>The resolver for a target that is the set’s own distribution. This function
+does <strong>not</strong> compute the cross-clip answer: it applies per-clip probes a
+caller has already solved for, because choosing them requires running the
+effect, and running things is not this package’s job. See
+<a class="reference internal" href="measure.html#module-looks.measure" title="looks.measure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">looks.measure</span></code></a> for the measurement half.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">look</span> <span class="o">=</span> <span class="n">Look</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">Target</span><span class="o">.</span><span class="n">SET_RELATIVE</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"flatten"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"scale"</span><span class="p">:</span> <span class="n">Ref</span><span class="p">(</span><span class="s2">"s"</span><span class="p">)}),))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">got</span> <span class="o">=</span> <span class="n">resolve_across</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="p">[{</span><span class="s2">"s"</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span> <span class="p">{</span><span class="s2">"s"</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span> <span class="p">{</span><span class="s2">"s"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">lk</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale"</span><span class="p">]</span> <span class="k">for</span> <span class="n">lk</span> <span class="ow">in</span> <span class="n">got</span><span class="p">]</span>
+<span class="go">[0.5, 0.5, 0.75]</span>
+</pre></div>
+</div>
+<p>Each result is EXTERNAL: the set-relative question has been answered,
+and re-resolving would ask it again against a different set.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">got</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">target</span>
+<span class="go">&lt;Target.EXTERNAL: 'external'&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resolve_across</span><span class="p">(</span><span class="n">look</span><span class="p">,</span> <span class="p">[])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SpecError</span>: <span class="n">resolve_across needs at least one probe...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.spec.select_impl">
+<span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">select_impl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">effect:</span> <span class="pre">~looks.spec.Effect,</span> <span class="pre">candidates:</span> <span class="pre">~typing.Sequence[~looks.spec.ImplRef],</span> <span class="pre">*,</span> <span class="pre">policy:</span> <span class="pre">~looks.licence.Policy</span> <span class="pre">=</span> <span class="pre">Policy(max_tier=&lt;Tier.COPYLEFT_TOOL:</span> <span class="pre">'copyleft_tool'&gt;,</span> <span class="pre">allow_field_restricted=frozenset(),</span> <span class="pre">order=(&lt;Tier.PURE:</span> <span class="pre">'pure'&gt;,</span> <span class="pre">&lt;Tier.PERMISSIVE:</span> <span class="pre">'permissive'&gt;,</span> <span class="pre">&lt;Tier.WEAK_COPYLEFT:</span> <span class="pre">'weak_copyleft'&gt;,</span> <span class="pre">&lt;Tier.COPYLEFT_TOOL:</span> <span class="pre">'copyleft_tool'&gt;,</span> <span class="pre">&lt;Tier.COPYLEFT_SHIPPED:</span> <span class="pre">'copyleft_shipped'&gt;)),</span> <span class="pre">available_filters:</span> <span class="pre">frozenset[str]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.spec.ImplRef" title="looks.spec.ImplRef"><span class="pre">ImplRef</span></a></span></span><a class="reference internal" href="../../_modules/looks/spec.html#select_impl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.select_impl" title="Link to this definition"></a></dt>
+<dd><p>Choose an implementation for <code class="docutils literal notranslate"><span class="pre">effect</span></code>, or raise saying why not.</p>
+<p>In order: honour an explicit <code class="docutils literal notranslate"><span class="pre">impl</span></code> or <code class="docutils literal notranslate"><span class="pre">backend</span></code> pin, drop anything the
+environment cannot run, drop anything the policy refuses, drop anything that
+cannot be gated when the effect has a span, then take the lowest tier and
+break ties on <a class="reference internal" href="#looks.spec.ImplRef.preference" title="looks.spec.ImplRef.preference"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImplRef.preference</span></code></a>.</p>
+<p><strong>A pin narrows, it never permits.</strong> A pinned implementation the policy
+refuses is still refused — otherwise the pin is a way to assert a tier,
+which is the thing <a class="reference internal" href="#looks.spec.Effect" title="looks.spec.Effect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Effect</span></code></a> deliberately cannot do.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#looks.spec.SpecError" title="looks.spec.SpecError"><strong>SpecError</strong></a> – Nothing survived, with the reason.</p></li>
+<li><p><a class="reference internal" href="#looks.spec.SpanUnsupported" title="looks.spec.SpanUnsupported"><strong>SpanUnsupported</strong></a> – Every survivor refuses a span the effect carries.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">terms_for</span><span class="p">,</span> <span class="n">Policy</span><span class="p">,</span> <span class="n">Tier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ff</span> <span class="o">=</span> <span class="n">terms_for</span><span class="p">(</span><span class="s2">"ffmpeg"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cands</span> <span class="o">=</span> <span class="p">[</span><span class="n">ImplRef</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s2">"blur"</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="s2">"blur.ffmpeg.gblur"</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="n">backend</span><span class="o">=</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="n">ff</span><span class="p">,</span> <span class="n">requires_filters</span><span class="o">=</span><span class="p">(</span><span class="s2">"gblur"</span><span class="p">,))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select_impl</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"blur"</span><span class="p">),</span> <span class="n">cands</span><span class="p">)</span><span class="o">.</span><span class="n">impl</span>
+<span class="go">'blur.ffmpeg.gblur'</span>
+</pre></div>
+</div>
+<p>A filter this build lacks removes the candidate:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select_impl</span><span class="p">(</span><span class="n">Effect</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"blur"</span><span class="p">),</span> <span class="n">cands</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">available_filters</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">({</span><span class="s2">"scale"</span><span class="p">}))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.spec.SpecError</span>: <span class="n">no implementation of 'blur' survived...</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 

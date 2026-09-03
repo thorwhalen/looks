@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.compile &mdash; looks 0.0.7 documentation</title>
+  <title>looks.compile &mdash; looks 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -54,7 +54,17 @@
 <li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cache.html">looks.cache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">looks.cli</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.compile</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.compile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.CompileError"><code class="docutils literal notranslate"><span class="pre">CompileError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.PlanRefused"><code class="docutils literal notranslate"><span class="pre">PlanRefused</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.audit"><code class="docutils literal notranslate"><span class="pre">audit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.compile_all"><code class="docutils literal notranslate"><span class="pre">compile_all()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.compile_look"><code class="docutils literal notranslate"><span class="pre">compile_look()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.describe"><code class="docutils literal notranslate"><span class="pre">describe()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.payloads"><code class="docutils literal notranslate"><span class="pre">payloads()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.compile.unmet_filters"><code class="docutils literal notranslate"><span class="pre">unmet_filters()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ffmpeg.html">looks.ffmpeg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
@@ -63,6 +73,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipe.html">looks.pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="registry.html">looks.registry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
@@ -80,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pipe.html">looks.tests.test_pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
@@ -109,8 +121,171 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="looks-compile">
-<h1>looks.compile<a class="headerlink" href="#looks-compile" title="Link to this heading"></a></h1>
+  <section id="module-looks.compile">
+<span id="looks-compile"></span><h1>looks.compile<a class="headerlink" href="#module-looks.compile" title="Link to this heading"></a></h1>
+<p>A Look plus a clip plus a binary, compiled into a plan — and re-checked.</p>
+<p><a class="reference internal" href="#looks.compile.compile_look" title="looks.compile.compile_look"><code class="xref py py-func docutils literal notranslate"><span class="pre">compile_look()</span></code></a> is the join: a portable <code class="docutils literal notranslate"><span class="pre">Look</span></code> (what was asked for) meets
+a <code class="docutils literal notranslate"><span class="pre">ClipSpec</span></code> (what it is being applied to) and an <code class="docutils literal notranslate"><span class="pre">FfmpegEnv</span></code> (what this
+machine can actually do), and the result is a <code class="docutils literal notranslate"><span class="pre">LookPlan</span></code> — a document saying
+what will run, at which tier, against which binary.</p>
+<p>## An ffmpeg step’s tier belongs to the binary, so the binary is required</p>
+<p>An <code class="docutils literal notranslate"><span class="pre">ImplRef</span></code> declares <code class="docutils literal notranslate"><span class="pre">terms</span></code> — what was observed about the implementation.
+For an <strong>ffmpeg-backed</strong> implementation that declaration cannot be the whole
+answer, because there is not one ffmpeg on a machine: measured here, <code class="docutils literal notranslate"><span class="pre">PATH</span></code>
+is 8.1 / GPL-3 / 481 filters while <code class="docutils literal notranslate"><span class="pre">imageio-ffmpeg</span></code>’s bundled binary is 7.1 /
+GPL-2 / 484, and the filter sets are non-nested. The same registered
+implementation is a different licence position on each.</p>
+<p>So the compiler <strong>substitutes the probed binary’s terms</strong> into every ffmpeg
+candidate before selection, and selection, the step’s tier, and a later
+<a class="reference internal" href="#looks.compile.audit" title="looks.compile.audit"><code class="xref py py-func docutils literal notranslate"><span class="pre">audit()</span></code></a> all read that one substituted value. The consequence is that
+<code class="docutils literal notranslate"><span class="pre">env</span></code> is <strong>required</strong> for an ffmpeg step: without it the tier is unknown, and
+unknown is a refusal rather than a default.</p>
+<p>What this deliberately does <em>not</em> do is raise a step’s tier because it uses a
+GPL-gated filter. <a class="reference internal" href="licence.html#module-looks.licence" title="looks.licence"><code class="xref py py-mod docutils literal notranslate"><span class="pre">looks.licence</span></code></a> settles that — <em>“a GPL-gated filter does
+not raise the tier; the binary already has it”</em> — and the mechanism that keeps
+an <code class="docutils literal notranslate"><span class="pre">eq</span></code> look off an LGPL build is simpler and stronger: on such a build <code class="docutils literal notranslate"><span class="pre">eq</span></code>
+is not compiled in at all, so it is absent from <code class="docutils literal notranslate"><span class="pre">env.filters</span></code> and selection
+drops the candidate. A licence ceiling and a missing capability are different
+refusals, and <a class="reference internal" href="#looks.compile.unmet_filters" title="looks.compile.unmet_filters"><code class="xref py py-func docutils literal notranslate"><span class="pre">unmet_filters()</span></code></a> keeps them apart.</p>
+<p>## Why <a class="reference internal" href="#looks.compile.audit" title="looks.compile.audit"><code class="xref py py-func docutils literal notranslate"><span class="pre">audit()</span></code></a> exists, and why it re-derives instead of reading</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">LookPlan</span></code> is data, so it travels: written to a file, sent across a process
+boundary, stored in a graph, replayed a week later. Every one of those is a gap
+in which the thing that vouched for it stopped being present.</p>
+<p>So a plan carries both its <a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Policy</span></code></a> (the ceiling it was
+compiled under) and, on each step, a <code class="docutils literal notranslate"><span class="pre">tier</span></code>. <strong>The audit trusts neither of
+them about the step’s actual position.</strong> It goes back to the implementation’s
+<code class="docutils literal notranslate"><span class="pre">terms</span></code> — what was <em>observed</em> about the licence — and re-derives the tier from
+those. A plan whose stored tier disagrees with what its terms classify to is not
+a plan with a stale field; it is a plan asserting a position it is not entitled
+to, and it is refused by name.</p>
+<p>That is the same argument that keeps a tier off <code class="docutils literal notranslate"><span class="pre">Effect</span></code> and off <code class="docutils literal notranslate"><span class="pre">ImplRef</span></code>:
+anything that can declare its own tier can declare itself acceptable. A stored
+plan is just the version of that with a filesystem in between.</p>
+<p>The audit also refuses a plan naming an implementation this process does not
+have, or one whose <code class="docutils literal notranslate"><span class="pre">impl_version</span></code> has moved. Both mean the same thing — the
+plan describes behaviour this build does not implement — and guessing a
+substitute is exactly the failure the version lock exists to prevent.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.compile.CompileError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">CompileError</span></span><a class="reference internal" href="../../_modules/looks/compile.html#CompileError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.CompileError" title="Link to this definition"></a></dt>
+<dd><p>A Look that cannot be compiled against this clip and this binary.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.compile.PlanRefused">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">PlanRefused</span></span><a class="reference internal" href="../../_modules/looks/compile.html#PlanRefused"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.PlanRefused" title="Link to this definition"></a></dt>
+<dd><p>A stored plan that may not be run as it stands. Never a warning.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.compile.audit">
+<span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">audit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><span class="pre">Policy</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="registry.html#looks.registry.EffectRegistry" title="looks.registry.EffectRegistry"><span class="pre">EffectRegistry</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/looks/compile.html#audit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.audit" title="Link to this definition"></a></dt>
+<dd><p>Re-check a plan against its own declared ceiling. Raises, or returns None.</p>
+<p>Call this on any plan that crossed a boundary — read from a file, received
+over a wire, replayed from a graph. It answers one question: <em>may this run
+here, now, as it stands?</em></p>
+<p>Nothing the plan says about its own position is believed. Each step’s tier
+is re-derived from the implementation’s <code class="docutils literal notranslate"><span class="pre">terms</span></code> and compared to what the
+step claims; a disagreement is a refusal naming the step, not a field to
+refresh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>policy</strong> – The ceiling to check against. Defaults to the plan’s own —
+which is the right default and the weaker check, since a plan
+carrying a permissive policy vouches for itself. Pass your own to
+ask whether it may run under <em>your</em> ceiling.</p></li>
+<li><p><strong>registry</strong> – Which implementations exist here.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#looks.compile.PlanRefused" title="looks.compile.PlanRefused"><strong>PlanRefused</strong></a> – If a step names an implementation this process lacks, or
+    one whose <code class="docutils literal notranslate"><span class="pre">impl_version</span></code> has moved, or one whose stored tier
+    disagrees with its terms.</p></li>
+<li><p><a class="reference internal" href="licence.html#looks.licence.LooksLicenceError" title="looks.licence.LooksLicenceError"><strong>looks.licence.LooksLicenceError</strong></a> – If a step exceeds the ceiling.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.compile.compile_all">
+<span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">compile_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">looks_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="spec.html#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/compile.html#compile_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.compile_all" title="Link to this definition"></a></dt>
+<dd><p>Compile several Looks under one set of arguments.</p>
+<p>A convenience with one real property: it compiles <strong>all or none</strong>. A
+partially-compiled batch invites a caller to run the half that worked,
+which for a set-relative Look is precisely the mistake <code class="docutils literal notranslate"><span class="pre">resolve_across</span></code>
+exists to prevent.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.compile.compile_look">
+<span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">compile_look</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">look</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.Look" title="looks.spec.Look"><span class="pre">Look</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.ClipSpec" title="looks.spec.ClipSpec"><span class="pre">ClipSpec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="environment.html#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><span class="pre">FfmpegEnv</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">policy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><span class="pre">Policy</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="registry.html#looks.registry.EffectRegistry" title="looks.registry.EffectRegistry"><span class="pre">EffectRegistry</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></span><a class="reference internal" href="../../_modules/looks/compile.html#compile_look"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.compile_look" title="Link to this definition"></a></dt>
+<dd><p>Compile a Look into a plan. No process is started and no file is written.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>look</strong> – What was asked for. Portable data.</p></li>
+<li><p><strong>clip</strong> – What it is being applied to. Needed by any effect whose answer
+depends on the frame — its absence is only an error if an effect
+asks for it.</p></li>
+<li><p><strong>env</strong> – Which binary. When given, an implementation whose filters this
+build lacks is dropped from selection rather than discovered at
+run time.</p></li>
+<li><p><strong>policy</strong> – The ceiling. Defaults to the Look’s own.</p></li>
+<li><p><strong>probe</strong> – Measurements that <a class="reference internal" href="spec.html#looks.spec.Ref" title="looks.spec.Ref"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ref</span></code></a> parameters resolve
+against.</p></li>
+<li><p><strong>registry</strong> – Which implementations exist. Defaults to
+<a class="reference internal" href="registry.html#looks.registry.REGISTRY" title="looks.registry.REGISTRY"><code class="xref py py-data docutils literal notranslate"><span class="pre">looks.registry.REGISTRY</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><code class="xref py py-class docutils literal notranslate"><span class="pre">LookPlan</span></code></a> holding no live callables — the runner
+resolves each step’s code from the registry by key.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#looks.compile.CompileError" title="looks.compile.CompileError"><strong>CompileError</strong></a> – If an effect has no admissible implementation. The
+    message says which constraint emptied the pool, because “no
+    implementation available” alone is the least useful refusal in the
+    package.</p></li>
+<li><p><a class="reference internal" href="licence.html#looks.licence.LooksLicenceError" title="looks.licence.LooksLicenceError"><strong>looks.licence.LooksLicenceError</strong></a> – If the selected implementation exceeds
+    the ceiling. Selection already filters by policy, so this fires
+    only when nothing admissible existed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.compile.describe">
+<span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/compile.html#describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.describe" title="Link to this definition"></a></dt>
+<dd><p>A plan as a few lines of text — for a CLI, a log, or a review.</p>
+<p>Deliberately not a round-trippable format. Serialisation is
+<a class="reference internal" href="spec.html#looks.spec.plan_to_dict" title="looks.spec.plan_to_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">looks.spec.plan_to_dict()</span></code></a>’s job, and a second one would be a second
+thing to keep in sync.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.compile.payloads">
+<span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">payloads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/compile.html#payloads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.payloads" title="Link to this definition"></a></dt>
+<dd><p>Every step’s payload, optionally for one backend.</p>
+<p>The reading surface for a stored plan: an <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> payload is fully
+inspectable, so this is how a caller sees the exact filtergraph a plan
+stands for without running anything.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.compile.unmet_filters">
+<span class="sig-prename descclassname"><span class="pre">looks.compile.</span></span><span class="sig-name descname"><span class="pre">unmet_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="environment.html#looks.environment.FfmpegEnv" title="looks.environment.FfmpegEnv"><span class="pre">FfmpegEnv</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/compile.html#unmet_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.compile.unmet_filters" title="Link to this definition"></a></dt>
+<dd><p>Filters this plan needs that this binary does not have.</p>
+<p>Separate from <a class="reference internal" href="#looks.compile.audit" title="looks.compile.audit"><code class="xref py py-func docutils literal notranslate"><span class="pre">audit()</span></code></a> on purpose: a licence refusal is about what a
+caller may do, and a missing filter is about what a machine can do. They
+fail for different reasons, are fixed by different people, and collapsing
+them produces a message that helps neither.</p>
+</dd></dl>
+
 </section>
 
 

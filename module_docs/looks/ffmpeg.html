@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.ffmpeg &mdash; looks 0.0.7 documentation</title>
+  <title>looks.ffmpeg &mdash; looks 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=bbaf98b3"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -56,13 +56,25 @@
 <li class="toctree-l1"><a class="reference internal" href="cli.html">looks.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compile.html">looks.compile</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.ffmpeg</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.ffmpeg</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.FfmpegBackendError"><code class="docutils literal notranslate"><span class="pre">FfmpegBackendError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.GRAPH_LEVEL_SPECIALS"><code class="docutils literal notranslate"><span class="pre">GRAPH_LEVEL_SPECIALS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.OPTION_LEVEL_SPECIALS"><code class="docutils literal notranslate"><span class="pre">OPTION_LEVEL_SPECIALS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.escape_filter_value"><code class="docutils literal notranslate"><span class="pre">escape_filter_value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.filter_string"><code class="docutils literal notranslate"><span class="pre">filter_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.gated"><code class="docutils literal notranslate"><span class="pre">gated()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.register_defaults"><code class="docutils literal notranslate"><span class="pre">register_defaults()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.split_filters"><code class="docutils literal notranslate"><span class="pre">split_filters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.ffmpeg.vf"><code class="docutils literal notranslate"><span class="pre">vf()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipe.html">looks.pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="registry.html">looks.registry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
@@ -80,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pipe.html">looks.tests.test_pipe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
@@ -109,8 +122,188 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="looks-ffmpeg">
-<h1>looks.ffmpeg<a class="headerlink" href="#looks-ffmpeg" title="Link to this heading"></a></h1>
+  <section id="module-looks.ffmpeg">
+<span id="looks-ffmpeg"></span><h1>looks.ffmpeg<a class="headerlink" href="#module-looks.ffmpeg" title="Link to this heading"></a></h1>
+<p>The ffmpeg backend: filter strings, escaping, and the first effects.</p>
+<p>This is where a <cite>Step</cite>’s payload becomes text another process will parse, which
+is the whole reason the escaping in here is not a detail. Everything else in the
+package produces data; this module produces a <em>string handed to a parser</em>, and
+the flagship effect takes a caller-supplied file path.</p>
+<p>## Escaping, and why once is not enough</p>
+<p>ffmpeg unescapes a filter option <strong>twice</strong>. The filtergraph parser reads the
+whole graph first, splitting on <code class="docutils literal notranslate"><span class="pre">,</span></code> <code class="docutils literal notranslate"><span class="pre">;</span></code> <code class="docutils literal notranslate"><span class="pre">[</span></code> <code class="docutils literal notranslate"><span class="pre">]</span></code> and consuming one layer
+of quoting; only then is each surviving per-filter argument split into options
+on <code class="docutils literal notranslate"><span class="pre">:</span></code>, consuming a second. So escaping runs in the <strong>mirror order</strong> — option
+level first, graph level over that result — and each ffmpeg pass peels off
+exactly one layer.</p>
+<p>Ported from <code class="docutils literal notranslate"><span class="pre">muvid.visualize.canvas.escape_filter_value</span></code>, with its recorded
+negative kept: <strong>``%`` is deliberately not escaped.</strong> Neither parser treats it
+as special, so <code class="docutils literal notranslate"><span class="pre">\%</span></code> was simply unescaped back to <code class="docutils literal notranslate"><span class="pre">%</span></code> and escaping it never
+did anything. <code class="docutils literal notranslate"><span class="pre">drawtext</span></code>’s <code class="docutils literal notranslate"><span class="pre">%{...}</span></code> expansion is a third level belonging to
+one filter’s <code class="docutils literal notranslate"><span class="pre">text</span></code> option, and is out of scope for a general escaper.</p>
+<p>Verified here rather than inherited: <code class="docutils literal notranslate"><span class="pre">-vf</span> <span class="pre">&quot;lut3d=file=id,with:comma.cube&quot;</span></code>
+fails, and the escaped form works.</p>
+<p>## LGPL first, and the alternate says why</p>
+<p>Where an effect has both a GPL-gated and an LGPL implementation, <strong>both are
+registered</strong> and the LGPL one carries the lower <code class="docutils literal notranslate"><span class="pre">preference</span></code>. That is not a
+licence judgement made here — the registry records what exists and a
+<a class="reference internal" href="licence.html#looks.licence.Policy" title="looks.licence.Policy"><code class="xref py py-class docutils literal notranslate"><span class="pre">Policy</span></code></a> refuses at selection — it is an ordering, so that
+a caller who never thinks about licences gets the portable answer by default and
+a caller who needs the GPL one can still pin it.</p>
+<p><code class="docutils literal notranslate"><span class="pre">eq</span></code> is the case worth naming: the obvious grade filter is GPL-only, three of
+its jobs have LGPL substitutes in the same binary, and <cite>muvid</cite> ships a single
+<code class="docutils literal notranslate"><span class="pre">eq=</span></code> for a cosmetic dim. That one filter call is the concrete argument for
+this package existing.</p>
+<p>## What is deliberately absent</p>
+<p>No encoder arguments, no output file, no process. A payload here is a filter
+fragment and nothing more — the moment this module grows an opinion about
+<code class="docutils literal notranslate"><span class="pre">-c:v</span></code> it has become the second muvid, and the <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">null</span> <span class="pre">-</span></code> invariant that
+keeps the package honest would have nothing left to protect.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.ffmpeg.FfmpegBackendError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">FfmpegBackendError</span></span><a class="reference internal" href="../../_modules/looks/ffmpeg.html#FfmpegBackendError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.ffmpeg.FfmpegBackendError" title="Link to this definition"></a></dt>
+<dd><p>A step that cannot be expressed as a filter fragment.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.ffmpeg.GRAPH_LEVEL_SPECIALS">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">GRAPH_LEVEL_SPECIALS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('\\',</span> <span class="pre">&quot;'&quot;,</span> <span class="pre">',',</span> <span class="pre">';',</span> <span class="pre">'[',</span> <span class="pre">']')</span></span><a class="headerlink" href="#looks.ffmpeg.GRAPH_LEVEL_SPECIALS" title="Link to this definition"></a></dt>
+<dd><p>Characters the <strong>filtergraph</strong> parser gives meaning to across the graph:
+<code class="docutils literal notranslate"><span class="pre">,</span></code> chains, <code class="docutils literal notranslate"><span class="pre">;</span></code> separates, <code class="docutils literal notranslate"><span class="pre">[]</span></code> delimit pad labels, <code class="docutils literal notranslate"><span class="pre">\\</span></code> and <code class="docutils literal notranslate"><span class="pre">'</span></code>
+do that parser’s quoting.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.ffmpeg.OPTION_LEVEL_SPECIALS">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">OPTION_LEVEL_SPECIALS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('\\',</span> <span class="pre">&quot;'&quot;,</span> <span class="pre">':')</span></span><a class="headerlink" href="#looks.ffmpeg.OPTION_LEVEL_SPECIALS" title="Link to this definition"></a></dt>
+<dd><p>Characters the <strong>option</strong> parser gives meaning to, within one filter’s
+arguments. Must lead with <code class="docutils literal notranslate"><span class="pre">\\</span></code>: the backslashes introduced for the later
+characters must not themselves be escaped by the <code class="docutils literal notranslate"><span class="pre">\\</span></code> pass.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.ffmpeg.escape_filter_value">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">escape_filter_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/ffmpeg.html#escape_filter_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.ffmpeg.escape_filter_value" title="Link to this definition"></a></dt>
+<dd><p>Escape a value for use as a filter option inside a filtergraph.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">escape_filter_value</span><span class="p">(</span><span class="s2">"plain.cube"</span><span class="p">)</span>
+<span class="go">'plain.cube'</span>
+</pre></div>
+</div>
+<p>A comma would end the filter and a colon would end the option, so both are
+escaped twice — once for each parser that will read them:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">escape_filter_value</span><span class="p">(</span><span class="s2">"id,with:comma.cube"</span><span class="p">)</span>
+<span class="go">'id\\,with\\\\:comma.cube'</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">%</span></code> is left alone, on purpose — neither parser treats it as special, so
+escaping it only produced a backslash that was unescaped away again:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">escape_filter_value</span><span class="p">(</span><span class="s2">"100%.cube"</span><span class="p">)</span>
+<span class="go">'100%.cube'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.ffmpeg.filter_string">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">filter_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/ffmpeg.html#filter_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.ffmpeg.filter_string" title="Link to this definition"></a></dt>
+<dd><p>One filter, with its options escaped.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filter_string</span><span class="p">(</span><span class="s2">"gblur"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"sigma"</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="go">'gblur=sigma=2'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filter_string</span><span class="p">(</span><span class="s2">"null"</span><span class="p">)</span>
+<span class="go">'null'</span>
+</pre></div>
+</div>
+<p>A path with a comma in it survives, which is the whole point:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filter_string</span><span class="p">(</span><span class="s2">"lut3d"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"file"</span><span class="p">:</span> <span class="s2">"a,b.cube"</span><span class="p">})</span>
+<span class="go">'lut3d=file=a\\,b.cube'</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.ffmpeg.gated">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">gated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.Span" title="looks.spec.Span"><span class="pre">Span</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/ffmpeg.html#gated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.ffmpeg.gated" title="Link to this definition"></a></dt>
+<dd><p>Restrict a fragment to a span, using ffmpeg’s own timeline support.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gated</span><span class="p">(</span><span class="s2">"gblur=sigma=2"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="go">'gblur=sigma=2'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gated</span><span class="p">(</span><span class="s2">"gblur=sigma=2"</span><span class="p">,</span> <span class="n">Span</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="go">"gblur=sigma=2:enable='between(t,1,3.5)'"</span>
+</pre></div>
+</div>
+<p>A fragment of several filters is gated <strong>per filter</strong>, because <code class="docutils literal notranslate"><span class="pre">enable</span></code> is
+an option on a filter and not on a chain — writing it once at the end would
+gate only the last one, silently:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gated</span><span class="p">(</span><span class="s2">"scale=2:2,crop=1:1"</span><span class="p">,</span> <span class="n">Span</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="go">"scale=2:2:enable='between(t,0,1)',crop=1:1:enable='between(t,0,1)'"</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.ffmpeg.register_defaults">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">register_defaults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="registry.html#looks.registry.EffectRegistry" title="looks.registry.EffectRegistry"><span class="pre">EffectRegistry</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="registry.html#looks.registry.EffectRegistry" title="looks.registry.EffectRegistry"><span class="pre">EffectRegistry</span></a></span></span><a class="reference internal" href="../../_modules/looks/ffmpeg.html#register_defaults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.ffmpeg.register_defaults" title="Link to this definition"></a></dt>
+<dd><p>Register the built-in ffmpeg effects. Idempotent per registry.</p>
+<p>Called once on <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">looks</span></code>. Pass your own registry to get an
+independent set — the module-level default is the one
+<a class="reference internal" href="compile.html#looks.compile.compile_look" title="looks.compile.compile_look"><code class="xref py py-func docutils literal notranslate"><span class="pre">looks.compile.compile_look()</span></code></a> uses.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span> <span class="o">=</span> <span class="n">register_defaults</span><span class="p">(</span><span class="n">EffectRegistry</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">"saturation"</span> <span class="ow">in</span> <span class="n">reg</span><span class="o">.</span><span class="n">effects</span><span class="p">()</span> <span class="ow">and</span> <span class="s2">"lut3d"</span> <span class="ow">in</span> <span class="n">reg</span><span class="o">.</span><span class="n">effects</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Both ways to saturate are registered, and the LGPL one sorts first:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">impl</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">reg</span><span class="o">.</span><span class="n">implementations</span><span class="p">(</span><span class="s2">"saturation"</span><span class="p">)]</span>
+<span class="go">['saturation.ffmpeg.colorchannelmixer', 'saturation.ffmpeg.eq']</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.ffmpeg.split_filters">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">split_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/ffmpeg.html#split_filters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.ffmpeg.split_filters" title="Link to this definition"></a></dt>
+<dd><p>A chain into its filters, splitting on UNESCAPED commas only.</p>
+<p>A comma inside a filter option is escaped — rule 21, and this package’s own
+<a class="reference internal" href="#looks.ffmpeg.escape_filter_value" title="looks.ffmpeg.escape_filter_value"><code class="xref py py-func docutils literal notranslate"><span class="pre">escape_filter_value()</span></code></a> produces it routinely. Splitting on every comma
+cuts <em>inside</em> an expression: the shipped <code class="docutils literal notranslate"><span class="pre">gamma</span></code> effect compiles to
+<code class="docutils literal notranslate"><span class="pre">lutrgb=r=maxval*pow(val/maxval\,0.833333):...</span></code>, and the naive split
+turned that into an unparseable chain the moment it was gated —
+<code class="docutils literal notranslate"><span class="pre">pow(val/maxval\:enable='between(t,1,2)',0.83)</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_filters</span><span class="p">(</span><span class="s2">"scale=2:2,crop=1:1"</span><span class="p">)</span>
+<span class="go">['scale=2:2', 'crop=1:1']</span>
+</pre></div>
+</div>
+<p>An escaped comma stays inside its filter:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_filters</span><span class="p">(</span><span class="sa">r</span><span class="s2">"lutrgb=r=pow(val\,2),gblur=sigma=1"</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="sa">r</span><span class="s2">"lutrgb=r=pow(val\,2)"</span><span class="p">,</span> <span class="s2">"gblur=sigma=1"</span><span class="p">]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>An escaped BACKSLASH does not escape the comma after it:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_filters</span><span class="p">(</span><span class="s2">"a=x</span><span class="se">\\\\</span><span class="s2">,b=y"</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s2">"a=x</span><span class="se">\\\\</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"b=y"</span><span class="p">]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.ffmpeg.vf">
+<span class="sig-prename descclassname"><span class="pre">looks.ffmpeg.</span></span><span class="sig-name descname"><span class="pre">vf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/ffmpeg.html#vf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.ffmpeg.vf" title="Link to this definition"></a></dt>
+<dd><p>A whole plan as one <code class="docutils literal notranslate"><span class="pre">-vf</span></code> fragment: input-index-free, splice-ready.</p>
+<p>The seam every consumer asked for is one string — <code class="docutils literal notranslate"><span class="pre">muvid</span></code> splices it into
+the filter chain <code class="docutils literal notranslate"><span class="pre">_render_part</span></code> already builds, and that only works if
+nothing here names a stream.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#looks.ffmpeg.FfmpegBackendError" title="looks.ffmpeg.FfmpegBackendError"><strong>FfmpegBackendError</strong></a> – If a step is not ffmpeg-backed, or is gated to a
+    span its filter cannot honour. The second is why
+    <a class="reference internal" href="spec.html#looks.spec.ImplRef.timeline" title="looks.spec.ImplRef.timeline"><code class="xref py py-attr docutils literal notranslate"><span class="pre">timeline</span></code></a> exists: <code class="docutils literal notranslate"><span class="pre">zoompan</span></code> and
+    <code class="docutils literal notranslate"><span class="pre">elbg</span></code> carry no timeline support, so an <code class="docutils literal notranslate"><span class="pre">at</span></code> on them would be
+    accepted by the string and ignored by the binary.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

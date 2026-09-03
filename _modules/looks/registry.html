@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.registry &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.registry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.registry</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Which implementations exist, and how to reach the code behind a plan.</span>
+
+<span class="sd">A :class:`~looks.spec.LookPlan` holds no live callables — that is the whole</span>
+<span class="sd">reason it can be serialised, diffed and hashed. The consequence is that</span>
+<span class="sd">something has to turn a stored plan back into runnable work, and a stored plan</span>
+<span class="sd">names its implementation by **key**. This module is what those keys point at.</span>
+
+<span class="sd">**A payload names a registry key and never a ``module:attr`` import path.** A</span>
+<span class="sd">plan is a document, documents arrive from places, and a document that can name</span>
+<span class="sd">``os:system`` is a remote-code-execution primitive wearing a schema tag. So the</span>
+<span class="sd">only names that resolve are ones this process registered.</span>
+
+<span class="sd">## A hand-rolled dict, declared as a deviation rather than discovered as one</span>
+
+<span class="sd">The federation's plugin pattern is ``xdol.Registry``, and this is not it.</span>
+<span class="sd">``xdol`` depends on ``dol``, and this package's first non-negotiable is a</span>
+<span class="sd">``pyproject.toml`` declaring nothing but stdlib. So the *semantics* are adopted</span>
+<span class="sd">— error on conflict, a reserved ``tags`` field — without the import. The</span>
+<span class="sd">deviation is not novel: ``burns.RENDER_BACKENDS`` and ``muvid.visualize._VISUALS``</span>
+<span class="sd">are both plain dicts for the same reason. A consumer that wants tag search can</span>
+<span class="sd">mirror this mapping into an ``xdol.Registry`` in one line.</span>
+
+<span class="sd">## What is refused at registration, and why there</span>
+
+<span class="sd">Two things, both of which would otherwise surface much later as a confusing</span>
+<span class="sd">*absence*:</span>
+
+<span class="sd">- **A duplicate implementation key.** Last-write-wins would silently change</span>
+<span class="sd">  which code a stored plan resolves to, which is the one failure a</span>
+<span class="sd">  content-addressed plan hash exists to prevent.</span>
+<span class="sd">- **An ffmpeg implementation naming a filter that does not exist.** A typo</span>
+<span class="sd">  makes :func:`~looks.spec.select_impl` drop the candidate on a set-inclusion</span>
+<span class="sd">  test and report "no implementation available" — a refusal whose message</span>
+<span class="sd">  points nowhere near the cause. This is D-2's lesson applied one layer up:</span>
+<span class="sd">  ``needs_gpl`` raises on an unrecognised filter rather than reporting it</span>
+<span class="sd">  clean, and so does this.</span>
+
+<span class="sd">A tier is **not** checked here. The registry records what exists; a</span>
+<span class="sd">:class:`~looks.licence.Policy` refuses at selection. Registering a GPL</span>
+<span class="sd">implementation is legitimate and necessary — refusing it at registration would</span>
+<span class="sd">mean a caller with a GPL ceiling could not use one either.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImplRef</span><span class="p">,</span> <span class="n">SpecError</span>
+
+<span class="c1">#: What a compiler is handed and what it must return. The payload is</span>
+<span class="c1">#: backend-shaped — see :class:`~looks.spec.Step` — and must be plain data:</span>
+<span class="c1">#: it is about to be hashed and serialised.</span>
+<span class="n">Compiler</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
+
+<span class="c1">#: What a cost estimator returns. ``None`` means **unknown**, never free — the</span>
+<span class="c1">#: federation's rule, and the reason this is a separate callable rather than a</span>
+<span class="c1">#: number defaulting to 0.0.</span>
+<span class="n">CostFn</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
+
+<span class="c1">#: The shape an implementation key must have, in words, for error messages.</span>
+<span class="n">KEY_SHAPE</span> <span class="o">=</span> <span class="s2">"&lt;effect&gt;.&lt;backend&gt;.&lt;variant&gt;"</span>
+
+
+<div class="viewcode-block" id="RegistryError">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.RegistryError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RegistryError</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A registration that would make a later refusal point at the wrong thing."""</span></div>
+
+
+
+<div class="viewcode-block" id="ImplConflict">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.ImplConflict">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImplConflict</span><span class="p">(</span><span class="n">RegistryError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""That key is taken. Last-write-wins would change what a stored plan runs."""</span></div>
+
+
+
+<div class="viewcode-block" id="UnknownImpl">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.UnknownImpl">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnknownImpl</span><span class="p">(</span><span class="n">RegistryError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A plan names an implementation this process does not have."""</span></div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_Entry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One registration: the declaration, the code, and the tags."""</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"impl"</span><span class="p">,</span> <span class="s2">"compiler"</span><span class="p">,</span> <span class="s2">"cost"</span><span class="p">,</span> <span class="s2">"tags"</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">impl</span><span class="p">:</span> <span class="n">ImplRef</span><span class="p">,</span>
+        <span class="n">compiler</span><span class="p">:</span> <span class="n">Compiler</span><span class="p">,</span>
+        <span class="n">cost</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CostFn</span><span class="p">],</span>
+        <span class="n">tags</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">impl</span> <span class="o">=</span> <span class="n">impl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compiler</span> <span class="o">=</span> <span class="n">compiler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">cost</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">tags</span>
+
+
+<div class="viewcode-block" id="EffectRegistry">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.EffectRegistry">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EffectRegistry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Effect name to implementations, and implementation key to code.</span>
+
+<span class="sd">    An instance rather than a module global, so a test can build its own and a</span>
+<span class="sd">    consumer can compose several. The module-level functions below delegate to</span>
+<span class="sd">    :data:`REGISTRY`, which is the one the compiler uses by default.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from looks.licence import terms_for</span>
+<span class="sd">        &gt;&gt;&gt; reg = EffectRegistry()</span>
+<span class="sd">        &gt;&gt;&gt; impl = ImplRef(effect="lut3d", impl="lut3d.ffmpeg.default",</span>
+<span class="sd">        ...                backend="ffmpeg", terms=terms_for("ffmpeg")[0],</span>
+<span class="sd">        ...                requires_filters=("lut3d",))</span>
+<span class="sd">        &gt;&gt;&gt; _ = reg.register(impl, lambda params, **kw: {"filter": "lut3d"})</span>
+<span class="sd">        &gt;&gt;&gt; reg.effects()</span>
+<span class="sd">        ('lut3d',)</span>
+<span class="sd">        &gt;&gt;&gt; reg.implementations("lut3d") == (impl,)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        A key is taken once:</span>
+
+<span class="sd">        &gt;&gt;&gt; reg.register(impl, lambda params, **kw: {})</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        looks.registry.ImplConflict: 'lut3d.ffmpeg.default' is already</span>
+<span class="sd">        registered...</span>
+
+<span class="sd">        An unknown effect is an empty tuple, not an error — asking what is</span>
+<span class="sd">        available is not the same as asking for something:</span>
+
+<span class="sd">        &gt;&gt;&gt; reg.implementations("nonesuch")</span>
+<span class="sd">        ()</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"looks"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Entry</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_by_effect</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="EffectRegistry.register">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.EffectRegistry.register">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">impl</span><span class="p">:</span> <span class="n">ImplRef</span><span class="p">,</span>
+        <span class="n">compiler</span><span class="p">:</span> <span class="n">Compiler</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">cost</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CostFn</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tags</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+        <span class="n">known_filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImplRef</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Record an implementation. Returns it, so this reads well inline.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            impl: What the implementation declares about itself — terms, never</span>
+<span class="sd">                a tier.</span>
+<span class="sd">            compiler: ``(params, *, clip, env) -&gt; payload``. Must return plain</span>
+<span class="sd">                data; the payload is hashed.</span>
+<span class="sd">            cost: ``(params, *, clip, env) -&gt; float | None`` in CPU-seconds.</span>
+<span class="sd">                Absent means unknown, which is **not** zero.</span>
+<span class="sd">            tags: Reserved for consumer-side search, as ``xdol.Registry`` has.</span>
+<span class="sd">                Never read by selection — a tag that changed a refusal would be</span>
+<span class="sd">                a tier a caller could assert.</span>
+<span class="sd">            known_filters: The filter universe to validate against. Defaults to</span>
+<span class="sd">                the one compiled into this package. Pass a binary's own set to</span>
+<span class="sd">                validate against that instead.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ImplConflict: If the key is taken.</span>
+<span class="sd">            RegistryError: If the key is not ``&lt;effect&gt;.&lt;backend&gt;.&lt;variant&gt;``,</span>
+<span class="sd">                or an ffmpeg implementation names a filter that does not exist.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_key</span><span class="p">(</span><span class="n">impl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">impl</span><span class="o">.</span><span class="n">impl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">:</span>
+            <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">[</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">]</span><span class="o">.</span><span class="n">impl</span>
+            <span class="k">raise</span> <span class="n">ImplConflict</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> is already registered, for effect "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">existing</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2">. Overwriting it would silently change "</span>
+                <span class="s2">"which code a stored plan resolves to — which is exactly what "</span>
+                <span class="s2">"a plan hash exists to prevent. Pick another variant name."</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">impl</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">"ffmpeg"</span> <span class="ow">and</span> <span class="n">impl</span><span class="o">.</span><span class="n">requires_filters</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_filters</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">known_filters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">[</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">]</span> <span class="o">=</span> <span class="n">_Entry</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">compiler</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_by_effect</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">effect</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">impl</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_key</span><span class="p">(</span><span class="n">impl</span><span class="p">:</span> <span class="n">ImplRef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RegistryError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> is not of the form </span><span class="si">{</span><span class="n">KEY_SHAPE</span><span class="si">}</span><span class="s2"> — a key with "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="si">}</span><span class="s2"> segments cannot be read back into its parts."</span>
+            <span class="p">)</span>
+        <span class="n">effect</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">_variant</span> <span class="o">=</span> <span class="n">parts</span>
+        <span class="k">if</span> <span class="n">effect</span> <span class="o">!=</span> <span class="n">impl</span><span class="o">.</span><span class="n">effect</span> <span class="ow">or</span> <span class="n">backend</span> <span class="o">!=</span> <span class="n">impl</span><span class="o">.</span><span class="n">backend</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RegistryError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> disagrees with what it declares: effect "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2">, backend </span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">backend</span><span class="si">!r}</span><span class="s2">. The key is "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">KEY_SHAPE</span><span class="si">}</span><span class="s2">, so a key that says otherwise is a name that "</span>
+                <span class="s2">"will be read wrongly by everything downstream."</span>
+            <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_filters</span><span class="p">(</span><span class="n">impl</span><span class="p">:</span> <span class="n">ImplRef</span><span class="p">,</span> <span class="n">known</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">looks.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">known_filters</span> <span class="k">as</span> <span class="n">_known</span>
+
+        <span class="n">universe</span> <span class="o">=</span> <span class="n">_known</span><span class="p">()</span> <span class="k">if</span> <span class="n">known</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">known</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">impl</span><span class="o">.</span><span class="n">requires_filters</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">universe</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RegistryError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="si">!r}</span><span class="s2"> requires </span><span class="si">{</span><span class="n">unknown</span><span class="si">}</span><span class="s2">, which are not ffmpeg "</span>
+                <span class="sa">f</span><span class="s2">"filters (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">universe</span><span class="p">)</span><span class="si">}</span><span class="s2"> known). Left in, a typo makes "</span>
+                <span class="s2">"selection drop this candidate on a set-inclusion test and "</span>
+                <span class="s2">"report 'no implementation available' — a refusal pointing "</span>
+                <span class="s2">"nowhere near the cause. Case matters to ffmpeg."</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="EffectRegistry.implementations">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.EffectRegistry.implementations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">implementations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">effect</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ImplRef</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Everything registered for an effect, registration order preserved."""</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">impl</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_effect</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span> <span class="p">()))</span></div>
+
+
+<div class="viewcode-block" id="EffectRegistry.effects">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.EffectRegistry.effects">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">effects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Every effect with at least one implementation, sorted."""</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_effect</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="EffectRegistry.impl">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.EffectRegistry.impl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImplRef</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The declaration behind a key.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            UnknownImpl: Naming what is available, because the usual cause is a</span>
+<span class="sd">                plan compiled where a different set was registered.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">impl</span></div>
+
+
+<div class="viewcode-block" id="EffectRegistry.compiler">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.EffectRegistry.compiler">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compiler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Compiler</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The code behind a key — how a stored plan becomes runnable work."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">compiler</span></div>
+
+
+<div class="viewcode-block" id="EffectRegistry.cost">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.EffectRegistry.cost">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CostFn</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""The cost estimator, or ``None`` when none was declared."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">cost</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">tags</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Entry</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnknownImpl</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"nothing is registered as </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">. This process has "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">)</span><span class="si">}</span><span class="s2"> implementations across "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_effect</span><span class="p">)</span><span class="si">}</span><span class="s2"> effects. A plan naming an absent "</span>
+                <span class="s2">"implementation was compiled somewhere else — which is a "</span>
+                <span class="s2">"refusal, not a reason to guess a substitute."</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">, "</span>
+            <span class="sa">f</span><span class="s2">"effects=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_effect</span><span class="p">)</span><span class="si">}</span><span class="s2">, implementations=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_by_key</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="c1">#: The registry the compiler uses when not given another.</span>
+<span class="n">REGISTRY</span> <span class="o">=</span> <span class="n">EffectRegistry</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="register_effect">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.register_effect">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">register_effect</span><span class="p">(</span><span class="n">impl</span><span class="p">:</span> <span class="n">ImplRef</span><span class="p">,</span> <span class="n">compiler</span><span class="p">:</span> <span class="n">Compiler</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImplRef</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Register into :data:`REGISTRY`. See :meth:`EffectRegistry.register`."""</span>
+    <span class="k">return</span> <span class="n">REGISTRY</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">compiler</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="implementations">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.implementations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">implementations</span><span class="p">(</span><span class="n">effect</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ImplRef</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""What :data:`REGISTRY` has for an effect."""</span>
+    <span class="k">return</span> <span class="n">REGISTRY</span><span class="o">.</span><span class="n">implementations</span><span class="p">(</span><span class="n">effect</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="effects">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.effects">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">effects</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Every effect :data:`REGISTRY` can serve."""</span>
+    <span class="k">return</span> <span class="n">REGISTRY</span><span class="o">.</span><span class="n">effects</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="get_impl">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.get_impl">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_impl</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImplRef</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The declaration behind a key, from :data:`REGISTRY`."""</span>
+    <span class="k">return</span> <span class="n">REGISTRY</span><span class="o">.</span><span class="n">impl</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_compiler">
+<a class="viewcode-back" href="../../module_docs/looks/registry.html#looks.get_compiler">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_compiler</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Compiler</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The code behind a key, from :data:`REGISTRY`."""</span>
+    <span class="k">return</span> <span class="n">REGISTRY</span><span class="o">.</span><span class="n">compiler</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

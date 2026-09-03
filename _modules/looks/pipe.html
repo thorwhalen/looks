@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.pipe &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.pipe</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.pipe</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""A plan that mixes backends, as a pipe — emitted as data, never spawned.</span>
+
+<span class="sd">Some effects are filters and some are Python over raw frames. A plan holding</span>
+<span class="sd">both cannot be one ffmpeg process, so it becomes a **pipe**: ffmpeg decodes and</span>
+<span class="sd">filters, hands raw frames to a Python operation, and a second ffmpeg reads those</span>
+<span class="sd">frames back and filters again.</span>
+
+<span class="sd">This module produces that arrangement **as data** — argv lists a caller can run.</span>
+<span class="sd">`looks` does not run it, and structurally cannot: `looks._run` refuses any argv</span>
+<span class="sd">whose outputs are not `-f null -`, and both halves emitted here are refused by</span>
+<span class="sd">it. That is asserted rather than assumed, because "we simply do not call it" is</span>
+<span class="sd">a convention and a refusal is a mechanism.</span>
+
+<span class="sd">## What is deliberately not emitted</span>
+
+<span class="sd">**The codec, the container, the output path.** The encoder half stops at its</span>
+<span class="sd">input contract and its filter chain. Encode settings are a delivery decision the</span>
+<span class="sd">host owns — `muvid` pins `-video_track_timescale` for concat compatibility, and</span>
+<span class="sd">a package that grew opinions about `-c:v` would be the second muvid. It also</span>
+<span class="sd">means no module here contains an encoder spelling, which the package's own AST</span>
+<span class="sd">perimeter scan enforces on every run.</span>
+
+<span class="sd">## The fold, and the one place it is dangerous</span>
+
+<span class="sd">Adjacent same-backend steps merge into one filter chain, and a filter run</span>
+<span class="sd">*next to* a frame operation does not get its own process — it rides in the</span>
+<span class="sd">`-vf` of the ffmpeg that already exists to feed or drain the pipe. That is what</span>
+<span class="sd">makes a chain like Que Calor's one (decoder, encoder) pair rather than three</span>
+<span class="sd">processes.</span>
+
+<span class="sd">Folding into the **decoder** half is always safe: it reads a container and</span>
+<span class="sd">inherits the host's filter timeline. Folding into the **encoder** half is not,</span>
+<span class="sd">and this is rule 27:</span>
+
+<span class="sd">    The encoder half reads `-f rawvideo`, which carries no timestamps at all.</span>
+<span class="sd">    Its filter timeline restarts at 0.</span>
+
+<span class="sd">So a step gated to "4 s to 5 s" fires on source frames 40-50 unfolded and on</span>
+<span class="sd">**nothing at all** folded — exit 0, empty stderr, and a look that silently never</span>
+<span class="sd">appears. Reproduced, and reproduced again with the rebase applied, which</span>
+<span class="sd">restores a frame-for-frame identical result.</span>
+
+<span class="sd">`looks` therefore **rebases what it can and refuses what it cannot**:</span>
+
+<span class="sd">- A span carried structurally on :attr:`~looks.spec.Step.at` is one subtraction,</span>
+<span class="sd">  and `looks` owns every expression it generates, so the rebase is exact.</span>
+<span class="sd">- An `enable=` baked into a filter string by someone else is an arbitrary ffmpeg</span>
+<span class="sd">  expression. Rewriting it would mean surgery on a grammar with no way to check</span>
+<span class="sd">  the result, so it is refused by name.</span>
+
+<span class="sd">And an undeclared origin is refused rather than assumed to be 0 — see</span>
+<span class="sd">:attr:`~looks.spec.ClipSpec.origin_s`, which is where that fact lives.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClipSpec</span><span class="p">,</span> <span class="n">LookPlan</span><span class="p">,</span> <span class="n">Span</span><span class="p">,</span> <span class="n">SpecError</span><span class="p">,</span> <span class="n">Step</span>
+
+<span class="c1">#: The raw pixel format the pipe carries. Packed 8-bit BGR: it is what the</span>
+<span class="c1">#: frame kernels in this ecosystem already speak, and packing means a frame is</span>
+<span class="c1">#: one contiguous ``width * height * 3`` read with no plane arithmetic.</span>
+<span class="n">DFLT_PIPE_PIX_FMT</span> <span class="o">=</span> <span class="s2">"bgr24"</span>
+
+<span class="c1">#: Bytes per pixel, by raw pixel format. A consumer sizes its reads from the</span>
+<span class="c1">#: plan rather than from a constant it happens to agree on — rawvideo has no</span>
+<span class="c1">#: header, so a wrong stride is a silently sheared picture rather than an error.</span>
+<span class="c1">#: Only packed 8-bit formats are listed: a planar or higher-depth format has no</span>
+<span class="c1">#: single bytes-per-pixel, so it is refused rather than approximated.</span>
+<span class="n">PIPE_BYTES_PER_PIXEL</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"bgr24"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">"rgb24"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">"gray"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"bgra"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">"rgba"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">"argb"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">"abgr"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="PipeError">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.PipeError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipeError</span><span class="p">(</span><span class="n">SpecError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A plan that cannot be arranged as a pipe, or not safely."""</span></div>
+
+
+
+<div class="viewcode-block" id="FrameSegment">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.FrameSegment">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FrameSegment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One ffmpeg → Python → ffmpeg segment.</span>
+
+<span class="sd">    Both argv are input-and-filter only. The caller appends its own encode</span>
+<span class="sd">    settings and destination to :attr:`encode`.</span>
+<span class="sd">    """</span>
+
+    <span class="n">op</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">decode</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">encode</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">pix_fmt</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">rate</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Frozen means frozen. Every other mapping-carrying dataclass in this</span>
+        <span class="c1"># package copies and freezes; without it this one aliases the caller's</span>
+        <span class="c1"># dict and `to_dict()` changes after the segment is built.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MappingProxyType</span>
+
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">,</span> <span class="n">MappingProxyType</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">frame_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""How many bytes one frame occupies on the pipe.</span>
+
+<span class="sd">        rawvideo has no header, so a consumer that guesses this reads a sheared</span>
+<span class="sd">        picture rather than an error.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">PIPE_BYTES_PER_PIXEL</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pix_fmt</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"kind"</span><span class="p">:</span> <span class="s2">"frame"</span><span class="p">,</span>
+            <span class="s2">"op"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">op</span><span class="p">,</span>
+            <span class="s2">"decode"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">),</span>
+            <span class="s2">"encode"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">),</span>
+            <span class="s2">"pix_fmt"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pix_fmt</span><span class="p">,</span>
+            <span class="s2">"size"</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">],</span>
+            <span class="s2">"rate"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rate</span><span class="p">,</span>
+            <span class="s2">"frame_bytes"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_bytes</span><span class="p">,</span>
+            <span class="s2">"params"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="FilterSegment">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.FilterSegment">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FilterSegment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A run of ffmpeg steps with no frame operation in it: one `-vf`."""</span>
+
+    <span class="n">vf</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"kind"</span><span class="p">:</span> <span class="s2">"filter"</span><span class="p">,</span> <span class="s2">"vf"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vf</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="PipePlan">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.PipePlan">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipePlan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The whole arrangement, as data.</span>
+
+<span class="sd">    ``boundaries`` is the number of raw-frame crossings, which is the number</span>
+<span class="sd">    that costs — each one is a full decode and re-encode. It is reported after</span>
+<span class="sd">    folding, because counting runs before folding overstates it.</span>
+<span class="sd">    """</span>
+
+    <span class="n">segments</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">boundaries</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segments</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segments</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"schema"</span><span class="p">:</span> <span class="s2">"looks.pipe/v1"</span><span class="p">,</span>
+            <span class="s2">"source"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+            <span class="s2">"boundaries"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundaries</span><span class="p">,</span>
+            <span class="s2">"segments"</span><span class="p">:</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">segments</span><span class="p">],</span>
+        <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="runs">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.runs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">runs</span><span class="p">(</span><span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Step</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Maximal runs of consecutive steps sharing a backend.</span>
+
+<span class="sd">    The first thing the fold needs, and worth its own name because "how many</span>
+<span class="sd">    processes does this plan cost" is answered from it.</span>
+
+<span class="sd">    &gt;&gt;&gt; from looks.spec import LookPlan</span>
+<span class="sd">    &gt;&gt;&gt; runs(LookPlan())</span>
+<span class="sd">    ()</span>
+<span class="sd">    """</span>
+    <span class="n">out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Step</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">backend</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">and</span> <span class="n">out</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">backend</span><span class="p">:</span>
+            <span class="n">out</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">backend</span><span class="p">,</span> <span class="p">[</span><span class="n">step</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">backend</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">steps</span><span class="p">))</span> <span class="k">for</span> <span class="n">backend</span><span class="p">,</span> <span class="n">steps</span> <span class="ow">in</span> <span class="n">out</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rebased</span><span class="p">(</span><span class="n">step</span><span class="p">:</span> <span class="n">Step</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Step</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A step's span moved from host-decoder time into pipe time.</span>
+
+<span class="sd">    Only the structured span is touched. `looks` generates every ``enable=`` it</span>
+<span class="sd">    emits from :attr:`Step.at` at read time, so moving the span moves the</span>
+<span class="sd">    expression exactly — there is no string to parse and nothing to get wrong.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">origin</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">step</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">origin</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">step</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">origin</span>
+    <span class="k">return</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="n">Span</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_refuse_foreign_gate</span><span class="p">(</span><span class="n">steps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Step</span><span class="p">],</span> <span class="n">where</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A gate baked into someone else's filter string cannot be rebased.</span>
+
+<span class="sd">    Rewriting it would mean editing an arbitrary ffmpeg expression with no way</span>
+<span class="sd">    to verify the result. Refusing costs a caller one static crop; guessing</span>
+<span class="sd">    costs them a look that silently applies to the wrong frames.</span>
+<span class="sd">    """</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+        <span class="n">fragment</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span>
+        <span class="k">if</span> <span class="s2">"enable="</span> <span class="ow">in</span> <span class="n">fragment</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PipeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"step </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">effect</span><span class="si">!r}</span><span class="s2">) carries an `enable=` inside its "</span>
+                <span class="sa">f</span><span class="s2">"own filter string, and </span><span class="si">{</span><span class="n">where</span><span class="si">}</span><span class="s2"> would rebase its time origin. "</span>
+                <span class="s2">"`looks` rebases a span it generated and refuses one it did "</span>
+                <span class="s2">"not: rewriting an arbitrary ffmpeg expression cannot be "</span>
+                <span class="s2">"checked. Express the span as Effect.at instead."</span>
+            <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_vf_of</span><span class="p">(</span><span class="n">steps</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Step</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.ffmpeg</span><span class="w"> </span><span class="kn">import</span> <span class="n">vf</span>
+
+    <span class="k">return</span> <span class="n">vf</span><span class="p">(</span><span class="n">LookPlan</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">steps</span><span class="p">)))</span>
+
+
+<div class="viewcode-block" id="piped_size">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.piped_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">piped_size</span><span class="p">(</span><span class="n">clip</span><span class="p">:</span> <span class="n">ClipSpec</span><span class="p">,</span> <span class="n">folded</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Step</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""The frame size the decoder actually emits, after the folded chain.</span>
+
+<span class="sd">    An effect that changes the frame's geometry declares ``out_size`` in its</span>
+<span class="sd">    payload. That is a **contract**, not decoration: rawvideo has no header, so</span>
+<span class="sd">    the size a consumer reads has to come from the plan, and an implementation</span>
+<span class="sd">    that resizes without saying so makes the declared stride a lie.</span>
+
+<span class="sd">    &gt;&gt;&gt; from looks.spec import ClipSpec</span>
+<span class="sd">    &gt;&gt;&gt; piped_size(ClipSpec(width=640, height=480, fps=10), [])</span>
+<span class="sd">    (640, 480)</span>
+<span class="sd">    """</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">clip</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">clip</span><span class="o">.</span><span class="n">height</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">folded</span><span class="p">:</span>
+        <span class="n">declared</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"out_size"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">declared</span><span class="p">:</span>
+            <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">declared</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">declared</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_decoder</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">clip</span><span class="p">:</span> <span class="n">ClipSpec</span><span class="p">,</span> <span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pix_fmt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""ffmpeg reading the source and writing raw frames to stdout."""</span>
+    <span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ffmpeg"</span><span class="p">,</span> <span class="s2">"-v"</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">,</span> <span class="s2">"-i"</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="s2">"-an"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">chain</span><span class="p">:</span>
+        <span class="n">argv</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">"-vf"</span><span class="p">,</span> <span class="n">chain</span><span class="p">]</span>
+    <span class="c1"># NO `-s` here. After `-vf` it is an OUTPUT option, so it does not describe</span>
+    <span class="c1"># the frames — it forces a rescale to that size, undoing any geometry folded</span>
+    <span class="c1"># into the decode chain. Measured: `fit` to 320x240 folded in, then</span>
+    <span class="c1"># `-s 640x480` scaled it straight back to the source size, silently. The</span>
+    <span class="c1"># frame size out of a decoder is whatever its chain produces, and a consumer</span>
+    <span class="c1"># reads it from the segment's declared width/height instead.</span>
+    <span class="n">argv</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">"-f"</span><span class="p">,</span> <span class="s2">"rawvideo"</span><span class="p">,</span> <span class="s2">"-pix_fmt"</span><span class="p">,</span> <span class="n">pix_fmt</span><span class="p">,</span> <span class="s2">"-r"</span><span class="p">,</span> <span class="n">_rate</span><span class="p">(</span><span class="n">clip</span><span class="o">.</span><span class="n">fps</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_encoder</span><span class="p">(</span><span class="n">clip</span><span class="p">:</span> <span class="n">ClipSpec</span><span class="p">,</span> <span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pix_fmt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""ffmpeg reading raw frames from stdin — input contract and filters only.</span>
+
+<span class="sd">    The rate is declared explicitly and derived from the clip, never omitted:</span>
+<span class="sd">    the rawvideo demuxer defaults to 25, which would rescale every time-based</span>
+<span class="sd">    expression in the folded chain without saying so.</span>
+<span class="sd">    """</span>
+    <span class="n">argv</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">"ffmpeg"</span><span class="p">,</span>
+        <span class="s2">"-v"</span><span class="p">,</span>
+        <span class="s2">"error"</span><span class="p">,</span>
+        <span class="s2">"-f"</span><span class="p">,</span>
+        <span class="s2">"rawvideo"</span><span class="p">,</span>
+        <span class="s2">"-pix_fmt"</span><span class="p">,</span>
+        <span class="n">pix_fmt</span><span class="p">,</span>
+        <span class="s2">"-s"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">clip</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">clip</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"-r"</span><span class="p">,</span>
+        <span class="n">_rate</span><span class="p">(</span><span class="n">clip</span><span class="o">.</span><span class="n">fps</span><span class="p">),</span>
+        <span class="s2">"-i"</span><span class="p">,</span>
+        <span class="s2">"-"</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">chain</span><span class="p">:</span>
+        <span class="n">argv</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">"-vf"</span><span class="p">,</span> <span class="n">chain</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rate</span><span class="p">(</span><span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fps</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"0"</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span> <span class="ow">or</span> <span class="s2">"0"</span>
+
+
+<div class="viewcode-block" id="pipe_plan">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.pipe_plan">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pipe_plan</span><span class="p">(</span>
+    <span class="n">plan</span><span class="p">:</span> <span class="n">LookPlan</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">clip</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClipSpec</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pix_fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DFLT_PIPE_PIX_FMT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PipePlan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Arrange a compiled plan as processes — emitted as data, never started.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source: What the first decoder reads. Passed through verbatim; `looks`</span>
+<span class="sd">            does not open it.</span>
+<span class="sd">        clip: The clip the plan was compiled against. Defaults to the plan's own.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        PipeError: If the plan needs a raw-frame boundary and cannot be arranged</span>
+<span class="sd">            safely across it — an undeclared time origin under a gated step, or</span>
+<span class="sd">            a gate baked into a filter string.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        A plan of pure ffmpeg steps is one segment and costs no boundary. The</span>
+<span class="sd">        plan is built here by hand rather than compiled, so the example needs no</span>
+<span class="sd">        ffmpeg — a doctest that needs a binary is a doctest CI does not run.</span>
+
+<span class="sd">        &gt;&gt;&gt; from looks.licence import Tier, terms_for</span>
+<span class="sd">        &gt;&gt;&gt; from looks.spec import ImplRef, LookPlan, Step</span>
+<span class="sd">        &gt;&gt;&gt; impl = ImplRef(effect='blur', impl='blur.ffmpeg.gblur',</span>
+<span class="sd">        ...                backend='ffmpeg', terms=terms_for('ffmpeg')[0])</span>
+<span class="sd">        &gt;&gt;&gt; plan = LookPlan(steps=(Step(effect='blur', impl=impl,</span>
+<span class="sd">        ...     tier=Tier.COPYLEFT_TOOL, payload={'filter': 'gblur=sigma=2'}),))</span>
+<span class="sd">        &gt;&gt;&gt; arranged = pipe_plan(plan, source='in.mp4')</span>
+<span class="sd">        &gt;&gt;&gt; len(arranged), arranged.boundaries</span>
+<span class="sd">        (1, 0)</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">pix_fmt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PIPE_BYTES_PER_PIXEL</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PipeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pix_fmt</span><span class="si">!r}</span><span class="s2"> has no single bytes-per-pixel this module can declare "</span>
+            <span class="sa">f</span><span class="s2">"(known: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">PIPE_BYTES_PER_PIXEL</span><span class="p">)</span><span class="si">}</span><span class="s2">). rawvideo carries no "</span>
+            <span class="s2">"header, so a consumer reads the stride from the plan — and a "</span>
+            <span class="s2">"planar or higher-depth format would make that number a guess."</span>
+        <span class="p">)</span>
+    <span class="n">clip</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="n">clip</span> <span class="k">if</span> <span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">clip</span>
+    <span class="n">grouped</span> <span class="o">=</span> <span class="n">runs</span><span class="p">(</span><span class="n">plan</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">grouped</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">PipePlan</span><span class="p">(</span><span class="n">segments</span><span class="o">=</span><span class="p">(),</span> <span class="n">boundaries</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="n">frame_runs</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">grouped</span><span class="p">)</span> <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">"frame"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">frame_runs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">PipePlan</span><span class="p">(</span>
+            <span class="n">segments</span><span class="o">=</span><span class="p">(</span><span class="n">FilterSegment</span><span class="p">(</span><span class="n">vf</span><span class="o">=</span><span class="n">_vf_of</span><span class="p">(</span><span class="n">plan</span><span class="o">.</span><span class="n">steps</span><span class="p">)),),</span>
+            <span class="n">boundaries</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">clip</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PipeError</span><span class="p">(</span>
+            <span class="s2">"a pipe needs a ClipSpec: the raw frames on it have no header, so "</span>
+            <span class="s2">"their size and rate have to be declared or the reader guesses."</span>
+        <span class="p">)</span>
+
+    <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">run_index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">frame_runs</span><span class="p">):</span>
+        <span class="n">backend</span><span class="p">,</span> <span class="n">frame_steps</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="n">run_index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame_steps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PipeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">frame_steps</span><span class="p">)</span><span class="si">}</span><span class="s2"> frame operations run back to back "</span>
+                <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">effect</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">frame_steps</span><span class="p">]</span><span class="si">}</span><span class="s2">). Each is a separate "</span>
+                <span class="s2">"process on this pipe; compose them into one registered "</span>
+                <span class="s2">"operation instead, or the frames cross Python twice for "</span>
+                <span class="s2">"nothing."</span>
+            <span class="p">)</span>
+        <span class="n">before</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">steps</span> <span class="ow">in</span> <span class="n">grouped</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">run_index</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">]</span>
+        <span class="n">after_index</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">frame_runs</span><span class="p">[</span><span class="n">position</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">position</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame_runs</span><span class="p">)</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">grouped</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">after</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">steps</span> <span class="ow">in</span> <span class="n">grouped</span><span class="p">[</span><span class="n">run_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">after_index</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">]</span>
+
+        <span class="c1"># Folding into the DECODER is always safe — it reads a container and</span>
+        <span class="c1"># keeps the host's timeline. Nothing to rebase, nothing to refuse.</span>
+        <span class="n">decode_chain</span> <span class="o">=</span> <span class="n">_vf_of</span><span class="p">(</span><span class="n">before</span><span class="p">)</span> <span class="k">if</span> <span class="n">before</span> <span class="k">else</span> <span class="s2">""</span>
+
+        <span class="c1"># Folding into the ENCODER crosses the raw-frame boundary, where the</span>
+        <span class="c1"># timeline restarts at 0. This is rule 27.</span>
+        <span class="k">if</span> <span class="n">after</span><span class="p">:</span>
+            <span class="c1"># UNCONDITIONAL. An author who bakes a gate into a filter string is</span>
+            <span class="c1"># by construction NOT using `Effect.at`, so `at is None` is the</span>
+            <span class="c1"># NORMAL case for exactly the population this refuses. Running it</span>
+            <span class="c1"># only when some unrelated sibling happened to carry a span made the</span>
+            <span class="c1"># guard fire on a coincidence rather than on the hazard — measured:</span>
+            <span class="c1"># the foreign gate folded through un-rebased and moved a look by 20</span>
+            <span class="c1"># frames at exit 0.</span>
+            <span class="n">_refuse_foreign_gate</span><span class="p">(</span><span class="n">after</span><span class="p">,</span> <span class="s2">"folding into the encoder half"</span><span class="p">)</span>
+            <span class="c1"># A Span open at BOTH ends bounds nothing — `gated()` emits no</span>
+            <span class="c1"># `enable=` for it and `_rebased` cannot move it — so it must not</span>
+            <span class="c1"># demand an origin it provably cannot use.</span>
+            <span class="n">gated</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">s</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">after</span>
+                <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">at</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">s</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">gated</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">clip</span><span class="o">.</span><span class="n">origin_s</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">PipeError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gated</span><span class="p">)</span><span class="si">}</span><span class="s2"> step(s) after the frame operation carry a "</span>
+                        <span class="s2">"span, and folding them into the encoder half rebases "</span>
+                        <span class="s2">"their time origin — the encoder reads rawvideo, which "</span>
+                        <span class="s2">"has no timestamps, so its timeline restarts at 0. "</span>
+                        <span class="s2">"Declare ClipSpec.origin_s (the source time of this "</span>
+                        <span class="s2">"part's frame 0 as the host's decoder sees it). It is "</span>
+                        <span class="s2">"not assumed to be 0: that is right for an input-side "</span>
+                        <span class="s2">"seek and wrong for an output-side one, and the "</span>
+                        <span class="s2">"difference is a look on the wrong frames with no error."</span>
+                    <span class="p">)</span>
+            <span class="n">after</span> <span class="o">=</span> <span class="p">[</span><span class="n">_rebased</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">clip</span><span class="o">.</span><span class="n">origin_s</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">after</span><span class="p">]</span>
+        <span class="n">encode_chain</span> <span class="o">=</span> <span class="n">_vf_of</span><span class="p">(</span><span class="n">after</span><span class="p">)</span> <span class="k">if</span> <span class="n">after</span> <span class="k">else</span> <span class="s2">""</span>
+
+        <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">piped_size</span><span class="p">(</span><span class="n">clip</span><span class="p">,</span> <span class="n">before</span><span class="p">)</span>
+        <span class="n">piped</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">clip</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
+        <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">FrameSegment</span><span class="p">(</span>
+                <span class="n">op</span><span class="o">=</span><span class="n">frame_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"op"</span><span class="p">,</span> <span class="n">frame_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">impl</span><span class="p">),</span>
+                <span class="n">decode</span><span class="o">=</span><span class="n">_decoder</span><span class="p">(</span>
+                    <span class="n">source</span> <span class="k">if</span> <span class="n">position</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">clip</span><span class="p">,</span> <span class="n">decode_chain</span><span class="p">,</span> <span class="n">pix_fmt</span>
+                <span class="p">),</span>
+                <span class="n">encode</span><span class="o">=</span><span class="n">_encoder</span><span class="p">(</span><span class="n">piped</span><span class="p">,</span> <span class="n">encode_chain</span><span class="p">,</span> <span class="n">pix_fmt</span><span class="p">),</span>
+                <span class="n">pix_fmt</span><span class="o">=</span><span class="n">pix_fmt</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+                <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+                <span class="n">rate</span><span class="o">=</span><span class="n">clip</span><span class="o">.</span><span class="n">fps</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">frame_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">params</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">after_index</span>
+    <span class="k">return</span> <span class="n">PipePlan</span><span class="p">(</span><span class="n">segments</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">segments</span><span class="p">),</span> <span class="n">boundaries</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">),</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="describe">
+<a class="viewcode-back" href="../../module_docs/looks/pipe.html#looks.describe">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">(</span><span class="n">arranged</span><span class="p">:</span> <span class="n">PipePlan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The arrangement as a few lines — what will run, and what it costs."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">arranged</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"(empty pipe)"</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">segment</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arranged</span><span class="o">.</span><span class="n">segments</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="n">FilterSegment</span><span class="p">):</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. one ffmpeg process: -vf </span><span class="si">{</span><span class="n">segment</span><span class="o">.</span><span class="n">vf</span><span class="p">[:</span><span class="mi">70</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. decode -&gt; </span><span class="si">{</span><span class="n">segment</span><span class="o">.</span><span class="n">op</span><span class="si">}</span><span class="s2"> -&gt; encode "</span>
+                <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">segment</span><span class="o">.</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">segment</span><span class="o">.</span><span class="n">height</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">segment</span><span class="o">.</span><span class="n">pix_fmt</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"@</span><span class="si">{</span><span class="n">_rate</span><span class="p">(</span><span class="n">segment</span><span class="o">.</span><span class="n">rate</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">segment</span><span class="o">.</span><span class="n">frame_bytes</span><span class="si">}</span><span class="s2"> B/frame)"</span>
+            <span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"raw-frame boundaries: </span><span class="si">{</span><span class="n">arranged</span><span class="o">.</span><span class="n">boundaries</span><span class="si">}</span><span class="s2">"</span>
+        <span class="o">+</span> <span class="p">(</span><span class="s2">" (none: one process)"</span> <span class="k">if</span> <span class="n">arranged</span><span class="o">.</span><span class="n">boundaries</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

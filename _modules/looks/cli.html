@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.cli &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.cli</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.cli</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""The command line: thin adapters over the library, and no logic of its own.</span>
+
+<span class="sd">Every function here converts strings to the library's types, calls one library</span>
+<span class="sd">function, and returns something printable. **None of them decides anything.**</span>
+<span class="sd">If a rule lives in this module it is in the wrong place — a CLI is one surface</span>
+<span class="sd">among several, and a refusal that only fires on the command line is not a</span>
+<span class="sd">refusal.</span>
+
+<span class="sd">Dispatched with `cw &lt;https://pypi.org/project/cw/&gt;`_, which turns a mapping of</span>
+<span class="sd">functions into an ``argparse`` parser by reading their signatures. Under</span>
+<span class="sd">``cw.MODERN`` rather than its argh-compatible default, because this package</span>
+<span class="sd">annotates with ``collections.abc`` interfaces and argh recognises ``list`` and</span>
+<span class="sd">nothing else — under the default, ``looks check scale eq lut3d`` bound one token</span>
+<span class="sd">and reported the rest as unrecognised. Reading ``Sequence[str]`` as "several</span>
+<span class="sd">values" is `i2mint/cw#36 &lt;https://github.com/i2mint/cw/pull/36&gt;`_, contributed</span>
+<span class="sd">from here.</span>
+
+<span class="sd">Two reasons for `cw` rather than the obvious alternatives, and both are this</span>
+<span class="sd">package's own thesis applied to itself:</span>
+
+<span class="sd">- **`argh` is LGPL-3.0**, and its PyPI metadata ``License:`` field is *empty* —</span>
+<span class="sd">  only the shipped ``COPYING`` / ``COPYING.LESSER`` pair says so. A package that</span>
+<span class="sd">  refuses a dependency for a licence nobody's tooling can see should not import</span>
+<span class="sd">  one.</span>
+<span class="sd">- **`typer` pulls six packages** into a distribution that declares stdlib only.</span>
+
+<span class="sd">``cw`` is MIT, declares ``dependencies = []``, and — verified — ``import cw``</span>
+<span class="sd">pulls in nothing beyond stdlib: its ``argcomplete`` and ``i2`` imports are lazy,</span>
+<span class="sd">inside the functions that need them. It is an optional extra here regardless,</span>
+<span class="sd">so ``import looks`` never reaches it.</span>
+
+<span class="sd">Everything below is analysis. The ``-f null -`` invariant covers the CLI like</span>
+<span class="sd">everything else, because it goes through the same chokepoint.</span>
+
+<span class="sd">    $ looks check scale eq lut3d</span>
+<span class="sd">    eq</span>
+<span class="sd">    $ echo $?</span>
+<span class="sd">    1</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="n">DFLT_PROG</span> <span class="o">=</span> <span class="s2">"looks"</span>
+
+<span class="c1">#: What ``check`` exits with when a filter needs a GPL build. Not 0: the whole</span>
+<span class="c1">#: point is that a script can gate on it, and a refusal that exits 0 is a</span>
+<span class="c1">#: warning wearing a refusal's clothes.</span>
+<span class="n">EXIT_REFUSED</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="env">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.env">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">env</span><span class="p">(</span><span class="n">ffmpeg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"ffmpeg"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Report what the ffmpeg on this machine is, and what it may do.</span>
+
+<span class="sd">    There is not one ffmpeg on a machine — pass ``--ffmpeg`` to ask a different</span>
+<span class="sd">    one, e.g. the binary a wheel bundled.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">probe</span>
+
+    <span class="n">e</span> <span class="o">=</span> <span class="n">probe</span><span class="p">(</span><span class="n">ffmpeg</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="sa">f</span><span class="s2">"ffmpeg   : NOT USABLE (</span><span class="si">{</span><span class="n">ffmpeg</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span> <span class="o">*</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">notes</span><span class="p">)]</span>
+        <span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s2">"path     : </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"version  : </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"licence  : </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">licence</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">   (from `ffmpeg -L`, the only authority)"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"filters  : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">notes</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"note     : </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">notes</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="check">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.check">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">ffmpeg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># noqa: D401</span>
+<span class="w">    </span><span class="sd">"""Which of these ffmpeg filters exist only in a GPL build?</span>
+
+<span class="sd">    The headline. Prints one name per line and **exits non-zero** if any of them</span>
+<span class="sd">    needs a GPL ffmpeg, so a build script can gate on it.</span>
+
+<span class="sd">    An unrecognised filter name **raises** rather than reporting it clean: this</span>
+<span class="sd">    check is an allowlist-by-absence, so a typo would otherwise be a computed</span>
+<span class="sd">    false permission.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnknownFilter</span><span class="p">,</span> <span class="n">needs_gpl</span><span class="p">,</span> <span class="n">probe</span>
+
+    <span class="n">known</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">ffmpeg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">probe</span><span class="p">(</span><span class="n">ffmpeg</span><span class="p">)</span>
+        <span class="n">known</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">filters</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">available</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gated</span> <span class="o">=</span> <span class="n">needs_gpl</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">filters</span><span class="p">),</span> <span class="n">known</span><span class="o">=</span><span class="n">known</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">UnknownFilter</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># A typo is a user error, not a bug: say so in one line rather than</span>
+        <span class="c1"># showing a stack trace. The exit code stays non-zero — an unrecognised</span>
+        <span class="c1"># name is a refusal, and a refusal that exits 0 is a warning wearing a</span>
+        <span class="c1"># refusal's clothes.</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">gated</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">""</span> <span class="k">if</span> <span class="n">quiet</span> <span class="k">else</span> <span class="s2">"none of these needs a GPL build"</span>
+    <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span>
+        <span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gated</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">quiet</span>
+        <span class="k">else</span> <span class="p">(</span>
+            <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gated</span><span class="p">)</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n\n</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gated</span><span class="p">)</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span><span class="si">}</span><span class="s2"> need a GPL ffmpeg build. "</span>
+            <span class="s2">"LGPL-clean substitutions: curves / lutyuv / colorlevels / "</span>
+            <span class="s2">"colorbalance / exposure for eq; gblur for boxblur; "</span>
+            <span class="s2">"atadenoise or removegrain for hqdn3d."</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="motion">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.motion">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">motion</span><span class="p">(</span>
+    <span class="n">keyframes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">output</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fps</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Compile a camera path into an ffmpeg fragment. RULE G's compile half.</span>
+
+<span class="sd">    Each keyframe is ``T:X,Y,W,H`` — a time in seconds and a normalised,</span>
+<span class="sd">    top-left window, which is burns' convention. Which filter comes out is not</span>
+<span class="sd">    an option here because it is not a matter of taste: a path that changes the</span>
+<span class="sd">    window's SIZE compiles to ``zoompan`` (``crop`` structurally cannot), and</span>
+<span class="sd">    everything else compiles to ``crop``.</span>
+
+<span class="sd">    ``--output`` and ``--fps`` are needed only for a zoom, and ``--fps`` must be</span>
+<span class="sd">    the SOURCE's rate: zoompan's own default silently restamps the clip.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Size</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.motion</span><span class="w"> </span><span class="kn">import</span> <span class="n">Keyframe</span><span class="p">,</span> <span class="n">MotionError</span><span class="p">,</span> <span class="n">Window</span><span class="p">,</span> <span class="n">compile_motion</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Keyframe</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">when</span><span class="p">,</span> <span class="n">window</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">window</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"cannot read </span><span class="si">{</span><span class="n">text</span><span class="si">!r}</span><span class="s2"> as a keyframe. The form is T:X,Y,W,H — "</span>
+                <span class="s2">"a time in seconds, then a normalised top-left window, e.g. "</span>
+                <span class="s2">"0:0,0,1,1"</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="k">return</span> <span class="n">Keyframe</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">when</span><span class="p">),</span> <span class="n">Window</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"cannot read </span><span class="si">{</span><span class="n">output</span><span class="si">!r}</span><span class="s2"> as a size, e.g. 1920x1080"</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">Size</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">compile_motion</span><span class="p">([</span><span class="n">parse</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keyframes</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">MotionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># A path that cannot be compiled is a user error, not a bug. Non-zero,</span>
+        <span class="c1"># with the reason, and no traceback.</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="terms">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.terms">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">terms</span><span class="p">(</span><span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""What is recorded about a provider's licence, and what tier it projects to."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">classify</span><span class="p">,</span> <span class="n">terms_for</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">terms_for</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">classify</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">tier</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">tier</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">tier</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"off-ladder (</span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">verdict</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">)"</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">provider</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">component</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">realisation</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  spdx     : </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">spdx</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  tier     : </span><span class="si">{</span><span class="n">tier</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"  coupling : </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">coupling</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">   conveyance: </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">conveyance</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">evidence</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  observed : </span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">observed_on</span><span class="si">}</span><span class="s2"> by `</span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2">`"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">advisories</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"  advisory : </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">advisories</span><span class="p">]</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="place">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.place">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">place</span><span class="p">(</span>
+    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"fit"</span><span class="p">,</span> <span class="n">backdrop</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"000000"</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The ffmpeg chain that puts a WxH source into a WxH target.</span>
+
+<span class="sd">    ``target`` may be a size (``1920x1080``) or a preset name (``shorts``).</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Size</span><span class="p">,</span> <span class="n">Solid</span><span class="p">,</span> <span class="n">ffmpeg_chain</span><span class="p">,</span> <span class="n">placement</span><span class="p">,</span> <span class="n">social_size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">size</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Size</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"x"</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">social_size</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">ffmpeg_chain</span><span class="p">(</span>
+        <span class="n">placement</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">target</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">),</span>  <span class="c1"># type: ignore[arg-type]</span>
+        <span class="n">backdrop</span><span class="o">=</span><span class="n">Solid</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">backdrop</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))),</span>  <span class="c1"># type: ignore[arg-type]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">chain</span> <span class="ow">or</span> <span class="s2">"(no-op: the source is already the target)"</span></div>
+
+
+
+<div class="viewcode-block" id="measure">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.measure">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="n">clip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">vf</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">frames</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Measure a clip, optionally through a filter chain.</span>
+
+<span class="sd">    Supplying ``--vf`` makes it a **post-effect** measurement, which is the one</span>
+<span class="sd">    that governs a resolver's answer — and the two are deliberately not</span>
+<span class="sd">    comparable.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.environment</span><span class="w"> </span><span class="kn">import</span> <span class="n">probe</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.measure</span><span class="w"> </span><span class="kn">import</span> <span class="n">measure</span> <span class="k">as</span> <span class="n">measure_clip</span>
+
+    <span class="n">e</span> <span class="o">=</span> <span class="n">probe</span><span class="p">()</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">version</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">version</span> <span class="k">else</span> <span class="s2">"unknown"</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">measure_clip</span><span class="p">(</span><span class="n">clip</span><span class="p">,</span> <span class="n">vf</span><span class="o">=</span><span class="n">vf</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="n">frames</span><span class="p">,</span> <span class="n">ffmpeg_version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"stage      : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">stage</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"frames     : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">n_frames</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"sharpness  : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">sharpness</span><span class="si">}</span><span class="s2">   (</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">sharpness_unit</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">sharpness_space</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"blur       : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">blur</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"temporal   : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">temporal_delta</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"saturation : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">saturation_mean</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"luma       : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">luma</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"range      : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">color_range</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"instrument : </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">instrument</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="flicker">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.flicker">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">flicker</span><span class="p">(</span><span class="n">chain</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Can this filter chain flicker? Decided by four probes, not by judgement.</span>
+
+<span class="sd">    A verdict of ``independent`` is **evidence, not proof** — see</span>
+<span class="sd">    :mod:`looks.frame_dependency`.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.frame_dependency</span><span class="w"> </span><span class="kn">import</span> <span class="n">classify</span> <span class="k">as</span> <span class="n">classify_chain</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">classify_chain</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s2">"verdict     : </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">dependency</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"can flicker : </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">can_flicker</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"  determinism delta : </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">determinism_delta</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"  time delta        : </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">time_delta</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"  content delta     : </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">content_delta</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">"  temporal delta    : </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">temporal_delta</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">note</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"note        : </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">note</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="unverified">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.unverified">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">unverified</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""What the licence ledger could NOT verify.</span>
+
+<span class="sd">    Printed rather than buried, because an unverified claim asserted as fact is</span>
+<span class="sd">    worse than no claim.</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">unverified_claims</span>
+
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"- </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unverified_claims</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="disclaimer">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.disclaimer">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">disclaimer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""What a tier is, and what it is not."""</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">DISCLAIMER</span>
+
+    <span class="k">return</span> <span class="n">DISCLAIMER</span></div>
+
+
+
+<span class="c1">#: The command table. A callable value is a command; `cw` reads the signatures.</span>
+<span class="n">COMMANDS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"env"</span><span class="p">:</span> <span class="n">env</span><span class="p">,</span>
+    <span class="s2">"check"</span><span class="p">:</span> <span class="n">check</span><span class="p">,</span>
+    <span class="s2">"terms"</span><span class="p">:</span> <span class="n">terms</span><span class="p">,</span>
+    <span class="s2">"place"</span><span class="p">:</span> <span class="n">place</span><span class="p">,</span>
+    <span class="s2">"motion"</span><span class="p">:</span> <span class="n">motion</span><span class="p">,</span>
+    <span class="s2">"measure"</span><span class="p">:</span> <span class="n">measure</span><span class="p">,</span>
+    <span class="s2">"flicker"</span><span class="p">:</span> <span class="n">flicker</span><span class="p">,</span>
+    <span class="s2">"unverified"</span><span class="p">:</span> <span class="n">unverified</span><span class="p">,</span>
+    <span class="s2">"disclaimer"</span><span class="p">:</span> <span class="n">disclaimer</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../module_docs/looks/cli.html#looks.cli.main">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">argv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Dispatch the command table. The entry point for ``looks ...``.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        SystemExit: With a message naming the extra, when `cw` is absent. It is</span>
+<span class="sd">            an optional dependency: ``import looks`` must stay stdlib-only, so</span>
+<span class="sd">            the CLI cannot be a hard requirement of the library.</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">cw</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pragma: no cover - environment dependent</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span>
+            <span class="s2">"the looks CLI needs `cw` (MIT, no dependencies): pip install 'looks[cli]'"</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+    <span class="k">return</span> <span class="n">cw</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">COMMANDS</span><span class="p">,</span> <span class="n">argv</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="n">DFLT_PROG</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="n">cw</span><span class="o">.</span><span class="n">MODERN</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

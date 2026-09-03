@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.pipe &mdash; looks 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="looks.registry" href="registry.html" />
+    <link rel="prev" title="looks.motion" href="motion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="motion.html">looks.motion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.pipe</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.DFLT_PIPE_PIX_FMT"><code class="docutils literal notranslate"><span class="pre">DFLT_PIPE_PIX_FMT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.FilterSegment"><code class="docutils literal notranslate"><span class="pre">FilterSegment</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.FrameSegment"><code class="docutils literal notranslate"><span class="pre">FrameSegment</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.pipe.FrameSegment.frame_bytes"><code class="docutils literal notranslate"><span class="pre">FrameSegment.frame_bytes</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.PIPE_BYTES_PER_PIXEL"><code class="docutils literal notranslate"><span class="pre">PIPE_BYTES_PER_PIXEL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.PipeError"><code class="docutils literal notranslate"><span class="pre">PipeError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.PipePlan"><code class="docutils literal notranslate"><span class="pre">PipePlan</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.describe"><code class="docutils literal notranslate"><span class="pre">describe()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.pipe_plan"><code class="docutils literal notranslate"><span class="pre">pipe_plan()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.piped_size"><code class="docutils literal notranslate"><span class="pre">piped_size()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.pipe.runs"><code class="docutils literal notranslate"><span class="pre">runs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks.pipe</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/pipe.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks.pipe">
+<span id="looks-pipe"></span><h1>looks.pipe<a class="headerlink" href="#module-looks.pipe" title="Link to this heading"></a></h1>
+<p>A plan that mixes backends, as a pipe — emitted as data, never spawned.</p>
+<p>Some effects are filters and some are Python over raw frames. A plan holding
+both cannot be one ffmpeg process, so it becomes a <strong>pipe</strong>: ffmpeg decodes and
+filters, hands raw frames to a Python operation, and a second ffmpeg reads those
+frames back and filters again.</p>
+<p>This module produces that arrangement <strong>as data</strong> — argv lists a caller can run.
+<cite>looks</cite> does not run it, and structurally cannot: <cite>looks._run</cite> refuses any argv
+whose outputs are not <cite>-f null -</cite>, and both halves emitted here are refused by
+it. That is asserted rather than assumed, because “we simply do not call it” is
+a convention and a refusal is a mechanism.</p>
+<p>## What is deliberately not emitted</p>
+<p><strong>The codec, the container, the output path.</strong> The encoder half stops at its
+input contract and its filter chain. Encode settings are a delivery decision the
+host owns — <cite>muvid</cite> pins <cite>-video_track_timescale</cite> for concat compatibility, and
+a package that grew opinions about <cite>-c:v</cite> would be the second muvid. It also
+means no module here contains an encoder spelling, which the package’s own AST
+perimeter scan enforces on every run.</p>
+<p>## The fold, and the one place it is dangerous</p>
+<p>Adjacent same-backend steps merge into one filter chain, and a filter run
+<em>next to</em> a frame operation does not get its own process — it rides in the
+<cite>-vf</cite> of the ffmpeg that already exists to feed or drain the pipe. That is what
+makes a chain like Que Calor’s one (decoder, encoder) pair rather than three
+processes.</p>
+<p>Folding into the <strong>decoder</strong> half is always safe: it reads a container and
+inherits the host’s filter timeline. Folding into the <strong>encoder</strong> half is not,
+and this is rule 27:</p>
+<blockquote>
+<div><p>The encoder half reads <cite>-f rawvideo</cite>, which carries no timestamps at all.
+Its filter timeline restarts at 0.</p>
+</div></blockquote>
+<p>So a step gated to “4 s to 5 s” fires on source frames 40-50 unfolded and on
+<strong>nothing at all</strong> folded — exit 0, empty stderr, and a look that silently never
+appears. Reproduced, and reproduced again with the rebase applied, which
+restores a frame-for-frame identical result.</p>
+<p><cite>looks</cite> therefore <strong>rebases what it can and refuses what it cannot</strong>:</p>
+<ul class="simple">
+<li><p>A span carried structurally on <code class="xref py py-attr docutils literal notranslate"><span class="pre">at</span></code> is one subtraction,
+and <cite>looks</cite> owns every expression it generates, so the rebase is exact.</p></li>
+<li><p>An <cite>enable=</cite> baked into a filter string by someone else is an arbitrary ffmpeg
+expression. Rewriting it would mean surgery on a grammar with no way to check
+the result, so it is refused by name.</p></li>
+</ul>
+<p>And an undeclared origin is refused rather than assumed to be 0 — see
+<a class="reference internal" href="spec.html#looks.spec.ClipSpec.origin_s" title="looks.spec.ClipSpec.origin_s"><code class="xref py py-attr docutils literal notranslate"><span class="pre">origin_s</span></code></a>, which is where that fact lives.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.pipe.DFLT_PIPE_PIX_FMT">
+<span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">DFLT_PIPE_PIX_FMT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'bgr24'</span></span><a class="headerlink" href="#looks.pipe.DFLT_PIPE_PIX_FMT" title="Link to this definition"></a></dt>
+<dd><p>it is what the
+frame kernels in this ecosystem already speak, and packing means a frame is
+one contiguous <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">*</span> <span class="pre">height</span> <span class="pre">*</span> <span class="pre">3</span></code> read with no plane arithmetic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The raw pixel format the pipe carries. Packed 8-bit BGR</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.pipe.FilterSegment">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">FilterSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/pipe.html#FilterSegment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.FilterSegment" title="Link to this definition"></a></dt>
+<dd><p>A run of ffmpeg steps with no frame operation in it: one <cite>-vf</cite>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.pipe.FrameSegment">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">FrameSegment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">op:</span> <span class="pre">str,</span> <span class="pre">decode:</span> <span class="pre">tuple[str,</span> <span class="pre">...],</span> <span class="pre">encode:</span> <span class="pre">tuple[str,</span> <span class="pre">...],</span> <span class="pre">pix_fmt:</span> <span class="pre">str,</span> <span class="pre">width:</span> <span class="pre">int,</span> <span class="pre">height:</span> <span class="pre">int,</span> <span class="pre">rate:</span> <span class="pre">float,</span> <span class="pre">params:</span> <span class="pre">~typing.Mapping[str,</span> <span class="pre">~typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/pipe.html#FrameSegment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.FrameSegment" title="Link to this definition"></a></dt>
+<dd><p>One ffmpeg → Python → ffmpeg segment.</p>
+<p>Both argv are input-and-filter only. The caller appends its own encode
+settings and destination to <code class="xref py py-attr docutils literal notranslate"><span class="pre">encode</span></code>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.pipe.FrameSegment.frame_bytes">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">frame_bytes</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#looks.pipe.FrameSegment.frame_bytes" title="Link to this definition"></a></dt>
+<dd><p>How many bytes one frame occupies on the pipe.</p>
+<p>rawvideo has no header, so a consumer that guesses this reads a sheared
+picture rather than an error.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.pipe.PIPE_BYTES_PER_PIXEL">
+<span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">PIPE_BYTES_PER_PIXEL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'abgr':</span> <span class="pre">4,</span> <span class="pre">'argb':</span> <span class="pre">4,</span> <span class="pre">'bgr24':</span> <span class="pre">3,</span> <span class="pre">'bgra':</span> <span class="pre">4,</span> <span class="pre">'gray':</span> <span class="pre">1,</span> <span class="pre">'rgb24':</span> <span class="pre">3,</span> <span class="pre">'rgba':</span> <span class="pre">4}</span></span><a class="headerlink" href="#looks.pipe.PIPE_BYTES_PER_PIXEL" title="Link to this definition"></a></dt>
+<dd><p>Bytes per pixel, by raw pixel format. A consumer sizes its reads from the
+plan rather than from a constant it happens to agree on — rawvideo has no
+header, so a wrong stride is a silently sheared picture rather than an error.
+Only packed 8-bit formats are listed: a planar or higher-depth format has no
+single bytes-per-pixel, so it is refused rather than approximated.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.pipe.PipeError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">PipeError</span></span><a class="reference internal" href="../../_modules/looks/pipe.html#PipeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.PipeError" title="Link to this definition"></a></dt>
+<dd><p>A plan that cannot be arranged as a pipe, or not safely.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.pipe.PipePlan">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">PipePlan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundaries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/pipe.html#PipePlan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.PipePlan" title="Link to this definition"></a></dt>
+<dd><p>The whole arrangement, as data.</p>
+<p><code class="docutils literal notranslate"><span class="pre">boundaries</span></code> is the number of raw-frame crossings, which is the number
+that costs — each one is a full decode and re-encode. It is reported after
+folding, because counting runs before folding overstates it.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.pipe.describe">
+<span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arranged</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.pipe.PipePlan" title="looks.pipe.PipePlan"><span class="pre">PipePlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/looks/pipe.html#describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.describe" title="Link to this definition"></a></dt>
+<dd><p>The arrangement as a few lines — what will run, and what it costs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.pipe.pipe_plan">
+<span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">pipe_plan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.ClipSpec" title="looks.spec.ClipSpec"><span class="pre">ClipSpec</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pix_fmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bgr24'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#looks.pipe.PipePlan" title="looks.pipe.PipePlan"><span class="pre">PipePlan</span></a></span></span><a class="reference internal" href="../../_modules/looks/pipe.html#pipe_plan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.pipe_plan" title="Link to this definition"></a></dt>
+<dd><p>Arrange a compiled plan as processes — emitted as data, never started.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – What the first decoder reads. Passed through verbatim; <cite>looks</cite>
+does not open it.</p></li>
+<li><p><strong>clip</strong> – The clip the plan was compiled against. Defaults to the plan’s own.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#looks.pipe.PipeError" title="looks.pipe.PipeError"><strong>PipeError</strong></a> – If the plan needs a raw-frame boundary and cannot be arranged
+    safely across it — an undeclared time origin under a gated step, or
+    a gate baked into a filter string.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>A plan of pure ffmpeg steps is one segment and costs no boundary. The
+plan is built here by hand rather than compiled, so the example needs no
+ffmpeg — a doctest that needs a binary is a doctest CI does not run.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.licence</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tier</span><span class="p">,</span> <span class="n">terms_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImplRef</span><span class="p">,</span> <span class="n">LookPlan</span><span class="p">,</span> <span class="n">Step</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span> <span class="o">=</span> <span class="n">ImplRef</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s1">'blur'</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="s1">'blur.ffmpeg.gblur'</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">backend</span><span class="o">=</span><span class="s1">'ffmpeg'</span><span class="p">,</span> <span class="n">terms</span><span class="o">=</span><span class="n">terms_for</span><span class="p">(</span><span class="s1">'ffmpeg'</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plan</span> <span class="o">=</span> <span class="n">LookPlan</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">(</span><span class="n">Step</span><span class="p">(</span><span class="n">effect</span><span class="o">=</span><span class="s1">'blur'</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="n">impl</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tier</span><span class="o">=</span><span class="n">Tier</span><span class="o">.</span><span class="n">COPYLEFT_TOOL</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s1">'filter'</span><span class="p">:</span> <span class="s1">'gblur=sigma=2'</span><span class="p">}),))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arranged</span> <span class="o">=</span> <span class="n">pipe_plan</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">'in.mp4'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">arranged</span><span class="p">),</span> <span class="n">arranged</span><span class="o">.</span><span class="n">boundaries</span>
+<span class="go">(1, 0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.pipe.piped_size">
+<span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">piped_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.ClipSpec" title="looks.spec.ClipSpec"><span class="pre">ClipSpec</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">folded</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="spec.html#looks.spec.Step" title="looks.spec.Step"><span class="pre">Step</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/pipe.html#piped_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.piped_size" title="Link to this definition"></a></dt>
+<dd><p>The frame size the decoder actually emits, after the folded chain.</p>
+<p>An effect that changes the frame’s geometry declares <code class="docutils literal notranslate"><span class="pre">out_size</span></code> in its
+payload. That is a <strong>contract</strong>, not decoration: rawvideo has no header, so
+the size a consumer reads has to come from the plan, and an implementation
+that resizes without saying so makes the declared stride a lie.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClipSpec</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">piped_size</span><span class="p">(</span><span class="n">ClipSpec</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">640</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">480</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="p">[])</span>
+<span class="go">(640, 480)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.pipe.runs">
+<span class="sig-prename descclassname"><span class="pre">looks.pipe.</span></span><span class="sig-name descname"><span class="pre">runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plan</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="spec.html#looks.spec.LookPlan" title="looks.spec.LookPlan"><span class="pre">LookPlan</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="spec.html#looks.spec.Step" title="looks.spec.Step"><span class="pre">Step</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/looks/pipe.html#runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.pipe.runs" title="Link to this definition"></a></dt>
+<dd><p>Maximal runs of consecutive steps sharing a backend.</p>
+<p>The first thing the fold needs, and worth its own name because “how many
+processes does this plan cost” is answered from it.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">looks.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">LookPlan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">runs</span><span class="p">(</span><span class="n">LookPlan</span><span class="p">())</span>
+<span class="go">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="motion.html" class="btn btn-neutral float-left" title="looks.motion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="registry.html" class="btn btn-neutral float-right" title="looks.registry" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
