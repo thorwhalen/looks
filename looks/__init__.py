@@ -118,11 +118,13 @@ from looks.ffmpeg import (
 )
 from looks.motion import (
     Keyframe,
+    is_source_shaped,
     MotionError,
     Window,
     WindowLike,
     compile_motion,
     crop_fragment,
+    reframe as reframe_motion,
     zoompan_fragment,
 )
 from looks.lut import (
@@ -270,6 +272,8 @@ __all__ = [
     "compile_motion",
     "crop_fragment",
     "zoompan_fragment",
+    "reframe_motion",
+    "is_source_shaped",
     # looks: a colour ramp in, an Iridas .cube out
     "Ramp",
     "Accent",
