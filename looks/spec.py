@@ -1116,6 +1116,19 @@ def plan_from_dict(d: Mapping[str, Any], *, impls: Mapping[str, ImplRef]) -> Loo
             f"— and inventing the terms would invent a licence verdict. Install "
             f"them, or pass the registry that has them."
         )
+    policy_raw = d.get("policy")
+    if policy_raw is None:
+        policy = DFLT_POLICY
+    else:
+        from looks.licence import FieldOfUse
+
+        policy = Policy(
+            max_tier=Tier(policy_raw["max_tier"]),
+            allow_field_restricted=frozenset(
+                FieldOfUse(f) for f in policy_raw.get("allow_field_restricted", ())
+            ),
+            order=tuple(Tier(t) for t in policy_raw["order"]),
+        )
     clip_raw = d.get("clip")
     clip = (
         None
@@ -1136,6 +1149,7 @@ def plan_from_dict(d: Mapping[str, Any], *, impls: Mapping[str, ImplRef]) -> Loo
     return LookPlan(
         version=d.get("version", PLAN_VERSION),
         look_name=d.get("look_name", ""),
+        policy=policy,
         clip=clip,
         env=None if env_raw is None else EnvFingerprint.from_dict(env_raw),
         probe=d.get("probe") or EMPTY,
@@ -1223,6 +1237,19 @@ def plan_to_dict(plan: LookPlan) -> dict:
             "color_space": plan.clip.color_space,
             "sar": list(plan.clip.sar) if plan.clip.sar else None,
             "origin_s": plan.clip.origin_s,
+        },
+        # The CEILING the plan was compiled under. Without it a stored plan
+        # rehydrates at the shipped default, so `audit()` — whose documented
+        # default is "the plan's own" — returns a different verdict for the
+        # same document before and after a round trip, in BOTH directions.
+        # Deliberately absent from `plan_hash`: a ceiling changes what a plan
+        # may do, never what pixels it makes.
+        "policy": {
+            "max_tier": plan.policy.max_tier.value,
+            "allow_field_restricted": sorted(
+                f.value for f in plan.policy.allow_field_restricted
+            ),
+            "order": [t.value for t in plan.policy.order],
         },
         "env": None if plan.env is None else plan.env.to_dict(),
         "steps": [

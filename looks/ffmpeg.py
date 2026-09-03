@@ -148,8 +148,45 @@ def gated(fragment: str, at: Optional[Span]) -> str:
     else:
         window = f"enable='between(t,{_num(at.start)},{_num(at.end)})'"
     return ",".join(
-        f"{part}{':' if '=' in part else '='}{window}" for part in fragment.split(",")
+        f"{part}{':' if '=' in part else '='}{window}"
+        for part in split_filters(fragment)
     )
+
+
+def split_filters(fragment):
+    r"""A chain into its filters, splitting on UNESCAPED commas only.
+
+    A comma inside a filter option is escaped — rule 21, and this package's own
+    :func:`escape_filter_value` produces it routinely. Splitting on every comma
+    cuts *inside* an expression: the shipped ``gamma`` effect compiles to
+    ``lutrgb=r=maxval*pow(val/maxval\,0.833333):...``, and the naive split
+    turned that into an unparseable chain the moment it was gated —
+    ``pow(val/maxval\:enable='between(t,1,2)',0.83)``.
+
+    >>> split_filters("scale=2:2,crop=1:1")
+    ['scale=2:2', 'crop=1:1']
+
+    An escaped comma stays inside its filter:
+
+    >>> split_filters(r"lutrgb=r=pow(val\,2),gblur=sigma=1") == [
+    ...     r"lutrgb=r=pow(val\,2)", "gblur=sigma=1"]
+    True
+
+    An escaped BACKSLASH does not escape the comma after it:
+
+    >>> split_filters("a=x\\\\,b=y") == ["a=x\\\\", "b=y"]
+    True
+    """
+    parts, current, backslashes = [], [], 0
+    for char in fragment:
+        if char == "," and backslashes % 2 == 0:
+            parts.append("".join(current))
+            current, backslashes = [], 0
+            continue
+        backslashes = backslashes + 1 if char == "\\" else 0
+        current.append(char)
+    parts.append("".join(current))
+    return parts
 
 
 def _num(value: float) -> str:
@@ -238,10 +275,16 @@ def _geometry(mode: str):
                 f"the {mode!r} effect is derived from the source's size, so it "
                 "needs a ClipSpec. Pass clip= to compile_look()."
             )
-        place = placement(
-            Size(clip.width, clip.height), _target_size(params), mode=mode
-        )
-        return {"filter": ffmpeg_chain(place) or "null"}
+        target = _target_size(params)
+        place = placement(Size(clip.width, clip.height), target, mode=mode)
+        # `out_size` is a CONTRACT, not decoration: a pipe declares the frame
+        # size its consumer must read, and rawvideo has no header to correct a
+        # wrong guess. Any implementation that changes the frame's geometry has
+        # to say so here or the pipe's declared stride is a lie.
+        return {
+            "filter": ffmpeg_chain(place) or "null",
+            "out_size": [target.width, target.height],
+        }
 
     return compiler
 
@@ -461,7 +504,13 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
 
     # --- geometry, wrapping looks.geometry ----------------------------------
     for mode in ("fit", "fill", "stretch"):
-        add(f"{mode}.ffmpeg.scale", ("scale",), _geometry(mode))
+        # timeline=False: `scale` and `pad` have NO timeline support, and ffmpeg
+        # refuses the graph outright ("Timeline ('enable' option) not supported
+        # with filter 'scale'"). Declaring True defeated `vf()`'s own guard with
+        # its own registry data — the refusal existed and never fired, and the
+        # binary rejected the command instead. A gated geometry step is now
+        # refused at SELECTION, which is where a caller can act on it.
+        add(f"{mode}.ffmpeg.scale", ("scale",), _geometry(mode), timeline=False)
 
     # --- motion, wrapping looks.motion --------------------------------------
     add(
@@ -536,4 +585,7 @@ def _motion_compiler(params, *, clip=None, env=None, **_kw):
     elif clip is not None:
         output = _Size(clip.width, clip.height)
     fps = params.get("fps", clip.fps if clip is not None else None)
-    return {"filter": compile_motion(path, output=output, fps=fps)}
+    payload = {"filter": compile_motion(path, output=output, fps=fps)}
+    if output is not None:
+        payload["out_size"] = [output.width, output.height]
+    return payload

@@ -168,10 +168,43 @@ class TestWhatIsEmitted:
 
     def test_the_pixel_contract_is_explicit(self, segment):
         """rawvideo has no header, so a reader that guesses the stride gets a
-        sheared picture rather than an error."""
+        sheared picture rather than an error.
+
+        Pinned on the EMITTED argv, not on the dataclass field: an earlier
+        version checked `segment.pix_fmt` and the decoder's `-s`, which left two
+        mutations of `_encoder` surviving the whole suite — and one of them
+        produces a silently wrong picture at exit 0.
+        """
         assert segment.pix_fmt == DFLT_PIPE_PIX_FMT
         assert segment.frame_bytes == 64 * 48 * 3
-        assert "-s" in segment.decode and "64x48" in segment.decode
+
+        encode = list(segment.encode)
+        assert encode[encode.index("-pix_fmt") + 1] == DFLT_PIPE_PIX_FMT
+        assert encode[encode.index("-s") + 1] == "64x48"
+        assert encode.index("-s") < encode.index("-i"), (
+            "-s must be an INPUT option on the encoder — after -i it would "
+            "force a rescale instead of describing the frames"
+        )
+
+    def test_the_decoder_does_NOT_force_a_size(self, segment):
+        """`-s` after `-vf` is an output option: it rescales rather than
+        describes. Measured: `fit` to 320x240 folded into the decode chain and
+        then scaled straight back to 640x480, silently."""
+        assert "-s" not in segment.decode
+
+    def test_folded_geometry_moves_the_declared_size(self, env, registry):
+        plan = plan_of(
+            [Effect(name="fit", params={"target": "320x240"}), Effect(name="meanshift")],
+            registry=registry, env=env,
+            clip=ClipSpec(width=640, height=480, fps=10),
+        )
+        segment = pipe_plan(plan, source="in.mp4").segments[0]
+        assert (segment.width, segment.height) == (320, 240)
+        assert segment.frame_bytes == 320 * 240 * 3
+        encode = list(segment.encode)
+        assert encode[encode.index("-s") + 1] == "320x240", (
+            "the encoder must expect what the decoder actually emits"
+        )
 
     def test_the_rate_is_declared_on_BOTH_halves(self, segment):
         """Omitted, the rawvideo demuxer defaults to 25 — which rescales every
@@ -343,6 +376,10 @@ class TestRule27IsReal:
             f'-f rawvideo -pix_fmt gray -',
             shell=True, capture_output=True,
         ).stdout
+        assert self._bright(truth), (
+            "the unfolded gate must fire at all — without this the assertion "
+            "below is [] == [] and passes when ffmpeg delivers nothing"
+        )
         assert self._bright(rebased) == self._bright(truth)
 
 
@@ -412,3 +449,73 @@ class TestDescribe:
 
     def test_an_empty_pipe(self):
         assert describe(PipePlan(segments=(), boundaries=0)) == "(empty pipe)"
+
+
+class TestTheForeignGateIsRefusedOnTheHAZARDNotACoincidence:
+    """The review's highest-severity finding, and the test that had missed it.
+
+    `_refuse_foreign_gate` used to run only inside `if gated:` — i.e. only when
+    some *unrelated* step folded into the same encoder half carried a structured
+    `Step.at`. But an author who bakes a gate into a filter string is by
+    construction NOT using `Effect.at`, so `at is None` is the NORMAL case for
+    exactly the population the guard exists to catch. It fired on a coincidence.
+
+    The original test passed only because it also set `at=Span(1, 2)` on the
+    smuggled step. It was exercising the coincidence, not the hazard.
+
+    Measured consequence with the guard bypassed: the foreign gate folded
+    through un-rebased and moved a look by 20 frames, at exit 0 with an empty
+    stderr — verbatim the rule-27 failure this module exists to prevent.
+    """
+
+    @pytest.fixture
+    def baked(self, registry):
+        """A third-party impl that bakes its own gate — via the public API."""
+        registry.register(
+            ImplRef(
+                effect="late", impl="late.ffmpeg.baked", backend="ffmpeg",
+                terms=terms_for("ffmpeg")[0], requires_filters=("lutyuv",),
+            ),
+            lambda params, **kw: {
+                "filter": "lutyuv=y='clip(val+80,0,255)':enable='between(t,5,6)'"
+            },
+        )
+        return registry
+
+    def test_the_compiled_step_really_carries_no_structured_span(self, baked, env):
+        """The premise. Nothing is forged: this is what the registered compiler
+        returns, through `compile_look`."""
+        plan = plan_of(
+            [Effect(name="meanshift"), Effect(name="late")],
+            registry=baked, env=env, clip=SEEKED,
+        )
+        assert plan.steps[1].at is None
+        assert "enable=" in plan.steps[1].payload["filter"]
+
+    def test_it_is_refused_with_a_declared_origin(self, baked, env):
+        plan = plan_of(
+            [Effect(name="meanshift"), Effect(name="late")],
+            registry=baked, env=env, clip=SEEKED,
+        )
+        with pytest.raises(PipeError, match="carries an `enable=`"):
+            pipe_plan(plan, source="in.mp4")
+
+    def test_and_refused_with_NO_declared_origin(self, baked, env):
+        """The worse case: without the fix this folded with the origin entirely
+        undeclared — the assumption `ClipSpec.origin_s` exists to prevent."""
+        plan = plan_of(
+            [Effect(name="meanshift"), Effect(name="late")],
+            registry=baked, env=env, clip=CLIP,
+        )
+        with pytest.raises(PipeError, match="carries an `enable=`"):
+            pipe_plan(plan, source="in.mp4")
+
+    def test_a_foreign_gate_BEFORE_the_frame_op_is_fine(self, baked, env):
+        """Folding into the decoder keeps the host's timeline, so there is
+        nothing to rebase and nothing to refuse. The refusal must be about the
+        boundary, not about the string."""
+        plan = plan_of(
+            [Effect(name="late"), Effect(name="meanshift")],
+            registry=baked, env=env, clip=CLIP,
+        )
+        assert pipe_plan(plan, source="in.mp4").boundaries == 1

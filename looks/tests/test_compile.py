@@ -491,3 +491,83 @@ class TestACompiledPlanIsStillData:
         other_env = dataclasses.replace(env, version="ffmpeg version 7.1")
         other = compile_look(look, clip=CLIP, env=other_env, registry=registry)
         assert plan_hash(one) != plan_hash(other)
+
+
+class TestAStoredPlanKeepsItsCeiling:
+    """A licence hole in the package whose thesis is licence refusals.
+
+    `plan_to_dict` did not write `LookPlan.policy` and `plan_from_dict` did not
+    read it, so every serialised plan rehydrated at the SHIPPED DEFAULT. `audit`
+    documents its default ceiling as "the plan's own", so the same document got
+    a different verdict before and after a round trip — in both the
+    false-permission and the false-refusal direction — with `plan_hash`
+    identical, so nothing downstream could notice.
+    """
+
+    def _round_trip(self, plan):
+        import json
+
+        from looks.spec import plan_from_dict, plan_to_dict
+
+        document = json.loads(json.dumps(plan_to_dict(plan)))
+        impls = {s.impl.impl: s.impl for s in plan.steps}
+        return plan_from_dict(document, impls=impls)
+
+    @pytest.mark.parametrize(
+        "ceiling", [Tier.PURE, Tier.PERMISSIVE, Tier.WEAK_COPYLEFT, Tier.COPYLEFT_SHIPPED]
+    )
+    def test_the_ceiling_survives(self, registry, env, look, ceiling):
+        plan = compile_look(look, clip=CLIP, env=env, registry=registry)
+        raised = dataclasses.replace(plan, policy=Policy(max_tier=ceiling))
+        assert self._round_trip(raised).policy.max_tier is ceiling
+
+    def test_the_whole_policy_survives_not_only_the_tier(self, registry, env, look):
+        from looks.licence import FieldOfUse
+
+        plan = compile_look(look, clip=CLIP, env=env, registry=registry)
+        odd = Policy(
+            max_tier=Tier.PERMISSIVE,
+            allow_field_restricted=frozenset({FieldOfUse.NON_COMMERCIAL}),
+            # A full permutation — `Policy` refuses a partial ladder, which is
+            # itself right: a ceiling over a ladder missing rungs is a ceiling
+            # nobody can reason about.
+            order=(
+                Tier.PURE,
+                Tier.WEAK_COPYLEFT,
+                Tier.PERMISSIVE,
+                Tier.COPYLEFT_TOOL,
+                Tier.COPYLEFT_SHIPPED,
+            ),
+        )
+        assert self._round_trip(dataclasses.replace(plan, policy=odd)).policy == odd
+
+    def test_audit_gives_the_same_verdict_either_side_of_the_round_trip(
+        self, registry, env, look
+    ):
+        """The consequence, rather than the field. This is what the hole cost."""
+        plan = compile_look(look, clip=CLIP, env=env, registry=registry)
+        strict = dataclasses.replace(plan, policy=Policy(max_tier=Tier.PURE))
+        with pytest.raises((LooksLicenceError, PlanRefused)):
+            audit(strict, registry=registry)
+        with pytest.raises((LooksLicenceError, PlanRefused)):
+            audit(self._round_trip(strict), registry=registry)
+
+    def test_the_ceiling_is_deliberately_absent_from_the_hash(self, registry, env, look):
+        """A ceiling changes what a plan may DO, never what pixels it makes —
+        so two plans differing only in policy are the same plan by identity."""
+        from looks.spec import plan_hash
+
+        plan = compile_look(look, clip=CLIP, env=env, registry=registry)
+        other = dataclasses.replace(plan, policy=Policy(max_tier=Tier.PURE))
+        assert plan_hash(plan) == plan_hash(other)
+
+    def test_an_older_document_with_no_policy_still_loads(self, registry, env, look):
+        """Additive: a document written before the field existed rehydrates at
+        the default rather than failing."""
+        from looks.spec import plan_from_dict, plan_to_dict
+
+        plan = compile_look(look, clip=CLIP, env=env, registry=registry)
+        document = plan_to_dict(plan)
+        del document["policy"]
+        impls = {s.impl.impl: s.impl for s in plan.steps}
+        assert plan_from_dict(document, impls=impls).policy is not None

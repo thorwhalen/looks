@@ -65,10 +65,20 @@ from looks.spec import ClipSpec, LookPlan, Span, SpecError, Step
 #: one contiguous ``width * height * 3`` read with no plane arithmetic.
 DFLT_PIPE_PIX_FMT = "bgr24"
 
-#: Bytes per pixel for :data:`DFLT_PIPE_PIX_FMT`. Stated so a consumer sizes its
-#: reads from the plan rather than from a constant it happens to agree on —
-#: rawvideo has no header, so a wrong stride is a silently sheared picture.
-PIPE_BYTES_PER_PIXEL = 3
+#: Bytes per pixel, by raw pixel format. A consumer sizes its reads from the
+#: plan rather than from a constant it happens to agree on — rawvideo has no
+#: header, so a wrong stride is a silently sheared picture rather than an error.
+#: Only packed 8-bit formats are listed: a planar or higher-depth format has no
+#: single bytes-per-pixel, so it is refused rather than approximated.
+PIPE_BYTES_PER_PIXEL = {
+    "bgr24": 3,
+    "rgb24": 3,
+    "gray": 1,
+    "bgra": 4,
+    "rgba": 4,
+    "argb": 4,
+    "abgr": 4,
+}
 
 
 class PipeError(SpecError):
@@ -92,6 +102,14 @@ class FrameSegment:
     rate: float
     params: Mapping[str, Any] = field(default_factory=dict)
 
+    def __post_init__(self) -> None:
+        # Frozen means frozen. Every other mapping-carrying dataclass in this
+        # package copies and freezes; without it this one aliases the caller's
+        # dict and `to_dict()` changes after the segment is built.
+        from types import MappingProxyType
+
+        object.__setattr__(self, "params", MappingProxyType(dict(self.params)))
+
     @property
     def frame_bytes(self) -> int:
         """How many bytes one frame occupies on the pipe.
@@ -99,7 +117,7 @@ class FrameSegment:
         rawvideo has no header, so a consumer that guesses this reads a sheared
         picture rather than an error.
         """
-        return self.width * self.height * PIPE_BYTES_PER_PIXEL
+        return self.width * self.height * PIPE_BYTES_PER_PIXEL[self.pix_fmt]
 
     def to_dict(self) -> dict:
         return {
@@ -212,22 +230,38 @@ def _vf_of(steps: Sequence[Step]) -> str:
     return vf(LookPlan(steps=tuple(steps)))
 
 
+def piped_size(clip: ClipSpec, folded: Sequence[Step]) -> tuple[int, int]:
+    """The frame size the decoder actually emits, after the folded chain.
+
+    An effect that changes the frame's geometry declares ``out_size`` in its
+    payload. That is a **contract**, not decoration: rawvideo has no header, so
+    the size a consumer reads has to come from the plan, and an implementation
+    that resizes without saying so makes the declared stride a lie.
+
+    >>> from looks.spec import ClipSpec
+    >>> piped_size(ClipSpec(width=640, height=480, fps=10), [])
+    (640, 480)
+    """
+    width, height = clip.width, clip.height
+    for step in folded:
+        declared = step.payload.get("out_size")
+        if declared:
+            width, height = int(declared[0]), int(declared[1])
+    return width, height
+
+
 def _decoder(source: str, clip: ClipSpec, chain: str, pix_fmt: str) -> tuple[str, ...]:
     """ffmpeg reading the source and writing raw frames to stdout."""
     argv = ["ffmpeg", "-v", "error", "-i", source, "-an"]
     if chain:
         argv += ["-vf", chain]
-    argv += [
-        "-f",
-        "rawvideo",
-        "-pix_fmt",
-        pix_fmt,
-        "-s",
-        f"{clip.width}x{clip.height}",
-        "-r",
-        _rate(clip.fps),
-        "-",
-    ]
+    # NO `-s` here. After `-vf` it is an OUTPUT option, so it does not describe
+    # the frames — it forces a rescale to that size, undoing any geometry folded
+    # into the decode chain. Measured: `fit` to 320x240 folded in, then
+    # `-s 640x480` scaled it straight back to the source size, silently. The
+    # frame size out of a decoder is whatever its chain produces, and a consumer
+    # reads it from the segment's declared width/height instead.
+    argv += ["-f", "rawvideo", "-pix_fmt", pix_fmt, "-r", _rate(clip.fps), "-"]
     return tuple(argv)
 
 
@@ -294,6 +328,13 @@ def pipe_plan(
         >>> len(arranged), arranged.boundaries
         (1, 0)
     """
+    if pix_fmt not in PIPE_BYTES_PER_PIXEL:
+        raise PipeError(
+            f"{pix_fmt!r} has no single bytes-per-pixel this module can declare "
+            f"(known: {sorted(PIPE_BYTES_PER_PIXEL)}). rawvideo carries no "
+            "header, so a consumer reads the stride from the plan — and a "
+            "planar or higher-depth format would make that number a guess."
+        )
     clip = plan.clip if clip is None else clip
     grouped = runs(plan)
     if not grouped:
@@ -337,7 +378,22 @@ def pipe_plan(
         # Folding into the ENCODER crosses the raw-frame boundary, where the
         # timeline restarts at 0. This is rule 27.
         if after:
-            gated = [s for s in after if s.at is not None]
+            # UNCONDITIONAL. An author who bakes a gate into a filter string is
+            # by construction NOT using `Effect.at`, so `at is None` is the
+            # NORMAL case for exactly the population this refuses. Running it
+            # only when some unrelated sibling happened to carry a span made the
+            # guard fire on a coincidence rather than on the hazard — measured:
+            # the foreign gate folded through un-rebased and moved a look by 20
+            # frames at exit 0.
+            _refuse_foreign_gate(after, "folding into the encoder half")
+            # A Span open at BOTH ends bounds nothing — `gated()` emits no
+            # `enable=` for it and `_rebased` cannot move it — so it must not
+            # demand an origin it provably cannot use.
+            gated = [
+                s
+                for s in after
+                if s.at is not None and not (s.at.start is None and s.at.end is None)
+            ]
             if gated:
                 if clip.origin_s is None:
                     raise PipeError(
@@ -351,20 +407,21 @@ def pipe_plan(
                         "seek and wrong for an output-side one, and the "
                         "difference is a look on the wrong frames with no error."
                     )
-                _refuse_foreign_gate(after, "folding into the encoder half")
             after = [_rebased(s, clip.origin_s or 0.0) for s in after]
         encode_chain = _vf_of(after) if after else ""
 
+        width, height = piped_size(clip, before)
+        piped = dataclasses.replace(clip, width=width, height=height)
         segments.append(
             FrameSegment(
                 op=frame_steps[0].payload.get("op", frame_steps[0].impl.impl),
                 decode=_decoder(
                     source if position == 0 else "-", clip, decode_chain, pix_fmt
                 ),
-                encode=_encoder(clip, encode_chain, pix_fmt),
+                encode=_encoder(piped, encode_chain, pix_fmt),
                 pix_fmt=pix_fmt,
-                width=clip.width,
-                height=clip.height,
+                width=width,
+                height=height,
                 rate=clip.fps,
                 params=dict(frame_steps[0].params),
             )
