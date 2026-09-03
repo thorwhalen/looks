@@ -28,7 +28,11 @@ everywhere else: this package decides *what*, the caller decides *where*.
 
 ## A short transition is a hard cut wearing a label, and the floor is not a constant
 
-Measured on ffmpeg 8.1, counting frames that are neither source colour:
+Measured counting frames that are neither source colour. The numbers below
+were taken on ffmpeg 8.1 and re-verified unchanged on **6.1.6 and 9.0.1**,
+which is why they are stated as a property of the filter rather than of a
+build — `speed=0` and a height-1 frame both looked like properties of ffmpeg
+until CI ran a different one:
 
 =========  ==========  ===============
 fps        duration    blended frames

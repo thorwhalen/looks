@@ -45,20 +45,37 @@ def _ffmpeg_or_skip():
         pytest.skip("ffmpeg not on PATH")
 
 
-def transfer(filter_fragment):
+#: TWO rows, not one, and the row is the point rather than the height: ffmpeg
+#: 6.1 refuses ANY source of height 1 — `color=c=black:s=256x1` gives "Picture
+#: size 256x0 is invalid", and `testsrc2` at that size fails the same way —
+#: while 8.1 accepts it. Since `geq=lum='X'` depends only on the column, both
+#: rows are identical and reading the first costs nothing.
+RAMP_SOURCE = "color=c=black:s=256x2:d=1"
+
+
+def transfer(filter_fragment, *, must=True):
     """Push a 256-step ramp through a fragment; return the 256 output levels.
 
-    `None` when ffmpeg refused — which is itself a measurement, and one the old
-    implementation produced.
+    `None` when ffmpeg refused. That is a real measurement — the old contrast
+    implementation produced it at `amount >= 2` — but it is only a measurement
+    for the ONE test that asks for it. Everywhere else a silent `None` turns a
+    broken harness into a failed assertion about the package, which is what
+    happened the first time this file ran against a different ffmpeg build.
+    So `must=True` is the default and it says what ffmpeg said.
     """
     proc = subprocess.run(
-        ["ffmpeg", "-v", "error", "-f", "lavfi",
-         "-i", "color=c=black:s=256x1:d=1",
+        ["ffmpeg", "-v", "error", "-f", "lavfi", "-i", RAMP_SOURCE,
          "-vf", f"format=gray,geq=lum='X',format=rgb24,{filter_fragment}",
          "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"],
         capture_output=True,
     )
     if proc.returncode != 0 or len(proc.stdout) < 256 * 3:
+        if must:
+            raise AssertionError(
+                f"ffmpeg exited {proc.returncode} on a render this test needs "
+                f"to succeed\n  fragment: {filter_fragment}\n  stderr: "
+                f"{proc.stderr.decode('utf-8', 'replace').strip()[-600:]}"
+            )
         return None
     return [proc.stdout[i * 3] for i in range(256)]
 
@@ -106,8 +123,6 @@ class TestTheTwoImplementationsAreOneEffect:
         _ffmpeg_or_skip()
         mine = transfer(ours(amount, env))
         gpl = transfer(f"eq=contrast={amount}")
-        assert mine is not None, f"our contrast did not render at amount={amount}"
-        assert gpl is not None
         ours_s, gpl_s = slope(mine, base), slope(gpl, base)
         assert (ours_s - 1.0) * (gpl_s - 1.0) >= 0, (
             f"amount={amount}: we steepen/flatten by {ours_s:.3f} and eq by "
@@ -153,7 +168,7 @@ class TestItRendersAtEveryAmount:
     @pytest.mark.parametrize("amount", AMOUNTS)
     def test_it_renders(self, amount, env):
         _ffmpeg_or_skip()
-        assert transfer(ours(amount, env)) is not None, (
+        assert transfer(ours(amount, env), must=False) is not None, (
             f"amount={amount} produced a fragment ffmpeg would not run"
         )
 
@@ -162,7 +177,7 @@ class TestItRendersAtEveryAmount:
         claim about a version nobody can run any more."""
         _ffmpeg_or_skip()
         old = "curves=all='0/0 0.0000/0.25 1.0000/0.75 1/1'"
-        assert transfer(old) is None, (
+        assert transfer(old, must=False) is None, (
             "the degenerate curve the old implementation emitted at amount=2 "
             "is expected to be refused by ffmpeg"
         )

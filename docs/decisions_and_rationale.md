@@ -4,6 +4,8 @@
 **Status:** Decisions of record. Written 2026-09-02 against thirteen research notes, each adversarially reviewed by a second reader who re-ran every command.
 **Version anchor:** ffmpeg 8.1 (Homebrew, `--enable-gpl --enable-version3`, 481 filters) and FFmpeg source at tag `n8.1`; `opencv-python-headless` 4.13.0.92; `av` 16.0.1; `imageio-ffmpeg` 0.6.0; `moviepy` 2.2.1; Python 3.12.12 on macOS arm64 (darwin 24.6.0). Every measurement below was taken on that machine unless it says otherwise.
 
+**Cross-version warrant, added 2026-09-04.** CI now installs ffmpeg (rule 29d), and the suite is additionally run against **ffmpeg 6.1.6** (the version Ubuntu ships, and therefore what CI executes) and **9.0.1**. All 1286 tests pass on both. That span is the reason three build-specific assumptions were found and removed — a height-1 lavfi frame, `gradients speed=0`, and FFV1 in an `.mp4` container are each accepted by one of these builds and refused by another.
+
 **Purpose.** The research in [`docs/research/`](research/) says what is *true*. This document says what `looks` has *decided*, and why. It is the entry point: read this, then follow the pointers into the notes for detail. Where the two conflict, the research wins on facts and this document wins on intent — flag the conflict rather than silently resolving it. **Where a note's adversarial review refuted the note's body, the correction is what is recorded here.**
 
 **Do not re-derive anything below.** Several findings are counter-intuitive enough that a fresh derivation is likely to land on the wrong answer, and three of them were wrong in the *permissive* direction on the first attempt — which is the direction that makes this package a liability rather than merely useless.
