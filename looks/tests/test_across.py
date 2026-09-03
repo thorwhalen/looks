@@ -65,7 +65,7 @@ class TestItIsExact:
     @pytest.mark.parametrize("trial", range(300))
     def test_it_matches_brute_force(self, trial):
         rng = random.Random(SEED + trial)
-        n = rng.randint(1, 5)
+        n = rng.randint(2, 5)
         # A small pool of repeated values on purpose: ties across clips and
         # duplicates within one are where a sweep's pointer arithmetic fails.
         pool = [1.0, 2.0, 2.0, 3.0, 5.0, 5.0, 8.0, 13.0]
@@ -89,10 +89,24 @@ class TestItIsExact:
             got = solve_across(grid(values))
             assert got.ratio == pytest.approx(brute_ratio(values), rel=1e-9)
 
-    def test_a_single_clip_is_already_consistent(self):
-        got = solve_across(grid({"c01": [10.0, 20.0, 40.0]}))
-        assert got.ratio == pytest.approx(1.0)
-        assert len(got.choices) == 1
+    def test_a_single_clip_is_refused_not_answered(self):
+        """`looks.measure.dispersion` already refuses this exact quantity, and
+        two modules disagreeing about whether a one-element spread is a
+        question is the drift this package's guards exist to catch.
+
+        It is also the honest answer: with one clip every candidate scores
+        1.0, so the value returned would come from the tie-break rule and from
+        nothing about the set.
+        """
+        with pytest.raises(AcrossError, match="at least two clips"):
+            solve_across(grid({"c01": [10.0, 20.0, 40.0]}))
+
+    def test_and_measure_refuses_the_same_question(self):
+        """The consistency this is about, asserted rather than described."""
+        from looks.measure import MeasurementError, dispersion
+
+        with pytest.raises(MeasurementError, match="at least two"):
+            dispersion([stats("c01", 40.0)])
 
     def test_clips_whose_ranges_do_not_overlap(self):
         """No window can be narrow; the answer is still exact and still says
@@ -455,5 +469,64 @@ class TestTheAnswerIsData:
     def test_it_reports_the_statistic_it_used(self):
         """Two spreads over different statistics are different answers, and a
         number without its statistic is not one."""
-        spread = solve_across(grid({"c01": [117.0]}), statistic="sharpness")
+        spread = solve_across(
+            grid({"c01": [117.0], "c02": [114.0]}), statistic="sharpness"
+        )
         assert spread.statistic == "sharpness"
+
+
+class TestTheReportedNumbersAreTheMeasuredOnes:
+    """Found by an independent verification of the shipped module.
+
+    `Choice.statistic` was `exp(log(measured))`. That is not the measurement:
+    **147 of 200** realistic sharpness values fail bit-equality through the
+    round trip, and 117.0 came back as 117.00000000000003. The value reaches
+    the `looks.spread/v1` wire document, and a package this careful about
+    measurement identity must not report a number it altered.
+    """
+
+    def test_the_statistic_is_the_input_float(self):
+        values = {"c01": [117.0, 72.0], "c02": [46.0, 38.0]}
+        got = solve_across(grid(values))
+        for choice in got.choices:
+            assert choice.statistic in values[choice.source_id], (
+                f"{choice.statistic!r} is not one of the measurements given"
+            )
+
+    def test_over_many_values_none_is_altered(self):
+        rng = random.Random(SEED)
+        for _ in range(200):
+            a, b = rng.uniform(1, 200), rng.uniform(1, 200)
+            got = solve_across(grid({"c01": [a], "c02": [b]}))
+            reported = {c.source_id: c.statistic for c in got.choices}
+            assert reported == {"c01": a, "c02": b}
+
+    def test_the_ratio_cannot_raise_a_bare_overflow(self):
+        """Above a log spread of ~709 `math.exp` overflows. Absurd input, but
+        it must not surface as an OverflowError in a module where every other
+        failure is an AcrossError."""
+        with pytest.raises(AcrossError, match="overflows a float"):
+            solve_across(grid({"c01": [1e-300], "c02": [1e300]}))
+
+
+class TestTheAnswerDoesNotDependOnInputORDER:
+    """`to_dict` is a wire document, so it must not carry how a caller happened
+    to build its mapping."""
+
+    def test_the_same_clips_in_a_different_order_give_the_same_document(self):
+        one = solve_across(grid({"c01": [10.0, 12.0], "c02": [11.0]}))
+        other = solve_across(grid({"c02": [11.0], "c01": [10.0, 12.0]}))
+        assert one.to_dict() == other.to_dict()
+
+    def test_choices_are_ordered_by_source_id(self):
+        got = solve_across(grid({"c03": [10.0], "c01": [10.0], "c02": [10.0]}))
+        assert [c.source_id for c in got.choices] == ["c01", "c02", "c03"]
+
+    def test_probes_follow_that_order_so_the_join_is_stable(self):
+        """`probes_for` is positional against `resolve_across`, so the order
+        has to come from a rule. `Spread.choices` carries the source ids for a
+        caller that needs to check the correspondence."""
+        got = solve_across(grid({"c02": [10.0], "c01": [11.0]}))
+        probes = probes_for(got, "scale")
+        assert len(probes) == 2
+        assert [c.source_id for c in got.choices] == ["c01", "c02"]

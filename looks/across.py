@@ -208,7 +208,14 @@ def _checked(candidates: Mapping[str, Sequence[Candidate]], statistic: Statistic
 
     rows = {}
     for source_id, group in candidates.items():
-        rows[source_id] = [(math.log(_read(c.stats, statistic)), c) for c in group]
+        # The measured float is carried ALONGSIDE its log, never recovered
+        # from it. `exp(log(x))` is not `x`: 147 of 200 realistic sharpness
+        # values fail bit-equality, and 117.0 comes back as 117.00000000000003.
+        # This number reaches a wire document, and a package this careful about
+        # measurement identity must not report one it altered.
+        rows[source_id] = [
+            (math.log(m), m, c) for c in group for m in (_read(c.stats, statistic),)
+        ]
     return rows
 
 
@@ -226,7 +233,7 @@ def _sweep(rows, need: int):
     points = sorted(
         (value, source_id, index)
         for source_id, group in rows.items()
-        for index, (value, _) in enumerate(group)
+        for index, (value, _measured, _candidate) in enumerate(group)
     )
     counts: dict[str, int] = {}
     have = 0
@@ -316,6 +323,21 @@ def solve_across(
         )
 
     rows = _checked(candidates, statistic)
+    if len(rows) < 2:
+        # `looks.measure.dispersion` already refuses this exact quantity —
+        # "dispersion needs at least two measurements" — and two modules
+        # disagreeing about whether a one-element spread is a question is the
+        # drift this package's guards exist to catch. It is also the honest
+        # answer: with one clip every candidate scores 1.0, so any value
+        # returned would come from the tie-break rule and from nothing about
+        # the set. A confident answer to a question with no content.
+        raise AcrossError(
+            f"a spread needs at least two clips to be a spread; got "
+            f"{len(rows)} ({sorted(rows)}). With one clip every candidate is "
+            "equally consistent, so the value returned would come from the "
+            "tie-break rule rather than from the set — which is why "
+            "looks.measure.dispersion refuses the same question."
+        )
     need = len(rows) - (drop if dispersion == "trimmed_range" else 0)
     if need < 1:
         raise AcrossError(
@@ -330,11 +352,13 @@ def solve_across(
 
     choices = []
     outside = []
-    for source_id, group in rows.items():
+    # Sorted by source id, so two logically identical inputs presented in
+    # different orders give the same answer AND the same wire document.
+    # Insertion order would make `to_dict()` depend on how a caller happened to
+    # build its mapping, which is no part of the question asked.
+    for source_id in sorted(rows):
         inside = [
-            (value, candidate)
-            for value, candidate in group
-            if low - 1e-12 <= value <= high + 1e-12
+            row for row in rows[source_id] if low - 1e-12 <= row[0] <= high + 1e-12
         ]
         if not inside:
             outside.append(source_id)
@@ -342,18 +366,25 @@ def solve_across(
         # The smallest measurement inside the window, deterministically. Any
         # candidate in the window gives the same objective; picking by rule
         # rather than by iteration order is what keeps the answer stable.
-        value, candidate = min(inside, key=lambda pair: pair[0])
+        _value, measured, candidate = min(inside, key=lambda row: row[0])
         choices.append(
-            Choice(
-                source_id=source_id,
-                value=candidate.value,
-                statistic=math.exp(value),
-            )
+            Choice(source_id=source_id, value=candidate.value, statistic=measured)
         )
+
+    try:
+        ratio = math.exp(width)
+    except OverflowError:
+        # Reachable above log_spread ~709, which needs measurements ~10**308
+        # apart. Absurd — and the point is that it must not surface as a bare
+        # OverflowError in a module where every other failure is an AcrossError.
+        raise AcrossError(
+            f"the log spread is {width:.1f}, so the ratio overflows a float. "
+            "These measurements are not describing the same kind of thing."
+        ) from None
 
     return Spread(
         choices=tuple(choices),
-        ratio=math.exp(width),
+        ratio=ratio,
         log_spread=width,
         dispersion=dispersion,
         statistic=statistic,
