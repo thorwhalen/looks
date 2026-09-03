@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.transition &mdash; looks 0.0.12 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3bbcec59"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="looks.tests.test_transition" href="tests/test_transition.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="across.html">looks.across</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_across.html">looks.tests.test_across</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_transition.html">looks.tests.test_transition</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">looks.transition</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.DFLT_CURVE"><code class="docutils literal notranslate"><span class="pre">DFLT_CURVE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.MIN_TRANSITION_S"><code class="docutils literal notranslate"><span class="pre">MIN_TRANSITION_S</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.TRANSITION_CURVES"><code class="docutils literal notranslate"><span class="pre">TRANSITION_CURVES</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.Transition"><code class="docutils literal notranslate"><span class="pre">Transition</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.TransitionError"><code class="docutils literal notranslate"><span class="pre">TransitionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.blended_frames"><code class="docutils literal notranslate"><span class="pre">blended_frames()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.check_visible"><code class="docutils literal notranslate"><span class="pre">check_visible()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.is_hard_cut"><code class="docutils literal notranslate"><span class="pre">is_hard_cut()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.transition.xfade_options"><code class="docutils literal notranslate"><span class="pre">xfade_options()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">looks.transition</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/looks/transition.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-looks.transition">
+<span id="looks-transition"></span><h1>looks.transition<a class="headerlink" href="#module-looks.transition" title="Link to this heading"></a></h1>
+<p>How one shot gives way to the next — the vocabulary, not the graph.</p>
+<p>ffmpeg’s <code class="docutils literal notranslate"><span class="pre">xfade</span></code> offers 58 transitions on this build. This package carries
+<strong>sixteen</strong>, and the reason is the posture rather than the number: a name a
+caller passes should be refused here, at the boundary, rather than discovered
+three stages later as an ffmpeg error. Measured — an unrecognised curve produces</p>
+<blockquote>
+<div><p>[Parsed_xfade_0] const_values array too small for transition
+Error applying option ‘transition’ to filter ‘xfade’:</p>
+<blockquote>
+<div><p>Not yet implemented in FFmpeg, patches welcome</p>
+</div></blockquote>
+</div></blockquote>
+<p>which names neither the caller’s mistake nor the filter’s actual complaint. A
+vocabulary we own is a vocabulary we can keep working across ffmpeg builds, and
+translating at the boundary is the same rule <cite>muvid</cite>’s EDL and <cite>an</cite>’s camera
+table already follow.</p>
+<p>## Why this module emits no filter</p>
+<p>Every other compiler here returns a string. This one returns <strong>options</strong>, because
+<code class="docutils literal notranslate"><span class="pre">xfade</span></code> takes <em>two</em> video inputs and a compiled fragment in this package
+references no input index at all — that is rule 20, and it is what lets a
+fragment splice into a bare <code class="docutils literal notranslate"><span class="pre">-vf</span></code>, into a per-cut chain, and into a pipe’s
+encoder half alike. A two-input filter cannot satisfy it.</p>
+<p>So <cite>looks</cite> owns the curve names, the record, and the floor; the host owns the
+filtergraph that wires two streams into an <code class="docutils literal notranslate"><span class="pre">xfade</span></code>. That is the same split as
+everywhere else: this package decides <em>what</em>, the caller decides <em>where</em>.</p>
+<p>## A short transition is a hard cut wearing a label, and the floor is not a constant</p>
+<p>Measured on ffmpeg 8.1, counting frames that are neither source colour:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>fps</p></th>
+<th class="head"><p>duration</p></th>
+<th class="head"><p>blended frames</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>30</p></td>
+<td><p>0.30 s</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p>30</p></td>
+<td><p>0.10 s</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>30</p></td>
+<td><p>0.04 s</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>30</p></td>
+<td><p>0.033 s</p></td>
+<td><p><strong>0</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>0.30 s</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>0.10 s</p></td>
+<td><p><strong>0</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p>So a transition shorter than about one frame period produces <strong>no blended frame
+at all</strong> — the picture cuts, and the record says it faded. <code class="docutils literal notranslate"><span class="pre">duration=0</span></code> is
+accepted by ffmpeg without complaint.</p>
+<p><a class="reference internal" href="#looks.transition.MIN_TRANSITION_S" title="looks.transition.MIN_TRANSITION_S"><code class="xref py py-data docutils literal notranslate"><span class="pre">MIN_TRANSITION_S</span></code></a> is inherited from <cite>muvid</cite> at 0.04 s, which is exactly
+one frame at 25 fps — which is where the number came from, and why it is <em>too
+small</em> at lower rates. <a class="reference internal" href="#looks.transition.blended_frames" title="looks.transition.blended_frames"><code class="xref py py-func docutils literal notranslate"><span class="pre">blended_frames()</span></code></a> is the honest form: it takes the
+rate, because the question does.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.transition.DFLT_CURVE">
+<span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">DFLT_CURVE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fade'</span></span><a class="headerlink" href="#looks.transition.DFLT_CURVE" title="Link to this definition"></a></dt>
+<dd><p>The default curve. A plain cross-fade, because it is the one that reads as
+no decision at all.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.transition.MIN_TRANSITION_S">
+<span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">MIN_TRANSITION_S</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.04</span></span><a class="headerlink" href="#looks.transition.MIN_TRANSITION_S" title="Link to this definition"></a></dt>
+<dd><p>The floor below which a transition is a hard cut wearing a label. Inherited
+from <cite>muvid</cite>, where it is 0.04 s — <strong>exactly one frame at 25 fps</strong>, which is
+where the number comes from. It is therefore too small at lower rates, and
+<a class="reference internal" href="#looks.transition.blended_frames" title="looks.transition.blended_frames"><code class="xref py py-func docutils literal notranslate"><span class="pre">blended_frames()</span></code></a> is the form that knows it: prefer that when the rate
+is available, and treat this as the rate-free fallback it is.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="looks.transition.TRANSITION_CURVES">
+<span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">TRANSITION_CURVES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'circleclose',</span> <span class="pre">'circleopen',</span> <span class="pre">'dissolve',</span> <span class="pre">'fade',</span> <span class="pre">'fadeblack',</span> <span class="pre">'fadewhite',</span> <span class="pre">'slidedown',</span> <span class="pre">'slideleft',</span> <span class="pre">'slideright',</span> <span class="pre">'slideup',</span> <span class="pre">'smoothleft',</span> <span class="pre">'smoothright',</span> <span class="pre">'wipedown',</span> <span class="pre">'wipeleft',</span> <span class="pre">'wiperight',</span> <span class="pre">'wipeup'})</span></span><a class="headerlink" href="#looks.transition.TRANSITION_CURVES" title="Link to this definition"></a></dt>
+<dd><p>a curated subset of ffmpeg’s 58, chosen
+because they read as deliberate edits rather than as effects. Adding one is a
+decision — the point of an owned vocabulary is that it does not grow by
+accident — and every name here is verified present in ffmpeg’s <code class="docutils literal notranslate"><span class="pre">xfade</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The transitions this package offers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="looks.transition.Transition">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">Transition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration_s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fade'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/transition.html#Transition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.transition.Transition" title="Link to this definition"></a></dt>
+<dd><p>How a shot blends in from its predecessor.</p>
+<p>A record rather than a bare float, so the curve — and anything after it — is
+an additive field rather than another shape change on something already
+serialised.</p>
+<p>The transition belongs to the shot it is <em>on</em>: it annotates that shot’s
+<strong>entrance</strong>. <cite>muvid</cite>’s EDL keeps it that way so spans stay one per span, and
+the reasoning for that invariant stays there — this is the vocabulary, not
+the edit model.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">Transition(duration_s=0.5, curve='fade')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">'circleopen'</span><span class="p">)</span><span class="o">.</span><span class="n">curve</span>
+<span class="go">'circleopen'</span>
+</pre></div>
+</div>
+<p>A name outside the vocabulary is refused here, not by ffmpeg later:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">'starwipe'</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.transition.TransitionError</span>: <span class="n">'starwipe' is not a transition this</span>
+<span class="x">package offers...</span>
+</pre></div>
+</div>
+<p>And a duration that cannot be a transition:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.transition.TransitionError</span>: <span class="n">a transition needs a positive</span>
+<span class="x">duration; got 0.0...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="looks.transition.TransitionError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">TransitionError</span></span><a class="reference internal" href="../../_modules/looks/transition.html#TransitionError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.transition.TransitionError" title="Link to this definition"></a></dt>
+<dd><p>A transition that cannot be honoured as asked.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.transition.blended_frames">
+<span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">blended_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.transition.Transition" title="looks.transition.Transition"><span class="pre">Transition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/looks/transition.html#blended_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.transition.blended_frames" title="Link to this definition"></a></dt>
+<dd><p>How many frames will actually be a mixture of the two shots.</p>
+<p>The honest form of “is this long enough”, because the answer depends on the
+rate and a constant cannot. Measured against ffmpeg: a 0.30 s fade blends 8
+frames at 30 fps and 2 at 10 fps, and 0.10 s blends 2 at 30 fps and <strong>none</strong>
+at 10.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">blended_frames</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.30</span><span class="p">),</span> <span class="mi">30</span><span class="p">)</span>
+<span class="go">8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blended_frames</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.30</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">blended_frames</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.10</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.transition.check_visible">
+<span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">check_visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.transition.Transition" title="looks.transition.Transition"><span class="pre">Transition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/looks/transition.html#check_visible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.transition.check_visible" title="Link to this definition"></a></dt>
+<dd><p>Raise unless the transition will actually be seen.</p>
+<p>Call it when the rate is known. A transition that blends nothing is not a
+subtle transition — it is a cut, and a record saying otherwise is the kind
+of quiet disagreement between plan and picture this package exists to
+prevent.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">check_visible</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.30</span><span class="p">),</span> <span class="mi">30</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_visible</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.05</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.transition.TransitionError</span>: <span class="n">a 0.05 s transition at 10 fps blends 0</span>
+<span class="x">frames...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.transition.is_hard_cut">
+<span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">is_hard_cut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.transition.Transition" title="looks.transition.Transition"><span class="pre">Transition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/looks/transition.html#is_hard_cut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.transition.is_hard_cut" title="Link to this definition"></a></dt>
+<dd><p>Will this transition produce no blended frame at all?</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_hard_cut</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.30</span><span class="p">),</span> <span class="mi">30</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_hard_cut</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.10</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="looks.transition.xfade_options">
+<span class="sig-prename descclassname"><span class="pre">looks.transition.</span></span><span class="sig-name descname"><span class="pre">xfade_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#looks.transition.Transition" title="looks.transition.Transition"><span class="pre">Transition</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../_modules/looks/transition.html#xfade_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.transition.xfade_options" title="Link to this definition"></a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">xfade</span></code> options for this transition — options, not a filter.</p>
+<p><code class="docutils literal notranslate"><span class="pre">xfade</span></code> takes two video inputs, and a compiled fragment in this package
+references no input index (rule 20). So the host wires the two streams and
+splices these options in; <cite>looks</cite> says what the transition IS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>offset</strong> – When the transition starts, in the output’s timeline. The host’s
+number, because it depends on how the host laid out its cuts.</p></li>
+<li><p><strong>fps</strong> – When given, the transition is checked against it — a transition
+that blends nothing is refused rather than emitted.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xfade_options</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="s1">'circleopen'</span><span class="p">),</span> <span class="n">offset</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="go">{'transition': 'circleopen', 'duration': 0.5, 'offset': 2.0}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xfade_options</span><span class="p">(</span><span class="n">Transition</span><span class="p">(</span><span class="mf">0.02</span><span class="p">),</span> <span class="n">offset</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">looks.transition.TransitionError</span>: <span class="n">a 0.02 s transition at 25 fps blends 0</span>
+<span class="x">frames...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tests/test_transition.html" class="btn btn-neutral float-left" title="looks.tests.test_transition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

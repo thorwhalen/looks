@@ -40,3 +40,5 @@
    module_docs/looks/tests/test_pyproject_reader
    module_docs/looks/tests/test_smoke
    module_docs/looks/tests/test_spec
+   module_docs/looks/tests/test_transition
+   module_docs/looks/transition
