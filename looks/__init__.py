@@ -109,6 +109,15 @@ from looks.compile import (
     payloads,
     unmet_filters,
 )
+from looks.cache import (
+    CacheError,
+    Materialised,
+    cache_dir,
+    cube_file,
+    materialize,
+    pending,
+    sweep,
+)
 from looks.ffmpeg import (
     FfmpegBackendError,
     escape_filter_value,
@@ -258,6 +267,14 @@ __all__ = [
     "unmet_filters",
     "CompileError",
     "PlanRefused",
+    # the cube cache: a Look carries the spec, the cache carries the file
+    "materialize",
+    "cube_file",
+    "pending",
+    "cache_dir",
+    "sweep",
+    "Materialised",
+    "CacheError",
     # the ffmpeg backend: a plan as one -vf fragment
     "vf",
     "filter_string",
