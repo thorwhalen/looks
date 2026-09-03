@@ -128,7 +128,8 @@ def tables(path: Path = PYPROJECT) -> dict[str, dict[str, Value]]:
     ['cli', 'dev', 'docs']
     """
     result: dict[str, dict[str, Value]] = {"": {}}
-    current = result[""]
+    section = ""
+    table: str | None = None
     key: str | None = None
     buf = ""
     for raw in path.read_text(encoding="utf-8").splitlines():
@@ -138,22 +139,63 @@ def tables(path: Path = PYPROJECT) -> dict[str, dict[str, Value]]:
                 continue
             header = _TABLE.match(line)
             if header:
-                current = result.setdefault(header.group(1).strip(), {})
+                section = header.group(1).strip()
+                result.setdefault(section, {})
                 continue
             entry = _KEY.match(line)
             if not entry:
                 continue
-            raw_key = entry.group(1).strip()
-            key = _unquote(raw_key) if raw_key[:1] in "\"'" else raw_key
+            # A DOTTED key defines a sub-table: `check.linux = "..."` inside
+            # [tool.wads.ops.ffmpeg] is [tool.wads.ops.ffmpeg.check] with key
+            # `linux`, which is what tomllib reports and therefore what this
+            # reader must report. Keeping it as a literal `check.linux` key was
+            # a silent disagreement, found by the cross-check test the first
+            # time this file grew one.
+            path_parts = _key_path(entry.group(1).strip())
+            table = ".".join(filter(None, [section, *path_parts[:-1]]))
+            key = path_parts[-1]
+            result.setdefault(table, {})
             buf = entry.group(2)
         else:
             buf += " " + line
         if _open_brackets(buf) > 0:
             continue
-        current[key] = _value(buf)
-        key = None
+        result[table][key] = _value(buf)
+        table = key = None
         buf = ""
     return result
+
+
+def _key_path(raw: str) -> list[str]:
+    """Split a (possibly dotted, possibly quoted) key into its segments.
+
+    A dot inside quotes is part of the name, not a separator.
+
+    >>> _key_path("name")
+    ['name']
+    >>> _key_path("check.linux")
+    ['check', 'linux']
+    >>> _key_path('a."b.c".d')
+    ['a', 'b.c', 'd']
+    """
+    parts: list[str] = []
+    token = ""
+    quote = ""
+    for ch in raw:
+        if quote:
+            if ch == quote:
+                quote = ""
+            else:
+                token += ch
+        elif ch in "\"'":
+            quote = ch
+        elif ch == ".":
+            parts.append(token.strip())
+            token = ""
+        else:
+            token += ch
+    parts.append(token.strip())
+    return [p for p in parts if p != ""] or [raw]
 
 
 def optional_dependencies(path: Path = PYPROJECT) -> dict[str, list[str]]:

@@ -81,9 +81,18 @@ GOLD_STOPS = [
 #: to be bit-reproducible with no pinning; `gradients` is not. Pin the geometry
 #: (`x0/y0/x1/y1`), pin `speed=0`, and check any new source for a `seed` before
 #: comparing its output to anything.
+#: `speed` is pinned to the SMALLEST VALUE EVERY BUILD ACCEPTS, not to zero.
+#: ffmpeg 8.1 takes `speed=0`; 6.1.1 — what Ubuntu ships, and therefore what
+#: CI runs — refuses it: "Value 0.000000 for parameter 'speed' out of range
+#: [1e-05 - 1]". So the pin that made this source deterministic on one build
+#: made it unrunnable on another, which is the same class of mistake as naming
+#: a filter one laptop happens to lack. Determinism does not need zero: with
+#: `seed` pinned, three runs of this exact source are bit-identical (measured),
+#: because `speed` varies the gradient over TIME and both sides of every
+#: comparison here render the same frames of the same source.
 GREY_RAMP_SOURCE = (
     "gradients=size=64x36:c0=0x000000:c1=0xFFFFFF:type=linear:nb_colors=2:"
-    "x0=0:y0=0:x1=63:y1=35:speed=0:seed=1:d=1:r=5"
+    "x0=0:y0=0:x1=63:y1=35:speed=1e-05:seed=1:d=1:r=5"
 )
 
 
@@ -102,13 +111,32 @@ def _ffmpeg_or_skip() -> None:
         pytest.skip("no ffmpeg on PATH")
 
 
+
+def _run(argv):
+    """Run ffmpeg and, on failure, say what it SAID.
+
+    `subprocess.run(check=True, capture_output=True)` raises a
+    `CalledProcessError` whose message is the command and an exit code, and
+    throws the stderr away — so a failure on a machine you cannot log into
+    tells you nothing. These tests are the ones most likely to fail on a
+    different ffmpeg build, which makes that the wrong trade here.
+    """
+    proc = subprocess.run(argv, capture_output=True)
+    if proc.returncode != 0:
+        raise AssertionError(
+            f"ffmpeg exited {proc.returncode}\n"
+            f"  argv: {' '.join(str(a) for a in argv)}\n"
+            f"  stderr: {proc.stderr.decode('utf-8', 'replace').strip()[-800:]}"
+        )
+    return proc
+
 def _decode(dest, source, *, vf=None):
     """Decode one lavfi source (optionally through ``vf``) to RGB pixel tuples."""
     argv = ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", source]
     if vf:
         argv += ["-vf", vf]
     argv += ["-f", "rawvideo", "-pix_fmt", "rgb24", str(dest)]
-    subprocess.run(argv, check=True, capture_output=True)
+    _run(argv)
     data = dest.read_bytes()
     return [tuple(data[i : i + 3]) for i in range(0, len(data), 3)]
 
@@ -117,7 +145,7 @@ def _apply_lut(cube_path, tmp_path, *, size=(64, 36), frames=5):
     """Run a synthesised clip through ``lut3d`` and return its decoded pixels."""
     w, h = size
     raw = tmp_path / "out.rgb"
-    subprocess.run(
+    _run(
         [
             "ffmpeg", "-v", "error", "-y",
             "-f", "lavfi",
@@ -126,8 +154,6 @@ def _apply_lut(cube_path, tmp_path, *, size=(64, 36), frames=5):
             "-f", "rawvideo", "-pix_fmt", "rgb24",
             str(raw),
         ],
-        check=True,
-        capture_output=True,
     )
     data = raw.read_bytes()
     return [tuple(data[i : i + 3]) for i in range(0, len(data), 3)]
