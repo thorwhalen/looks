@@ -102,13 +102,32 @@ def _ffmpeg_or_skip() -> None:
         pytest.skip("no ffmpeg on PATH")
 
 
+
+def _run(argv):
+    """Run ffmpeg and, on failure, say what it SAID.
+
+    `subprocess.run(check=True, capture_output=True)` raises a
+    `CalledProcessError` whose message is the command and an exit code, and
+    throws the stderr away — so a failure on a machine you cannot log into
+    tells you nothing. These tests are the ones most likely to fail on a
+    different ffmpeg build, which makes that the wrong trade here.
+    """
+    proc = subprocess.run(argv, capture_output=True)
+    if proc.returncode != 0:
+        raise AssertionError(
+            f"ffmpeg exited {proc.returncode}\n"
+            f"  argv: {' '.join(str(a) for a in argv)}\n"
+            f"  stderr: {proc.stderr.decode('utf-8', 'replace').strip()[-800:]}"
+        )
+    return proc
+
 def _decode(dest, source, *, vf=None):
     """Decode one lavfi source (optionally through ``vf``) to RGB pixel tuples."""
     argv = ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", source]
     if vf:
         argv += ["-vf", vf]
     argv += ["-f", "rawvideo", "-pix_fmt", "rgb24", str(dest)]
-    subprocess.run(argv, check=True, capture_output=True)
+    _run(argv)
     data = dest.read_bytes()
     return [tuple(data[i : i + 3]) for i in range(0, len(data), 3)]
 
@@ -117,7 +136,7 @@ def _apply_lut(cube_path, tmp_path, *, size=(64, 36), frames=5):
     """Run a synthesised clip through ``lut3d`` and return its decoded pixels."""
     w, h = size
     raw = tmp_path / "out.rgb"
-    subprocess.run(
+    _run(
         [
             "ffmpeg", "-v", "error", "-y",
             "-f", "lavfi",
@@ -126,8 +145,6 @@ def _apply_lut(cube_path, tmp_path, *, size=(64, 36), frames=5):
             "-f", "rawvideo", "-pix_fmt", "rgb24",
             str(raw),
         ],
-        check=True,
-        capture_output=True,
     )
     data = raw.read_bytes()
     return [tuple(data[i : i + 3]) for i in range(0, len(data), 3)]

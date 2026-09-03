@@ -62,7 +62,12 @@ def _ffmpeg_or_skip() -> None:
 
 def _rendered_size(chain: str, source: Size, tmp_path) -> Size:
     """Render a synthetic source through ``chain`` and probe the result."""
-    out = tmp_path / "probe.mp4"
+    # .mkv, not .mp4: ffv1 in an mp4 container is accepted by ffmpeg 8.1 and
+    # REFUSED by 6.1.1 (exit 234), which is what Ubuntu ships. That difference
+    # cost 60 failures the moment CI was given an ffmpeg at all — the tests had
+    # been silently skipping, so the container choice was never exercised
+    # anywhere but one laptop. Matroska takes ffv1 on both.
+    out = tmp_path / "probe.mkv"
     vf = chain or "null"
     subprocess.run(
         [
