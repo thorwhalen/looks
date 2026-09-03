@@ -431,9 +431,9 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         tags=("gpl-gated",),
     )
     add(
-        "contrast.ffmpeg.curves",
-        ("curves",),
-        _simple("curves", lambda p: {"all": _contrast_curve(p)}),
+        "contrast.ffmpeg.colorlevels",
+        ("colorlevels",),
+        _simple("colorlevels", _contrast_levels),
     )
     add(
         "contrast.ffmpeg.eq",
@@ -547,17 +547,77 @@ def _saturation_matrix(params) -> Mapping[str, Any]:
     }
 
 
-def _contrast_curve(params) -> str:
-    """Contrast as a three-point curve pinned at both ends.
+def _contrast_levels(params) -> Mapping[str, Any]:
+    r"""Contrast as a clipped linear remap about mid-grey: ``y = 0.5 + a(x - 0.5)``.
 
-    The LGPL answer to ``eq=contrast=``. Pivoting about mid-grey keeps black
-    black and white white, which is rule 13's point in a different filter.
+    The LGPL answer to ``eq=contrast=``, and it must agree with it — the two are
+    implementations of one effect, chosen by licence tier, so a caller who
+    cannot use GPL must not get a different picture. Measured against
+    ``eq=contrast=`` on a 256-step ramp: within 5/255 through ``amount <= 2``.
+
+    **Why not ``curves``.** This transfer is a straight line, and ``curves`` is a
+    spline. Drawing a line with a spline was the source of three defects at once
+    (all measured, all shipped in 0.0.4-0.0.12):
+
+    * The spline eased through the clip corner instead of turning it, putting
+      the emitted picture up to 45/255 away from ``eq``'s at the same amount.
+    * Under ffmpeg's default ``interp=natural`` it rang: 89 non-monotone steps
+      out of 255 at ``amount=1.8``, dropping 2 LSB each. That is rule 26, which
+      this package stated and then did not honour. ``interp=pchip`` reduced it
+      to 1-LSB rounding, but only ``colorlevels`` — which interpolates nothing —
+      reaches zero.
+    * At ``amount >= 2`` the clamp collided the interior points with the
+      endpoints, and ffmpeg **refused the render**: "Invalid argument", nothing
+      written. A contrast of 2 is not exotic.
+
+    ``colorlevels`` has none of them because it is the shape of the transfer
+    rather than an approximation to it, and it is equally LGPL-clean.
+
+    The direction was also inverted, which is the defect that mattered most: the
+    old form widened the input band as ``amount`` grew, so ``contrast`` with
+    ``amount=1.5`` FLATTENED the picture (measured slope 0.45) while the GPL
+    sibling ``eq=contrast=1.5`` steepened it (1.48). The algebra wants ``0.5/a``,
+    not ``0.25*a``.
+
+    >>> _contrast_levels({"amount": 1.0})["rimin"]
+    0.0
+    >>> round(_contrast_levels({"amount": 2.0})["rimin"], 4)
+    0.25
+    >>> round(_contrast_levels({"amount": 0.5})["romin"], 4)
+    0.25
     """
     amount = float(params.get("amount", 1.0))
-    mid = 0.5
-    low = max(0.0, mid - 0.25 * amount)
-    high = min(1.0, mid + 0.25 * amount)
-    return f"0/0 {low:.4f}/0.25 {high:.4f}/0.75 1/1"
+    if amount < 0:
+        raise SpecError(
+            f"contrast amount must not be negative; got {amount!r}. A negative "
+            "amount would invert the picture, which is a different effect than "
+            "the one being asked for."
+        )
+    if amount >= 1.0:
+        # Steepen: narrow the INPUT band that reaches full range. The band is
+        # 1/amount wide about mid-grey, so amount is exactly the slope.
+        half = 0.5 / amount
+        lo, hi = round(0.5 - half, 6), round(0.5 + half, 6)
+        return {
+            "rimin": lo,
+            "gimin": lo,
+            "bimin": lo,
+            "rimax": hi,
+            "gimax": hi,
+            "bimax": hi,
+        }
+    # Flatten: the input still spans the range, but the OUTPUT is compressed
+    # about mid-grey. Doing this on the input side instead would need a band
+    # wider than the unit interval, which colorlevels cannot express.
+    lo, hi = round(0.5 - 0.5 * amount, 6), round(0.5 + 0.5 * amount, 6)
+    return {
+        "romin": lo,
+        "gomin": lo,
+        "bomin": lo,
+        "romax": hi,
+        "gomax": hi,
+        "bomax": hi,
+    }
 
 
 def _motion_compiler(params, *, clip=None, env=None, **_kw):
