@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.motion &mdash; looks 0.0.14 documentation</title>
+  <title>looks.motion &mdash; looks 0.0.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/documentation_options.js?v=f0357c94"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -616,7 +616,13 @@
 
 <div class="viewcode-block" id="zoompan_fragment">
 <a class="viewcode-back" href="../../module_docs/looks/motion.html#looks.zoompan_fragment">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">zoompan_fragment</span><span class="p">(</span><span class="n">keyframes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Keyframe</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">zoompan_fragment</span><span class="p">(</span>
+    <span class="n">keyframes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Keyframe</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">output</span><span class="p">:</span> <span class="n">Size</span><span class="p">,</span>
+    <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">aspect_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">ASPECT_TOLERANCE</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""A path whose window size varies, compiled to ``zoompan``.</span>
 
 <span class="sd">    Args:</span>
@@ -654,7 +660,12 @@
                 <span class="s2">"would render a different framing, not a worse one. The "</span>
                 <span class="sa">f</span><span class="s2">"smallest window it can show is </span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">MIN_WINDOW_FRACTION</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">w</span> <span class="o">-</span> <span class="n">k</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">h</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">EPSILON</span><span class="p">:</span>
+        <span class="c1"># `aspect_tolerance`, NOT `EPSILON`. This check used to hardcode</span>
+        <span class="c1"># EPSILON (1e-9), which silently overrode the tolerance</span>
+        <span class="c1"># `compile_motion` documents and accepts — so a caller who widened it</span>
+        <span class="c1"># was refused anyway, and by a message about the wrong thing: it named</span>
+        <span class="c1"># the window's size where the real complaint was a 5e-7 aspect drift.</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">w</span> <span class="o">-</span> <span class="n">k</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">h</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">aspect_tolerance</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">MotionError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"keyframe </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">'s window is </span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">w</span><span class="p">)</span><span class="si">}</span><span class="s2"> x "</span>
                 <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">h</span><span class="p">)</span><span class="si">}</span><span class="s2"> of the frame, so it is not the source's "</span>
@@ -765,7 +776,9 @@
         <span class="p">)</span>
     <span class="k">assert</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># narrowed by `missing`</span>
     <span class="n">crop</span><span class="p">,</span> <span class="n">moved</span> <span class="o">=</span> <span class="n">reframe</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">aspect_tolerance</span><span class="o">=</span><span class="n">aspect_tolerance</span><span class="p">)</span>
-    <span class="n">fragment</span> <span class="o">=</span> <span class="n">zoompan_fragment</span><span class="p">(</span><span class="n">moved</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">)</span>
+    <span class="n">fragment</span> <span class="o">=</span> <span class="n">zoompan_fragment</span><span class="p">(</span>
+        <span class="n">moved</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">,</span> <span class="n">aspect_tolerance</span><span class="o">=</span><span class="n">aspect_tolerance</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">crop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">fragment</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">crop_fragment</span><span class="p">([</span><span class="n">Keyframe</span><span class="p">(</span><span class="n">moved</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">crop</span><span class="p">)])</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">fragment</span><span class="si">}</span><span class="s2">"</span></div>

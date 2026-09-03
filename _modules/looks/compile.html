@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.compile &mdash; looks 0.0.14 documentation</title>
+  <title>looks.compile &mdash; looks 0.0.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/documentation_options.js?v=f0357c94"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -276,6 +276,42 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_contrast</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">amount</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">amount</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CompileError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"contrast amount must not be negative; got </span><span class="si">{</span><span class="n">amount</span><span class="si">!r}</span><span class="s2">. A negative "</span>
+            <span class="s2">"amount would invert the picture, which is a different effect than "</span>
+            <span class="s2">"the one being asked for."</span>
+        <span class="p">)</span>
+
+
+<span class="c1">#: What an effect's parameters must satisfy, keyed by EFFECT — never by</span>
+<span class="c1">#: implementation. A check that lives inside one compiler is a check the</span>
+<span class="c1">#: licence tier can switch off: `contrast` with `amount=-1` was refused on the</span>
+<span class="c1">#: LGPL path and emitted `eq=contrast=-1.0` on the GPL one, so the same Look was</span>
+<span class="c1">#: valid or invalid depending on how the binary was built. Rule 29b says the</span>
+<span class="c1">#: tier must not decide what the viewer sees; it must not decide whether the</span>
+<span class="c1">#: document is accepted either.</span>
+<span class="n">EFFECT_PARAM_CHECKS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"contrast"</span><span class="p">:</span> <span class="n">_check_contrast</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="check_effect_params">
+<a class="viewcode-back" href="../../module_docs/looks/compile.html#looks.check_effect_params">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_effect_params</span><span class="p">(</span><span class="n">effect</span><span class="p">:</span> <span class="n">Effect</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Refuse parameters no implementation of this effect could honour.</span>
+
+<span class="sd">    Called before an implementation is chosen, so every implementation of an</span>
+<span class="sd">    effect accepts exactly the same documents.</span>
+<span class="sd">    """</span>
+    <span class="n">check</span> <span class="o">=</span> <span class="n">EFFECT_PARAM_CHECKS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">check</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">check</span><span class="p">(</span><span class="n">effect</span><span class="o">.</span><span class="n">params</span><span class="p">)</span></div>
+
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_select</span><span class="p">(</span>
     <span class="n">effect</span><span class="p">:</span> <span class="n">Effect</span><span class="p">,</span>
     <span class="n">registry</span><span class="p">:</span> <span class="n">EffectRegistry</span><span class="p">,</span>
@@ -284,6 +320,7 @@
     <span class="n">available</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">frozenset</span><span class="p">],</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FfmpegEnv</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="n">check_effect_params</span><span class="p">(</span><span class="n">effect</span><span class="p">)</span>
     <span class="n">candidates</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">implementations</span><span class="p">(</span><span class="n">effect</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">candidates</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">CompileError</span><span class="p">(</span>

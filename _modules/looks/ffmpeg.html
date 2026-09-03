@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.ffmpeg &mdash; looks 0.0.14 documentation</title>
+  <title>looks.ffmpeg &mdash; looks 0.0.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/documentation_options.js?v=f0357c94"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -567,9 +567,9 @@
         <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s2">"gpl-gated"</span><span class="p">,),</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
-        <span class="s2">"contrast.ffmpeg.colorlevels"</span><span class="p">,</span>
-        <span class="p">(</span><span class="s2">"colorlevels"</span><span class="p">,),</span>
-        <span class="n">_simple</span><span class="p">(</span><span class="s2">"colorlevels"</span><span class="p">,</span> <span class="n">_contrast_levels</span><span class="p">),</span>
+        <span class="s2">"contrast.ffmpeg.lutyuv"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"lutyuv"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutyuv"</span><span class="p">,</span> <span class="n">_contrast_luma</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"contrast.ffmpeg.eq"</span><span class="p">,</span>
@@ -684,77 +684,54 @@
     <span class="p">}</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_contrast_levels</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">"""Contrast as a clipped linear remap about mid-grey: ``y = 0.5 + a(x - 0.5)``.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_contrast_luma</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""Contrast as a linear remap of LUMA: ``y = 128 + a(val - 128)``, clipped.</span>
 
 <span class="sd">    The LGPL answer to ``eq=contrast=``, and it must agree with it — the two are</span>
-<span class="sd">    implementations of one effect, chosen by licence tier, so a caller who</span>
-<span class="sd">    cannot use GPL must not get a different picture. Measured against</span>
-<span class="sd">    ``eq=contrast=`` on a 256-step ramp: within 5/255 through ``amount &lt;= 2``.</span>
+<span class="sd">    implementations of one effect chosen by licence tier, so a caller who cannot</span>
+<span class="sd">    use GPL must not get a different picture (rule 29b).</span>
 
-<span class="sd">    **Why not ``curves``.** This transfer is a straight line, and ``curves`` is a</span>
-<span class="sd">    spline. Drawing a line with a spline was the source of three defects at once</span>
-<span class="sd">    (all measured, all shipped in 0.0.4-0.0.12):</span>
+<span class="sd">    **On the same plane, which is the whole point.** ``eq`` adjusts the luma</span>
+<span class="sd">    plane and leaves chroma alone. Anything that works per RGB channel — the</span>
+<span class="sd">    original ``curves=all=``, and the ``colorlevels`` that briefly replaced it —</span>
+<span class="sd">    changes SATURATION as it changes contrast, so it agrees on grey and diverges</span>
+<span class="sd">    on everything else. Measured against ``eq`` on a colour test pattern:</span>
 
-<span class="sd">    * The spline eased through the clip corner instead of turning it, putting</span>
-<span class="sd">      the emitted picture up to 45/255 away from ``eq``'s at the same amount.</span>
-<span class="sd">    * Under ffmpeg's default ``interp=natural`` it rang: 89 non-monotone steps</span>
-<span class="sd">      out of 255 at ``amount=1.8``, dropping 2 LSB each. That is rule 26, which</span>
-<span class="sd">      this package stated and then did not honour. ``interp=pchip`` reduced it</span>
-<span class="sd">      to 1-LSB rounding, but only ``colorlevels`` — which interpolates nothing —</span>
-<span class="sd">      reaches zero.</span>
-<span class="sd">    * At ``amount &gt;= 2`` the clamp collided the interior points with the</span>
-<span class="sd">      endpoints, and ffmpeg **refused the render**: "Invalid argument", nothing</span>
-<span class="sd">      written. A contrast of 2 is not exotic.</span>
+<span class="sd">    ========  ==============  ==========</span>
+<span class="sd">    amount    ``colorlevels``  ``lutyuv``</span>
+<span class="sd">    ========  ==============  ==========</span>
+<span class="sd">    0.5       74/255          2/255</span>
+<span class="sd">    1.5       77/255          2/255</span>
+<span class="sd">    2.0       134/255         2/255</span>
+<span class="sd">    3.0       178/255         2/255</span>
+<span class="sd">    ========  ==============  ==========</span>
 
-<span class="sd">    ``colorlevels`` has none of them because it is the shape of the transfer</span>
-<span class="sd">    rather than an approximation to it, and it is equally LGPL-clean.</span>
+<span class="sd">    On a grey ramp both are within 5 **through amount &lt;= 2** (measured: 1, 4, 5</span>
+<span class="sd">    at 0.5, 1.5, 2.0; the per-channel form widens to 9 at amount 3 and 26 at</span>
+<span class="sd">    10). That narrow agreement on grey is why a greyscale-only test suite called</span>
+<span class="sd">    the per-channel version interchangeable and shipped it. The tests now render</span>
+<span class="sd">    colour, and compare all three channels rather than one.</span>
 
-<span class="sd">    The direction was also inverted, which is the defect that mattered most: the</span>
-<span class="sd">    old form widened the input band as ``amount`` grew, so ``contrast`` with</span>
-<span class="sd">    ``amount=1.5`` FLATTENED the picture (measured slope 0.45) while the GPL</span>
-<span class="sd">    sibling ``eq=contrast=1.5`` steepened it (1.48). The algebra wants ``0.5/a``,</span>
-<span class="sd">    not ``0.25*a``.</span>
+<span class="sd">    Verified equally on **limited-range** input (``scale=out_range=limited``),</span>
+<span class="sd">    where a luma pivot could have gone wrong and does not: still within 2/255.</span>
 
-<span class="sd">    &gt;&gt;&gt; _contrast_levels({"amount": 1.0})["rimin"]</span>
-<span class="sd">    0.0</span>
-<span class="sd">    &gt;&gt;&gt; round(_contrast_levels({"amount": 2.0})["rimin"], 4)</span>
-<span class="sd">    0.25</span>
-<span class="sd">    &gt;&gt;&gt; round(_contrast_levels({"amount": 0.5})["romin"], 4)</span>
-<span class="sd">    0.25</span>
+<span class="sd">    A LUT, not a spline, so it also carries none of the three defects the</span>
+<span class="sd">    original ``curves`` form had — no ringing (rule 26), no degenerate clamp,</span>
+<span class="sd">    and no eased clip corner. Zero non-monotone steps at every amount measured.</span>
+
+<span class="sd">    &gt;&gt;&gt; _contrast_luma({"amount": 1.0})["y"]</span>
+<span class="sd">    'clip(128+1*(val-128),0,255)'</span>
+<span class="sd">    &gt;&gt;&gt; _contrast_luma({"amount": 1.5})["y"]</span>
+<span class="sd">    'clip(128+1.5*(val-128),0,255)'</span>
 <span class="sd">    """</span>
+    <span class="c1"># The non-negativity of `amount` is an EFFECT-level constraint and lives in</span>
+    <span class="c1"># `looks.compile.EFFECT_PARAM_CHECKS`, not here: a check inside one compiler</span>
+    <span class="c1"># is a check the licence tier can switch off.</span>
     <span class="n">amount</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">amount</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"contrast amount must not be negative; got </span><span class="si">{</span><span class="n">amount</span><span class="si">!r}</span><span class="s2">. A negative "</span>
-            <span class="s2">"amount would invert the picture, which is a different effect than "</span>
-            <span class="s2">"the one being asked for."</span>
-        <span class="p">)</span>
-    <span class="k">if</span> <span class="n">amount</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span>
-        <span class="c1"># Steepen: narrow the INPUT band that reaches full range. The band is</span>
-        <span class="c1"># 1/amount wide about mid-grey, so amount is exactly the slope.</span>
-        <span class="n">half</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="n">amount</span>
-        <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">half</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">half</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">"rimin"</span><span class="p">:</span> <span class="n">lo</span><span class="p">,</span>
-            <span class="s2">"gimin"</span><span class="p">:</span> <span class="n">lo</span><span class="p">,</span>
-            <span class="s2">"bimin"</span><span class="p">:</span> <span class="n">lo</span><span class="p">,</span>
-            <span class="s2">"rimax"</span><span class="p">:</span> <span class="n">hi</span><span class="p">,</span>
-            <span class="s2">"gimax"</span><span class="p">:</span> <span class="n">hi</span><span class="p">,</span>
-            <span class="s2">"bimax"</span><span class="p">:</span> <span class="n">hi</span><span class="p">,</span>
-        <span class="p">}</span>
-    <span class="c1"># Flatten: the input still spans the range, but the OUTPUT is compressed</span>
-    <span class="c1"># about mid-grey. Doing this on the input side instead would need a band</span>
-    <span class="c1"># wider than the unit interval, which colorlevels cannot express.</span>
-    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">amount</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">amount</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">"romin"</span><span class="p">:</span> <span class="n">lo</span><span class="p">,</span>
-        <span class="s2">"gomin"</span><span class="p">:</span> <span class="n">lo</span><span class="p">,</span>
-        <span class="s2">"bomin"</span><span class="p">:</span> <span class="n">lo</span><span class="p">,</span>
-        <span class="s2">"romax"</span><span class="p">:</span> <span class="n">hi</span><span class="p">,</span>
-        <span class="s2">"gomax"</span><span class="p">:</span> <span class="n">hi</span><span class="p">,</span>
-        <span class="s2">"bomax"</span><span class="p">:</span> <span class="n">hi</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="c1"># `%g` so 1.0 stays "1" and 1.5 stays "1.5": the expression reaches the</span>
+    <span class="c1"># plan hash, and an amount that round-trips through a float repr would make</span>
+    <span class="c1"># two identical Looks hash differently.</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"y"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"clip(128+</span><span class="si">{</span><span class="n">amount</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">*(val-128),0,255)"</span><span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_motion_compiler</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">_kw</span><span class="p">):</span>

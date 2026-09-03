@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.transition &mdash; looks 0.0.14 documentation</title>
+  <title>looks.transition &mdash; looks 0.0.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=544df88d"></script>
+      <script src="../../_static/documentation_options.js?v=f0357c94"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -297,44 +297,117 @@
 
 <div class="viewcode-block" id="blended_frames">
 <a class="viewcode-back" href="../../module_docs/looks/transition.html#looks.blended_frames">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">blended_frames</span><span class="p">(</span><span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""How many frames will actually be a mixture of the two shots.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">blended_frames</span><span class="p">(</span>
+    <span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""How many frames will be a mixture of the two shots.</span>
 
-<span class="sd">    The honest form of "is this long enough", because the answer depends on the</span>
-<span class="sd">    rate and a constant cannot. Measured against ffmpeg: a 0.30 s fade blends 8</span>
-<span class="sd">    frames at 30 fps and 2 at 10 fps, and 0.10 s blends 2 at 30 fps and **none**</span>
-<span class="sd">    at 10.</span>
+<span class="sd">    **This is a GUARANTEED MINIMUM unless you pass ``offset``**, and that is not</span>
+<span class="sd">    a hedge — the count genuinely depends on where the transition starts. A</span>
+<span class="sd">    frame blends when its time ``k/fps`` falls strictly inside</span>
+<span class="sd">    ``(offset, offset + duration)``; an open interval of length ``D`` contains at</span>
+<span class="sd">    least ``ceil(D) - 1`` integers and at most ``floor(D)``, and which one you</span>
+<span class="sd">    get is decided by the offset's fractional position. Measured against ffmpeg:</span>
+<span class="sd">    0.10 s at 30 fps blends **2** frames at ``offset=0.5`` and **3** at</span>
+<span class="sd">    ``offset=0.42``.</span>
 
-<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.30), 30)</span>
+<span class="sd">    An earlier version returned ``floor(D) - 1`` and described it as the count.</span>
+<span class="sd">    That is below the true minimum whenever ``D`` is not an integer, so it</span>
+<span class="sd">    under-reported — the safe direction for :func:`is_hard_cut`, but it</span>
+<span class="sd">    contradicted this module's own measured table (0.04 s at 30 fps blends 1</span>
+<span class="sd">    frame; the formula said 0) and the tests never noticed because every row in</span>
+<span class="sd">    the parametrisation sat where the two formulas happen to agree.</span>
+
+<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.30), 30)          # at least</span>
 <span class="sd">    8</span>
-<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.30), 10)</span>
-<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.30), 30, offset=0.5)   # exactly</span>
+<span class="sd">    8</span>
 <span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.10), 10)</span>
 <span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.10), 30, offset=0.5)</span>
+<span class="sd">    2</span>
+<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.10), 30, offset=0.42)</span>
+<span class="sd">    3</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">fps</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">TransitionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fps must be positive; got </span><span class="si">{</span><span class="n">fps</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span> <span class="o">*</span> <span class="n">fps</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+    <span class="n">span</span> <span class="o">=</span> <span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span> <span class="o">*</span> <span class="n">fps</span>
+    <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># The minimum over every offset: what a caller who does not know where</span>
+        <span class="c1"># the transition lands can rely on.</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">span</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">TransitionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"offset must not be negative; got </span><span class="si">{</span><span class="n">offset</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">fps</span><span class="p">,</span> <span class="p">(</span><span class="n">offset</span> <span class="o">+</span> <span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span><span class="p">)</span> <span class="o">*</span> <span class="n">fps</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">_integers_strictly_between</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">))</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_integers_strictly_between</span><span class="p">(</span><span class="n">lo</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">hi</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""How many integers ``k`` satisfy ``lo &lt; k &lt; hi``.</span>
+
+<span class="sd">    Frame times are ``k/fps``; a frame at exactly the transition's start or end</span>
+<span class="sd">    carries a pure source, so the interval is open at both ends. Exactness at</span>
+<span class="sd">    the boundary is the whole difficulty, which is why this is separate and</span>
+<span class="sd">    tested directly rather than inlined into an expression.</span>
+<span class="sd">    """</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">lo</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">last</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">hi</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">last</span> <span class="o">-</span> <span class="n">first</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="max_blended_frames">
+<a class="viewcode-back" href="../../module_docs/looks/transition.html#looks.max_blended_frames">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_blended_frames</span><span class="p">(</span><span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The most frames this transition can blend, over every offset.</span>
+
+<span class="sd">    The companion to :func:`blended_frames`' minimum. The pair is what makes the</span>
+<span class="sd">    uncertainty legible instead of hiding it inside a single number that is</span>
+<span class="sd">    right for one offset.</span>
+
+<span class="sd">    An open interval of length ``D`` contains at most ``ceil(D)`` integers —</span>
+<span class="sd">    NOT ``floor(D)``, which is what intuition offers and what the first draft of</span>
+<span class="sd">    this function returned. A 0.04 s transition at 10 fps spans 0.4 of a frame</span>
+<span class="sd">    period and still blends one frame when it straddles a frame time</span>
+<span class="sd">    (``offset=0.17`` puts the window at (1.7, 2.1), which contains 2). The</span>
+<span class="sd">    bracket test caught it.</span>
+
+<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.25), 30), max_blended_frames(Transition(0.25), 30)</span>
+<span class="sd">    (7, 8)</span>
+<span class="sd">    &gt;&gt;&gt; blended_frames(Transition(0.04), 10), max_blended_frames(Transition(0.04), 10)</span>
+<span class="sd">    (0, 1)</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">fps</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">TransitionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fps must be positive; got </span><span class="si">{</span><span class="n">fps</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span> <span class="o">*</span> <span class="n">fps</span><span class="p">)))</span></div>
 
 
 
 <div class="viewcode-block" id="is_hard_cut">
 <a class="viewcode-back" href="../../module_docs/looks/transition.html#looks.is_hard_cut">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">is_hard_cut</span><span class="p">(</span><span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_hard_cut</span><span class="p">(</span>
+    <span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Will this transition produce no blended frame at all?</span>
+
+<span class="sd">    Without ``offset`` this is "might it blend nothing, at some offset" — the</span>
+<span class="sd">    conservative reading, since :func:`blended_frames` returns the minimum.</span>
+<span class="sd">    With one it is the exact answer for that placement.</span>
 
 <span class="sd">    &gt;&gt;&gt; is_hard_cut(Transition(0.30), 30)</span>
 <span class="sd">    False</span>
 <span class="sd">    &gt;&gt;&gt; is_hard_cut(Transition(0.10), 10)</span>
 <span class="sd">    True</span>
 <span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">blended_frames</span><span class="p">(</span><span class="n">transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></div>
+    <span class="k">return</span> <span class="n">blended_frames</span><span class="p">(</span><span class="n">transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></div>
 
 
 
 <div class="viewcode-block" id="check_visible">
 <a class="viewcode-back" href="../../module_docs/looks/transition.html#looks.check_visible">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">check_visible</span><span class="p">(</span><span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_visible</span><span class="p">(</span>
+    <span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Raise unless the transition will actually be seen.</span>
 
 <span class="sd">    Call it when the rate is known. A transition that blends nothing is not a</span>
@@ -349,13 +422,20 @@
 <span class="sd">    looks.transition.TransitionError: a 0.05 s transition at 10 fps blends 0</span>
 <span class="sd">    frames...</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">is_hard_cut</span><span class="p">(</span><span class="n">transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">):</span>
-        <span class="n">needed</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">fps</span>
+    <span class="k">if</span> <span class="n">is_hard_cut</span><span class="p">(</span><span class="n">transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">):</span>
+        <span class="c1"># A transition is guaranteed visible once its span exceeds ONE frame</span>
+        <span class="c1"># period: an open interval of length D contains at least ceil(D) - 1</span>
+        <span class="c1"># frame times, so D &gt; 1 is the threshold. This used to advise 2/fps,</span>
+        <span class="c1"># which overstates the requirement by up to 2x and would have a caller</span>
+        <span class="c1"># lengthen a transition that was already fine.</span>
+        <span class="n">needed</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">fps</span>
         <span class="k">raise</span> <span class="n">TransitionError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"a </span><span class="si">{</span><span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> s transition at </span><span class="si">{</span><span class="n">fps</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> fps blends 0 "</span>
             <span class="sa">f</span><span class="s2">"frames — it is a hard cut, and calling it </span><span class="si">{</span><span class="n">transition</span><span class="o">.</span><span class="n">curve</span><span class="si">!r}</span><span class="s2"> in "</span>
-            <span class="sa">f</span><span class="s2">"the record would be the only place the fade exists. It needs at "</span>
-            <span class="sa">f</span><span class="s2">"least </span><span class="si">{</span><span class="n">needed</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2"> s at this rate."</span>
+            <span class="sa">f</span><span class="s2">"the record would be the only place the fade exists. It needs to "</span>
+            <span class="sa">f</span><span class="s2">"be longer than </span><span class="si">{</span><span class="n">needed</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2"> s at this rate (one frame period); "</span>
+            <span class="sa">f</span><span class="s2">"anything shorter blends nothing at some offsets and one frame at "</span>
+            <span class="sa">f</span><span class="s2">"others."</span>
         <span class="p">)</span></div>
 
 
@@ -363,7 +443,11 @@
 <div class="viewcode-block" id="xfade_options">
 <a class="viewcode-back" href="../../module_docs/looks/transition.html#looks.xfade_options">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">xfade_options</span><span class="p">(</span>
-    <span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fps</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">transition</span><span class="p">:</span> <span class="n">Transition</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fps</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">first_clip_s</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""The ``xfade`` options for this transition — options, not a filter.</span>
 
@@ -376,6 +460,11 @@
 <span class="sd">            number, because it depends on how the host laid out its cuts.</span>
 <span class="sd">        fps: When given, the transition is checked against it — a transition</span>
 <span class="sd">            that blends nothing is refused rather than emitted.</span>
+<span class="sd">        first_clip_s: The duration of the stream the transition starts in. When</span>
+<span class="sd">            given, an offset the clip cannot reach is refused. ffmpeg does NOT</span>
+<span class="sd">            refuse it: measured on two 1.0 s clips, ``offset=1.5`` exits 0 and</span>
+<span class="sd">            blends nothing — a fade in the record and a cut on screen, which is</span>
+<span class="sd">            the same failure a zero duration is refused for.</span>
 
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; xfade_options(Transition(0.5, 'circleopen'), offset=2.0)</span>
@@ -388,7 +477,14 @@
 <span class="sd">        frames...</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">fps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">check_visible</span><span class="p">(</span><span class="n">transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">)</span>
+        <span class="n">check_visible</span><span class="p">(</span><span class="n">transition</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">first_clip_s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span> <span class="o">&gt;</span> <span class="n">first_clip_s</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">TransitionError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"a </span><span class="si">{</span><span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> s transition at offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"runs to </span><span class="si">{</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">transition</span><span class="o">.</span><span class="n">duration_s</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> s, past the end of a "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">first_clip_s</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2"> s clip. ffmpeg accepts this and exits 0 having "</span>
+            <span class="s2">"blended nothing, so the fade would exist only in the record."</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">TransitionError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"a transition cannot start before the output does; got offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">!r}</span><span class="s2">"</span>
