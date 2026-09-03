@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.transition &mdash; looks 0.0.13 documentation</title>
+  <title>looks.transition &mdash; looks 0.0.14 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=9fc46840"></script>
+      <script src="../../_static/documentation_options.js?v=544df88d"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -70,6 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_contrast.html">looks.tests.test_contrast</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
@@ -143,7 +144,11 @@
 
 <span class="sd">## A short transition is a hard cut wearing a label, and the floor is not a constant</span>
 
-<span class="sd">Measured on ffmpeg 8.1, counting frames that are neither source colour:</span>
+<span class="sd">Measured counting frames that are neither source colour. The numbers below</span>
+<span class="sd">were taken on ffmpeg 8.1 and re-verified unchanged on **6.1.6 and 9.0.1**,</span>
+<span class="sd">which is why they are stated as a property of the filter rather than of a</span>
+<span class="sd">build — `speed=0` and a height-1 frame both looked like properties of ffmpeg</span>
+<span class="sd">until CI ran a different one:</span>
 
 <span class="sd">=========  ==========  ===============</span>
 <span class="sd">fps        duration    blended frames</span>

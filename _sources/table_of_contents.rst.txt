@@ -26,6 +26,7 @@
    module_docs/looks/tests/test_cache
    module_docs/looks/tests/test_cli
    module_docs/looks/tests/test_compile
+   module_docs/looks/tests/test_contrast
    module_docs/looks/tests/test_environment
    module_docs/looks/tests/test_ffmpeg
    module_docs/looks/tests/test_frame_dependency
