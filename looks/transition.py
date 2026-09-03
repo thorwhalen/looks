@@ -173,38 +173,108 @@ class Transition:
         )
 
 
-def blended_frames(transition: Transition, fps: float) -> int:
-    """How many frames will actually be a mixture of the two shots.
+def blended_frames(
+    transition: Transition, fps: float, *, offset: Optional[float] = None
+) -> int:
+    """How many frames will be a mixture of the two shots.
 
-    The honest form of "is this long enough", because the answer depends on the
-    rate and a constant cannot. Measured against ffmpeg: a 0.30 s fade blends 8
-    frames at 30 fps and 2 at 10 fps, and 0.10 s blends 2 at 30 fps and **none**
-    at 10.
+    **This is a GUARANTEED MINIMUM unless you pass ``offset``**, and that is not
+    a hedge — the count genuinely depends on where the transition starts. A
+    frame blends when its time ``k/fps`` falls strictly inside
+    ``(offset, offset + duration)``; an open interval of length ``D`` contains at
+    least ``ceil(D) - 1`` integers and at most ``floor(D)``, and which one you
+    get is decided by the offset's fractional position. Measured against ffmpeg:
+    0.10 s at 30 fps blends **2** frames at ``offset=0.5`` and **3** at
+    ``offset=0.42``.
 
-    >>> blended_frames(Transition(0.30), 30)
+    An earlier version returned ``floor(D) - 1`` and described it as the count.
+    That is below the true minimum whenever ``D`` is not an integer, so it
+    under-reported — the safe direction for :func:`is_hard_cut`, but it
+    contradicted this module's own measured table (0.04 s at 30 fps blends 1
+    frame; the formula said 0) and the tests never noticed because every row in
+    the parametrisation sat where the two formulas happen to agree.
+
+    >>> blended_frames(Transition(0.30), 30)          # at least
     8
-    >>> blended_frames(Transition(0.30), 10)
-    2
+    >>> blended_frames(Transition(0.30), 30, offset=0.5)   # exactly
+    8
     >>> blended_frames(Transition(0.10), 10)
     0
+    >>> blended_frames(Transition(0.10), 30, offset=0.5)
+    2
+    >>> blended_frames(Transition(0.10), 30, offset=0.42)
+    3
     """
     if fps <= 0:
         raise TransitionError(f"fps must be positive; got {fps!r}")
-    return max(0, int(math.floor(transition.duration_s * fps)) - 1)
+    span = transition.duration_s * fps
+    if offset is None:
+        # The minimum over every offset: what a caller who does not know where
+        # the transition lands can rely on.
+        return max(0, int(math.ceil(span)) - 1)
+    if offset < 0:
+        raise TransitionError(f"offset must not be negative; got {offset!r}")
+    lo, hi = offset * fps, (offset + transition.duration_s) * fps
+    return max(0, _integers_strictly_between(lo, hi))
 
 
-def is_hard_cut(transition: Transition, fps: float) -> bool:
+def _integers_strictly_between(lo: float, hi: float) -> int:
+    """How many integers ``k`` satisfy ``lo < k < hi``.
+
+    Frame times are ``k/fps``; a frame at exactly the transition's start or end
+    carries a pure source, so the interval is open at both ends. Exactness at
+    the boundary is the whole difficulty, which is why this is separate and
+    tested directly rather than inlined into an expression.
+    """
+    first = int(math.floor(lo)) + 1
+    last = int(math.ceil(hi)) - 1
+    return max(0, last - first + 1)
+
+
+def max_blended_frames(transition: Transition, fps: float) -> int:
+    """The most frames this transition can blend, over every offset.
+
+    The companion to :func:`blended_frames`' minimum. The pair is what makes the
+    uncertainty legible instead of hiding it inside a single number that is
+    right for one offset.
+
+    An open interval of length ``D`` contains at most ``ceil(D)`` integers —
+    NOT ``floor(D)``, which is what intuition offers and what the first draft of
+    this function returned. A 0.04 s transition at 10 fps spans 0.4 of a frame
+    period and still blends one frame when it straddles a frame time
+    (``offset=0.17`` puts the window at (1.7, 2.1), which contains 2). The
+    bracket test caught it.
+
+    >>> blended_frames(Transition(0.25), 30), max_blended_frames(Transition(0.25), 30)
+    (7, 8)
+    >>> blended_frames(Transition(0.04), 10), max_blended_frames(Transition(0.04), 10)
+    (0, 1)
+    """
+    if fps <= 0:
+        raise TransitionError(f"fps must be positive; got {fps!r}")
+    return max(0, int(math.ceil(transition.duration_s * fps)))
+
+
+def is_hard_cut(
+    transition: Transition, fps: float, *, offset: Optional[float] = None
+) -> bool:
     """Will this transition produce no blended frame at all?
+
+    Without ``offset`` this is "might it blend nothing, at some offset" — the
+    conservative reading, since :func:`blended_frames` returns the minimum.
+    With one it is the exact answer for that placement.
 
     >>> is_hard_cut(Transition(0.30), 30)
     False
     >>> is_hard_cut(Transition(0.10), 10)
     True
     """
-    return blended_frames(transition, fps) == 0
+    return blended_frames(transition, fps, offset=offset) == 0
 
 
-def check_visible(transition: Transition, fps: float) -> None:
+def check_visible(
+    transition: Transition, fps: float, *, offset: Optional[float] = None
+) -> None:
     """Raise unless the transition will actually be seen.
 
     Call it when the rate is known. A transition that blends nothing is not a
@@ -219,18 +289,29 @@ def check_visible(transition: Transition, fps: float) -> None:
     looks.transition.TransitionError: a 0.05 s transition at 10 fps blends 0
     frames...
     """
-    if is_hard_cut(transition, fps):
-        needed = 2.0 / fps
+    if is_hard_cut(transition, fps, offset=offset):
+        # A transition is guaranteed visible once its span exceeds ONE frame
+        # period: an open interval of length D contains at least ceil(D) - 1
+        # frame times, so D > 1 is the threshold. This used to advise 2/fps,
+        # which overstates the requirement by up to 2x and would have a caller
+        # lengthen a transition that was already fine.
+        needed = 1.0 / fps
         raise TransitionError(
             f"a {transition.duration_s:g} s transition at {fps:g} fps blends 0 "
             f"frames — it is a hard cut, and calling it {transition.curve!r} in "
-            f"the record would be the only place the fade exists. It needs at "
-            f"least {needed:.3g} s at this rate."
+            f"the record would be the only place the fade exists. It needs to "
+            f"be longer than {needed:.3g} s at this rate (one frame period); "
+            f"anything shorter blends nothing at some offsets and one frame at "
+            f"others."
         )
 
 
 def xfade_options(
-    transition: Transition, *, offset: float, fps: Optional[float] = None
+    transition: Transition,
+    *,
+    offset: float,
+    fps: Optional[float] = None,
+    first_clip_s: Optional[float] = None,
 ) -> dict:
     """The ``xfade`` options for this transition — options, not a filter.
 
@@ -243,6 +324,11 @@ def xfade_options(
             number, because it depends on how the host laid out its cuts.
         fps: When given, the transition is checked against it — a transition
             that blends nothing is refused rather than emitted.
+        first_clip_s: The duration of the stream the transition starts in. When
+            given, an offset the clip cannot reach is refused. ffmpeg does NOT
+            refuse it: measured on two 1.0 s clips, ``offset=1.5`` exits 0 and
+            blends nothing — a fade in the record and a cut on screen, which is
+            the same failure a zero duration is refused for.
 
     Examples:
         >>> xfade_options(Transition(0.5, 'circleopen'), offset=2.0)
@@ -255,7 +341,14 @@ def xfade_options(
         frames...
     """
     if fps is not None:
-        check_visible(transition, fps)
+        check_visible(transition, fps, offset=offset)
+    if first_clip_s is not None and offset + transition.duration_s > first_clip_s:
+        raise TransitionError(
+            f"a {transition.duration_s:g} s transition at offset={offset:g} "
+            f"runs to {offset + transition.duration_s:g} s, past the end of a "
+            f"{first_clip_s:g} s clip. ffmpeg accepts this and exits 0 having "
+            "blended nothing, so the fade would exist only in the record."
+        )
     if offset < 0:
         raise TransitionError(
             f"a transition cannot start before the output does; got offset={offset!r}"

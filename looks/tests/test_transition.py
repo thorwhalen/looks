@@ -19,6 +19,7 @@ from looks.transition import (
     Transition,
     TransitionError,
     blended_frames,
+    max_blended_frames,
     check_visible,
     is_hard_cut,
     xfade_options,
@@ -129,6 +130,66 @@ class TestAShortTransitionIsAHardCut:
     """Measured: the floor depends on the frame rate, so a constant cannot
     express it."""
 
+    #: EVERY row here is one where `floor(D)-1` and `ceil(D)-1` DISAGREE. The
+    #: original parametrisation used five rows that all sat where the two
+    #: formulas happen to agree, so it could not tell them apart and passed
+    #: throughout the lifetime of a formula that was wrong in 14 of 27 measured
+    #: combinations. Expected values are MEASURED, at offset=0.5.
+    @pytest.mark.parametrize(
+        "fps,duration,expected",
+        [(30, 0.04, 1), (30, 0.08, 2), (30, 0.12, 3), (30, 0.15, 4),
+         (25, 0.10, 2), (25, 0.15, 4), (10, 0.12, 1), (10, 0.25, 2)],
+    )
+    def test_the_exact_prediction_matches_ffmpeg_where_the_formulas_differ(
+        self, fps, duration, expected, tmp_path
+    ):
+        """The rows the old parametrisation could not have contained."""
+        _ffmpeg_or_skip()
+        made = []
+        for colour in ("red", "blue"):
+            path = tmp_path / f"{colour}{fps}x.mp4"
+            subprocess.run(
+                ["ffmpeg", "-v", "error", "-y", "-f", "lavfi",
+                 "-i", f"color=c={colour}:s=64x48:r={fps}:d=1",
+                 "-c:v", "libx264", "-crf", "20", "-pix_fmt", "yuv420p", str(path)],
+                check=True, capture_output=True,
+            )
+            made.append(path)
+        _, frames = render(
+            made, {"transition": "fade", "duration": duration, "offset": 0.5}
+        )
+        # STRICT: any departure from either pure source. The 20/235 window of
+        # `mixed()` misses frames that are nearly-but-not-quite pure, which is
+        # what made the docstring table and the formula disagree unnoticed.
+        observed = sum(1 for f in frames if f != frames[0] and f != frames[-1])
+        assert observed == expected, f"{fps} fps, {duration}s -> {observed}"
+        assert blended_frames(Transition(duration), fps, offset=0.5) == expected
+
+    def test_the_count_depends_on_the_offset(self):
+        """Which is why `blended_frames` takes one, and why the offset-free
+        form is documented as a MINIMUM rather than a count. Measured: 0.10 s
+        at 30 fps blends 2 frames at offset 0.5 and 3 at offset 0.42."""
+        t = Transition(0.10)
+        assert blended_frames(t, 30, offset=0.5) == 2
+        assert blended_frames(t, 30, offset=0.42) == 3
+        # The offset-free answer never exceeds the true count at any offset.
+        floor_free = blended_frames(t, 30)
+        assert floor_free <= min(
+            blended_frames(t, 30, offset=o) for o in (0.0, 0.33, 0.42, 0.5)
+        )
+
+    def test_the_bounds_bracket_every_offset(self):
+        """min <= exact <= max, for every offset — the property that makes the
+        pair honest rather than two more numbers."""
+        for fps in (10, 25, 30):
+            for dur in (0.04, 0.1, 0.15, 0.3):
+                t = Transition(dur)
+                lo = blended_frames(t, fps)
+                hi = max_blended_frames(t, fps)
+                for off in (0.0, 0.17, 0.33, 0.5, 0.84):
+                    exact = blended_frames(t, fps, offset=off)
+                    assert lo <= exact <= hi, (fps, dur, off, lo, exact, hi)
+
     @pytest.mark.parametrize(
         "fps,duration,expected",
         [(30, 0.30, 8), (30, 0.10, 2), (30, 0.033, 0), (10, 0.30, 2), (10, 0.10, 0)],
@@ -170,8 +231,17 @@ class TestAShortTransitionIsAHardCut:
             check_visible(Transition(0.05), 10)
 
     def test_and_says_how_long_it_would_need_to_be(self):
-        with pytest.raises(TransitionError, match="at least"):
+        with pytest.raises(TransitionError, match="longer than"):
             check_visible(Transition(0.05), 10)
+
+    def test_the_advice_is_one_frame_period_not_two(self):
+        """It used to say 2/fps, which overstates by up to 2x and would have a
+        caller lengthen a transition that was already fine. A transition is
+        guaranteed visible once its span exceeds ONE frame period."""
+        with pytest.raises(TransitionError, match=r"longer than 0\.1 s"):
+            check_visible(Transition(0.05), 10)
+        # And the stated threshold is honest: just above it passes.
+        check_visible(Transition(0.101), 10)
 
     def test_a_visible_one_passes(self):
         assert check_visible(Transition(0.3), 30) is None
@@ -199,6 +269,26 @@ class TestTheRecordRefusesWhatFfmpegAccepts:
     def test_a_negative_offset(self):
         with pytest.raises(TransitionError, match="before the output does"):
             xfade_options(Transition(0.3), offset=-1.0)
+
+    def test_an_offset_past_the_end_of_the_clip(self):
+        """ffmpeg accepts it and blends NOTHING at exit 0 — measured on two
+        1.0 s clips, offset=1.5 gives 32 frames and zero of them mixed. That is
+        a fade in the record and a cut on screen, the same failure a zero
+        duration is refused for."""
+        with pytest.raises(TransitionError, match="past the end"):
+            xfade_options(Transition(0.3), offset=1.5, first_clip_s=1.0)
+
+    def test_and_ffmpeg_really_does_accept_it(self, pair):
+        """The premise, pinned — `pair` is two 1.0 s clips."""
+        _ffmpeg_or_skip()
+        proc, frames = render(
+            pair, {"transition": "fade", "duration": 0.3, "offset": 1.5}
+        )
+        assert proc.returncode == 0, "the premise: ffmpeg does not refuse this"
+        assert [f for f in frames if f != frames[0] and f != frames[-1]] == []
+
+    def test_an_offset_that_fits_is_allowed(self):
+        assert xfade_options(Transition(0.3), offset=0.5, first_clip_s=1.0)
 
 
 class TestItEmitsOptionsNotAFilter:

@@ -151,6 +151,39 @@ def compile_look(
     )
 
 
+def _check_contrast(params) -> None:
+    amount = float(params.get("amount", 1.0))
+    if amount < 0:
+        raise CompileError(
+            f"contrast amount must not be negative; got {amount!r}. A negative "
+            "amount would invert the picture, which is a different effect than "
+            "the one being asked for."
+        )
+
+
+#: What an effect's parameters must satisfy, keyed by EFFECT — never by
+#: implementation. A check that lives inside one compiler is a check the
+#: licence tier can switch off: `contrast` with `amount=-1` was refused on the
+#: LGPL path and emitted `eq=contrast=-1.0` on the GPL one, so the same Look was
+#: valid or invalid depending on how the binary was built. Rule 29b says the
+#: tier must not decide what the viewer sees; it must not decide whether the
+#: document is accepted either.
+EFFECT_PARAM_CHECKS = {
+    "contrast": _check_contrast,
+}
+
+
+def check_effect_params(effect: Effect) -> None:
+    """Refuse parameters no implementation of this effect could honour.
+
+    Called before an implementation is chosen, so every implementation of an
+    effect accepts exactly the same documents.
+    """
+    check = EFFECT_PARAM_CHECKS.get(effect.name)
+    if check is not None:
+        check(effect.params)
+
+
 def _select(
     effect: Effect,
     registry: EffectRegistry,
@@ -159,6 +192,7 @@ def _select(
     available: Optional[frozenset],
     env: Optional[FfmpegEnv],
 ) -> Any:
+    check_effect_params(effect)
     candidates = registry.implementations(effect.name)
     if not candidates:
         raise CompileError(

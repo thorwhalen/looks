@@ -468,7 +468,13 @@ def reframe(
     return crop, moved
 
 
-def zoompan_fragment(keyframes: Sequence[Keyframe], *, output: Size, fps: float) -> str:
+def zoompan_fragment(
+    keyframes: Sequence[Keyframe],
+    *,
+    output: Size,
+    fps: float,
+    aspect_tolerance: float = ASPECT_TOLERANCE,
+) -> str:
     """A path whose window size varies, compiled to ``zoompan``.
 
     Args:
@@ -506,7 +512,12 @@ def zoompan_fragment(keyframes: Sequence[Keyframe], *, output: Size, fps: float)
                 "would render a different framing, not a worse one. The "
                 f"smallest window it can show is {_num(MIN_WINDOW_FRACTION)}."
             )
-        if abs(k.window.w - k.window.h) > EPSILON:
+        # `aspect_tolerance`, NOT `EPSILON`. This check used to hardcode
+        # EPSILON (1e-9), which silently overrode the tolerance
+        # `compile_motion` documents and accepts — so a caller who widened it
+        # was refused anyway, and by a message about the wrong thing: it named
+        # the window's size where the real complaint was a 5e-7 aspect drift.
+        if abs(k.window.w - k.window.h) > aspect_tolerance:
             raise MotionError(
                 f"keyframe {i}'s window is {_num(k.window.w)} x "
                 f"{_num(k.window.h)} of the frame, so it is not the source's "
@@ -614,7 +625,9 @@ def compile_motion(
         )
     assert output is not None and fps is not None  # narrowed by `missing`
     crop, moved = reframe(frames, aspect_tolerance=aspect_tolerance)
-    fragment = zoompan_fragment(moved, output=output, fps=fps)
+    fragment = zoompan_fragment(
+        moved, output=output, fps=fps, aspect_tolerance=aspect_tolerance
+    )
     if crop is None:
         return fragment
     return f"{crop_fragment([Keyframe(moved[0].t, crop)])},{fragment}"
