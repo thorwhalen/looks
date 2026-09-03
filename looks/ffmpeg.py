@@ -173,6 +173,15 @@ def vf(plan: LookPlan, *, gate: bool = True) -> str:
             )
         fragment = step.payload.get("filter")
         if not fragment:
+            from looks.cache import PENDING
+
+            if PENDING in step.payload:
+                raise FfmpegBackendError(
+                    f"step {index} ({step.effect!r}) needs an artifact that has "
+                    f"not been built: cube {step.payload[PENDING]['key'][:12]}…. "
+                    "Call looks.materialize(plan) first — compiling writes no "
+                    "files on purpose, so acquiring artifacts is its own step."
+                )
             raise FfmpegBackendError(
                 f"step {index} ({step.effect!r}) has no 'filter' in its payload"
             )
@@ -264,6 +273,48 @@ def _posterize_expression(params) -> Mapping[str, Any]:
     return {"r": step, "g": step, "b": step}
 
 
+def _gradient_map_compiler(params, **_kw):
+    """A ramp in, a cube REQUEST out — never a file.
+
+    `compile_look` writes nothing, so this emits the artifact's address and the
+    spec that reproduces it, and :func:`looks.cache.materialize` supplies the
+    file. That is what keeps a compiled plan portable: it can be hashed, stored
+    and sent to another machine, which then builds the same cube from the same
+    spec and gets the same bytes.
+    """
+    from looks.cache import PENDING
+    from looks.lut import DFLT_CUBE_SIZE, DFLT_CUBE_TITLE, Ramp, cube_key, gradient_map
+
+    stops = params.get("stops")
+    if not stops:
+        raise FfmpegBackendError(
+            "the 'gradient_map' effect needs 'stops': [(L*, '#rrggbb'), ...] — "
+            "the ramp the look maps luminance onto"
+        )
+    size = int(params.get("size", DFLT_CUBE_SIZE))
+    title = str(params.get("title", DFLT_CUBE_TITLE))
+    spec = gradient_map(
+        Ramp.from_hex([tuple(s) for s in stops]),
+        contrast=float(params.get("contrast", 1.0)),
+        lift=float(params.get("lift", 0.0)),
+    )
+    request = {
+        "stops": [list(s) for s in stops],
+        "size": size,
+        "title": title,
+        "contrast": float(params.get("contrast", 1.0)),
+        "lift": float(params.get("lift", 0.0)),
+        "key": cube_key(spec, size=size, title=title),
+        # The template rather than the filter, because the path is not known
+        # until the artifact exists. `{file}` is filled in by materialize with
+        # an ESCAPED path — the flagship effect takes a caller-supplied
+        # directory, and a comma in it would otherwise end the filter.
+        "filter_template": "lut3d=file={file}:interp="
+        + str(params.get("interp", "tetrahedral")),
+    }
+    return {PENDING: request}
+
+
 def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegistry:
     """Register the built-in ffmpeg effects. Idempotent per registry.
 
@@ -303,6 +354,11 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         )
 
     # --- colour, LGPL first -------------------------------------------------
+    add(
+        "gradient_map.ffmpeg.lut3d",
+        ("lut3d",),
+        _gradient_map_compiler,
+    )
     add(
         "lut3d.ffmpeg.default",
         ("lut3d",),

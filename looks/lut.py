@@ -460,11 +460,24 @@ def gradient_map(
     return GradientMap(ramp=ramp, accent=accent, contrast=contrast, lift=lift)
 
 
+#: The one place the default LUT title is written. It reaches the file's BYTES
+#: (an Iridas ``.cube`` opens with ``TITLE "..."``), so it must also reach
+#: :func:`cube_key` — see that function's note on the collision this closes.
+DFLT_CUBE_TITLE = "looks_gradient_map"
+
+#: Bumped when the generation algorithm changes in a way that moves a byte.
+#: Without it a cache serves artifacts built by an older generator forever, and
+#: nothing anywhere notices: the spec is unchanged, so the address is unchanged,
+#: so the stale file is a hit. This is the "pin everything that affects output"
+#: rule applied to this package's own code rather than to a dependency.
+GENERATOR_VERSION = "2"
+
+
 def cube_text(
     spec: Union[Ramp, GradientMap],
     *,
     size: int = DFLT_CUBE_SIZE,
-    title: str = "looks_gradient_map",
+    title: str = DFLT_CUBE_TITLE,
 ) -> str:
     """Render an Iridas ``.cube`` for ``spec``, as text.
 
@@ -515,7 +528,12 @@ def cube_text(
     return "\n".join(lines) + "\n"
 
 
-def cube_key(spec: Union[Ramp, GradientMap], *, size: int = DFLT_CUBE_SIZE) -> str:
+def cube_key(
+    spec: Union[Ramp, GradientMap],
+    *,
+    size: int = DFLT_CUBE_SIZE,
+    title: str = DFLT_CUBE_TITLE,
+) -> str:
     """A content hash of everything that determines the file's bytes.
 
     A 33-cube is ~950 KB, so a `.cube` is a **build artifact generated into a
@@ -533,7 +551,13 @@ def cube_key(spec: Union[Ramp, GradientMap], *, size: int = DFLT_CUBE_SIZE) -> s
     """
     gm = spec if isinstance(spec, GradientMap) else GradientMap(ramp=spec)
     payload = json.dumps(
-        {"spec": gm.to_dict(), "size": size, "schema": "looks.cube/v1"},
+        {
+            "spec": gm.to_dict(),
+            "size": size,
+            "title": title,
+            "generator": GENERATOR_VERSION,
+            "schema": "looks.cube/v2",
+        },
         sort_keys=True,
         separators=(",", ":"),
     )
@@ -545,7 +569,7 @@ def write_cube(
     path: Union[str, Path],
     *,
     size: int = DFLT_CUBE_SIZE,
-    title: str = "looks_gradient_map",
+    title: str = DFLT_CUBE_TITLE,
 ) -> Path:
     """Write the ``.cube`` for ``spec`` to ``path`` and return it.
 

@@ -42,6 +42,10 @@ CLIP = ClipSpec(width=320, height=240, fps=10)
 #: One set of parameters per registered effect that is enough to compile it.
 PARAMS = {
     "lut3d": {"cube": None},  # filled in by the fixture with a real file
+    "gradient_map": {
+        "stops": [[8.2, "#2E0C18"], [46.8, "#D5254A"], [100.0, "#FEF0DC"]],
+        "size": 9,
+    },
     "saturation": {"amount": 1.4},
     "contrast": {"amount": 1.2},
     "gamma": {"gamma": 1.2},
@@ -76,6 +80,11 @@ def cube(tmp_path_factory):
     return looks.write_cube(looks.gradient_map(ramp), path, size=17)
 
 
+@pytest.fixture
+def tmp_cache(tmp_path):
+    return tmp_path / "cubes"
+
+
 @pytest.fixture(scope="module")
 def env():
     e = probe()
@@ -94,7 +103,7 @@ class TestEveryRegisteredEffectConfigures:
         )
 
     @pytest.mark.parametrize("effect", sorted(PARAMS))
-    def test_it_produces_a_fragment_ffmpeg_accepts(self, effect, cube, env):
+    def test_it_produces_a_fragment_ffmpeg_accepts(self, effect, cube, env, tmp_cache):
         _ffmpeg_or_skip()
         params = dict(PARAMS[effect])
         if effect == "lut3d":
@@ -102,6 +111,11 @@ class TestEveryRegisteredEffectConfigures:
         plan = compile_look(
             Look(steps=(Effect(name=effect, params=params),)), clip=CLIP, env=env
         )
+        # `gradient_map` compiles to a cube REQUEST, because compiling writes no
+        # files. Supplying it is a separate verb, and the sweep exercises both.
+        from looks.cache import materialize
+
+        plan = materialize(plan, into=tmp_cache)
         fragment = vf(plan)
         proc = configure(fragment)
         assert proc.returncode == 0, (
