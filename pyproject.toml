@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "looks"
-version = "0.0.12"
+version = "0.0.13"
 description = "A facade over video stylization: named effects with licence tiers"
 readme = "README.md"
 requires-python = ">=3.10"
