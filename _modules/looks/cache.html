@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.cache &mdash; looks 0.0.15 documentation</title>
+  <title>looks.cache &mdash; looks 0.0.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=f0357c94"></script>
+      <script src="../../_static/documentation_options.js?v=c7cdf6fe"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -134,10 +134,19 @@
 <span class="sd">error, it is a silently wrong picture**: ffmpeg reads what is there and</span>
 <span class="sd">interpolates the rest of the lattice from nothing.</span>
 
-<span class="sd">So a write is `mkstemp` in the destination directory plus :func:`os.replace`,</span>
-<span class="sd">which is atomic on POSIX and on Windows. A deterministic ``&lt;key&gt;.tmp`` path is</span>
-<span class="sd">**not** good enough — two writers would open the same temp file and interleave</span>
-<span class="sd">into it, which is the race in a costume rather than a fix.</span>
+<span class="sd">So a write is `mkstemp` in the destination directory plus :func:`os.replace`.</span>
+<span class="sd">A deterministic ``&lt;key&gt;.tmp`` path is **not** good enough — two writers would</span>
+<span class="sd">open the same temp file and interleave into it, which is the race in a costume</span>
+<span class="sd">rather than a fix.</span>
+
+<span class="sd">``os.replace`` is atomic on both POSIX and Windows, but it is not equally</span>
+<span class="sd">*total*: **Windows refuses the rename when the destination is open by anyone</span>
+<span class="sd">else**, where POSIX rename succeeds and leaves the reader on the old inode.</span>
+<span class="sd">Under the fan-out this package is built for that is a live race, and it made</span>
+<span class="sd">the Windows leg FLAKY rather than red — which is worse, because a flake gets</span>
+<span class="sd">re-run rather than read. :func:`_publish` treats a lost race as the success it</span>
+<span class="sd">is: the name is a hash of the content, so a writer that lost lost to bytes</span>
+<span class="sd">identical to its own.</span>
 
 <span class="sd">## What is deliberately absent</span>
 
@@ -228,6 +237,34 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_publish</span><span class="p">(</span><span class="n">temporary</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Move a fully-written temp file into place, tolerating a lost race.</span>
+
+<span class="sd">    On POSIX this is exactly ``os.replace``. On Windows ``os.replace`` raises</span>
+<span class="sd">    ``PermissionError`` when another process holds the destination open — a</span>
+<span class="sd">    reader, typically, since this cache exists to be read concurrently — and</span>
+<span class="sd">    the loser of that race must not turn a healthy cache hit into an exception.</span>
+<span class="sd">    Measured: three `TestTheRace` tests failing on the Windows leg with</span>
+<span class="sd">    ``[WinError 5] Access is denied`` while the same commit passed on a re-run.</span>
+
+<span class="sd">    Losing is safe **because the name is a hash of the content**: whatever sits</span>
+<span class="sd">    at ``path`` is byte-for-byte what this call would have written, and it is</span>
+<span class="sd">    complete, since ``path`` only ever comes into existence through this</span>
+<span class="sd">    function. That reasoning does not transfer to a cache keyed on anything</span>
+<span class="sd">    else, which is why it is written down rather than assumed.</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">temporary</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span>
+        <span class="c1"># Someone else published it first. Drop our copy and take theirs.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">temporary</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+
 <div class="viewcode-block" id="cube_file">
 <a class="viewcode-back" href="../../module_docs/looks/cache.html#looks.cube_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cube_file</span><span class="p">(</span>
@@ -287,7 +324,7 @@
             <span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
             <span class="n">stream</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
             <span class="n">os</span><span class="o">.</span><span class="n">fsync</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">temporary</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">_publish</span><span class="p">(</span><span class="n">temporary</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
         <span class="n">Path</span><span class="p">(</span><span class="n">temporary</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">raise</span>

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.cache &mdash; looks 0.0.15 documentation</title>
+  <title>looks.cache &mdash; looks 0.0.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=f0357c94"></script>
+      <script src="../../_static/documentation_options.js?v=c7cdf6fe"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -147,10 +147,18 @@ of them wanting the same LUT. Two of them will race, and the loser must not be
 able to hand ffmpeg a half-written file. <strong>A half-written `.cube` is not an
 error, it is a silently wrong picture</strong>: ffmpeg reads what is there and
 interpolates the rest of the lattice from nothing.</p>
-<p>So a write is <cite>mkstemp</cite> in the destination directory plus <code class="xref py py-func docutils literal notranslate"><span class="pre">os.replace()</span></code>,
-which is atomic on POSIX and on Windows. A deterministic <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;.tmp</span></code> path is
-<strong>not</strong> good enough — two writers would open the same temp file and interleave
-into it, which is the race in a costume rather than a fix.</p>
+<p>So a write is <cite>mkstemp</cite> in the destination directory plus <code class="xref py py-func docutils literal notranslate"><span class="pre">os.replace()</span></code>.
+A deterministic <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;.tmp</span></code> path is <strong>not</strong> good enough — two writers would
+open the same temp file and interleave into it, which is the race in a costume
+rather than a fix.</p>
+<p><code class="docutils literal notranslate"><span class="pre">os.replace</span></code> is atomic on both POSIX and Windows, but it is not equally
+<em>total</em>: <strong>Windows refuses the rename when the destination is open by anyone
+else</strong>, where POSIX rename succeeds and leaves the reader on the old inode.
+Under the fan-out this package is built for that is a live race, and it made
+the Windows leg FLAKY rather than red — which is worse, because a flake gets
+re-run rather than read. <code class="xref py py-func docutils literal notranslate"><span class="pre">_publish()</span></code> treats a lost race as the success it
+is: the name is a hash of the content, so a writer that lost lost to bytes
+identical to its own.</p>
 <p>## What is deliberately absent</p>
 <p>No eviction, no size cap, no TTL. A content-addressed store where every entry is
 reproducible from its key does not need one: deleting the whole directory is
