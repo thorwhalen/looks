@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "looks"
-version = "0.0.12"
+version = "0.0.13"
 description = "A facade over video stylization: named effects with licence tiers"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -97,6 +97,24 @@ doctest_optionflags = [
     "IGNORE_EXCEPTION_DETAIL",
 ]
 addopts = "--doctest-modules"
+
+# `looks` is a facade over ffmpeg, so a CI run without ffmpeg verifies that the
+# code imports and almost nothing about what it emits. Measured on the run
+# before this landed: 890 passed, **346 skipped** — every claim this package
+# makes about pixels, licence tiers and filter behaviour was verified on a
+# developer machine only. `uv-ci.yml` already calls install-system-deps at
+# three sites; the dependency was simply never declared.
+#
+# Windows is deliberately absent: the Windows leg is informational, and a
+# declared-but-failing install there would turn a green informational leg red
+# for no gain. Its ffmpeg tests keep skipping, which is what they already did.
+[tool.wads.ops.ffmpeg]
+description = "The binary this package is a facade over — without it the suite skips every pixel test"
+url = "https://ffmpeg.org/"
+check.linux = "which ffmpeg"
+check.macos = "which ffmpeg"
+install.linux = ["sudo apt-get update", "sudo apt-get install -y ffmpeg"]
+install.macos = "brew install ffmpeg"
 
 [tool.wads.ci]
 project_name = ""

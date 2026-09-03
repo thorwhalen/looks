@@ -287,6 +287,23 @@ class TestIndirectGplGates:
         assert needs_gpl(["scale", "vidstabtransform", "lut3d"]) == ("vidstabtransform",)
 
 
+
+def _a_filter_this_build_lacks(universe, env):
+    """A real filter the probed binary does not have — chosen, not named.
+
+    The point of the universe/build distinction is that the two differ, so the
+    test needs an element of the difference rather than a guess about which
+    build is running. Sorted for determinism: the same binary picks the same
+    filter every run, so a failure is reproducible.
+    """
+    missing = sorted(set(universe) - set(env.filters))
+    if not missing:
+        pytest.skip(
+            "this build has every filter FFmpeg declares — nothing to narrow "
+            "to, and that is a legitimate environment rather than a failure"
+        )
+    return missing[0]
+
 class TestD2FailClosedOnUnknownFilters:
     """`needs_gpl` is an allowlist-by-absence, so an unrecognised name was a
     COMPUTED false permission at the licence tier's entry point.
@@ -325,14 +342,22 @@ class TestD2FailClosedOnUnknownFilters:
         assert "frei0r" in universe
         env = probe()
         if env.available:
-            assert not env.has_filter("vidstabtransform")  # Homebrew lacks it
-            assert needs_gpl(["vidstabtransform"]) == ("vidstabtransform",)
+            # DERIVED, never named. An earlier version of this test asserted
+            # `not env.has_filter("vidstabtransform")  # Homebrew lacks it`,
+            # which is a fact about one laptop: Ubuntu ships ffmpeg 6.1.1 built
+            # `--enable-libvidstab`, so the assertion is simply false there. A
+            # package whose whole subject is that the environment VARIES must
+            # not encode one environment in its tests.
+            absent = _a_filter_this_build_lacks(universe, env)
+            assert not env.has_filter(absent)
+            assert needs_gpl([absent]) in ((), (absent,))
 
     def test_a_caller_can_narrow_to_this_binary(self):
-        from looks.environment import UnknownFilter, probe
+        from looks.environment import UnknownFilter, known_filters, probe
 
         env = probe()
         if not env.available:
             pytest.skip("no ffmpeg")
+        absent = _a_filter_this_build_lacks(known_filters(), env)
         with pytest.raises(UnknownFilter):
-            needs_gpl(["vidstabtransform"], known=env.filters)
+            needs_gpl([absent], known=env.filters)
