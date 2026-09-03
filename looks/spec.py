@@ -258,6 +258,18 @@ class ClipSpec:
     color_space: Optional[str] = None
     sar: Optional[tuple[int, int]] = None
 
+    #: The filter-timeline time of this part's frame 0, as the host's decoder
+    #: will see it. **`None` means undeclared, and undeclared is not 0.**
+    #:
+    #: Measured (rule 28): an INPUT-side ``-ss`` rebases the filter timeline to
+    #: 0, an OUTPUT-side one does not. So what a :class:`Span` of "4 s to 5 s"
+    #: selects is a property of *the host's seek style*, not of the clip — and
+    #: assuming 0 for a host that seeks on the output side puts the right look
+    #: on the wrong frames, with no error anywhere. `muvid` seeks input-side, so
+    #: 0 is correct for the first consumer and wrong in general, which is
+    #: exactly why it must be said rather than defaulted.
+    origin_s: Optional[float] = None
+
     def __post_init__(self) -> None:
         if self.width <= 0 or self.height <= 0:
             raise SpecError(
@@ -1117,6 +1129,7 @@ def plan_from_dict(d: Mapping[str, Any], *, impls: Mapping[str, ImplRef]) -> Loo
             color_range=clip_raw.get("color_range"),
             color_space=clip_raw.get("color_space"),
             sar=tuple(clip_raw["sar"]) if clip_raw.get("sar") else None,
+            origin_s=clip_raw.get("origin_s"),
         )
     )
     env_raw = d.get("env")
@@ -1209,6 +1222,7 @@ def plan_to_dict(plan: LookPlan) -> dict:
             "color_range": plan.clip.color_range,
             "color_space": plan.clip.color_space,
             "sar": list(plan.clip.sar) if plan.clip.sar else None,
+            "origin_s": plan.clip.origin_s,
         },
         "env": None if plan.env is None else plan.env.to_dict(),
         "steps": [

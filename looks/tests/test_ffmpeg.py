@@ -51,6 +51,7 @@ PARAMS = {
     "gamma": {"gamma": 1.2},
     "levels": {"black": 0.02, "white": 0.98},
     "posterize": {"levels": 6},
+    "flatten": {"spatial": 20, "range": 0.05},
     "blur": {"sigma": 2},
     "sharpen": {"amount": 1.0},
     "fit": {"target": "320x240"},

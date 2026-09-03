@@ -118,6 +118,14 @@ from looks.cache import (
     pending,
     sweep,
 )
+from looks.pipe import (
+    FilterSegment,
+    FrameSegment,
+    PipeError,
+    PipePlan,
+    pipe_plan,
+    runs,
+)
 from looks.ffmpeg import (
     FfmpegBackendError,
     escape_filter_value,
@@ -267,6 +275,13 @@ __all__ = [
     "unmet_filters",
     "CompileError",
     "PlanRefused",
+    # the pipe: a mixed-backend plan as processes, emitted as data
+    "pipe_plan",
+    "PipePlan",
+    "FrameSegment",
+    "FilterSegment",
+    "PipeError",
+    "runs",
     # the cube cache: a Look carries the spec, the cache carries the file
     "materialize",
     "cube_file",

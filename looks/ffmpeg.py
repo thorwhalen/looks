@@ -418,6 +418,21 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
     add(
         "posterize.ffmpeg.lutrgb", ("lutrgb",), _simple("lutrgb", _posterize_expression)
     )
+    add(
+        "flatten.ffmpeg.bilateral",
+        ("bilateral",),
+        _simple(
+            "bilateral",
+            lambda p: {
+                "sigmaS": p.get("spatial", 60),
+                "sigmaR": p.get("range", 0.05),
+                # All three planes. bilateral's default is 1 — luma only — which
+                # smooths the detail and leaves behind the chroma noise the
+                # flatten was for.
+                "planes": p.get("planes", 7),
+            },
+        ),
+    )
 
     # --- spatial ------------------------------------------------------------
     add(
