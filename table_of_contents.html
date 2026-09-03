@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; looks 0.0.9 documentation</title>
+  <title>&lt;no title&gt; &mdash; looks 0.0.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="_static/documentation_options.js?v=a83ce22a"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks.html">looks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/__main__.html">looks.__main__</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/across.html">looks.across</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/cache.html">looks.cache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/cli.html">looks.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/compile.html">looks.compile</a></li>
@@ -66,6 +67,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests.html">looks.tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_across.html">looks.tests.test_across</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
@@ -114,10 +116,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks.html">looks</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Accent"><code class="docutils literal notranslate"><span class="pre">Accent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.AcrossError"><code class="docutils literal notranslate"><span class="pre">AcrossError</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Assessment"><code class="docutils literal notranslate"><span class="pre">Assessment</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Blurred"><code class="docutils literal notranslate"><span class="pre">Blurred</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Box"><code class="docutils literal notranslate"><span class="pre">Box</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.CacheError"><code class="docutils literal notranslate"><span class="pre">CacheError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Candidate"><code class="docutils literal notranslate"><span class="pre">Candidate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Choice"><code class="docutils literal notranslate"><span class="pre">Choice</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.ClipSpec"><code class="docutils literal notranslate"><span class="pre">ClipSpec</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.ClipStats"><code class="docutils literal notranslate"><span class="pre">ClipStats</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.CompileError"><code class="docutils literal notranslate"><span class="pre">CompileError</span></code></a></li>
@@ -166,6 +171,7 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Span"><code class="docutils literal notranslate"><span class="pre">Span</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.SpanUnsupported"><code class="docutils literal notranslate"><span class="pre">SpanUnsupported</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.SpecError"><code class="docutils literal notranslate"><span class="pre">SpecError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Spread"><code class="docutils literal notranslate"><span class="pre">Spread</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Step"><code class="docutils literal notranslate"><span class="pre">Step</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.Terms"><code class="docutils literal notranslate"><span class="pre">Terms</span></code></a></li>
@@ -218,6 +224,7 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.plan_hash"><code class="docutils literal notranslate"><span class="pre">plan_hash()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.plan_to_dict"><code class="docutils literal notranslate"><span class="pre">plan_to_dict()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.probe"><code class="docutils literal notranslate"><span class="pre">probe()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.probes_for"><code class="docutils literal notranslate"><span class="pre">probes_for()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.reframe"><code class="docutils literal notranslate"><span class="pre">reframe()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.reframe_motion"><code class="docutils literal notranslate"><span class="pre">reframe_motion()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.register_defaults"><code class="docutils literal notranslate"><span class="pre">register_defaults()</span></code></a></li>
@@ -229,6 +236,7 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.select_impl"><code class="docutils literal notranslate"><span class="pre">select_impl()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.snap_even"><code class="docutils literal notranslate"><span class="pre">snap_even()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.social_size"><code class="docutils literal notranslate"><span class="pre">social_size()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.solve_across"><code class="docutils literal notranslate"><span class="pre">solve_across()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.sweep"><code class="docutils literal notranslate"><span class="pre">sweep()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.terms_for"><code class="docutils literal notranslate"><span class="pre">terms_for()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks.html#looks.unmet_filters"><code class="docutils literal notranslate"><span class="pre">unmet_filters()</span></code></a></li>
@@ -249,6 +257,18 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks/_run.html#looks._run.check_analysis_only"><code class="docutils literal notranslate"><span class="pre">check_analysis_only()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks/_run.html#looks._run.output_specs"><code class="docutils literal notranslate"><span class="pre">output_specs()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks/_run.html#looks._run.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/across.html">looks.across</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.AcrossError"><code class="docutils literal notranslate"><span class="pre">AcrossError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.Candidate"><code class="docutils literal notranslate"><span class="pre">Candidate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.Choice"><code class="docutils literal notranslate"><span class="pre">Choice</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.Dispersion"><code class="docutils literal notranslate"><span class="pre">Dispersion</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.Objective"><code class="docutils literal notranslate"><span class="pre">Objective</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.Spread"><code class="docutils literal notranslate"><span class="pre">Spread</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.Statistic"><code class="docutils literal notranslate"><span class="pre">Statistic</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.probes_for"><code class="docutils literal notranslate"><span class="pre">probes_for()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/looks/across.html#looks.across.solve_across"><code class="docutils literal notranslate"><span class="pre">solve_across()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/cache.html">looks.cache</a><ul>
@@ -534,6 +554,7 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/looks/tests/_pyproject.html#looks.tests._pyproject.uncommented"><code class="docutils literal notranslate"><span class="pre">uncommented()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_across.html">looks.tests.test_across</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>

@@ -5,6 +5,7 @@
    module_docs/looks
    module_docs/looks/__main__
    module_docs/looks/_run
+   module_docs/looks/across
    module_docs/looks/cache
    module_docs/looks/cli
    module_docs/looks/compile
@@ -21,6 +22,7 @@
    module_docs/looks/spec
    module_docs/looks/tests
    module_docs/looks/tests/_pyproject
+   module_docs/looks/tests/test_across
    module_docs/looks/tests/test_cache
    module_docs/looks/tests/test_cli
    module_docs/looks/tests/test_compile

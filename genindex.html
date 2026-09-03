@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; looks 0.0.9 documentation</title>
+  <title>Index &mdash; looks 0.0.10 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="_static/documentation_options.js?v=a83ce22a"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks.html">looks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/__main__.html">looks.__main__</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/across.html">looks.across</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/cache.html">looks.cache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/cli.html">looks.cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/compile.html">looks.compile</a></li>
@@ -65,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/spec.html">looks.spec</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests.html">looks.tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_across.html">looks.tests.test_across</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
@@ -150,6 +152,8 @@
         <li><a href="module_docs/looks/lut.html#looks.lut.GradientMap.accent">(looks.lut.GradientMap attribute)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/looks.html#looks.AcrossError">AcrossError</a>, <a href="module_docs/looks/across.html#looks.across.AcrossError">[1]</a>
+</li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Policy.admits">admits() (looks.licence.Policy method)</a>
 
       <ul>
@@ -176,10 +180,10 @@
         <li><a href="module_docs/looks/spec.html#looks.spec.ClipSpec.aspect">(looks.spec.ClipSpec property)</a>
 </li>
       </ul></li>
-      <li><a href="module_docs/looks/motion.html#looks.motion.ASPECT_TOLERANCE">ASPECT_TOLERANCE (in module looks.motion)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/motion.html#looks.motion.ASPECT_TOLERANCE">ASPECT_TOLERANCE (in module looks.motion)</a>
+</li>
       <li><a href="module_docs/looks.html#looks.assert_flicker_free">assert_flicker_free() (in module looks)</a>
 
       <ul>
@@ -276,6 +280,12 @@
         <li><a href="module_docs/looks/frame_dependency.html#looks.frame_dependency.DependencyReport.can_flicker">(looks.frame_dependency.DependencyReport attribute)</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/looks.html#looks.Candidate">Candidate (class in looks)</a>
+
+      <ul>
+        <li><a href="module_docs/looks/across.html#looks.across.Candidate">(class in looks.across)</a>
+</li>
+      </ul></li>
       <li><a href="module_docs/looks/geometry.html#looks.geometry.center_box">center_box() (in module looks.geometry)</a>
 </li>
       <li><a href="module_docs/looks.html#looks.check">check() (in module looks)</a>
@@ -288,6 +298,12 @@
       </ul></li>
       <li><a href="module_docs/looks/_run.html#looks._run.check_analysis_only">check_analysis_only() (in module looks._run)</a>
 </li>
+      <li><a href="module_docs/looks.html#looks.Choice">Choice (class in looks)</a>
+
+      <ul>
+        <li><a href="module_docs/looks/across.html#looks.across.Choice">(class in looks.across)</a>
+</li>
+      </ul></li>
       <li><a href="module_docs/looks.html#looks.classify">classify() (in module looks)</a>
 
       <ul>
@@ -346,14 +362,14 @@
         <li><a href="module_docs/looks/compile.html#looks.compile.compile_look">(in module looks.compile)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks.html#looks.compile_motion">compile_motion() (in module looks)</a>
 
       <ul>
         <li><a href="module_docs/looks/motion.html#looks.motion.compile_motion">(in module looks.motion)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks.html#looks.CompileError">CompileError</a>, <a href="module_docs/looks/compile.html#looks.compile.CompileError">[1]</a>
 </li>
       <li><a href="module_docs/looks/registry.html#looks.registry.Compiler">Compiler (in module looks.registry)</a>
@@ -492,10 +508,10 @@
 </li>
       <li><a href="module_docs/looks/cache.html#looks.cache.DFLT_CACHE_ENV">DFLT_CACHE_ENV (in module looks.cache)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks/lut.html#looks.lut.DFLT_CUBE_SIZE">DFLT_CUBE_SIZE (in module looks.lut)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks/lut.html#looks.lut.DFLT_CUBE_TITLE">DFLT_CUBE_TITLE (in module looks.lut)</a>
 </li>
       <li><a href="module_docs/looks/environment.html#looks.environment.DFLT_FFMPEG">DFLT_FFMPEG (in module looks.environment)</a>
@@ -517,6 +533,8 @@
       <li><a href="module_docs/looks/_run.html#looks._run.DFLT_TIMEOUT_S">DFLT_TIMEOUT_S (in module looks._run)</a>
 </li>
       <li><a href="module_docs/looks/cli.html#looks.cli.disclaimer">disclaimer() (in module looks.cli)</a>
+</li>
+      <li><a href="module_docs/looks/across.html#looks.across.Dispersion">Dispersion (in module looks.across)</a>
 </li>
       <li><a href="module_docs/looks.html#looks.dispersion">dispersion() (in module looks)</a>
 
@@ -987,6 +1005,13 @@
 </li>
       </ul></li>
       <li>
+    looks.across
+
+      <ul>
+        <li><a href="module_docs/looks/across.html#module-looks.across">module</a>
+</li>
+      </ul></li>
+      <li>
     looks.cache
 
       <ul>
@@ -1000,6 +1025,8 @@
         <li><a href="module_docs/looks/cli.html#module-looks.cli">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     looks.compile
 
@@ -1007,8 +1034,6 @@
         <li><a href="module_docs/looks/compile.html#module-looks.compile">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     looks.environment
 
@@ -1183,6 +1208,8 @@
 </li>
         <li><a href="module_docs/looks/_run.html#module-looks._run">looks._run</a>
 </li>
+        <li><a href="module_docs/looks/across.html#module-looks.across">looks.across</a>
+</li>
         <li><a href="module_docs/looks/cache.html#module-looks.cache">looks.cache</a>
 </li>
         <li><a href="module_docs/looks/cli.html#module-looks.cli">looks.cli</a>
@@ -1276,6 +1303,8 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks/across.html#looks.across.Objective">Objective (in module looks.across)</a>
+</li>
       <li><a href="module_docs/looks/_run.html#looks._run.Completed.ok">ok (looks._run.Completed property)</a>
 </li>
       <li><a href="module_docs/looks/ffmpeg.html#looks.ffmpeg.OPTION_LEVEL_SPECIALS">OPTION_LEVEL_SPECIALS (in module looks.ffmpeg)</a>
@@ -1298,6 +1327,12 @@
       </ul></li>
       <li><a href="module_docs/looks/_run.html#looks._run.output_specs">output_specs() (in module looks._run)</a>
 </li>
+      <li><a href="module_docs/looks/across.html#looks.across.Spread.outside">outside (looks.across.Spread attribute)</a>
+
+      <ul>
+        <li><a href="module_docs/looks.html#looks.Spread.outside">(looks.Spread attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -1418,6 +1453,12 @@
 </li>
       <li><a href="module_docs/looks/frame_dependency.html#looks.frame_dependency.PROBE_SIZE">PROBE_SIZE (in module looks.frame_dependency)</a>
 </li>
+      <li><a href="module_docs/looks.html#looks.probes_for">probes_for() (in module looks)</a>
+
+      <ul>
+        <li><a href="module_docs/looks/across.html#looks.across.probes_for">(in module looks.across)</a>
+</li>
+      </ul></li>
       <li><a href="module_docs/looks/licence.html#looks.licence.Terms.prohibition">prohibition (looks.licence.Terms attribute)</a>
 
       <ul>
@@ -1680,14 +1721,20 @@
         <li><a href="module_docs/looks/geometry.html#looks.geometry.social_size">(in module looks.geometry)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/looks/geometry.html#looks.geometry.SOCIAL_SIZES">SOCIAL_SIZES (in module looks.geometry)</a>
 </li>
       <li><a href="module_docs/looks.html#looks.Solid">Solid (class in looks)</a>
 
       <ul>
         <li><a href="module_docs/looks/geometry.html#looks.geometry.Solid">(class in looks.geometry)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/looks.html#looks.solve_across">solve_across() (in module looks)</a>
+
+      <ul>
+        <li><a href="module_docs/looks/across.html#looks.across.solve_across">(in module looks.across)</a>
 </li>
       </ul></li>
       <li><a href="module_docs/looks.html#looks.ClipStats.source_id">source_id (looks.ClipStats attribute)</a>
@@ -1712,6 +1759,12 @@
 </li>
       <li><a href="module_docs/looks/ffmpeg.html#looks.ffmpeg.split_filters">split_filters() (in module looks.ffmpeg)</a>
 </li>
+      <li><a href="module_docs/looks.html#looks.Spread">Spread (class in looks)</a>
+
+      <ul>
+        <li><a href="module_docs/looks/across.html#looks.across.Spread">(class in looks.across)</a>
+</li>
+      </ul></li>
       <li><a href="module_docs/looks/measure.html#looks.measure.LumaSummary.spread">spread (looks.measure.LumaSummary property)</a>
 </li>
       <li><a href="module_docs/looks/lut.html#looks.lut.srgb_to_linear">srgb_to_linear() (in module looks.lut)</a>
@@ -1725,6 +1778,8 @@
 </li>
       </ul></li>
       <li><a href="module_docs/looks/licence.html#looks.licence.STALE_AFTER_DAYS">STALE_AFTER_DAYS (in module looks.licence)</a>
+</li>
+      <li><a href="module_docs/looks/across.html#looks.across.Statistic">Statistic (in module looks.across)</a>
 </li>
       <li><a href="module_docs/looks/_run.html#looks._run.Completed.stderr">stderr (looks._run.Completed attribute)</a>
 </li>

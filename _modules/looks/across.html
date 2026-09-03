@@ -1,0 +1,551 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>looks.across &mdash; looks 0.0.10 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=a83ce22a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            looks
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks.html">looks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/__main__.html">looks.__main__</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/_run.html">looks._run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/across.html">looks.across</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cache.html">looks.cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/cli.html">looks.cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/compile.html">looks.compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/environment.html">looks.environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/ffmpeg.html">looks.ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/frame_dependency.html">looks.frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/geometry.html">looks.geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/licence.html">looks.licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/lut.html">looks.lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/measure.html">looks.measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/motion.html">looks.motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/pipe.html">looks.pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/registry.html">looks.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/spec.html">looks.spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests.html">looks.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/_pyproject.html">looks.tests._pyproject</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_across.html">looks.tests.test_across</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cache.html">looks.tests.test_cache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_cli.html">looks.tests.test_cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_compile.html">looks.tests.test_compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_environment.html">looks.tests.test_environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_ffmpeg.html">looks.tests.test_ffmpeg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_frame_dependency.html">looks.tests.test_frame_dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_geometry.html">looks.tests.test_geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_integration.html">looks.tests.test_integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_invariant.html">looks.tests.test_invariant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_licence.html">looks.tests.test_licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_lut.html">looks.tests.test_lut</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_measure.html">looks.tests.test_measure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_motion.html">looks.tests.test_motion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pipe.html">looks.tests.test_pipe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">looks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">looks.across</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for looks.across</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Choosing one parameter per clip so a SET looks consistent — exactly, not by search.</span>
+
+<span class="sd">The measured rule this mechanises: a single global flattening scale made the</span>
+<span class="sd">softest of three sources softer still, so it became the softest thing on screen.</span>
+<span class="sd">Per-clip choice beat it — **2.004x against uniform's 2.213x and</span>
+<span class="sd">sharpest-everywhere's 2.364x** — where the number is the ratio between the</span>
+<span class="sd">brightest and dimmest post-effect measurement across the set. Lower is more</span>
+<span class="sd">consistent.</span>
+
+<span class="sd">So the question is: given a grid of candidate parameter values per clip, and a</span>
+<span class="sd">measurement of what each candidate produces, which value does each clip get?</span>
+
+<span class="sd">## It is closed-form, and the closed form matters</span>
+
+<span class="sd">Reaching for the exhaustive product is the natural move and it is hopeless:</span>
+<span class="sd">|G|^|S| is **8³⁰ ≈ 1.24 x 10²⁷** at the documented size. But the problem is the</span>
+<span class="sd">classic *narrowest window containing one element from each of N sorted lists*,</span>
+<span class="sd">which a single sorted sweep with two pointers answers exactly. Measured here:</span>
+<span class="sd">**0.093 ms at N=30, |G|=8**, and 4000 randomised trials against brute force with</span>
+<span class="sd">ties, duplicates and repeated values across lists — **zero disagreements**.</span>
+
+<span class="sd">## Why logs</span>
+
+<span class="sd">Minimising the spread of ``log(x)`` *is* minimising the ratio ``max/min`` — the</span>
+<span class="sd">same objective, the same chosen values, verified. Logs are what turn a ratio</span>
+<span class="sd">into a difference, which is what a sweep can add up. The consequence worth</span>
+<span class="sd">having is that the objective is **scale-independent**: multiply every</span>
+<span class="sd">measurement by a thousand and the answer does not move.</span>
+
+<span class="sd">The consequence worth refusing is that ``log(0)`` does not exist, and a</span>
+<span class="sd">Laplacian variance genuinely can be 0 on a flat clip. So a non-positive</span>
+<span class="sd">measurement is a refusal. Clamping it to a small epsilon would be inventing a</span>
+<span class="sd">measurement, which is the one thing this package will not do.</span>
+
+<span class="sd">## Why the dispersion functional is a separate field</span>
+
+<span class="sd">``max/min`` is defensible at N=3 and fragile at N=30, because one clip that</span>
+<span class="sd">cannot be fixed sets the whole window. Measured, with 29 clips that can all land</span>
+<span class="sd">near one value and a thirtieth whose entire grid sits ten times away:</span>
+
+<span class="sd">======================  ==========</span>
+<span class="sd">functional              ratio</span>
+<span class="sd">======================  ==========</span>
+<span class="sd">every clip (max/min)    **9.026x**</span>
+<span class="sd">dropping the worst one  **1.037x**</span>
+<span class="sd">======================  ==========</span>
+
+<span class="sd">The outlier accounts for **98.3%** of the log window, and the other 29 clips'</span>
+<span class="sd">whole remaining freedom moves the objective by about 13%. Their choices have</span>
+<span class="sd">stopped mattering.</span>
+
+<span class="sd">And the trim costs no exactness — that is the point. "Narrowest window covering</span>
+<span class="sd">at least N-k of the lists" is the same sweep with a ``&gt;=`` in place of an ``==``,</span>
+<span class="sd">and it agreed with brute force over 1500 trials. So the functional is a field</span>
+<span class="sd">rather than a fork.</span>
+
+<span class="sd">## What this module does not do</span>
+
+<span class="sd">It does not measure. :mod:`looks.measure` does that, by running ffmpeg, and</span>
+<span class="sd">:func:`looks.resolve_across` applies the answer. This is the arithmetic in</span>
+<span class="sd">between: measurements in, one value per clip out.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">looks.measure</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClipStats</span><span class="p">,</span> <span class="n">Incomparable</span><span class="p">,</span> <span class="n">MeasurementError</span><span class="p">,</span> <span class="n">compare</span>
+
+<span class="c1">#: The objective. **Exactly one member, deliberately**: there is no honest</span>
+<span class="c1">#: reason to *maximise* the spread of a set's appearance, and a one-member</span>
+<span class="c1">#: Literal makes asking for it unrepresentable rather than merely unwise.</span>
+<span class="n">Objective</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"min_spread"</span><span class="p">]</span>
+
+<span class="c1">#: Which measurement to make consistent. Closed, because the objective is a</span>
+<span class="c1">#: RATIO and only a positive-valued statistic has one — an offset-valued field</span>
+<span class="c1">#: would give a ratio that changes when the offset does.</span>
+<span class="n">Statistic</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"sharpness"</span><span class="p">,</span> <span class="s2">"blur"</span><span class="p">]</span>
+
+<span class="c1">#: How the spread of the chosen values is summarised.</span>
+<span class="c1">#:</span>
+<span class="c1">#: ``full_range`` is ``max/min`` over every clip. ``trimmed_range`` allows</span>
+<span class="c1">#: ``drop`` clips to sit outside the window, which is what keeps one unfixable</span>
+<span class="c1">#: clip from setting the objective for the other twenty-nine. Both are solved</span>
+<span class="c1">#: exactly by the same sweep.</span>
+<span class="n">Dispersion</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"full_range"</span><span class="p">,</span> <span class="s2">"trimmed_range"</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="AcrossError">
+<a class="viewcode-back" href="../../module_docs/looks/across.html#looks.AcrossError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AcrossError</span><span class="p">(</span><span class="n">MeasurementError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A set-relative question that cannot be answered as asked."""</span></div>
+
+
+
+<div class="viewcode-block" id="Candidate">
+<a class="viewcode-back" href="../../module_docs/looks/across.html#looks.Candidate">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Candidate</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One candidate parameter value, and what it measured.</span>
+
+<span class="sd">    ``value`` is whatever the parameter is — a flattening scale, a sigma, a</span>
+<span class="sd">    level count. It is carried opaquely: this module compares *measurements*,</span>
+<span class="sd">    never parameters.</span>
+<span class="sd">    """</span>
+
+    <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">ClipStats</span></div>
+
+
+
+<div class="viewcode-block" id="Choice">
+<a class="viewcode-back" href="../../module_docs/looks/across.html#looks.Choice">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Choice</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The value one clip was given, and the measurement that justifies it."""</span>
+
+    <span class="n">source_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">statistic</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="Spread">
+<a class="viewcode-back" href="../../module_docs/looks/across.html#looks.Spread">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Spread</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The answer: one choice per clip, and how consistent the set now is.</span>
+
+<span class="sd">    ``ratio`` is the headline — the same number the measured rule is quoted in,</span>
+<span class="sd">    so a caller can compare it against uniform's 2.213x directly. It is</span>
+<span class="sd">    ``exp(log_spread)`` and the two are reported together because the first is</span>
+<span class="sd">    what a person reads and the second is what the solver minimised.</span>
+<span class="sd">    """</span>
+
+    <span class="n">choices</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Choice</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">ratio</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">log_spread</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">dispersion</span><span class="p">:</span> <span class="n">Dispersion</span>
+    <span class="n">statistic</span><span class="p">:</span> <span class="n">Statistic</span>
+    <span class="c1">#: Clips the trim left outside the window. Empty under ``full_range``.</span>
+    <span class="c1">#: Named rather than counted, because *which* clip could not be fixed is</span>
+    <span class="c1">#: the interesting half of the answer.</span>
+    <span class="n">outside</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"schema"</span><span class="p">:</span> <span class="s2">"looks.spread/v1"</span><span class="p">,</span>
+            <span class="s2">"statistic"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span>
+            <span class="s2">"dispersion"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispersion</span><span class="p">,</span>
+            <span class="s2">"ratio"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">,</span>
+            <span class="s2">"log_spread"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_spread</span><span class="p">,</span>
+            <span class="s2">"outside"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outside</span><span class="p">),</span>
+            <span class="s2">"choices"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">"source_id"</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">source_id</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">"statistic"</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">statistic</span><span class="p">}</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">choices</span>
+            <span class="p">],</span>
+        <span class="p">}</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_read</span><span class="p">(</span><span class="n">stats</span><span class="p">:</span> <span class="n">ClipStats</span><span class="p">,</span> <span class="n">statistic</span><span class="p">:</span> <span class="n">Statistic</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">statistic</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">source_id</span><span class="si">!r}</span><span class="s2"> has no </span><span class="si">{</span><span class="n">statistic</span><span class="si">!r}</span><span class="s2"> measurement. A set-relative "</span>
+            <span class="s2">"answer cannot be computed from a statistic that was not taken — "</span>
+            <span class="s2">"measure it, or choose one that was."</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">stats</span><span class="o">.</span><span class="n">source_id</span><span class="si">!r}</span><span class="s2"> measured </span><span class="si">{</span><span class="n">statistic</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">, and the objective "</span>
+            <span class="s2">"is a RATIO, so it is computed on logs — log of a non-positive "</span>
+            <span class="s2">"number does not exist. A flat clip genuinely measures 0 here. This "</span>
+            <span class="s2">"is refused rather than clamped to a small number, because clamping "</span>
+            <span class="s2">"would invent a measurement."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_checked</span><span class="p">(</span><span class="n">candidates</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Candidate</span><span class="p">]],</span> <span class="n">statistic</span><span class="p">:</span> <span class="n">Statistic</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Every refusal about the inputs, before any arithmetic."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="s2">"a set-relative answer needs at least one clip's candidates; got none"</span>
+        <span class="p">)</span>
+    <span class="n">empty</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">candidates</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">empty</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"these clips have no candidates at all: </span><span class="si">{</span><span class="n">empty</span><span class="si">}</span><span class="s2">. A clip with an "</span>
+            <span class="s2">"empty grid cannot be given a value, and quietly leaving it out "</span>
+            <span class="s2">"would answer a different question than the one asked."</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Every measurement here ends up in ONE expression, so every pair must be</span>
+    <span class="c1"># comparable. `compare` refuses on stage, instrument, luma space and sample</span>
+    <span class="c1"># spec — and a solver that put a pre-effect number in the same spread as a</span>
+    <span class="c1"># post-effect one is the exact failure `looks.measure` exists to prevent.</span>
+    <span class="c1"># Checked against a single reference rather than pairwise: comparability is</span>
+    <span class="c1"># an equivalence, so agreeing with one representative is agreeing with all,</span>
+    <span class="c1"># at N comparisons instead of N squared.</span>
+    <span class="n">flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">candidates</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">group</span><span class="p">]</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="n">flat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stats</span>
+    <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">compare</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">candidate</span><span class="o">.</span><span class="n">stats</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">Incomparable</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"these candidates cannot be compared with each other, so no "</span>
+                <span class="sa">f</span><span class="s2">"spread over them means anything: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">candidates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">rows</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_read</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="n">statistic</span><span class="p">)),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">group</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">rows</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_sweep</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">need</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Narrowest window over sorted points covering at least ``need`` clips.</span>
+
+<span class="sd">    One sort and two pointers. The ``need == len(rows)`` case is the full range</span>
+<span class="sd">    and ``need &lt; len(rows)`` is the trim; they differ by a comparison, which is</span>
+<span class="sd">    why the dispersion functional costs no exactness.</span>
+
+<span class="sd">    The sort key carries the source id and the candidate's position, so ties</span>
+<span class="sd">    resolve the same way on every run — a solver that returned a different plan</span>
+<span class="sd">    for the same input would move :func:`looks.plan_hash`.</span>
+<span class="sd">    """</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">rows</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">counts</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">have</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">best</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">right</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)):</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">points</span><span class="p">[</span><span class="n">right</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">right</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">points</span><span class="p">[</span><span class="n">right</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">have</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">have</span> <span class="o">&gt;=</span> <span class="n">need</span><span class="p">:</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">right</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">points</span><span class="p">[</span><span class="n">left</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+            <span class="n">source_id</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">left</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">counts</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">have</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">best</span><span class="p">,</span> <span class="n">points</span>
+
+
+<div class="viewcode-block" id="solve_across">
+<a class="viewcode-back" href="../../module_docs/looks/across.html#looks.solve_across">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">solve_across</span><span class="p">(</span>
+    <span class="n">candidates</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Candidate</span><span class="p">]],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">statistic</span><span class="p">:</span> <span class="n">Statistic</span> <span class="o">=</span> <span class="s2">"sharpness"</span><span class="p">,</span>
+    <span class="n">objective</span><span class="p">:</span> <span class="n">Objective</span> <span class="o">=</span> <span class="s2">"min_spread"</span><span class="p">,</span>
+    <span class="n">dispersion</span><span class="p">:</span> <span class="n">Dispersion</span> <span class="o">=</span> <span class="s2">"full_range"</span><span class="p">,</span>
+    <span class="n">drop</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Spread</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""One parameter value per clip, so the set's measurements sit close together.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        candidates: ``{source_id: [Candidate, ...]}`` — the grid, already</span>
+<span class="sd">            measured. This module does not measure; see :mod:`looks.measure`.</span>
+<span class="sd">        statistic: Which measurement to make consistent.</span>
+<span class="sd">        objective: ``"min_spread"``, and only that. See :data:`Objective`.</span>
+<span class="sd">        dispersion: ``"full_range"`` (max/min over every clip) or</span>
+<span class="sd">            ``"trimmed_range"`` (allow ``drop`` clips outside the window).</span>
+<span class="sd">        drop: How many clips may sit outside. Only with ``trimmed_range``.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        AcrossError: If the inputs cannot yield an answer — no clips, a clip</span>
+<span class="sd">            with an empty grid, measurements that are not comparable with each</span>
+<span class="sd">            other, a missing or non-positive statistic, or a ``drop`` that would</span>
+<span class="sd">            leave nothing to be consistent about.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        Three clips, each with two candidates. The solver picks the combination</span>
+<span class="sd">        whose measurements sit closest together, not the sharpest one each:</span>
+
+<span class="sd">        &gt;&gt;&gt; def stats(source_id, sharpness):</span>
+<span class="sd">        ...     return ClipStats(source_id=source_id, stage='post_effect',</span>
+<span class="sd">        ...                      instrument='x', luma_space='coded_y',</span>
+<span class="sd">        ...                      sample_spec='uniform:5', n_frames=5,</span>
+<span class="sd">        ...                      sharpness=sharpness)</span>
+<span class="sd">        &gt;&gt;&gt; got = solve_across({</span>
+<span class="sd">        ...     'c01': [Candidate(0.5, stats('c01', 100.0)),</span>
+<span class="sd">        ...             Candidate(0.75, stats('c01', 40.0))],</span>
+<span class="sd">        ...     'c02': [Candidate(0.5, stats('c02', 42.0)),</span>
+<span class="sd">        ...             Candidate(0.75, stats('c02', 20.0))],</span>
+<span class="sd">        ...     'c03': [Candidate(0.5, stats('c03', 38.0)),</span>
+<span class="sd">        ...             Candidate(0.75, stats('c03', 12.0))],</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; [(c.source_id, c.value) for c in got.choices]</span>
+<span class="sd">        [('c01', 0.75), ('c02', 0.5), ('c03', 0.5)]</span>
+<span class="sd">        &gt;&gt;&gt; round(got.ratio, 3)</span>
+<span class="sd">        1.105</span>
+
+<span class="sd">        Choosing the sharpest everywhere would have been far worse:</span>
+
+<span class="sd">        &gt;&gt;&gt; round(100.0 / 38.0, 3)</span>
+<span class="sd">        2.632</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">objective</span> <span class="o">!=</span> <span class="s2">"min_spread"</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"the only objective is 'min_spread'; got </span><span class="si">{</span><span class="n">objective</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dispersion</span> <span class="o">==</span> <span class="s2">"full_range"</span> <span class="ow">and</span> <span class="n">drop</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"drop=</span><span class="si">{</span><span class="n">drop</span><span class="si">}</span><span class="s2"> asks for </span><span class="si">{</span><span class="n">drop</span><span class="si">}</span><span class="s2"> clip(s) outside the window, but "</span>
+            <span class="s2">"dispersion='full_range' is the window over EVERY clip. Say "</span>
+            <span class="s2">"dispersion='trimmed_range' if that is what you mean — a drop that "</span>
+            <span class="s2">"quietly did nothing would report a consistency the set does not have."</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">dispersion</span> <span class="o">==</span> <span class="s2">"trimmed_range"</span> <span class="ow">and</span> <span class="n">drop</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="s2">"dispersion='trimmed_range' with drop=0 is the full range under "</span>
+            <span class="s2">"another name. Say how many clips may sit outside."</span>
+        <span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">_checked</span><span class="p">(</span><span class="n">candidates</span><span class="p">,</span> <span class="n">statistic</span><span class="p">)</span>
+    <span class="n">need</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">drop</span> <span class="k">if</span> <span class="n">dispersion</span> <span class="o">==</span> <span class="s2">"trimmed_range"</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">need</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"dropping </span><span class="si">{</span><span class="n">drop</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> clips leaves </span><span class="si">{</span><span class="n">need</span><span class="si">}</span><span class="s2"> to be "</span>
+            <span class="s2">"consistent with each other, which is not a set-relative question."</span>
+        <span class="p">)</span>
+
+    <span class="n">best</span><span class="p">,</span> <span class="n">points</span> <span class="o">=</span> <span class="n">_sweep</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">need</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">best</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># every clip has &gt;= 1 candidate, so a window exists</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">best</span>
+    <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">left</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">right</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">choices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">outside</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">rows</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">inside</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">group</span>
+            <span class="k">if</span> <span class="n">low</span> <span class="o">-</span> <span class="mf">1e-12</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="n">high</span> <span class="o">+</span> <span class="mf">1e-12</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inside</span><span class="p">:</span>
+            <span class="n">outside</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source_id</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="c1"># The smallest measurement inside the window, deterministically. Any</span>
+        <span class="c1"># candidate in the window gives the same objective; picking by rule</span>
+        <span class="c1"># rather than by iteration order is what keeps the answer stable.</span>
+        <span class="n">value</span><span class="p">,</span> <span class="n">candidate</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">choices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Choice</span><span class="p">(</span>
+                <span class="n">source_id</span><span class="o">=</span><span class="n">source_id</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">candidate</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">statistic</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Spread</span><span class="p">(</span>
+        <span class="n">choices</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">choices</span><span class="p">),</span>
+        <span class="n">ratio</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">width</span><span class="p">),</span>
+        <span class="n">log_spread</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+        <span class="n">dispersion</span><span class="o">=</span><span class="n">dispersion</span><span class="p">,</span>
+        <span class="n">statistic</span><span class="o">=</span><span class="n">statistic</span><span class="p">,</span>
+        <span class="n">outside</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">outside</span><span class="p">)),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="probes_for">
+<a class="viewcode-back" href="../../module_docs/looks/across.html#looks.probes_for">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">probes_for</span><span class="p">(</span><span class="n">spread</span><span class="p">:</span> <span class="n">Spread</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""A :class:`Spread` as the probes :func:`looks.resolve_across` takes.</span>
+
+<span class="sd">    The join between the two halves of RULE N: this module answers the</span>
+<span class="sd">    set-relative question, and ``resolve_across`` applies the answer, turning</span>
+<span class="sd">    each ``SET_RELATIVE`` Look into an ``EXTERNAL`` one that will not be asked</span>
+<span class="sd">    again against a different set.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parameter: The :class:`~looks.spec.Ref` key the value fills in.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; spread = Spread(choices=(Choice('c01', 0.75, 40.0),</span>
+<span class="sd">        ...                          Choice('c02', 0.5, 42.0)),</span>
+<span class="sd">        ...                 ratio=1.05, log_spread=0.049,</span>
+<span class="sd">        ...                 dispersion='full_range', statistic='sharpness')</span>
+<span class="sd">        &gt;&gt;&gt; probes_for(spread, 'scale')</span>
+<span class="sd">        ({'scale': 0.75}, {'scale': 0.5})</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">spread</span><span class="o">.</span><span class="n">outside</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"these clips were left outside the window and have no value: "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">spread</span><span class="o">.</span><span class="n">outside</span><span class="p">)</span><span class="si">}</span><span class="s2">. A trimmed answer cannot be turned into "</span>
+            <span class="s2">"probes for the whole set — decide what those clips get, or solve "</span>
+            <span class="s2">"with dispersion='full_range'."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">({</span><span class="n">parameter</span><span class="p">:</span> <span class="n">choice</span><span class="o">.</span><span class="n">value</span><span class="p">}</span> <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">spread</span><span class="o">.</span><span class="n">choices</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
