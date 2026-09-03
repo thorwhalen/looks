@@ -118,6 +118,17 @@ from looks.cache import (
     pending,
     sweep,
 )
+from looks.transition import (
+    DFLT_CURVE,
+    MIN_TRANSITION_S,
+    TRANSITION_CURVES,
+    Transition,
+    TransitionError,
+    blended_frames,
+    check_visible,
+    is_hard_cut,
+    xfade_options,
+)
 from looks.across import (
     AcrossError,
     Candidate,
@@ -283,6 +294,16 @@ __all__ = [
     "unmet_filters",
     "CompileError",
     "PlanRefused",
+    # transitions: the vocabulary, not the graph
+    "Transition",
+    "TRANSITION_CURVES",
+    "MIN_TRANSITION_S",
+    "DFLT_CURVE",
+    "TransitionError",
+    "blended_frames",
+    "is_hard_cut",
+    "check_visible",
+    "xfade_options",
     # across: one parameter per clip, so a SET looks consistent
     "solve_across",
     "probes_for",
