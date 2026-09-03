@@ -21,6 +21,7 @@ import pytest
 from looks.geometry import Size
 from looks.motion import (
     MAX_ZOOM,
+    reframe,
     MIN_WINDOW_FRACTION,
     Keyframe,
     MotionError,
@@ -421,3 +422,162 @@ class TestThePredicatesThatPickTheFilter:
         assert "zoompan=" in compile_motion(
             path, output=Size(320, 240), fps=SOURCE_FPS
         )
+
+
+class TestReframingTheHeadlineCase:
+    """A Ken Burns path over a still whose shape is not the delivery's.
+
+    `zoompan`'s zoom is one scalar, so it can only show a window similar to its
+    input — which made the commonest real case (a 4:3 photo delivered at 16:9)
+    the one thing this module refused. The fix is derived geometry, so it lives
+    here: crop the source once to the windows' aspect, then move inside it.
+    """
+
+    #: 16:9 windows over a 4:3 source. w/h = (16/9)*(480/640).
+    START = Window(0.1, 0.2, 0.8, 0.6)      # 512x288 px at (64, 96)
+    END = Window(0.25, 0.3, 0.6, 0.45)      # 384x216 px at (160, 144)
+    WIDE_SOURCE = "testsrc2=size=640x480:rate=10:duration=2"
+
+    def _psnr_at(self, a, b, at):
+        tail = f"trim=start={at}:end={at + 0.05},setpts=PTS-STARTPTS"
+        lav = (
+            f"[0:v]{a},{tail},format=gray[x];"
+            f"[1:v]{b},{tail},format=gray[y];[x][y]psnr"
+        )
+        proc = _run(
+            [
+                "ffmpeg", "-v", "info",
+                "-f", "lavfi", "-i", self.WIDE_SOURCE,
+                "-f", "lavfi", "-i", self.WIDE_SOURCE,
+                "-lavfi", lav, "-f", "null", "-",
+            ]
+        )
+        match = re.search(r"average:(inf|[0-9.]+)", proc.stderr)
+        assert match, proc.stderr[-900:]
+        return float("inf") if match.group(1) == "inf" else float(match.group(1))
+
+    def test_it_used_to_be_refused_and_now_compiles(self):
+        path = [Keyframe(0.0, self.START), Keyframe(1.0, self.END)]
+        with pytest.raises(MotionError, match="not the source's shape"):
+            zoompan_fragment(path, output=Size(1280, 720), fps=10)
+        assert compile_motion(path, output=Size(1280, 720), fps=10).startswith("crop=")
+
+    def test_the_reframed_windows_are_square_which_is_what_zoompan_needs(self):
+        crop, moved = reframe([Keyframe(0.0, self.START), Keyframe(1.0, self.END)])
+        assert crop is not None
+        for k in moved:
+            assert abs(k.window.w - k.window.h) < 1e-9, k.window
+
+    def test_it_renders_the_window_it_was_asked_for_at_BOTH_ends(self):
+        """The test that matters. Geometry that type-checks and configures can
+        still show the wrong pixels — only a comparison finds that."""
+        _ffmpeg_or_skip()
+        # The path finishes at t=1.0, so every later frame is parked on END.
+        fragment = compile_motion(
+            [Keyframe(0.0, self.START), Keyframe(1.0, self.END)],
+            output=Size(1280, 720), fps=10,
+        )
+        at_start = "crop=w=512:h=288:x=64:y=96,scale=1280:720"
+        at_end = "crop=w=384:h=216:x=160:y=144,scale=1280:720"
+        assert self._psnr_at(fragment, at_start, 0.0) > SAME_PICTURE_DB
+        assert self._psnr_at(fragment, at_end, 1.5) > SAME_PICTURE_DB
+        # ...and is not merely close to everything:
+        assert self._psnr_at(fragment, at_start, 1.5) < 20
+
+    def test_a_path_already_shaped_like_its_source_is_left_exactly_alone(self):
+        """No reframe, and byte-identical to what it compiled to before — a
+        capability added must not move an answer that already worked."""
+        path = [
+            Keyframe(0.0, Window.full()),
+            Keyframe(2.0, Window(0.25, 0.25, 0.5, 0.5)),
+        ]
+        crop, moved = reframe(path)
+        assert crop is None and moved == tuple(path)
+        assert compile_motion(path, output=Size(1920, 1080), fps=30).startswith(
+            "zoompan="
+        )
+
+    def test_the_crop_is_the_bounding_box_not_a_centred_one(self):
+        """A centred crop can exclude a window the path actually visits, which
+        silently reframes the shot. Here the path hugs the top-left."""
+        crop, moved = reframe(
+            [
+                Keyframe(0.0, Window(0.0, 0.0, 0.4, 0.3)),
+                Keyframe(1.0, Window(0.05, 0.05, 0.4, 0.3)),
+            ]
+        )
+        assert crop is not None
+        for k in moved:
+            w = k.window
+            assert -1e-9 <= w.x and w.x + w.w <= 1 + 1e-9, w
+            assert -1e-9 <= w.y and w.y + w.h <= 1 + 1e-9, w
+
+    def test_an_anisotropic_zoom_is_still_refused(self):
+        """No reframing makes it expressible — zoompan scales both axes by one
+        scalar, so windows of two different shapes cannot both be shown."""
+        with pytest.raises(MotionError, match="anisotropic"):
+            reframe(
+                [
+                    Keyframe(0.0, Window(0.0, 0.0, 0.8, 0.4)),
+                    Keyframe(1.0, Window(0.0, 0.0, 0.4, 0.4)),
+                ]
+            )
+
+    def test_a_path_too_spread_out_to_reframe_is_refused(self):
+        """The source cannot supply a frame of that shape containing the whole
+        path, so there is nothing honest to emit."""
+        with pytest.raises(MotionError, match="larger than the source"):
+            reframe(
+                [
+                    Keyframe(0.0, Window(0.0, 0.0, 0.9, 0.15)),
+                    Keyframe(1.0, Window(0.0, 0.85, 0.9, 0.15)),
+                ]
+            )
+
+    def test_the_emitted_crop_carries_no_float_noise(self):
+        """The rounded ratio is for the same-shape TEST only; the geometry uses
+        the exact one. Rounding it put 0.6000000001 into the filter string."""
+        crop, _ = reframe([Keyframe(0.0, self.START), Keyframe(1.0, self.END)])
+        assert abs(crop.h - 0.6) < 1e-12, crop
+        assert abs(crop.w - 0.8) < 1e-12, crop
+
+
+class TestAPanIsScaledToItsDeliverySize:
+    """`crop` emits the window's own pixel size, which is arbitrary."""
+
+    def test_an_output_size_appends_a_scale(self):
+        got = compile_motion(
+            [
+                Keyframe(0.0, Window(0.0, 0.0, 0.5, 1.0)),
+                Keyframe(2.0, Window(0.5, 0.0, 0.5, 1.0)),
+            ],
+            output=Size(1280, 720),
+        )
+        assert got.endswith(",scale=1280:720")
+
+    def test_without_one_the_fragment_is_unchanged(self):
+        path = [
+            Keyframe(0.0, Window(0.0, 0.0, 0.5, 1.0)),
+            Keyframe(2.0, Window(0.5, 0.0, 0.5, 1.0)),
+        ]
+        assert "scale=" not in compile_motion(path)
+
+    def test_the_odd_size_that_made_libx264_refuse_is_gone(self):
+        """Measured on a 640x480 source: a drift emitted 575x431 and the
+        encoder aborted with 'width not divisible by 2'."""
+        _ffmpeg_or_skip()
+        fragment = compile_motion(
+            [
+                Keyframe(0.0, Window(0.0, 0.0, 0.8987, 0.8987)),
+                Keyframe(1.0, Window(0.1, 0.1, 0.8987, 0.8987)),
+            ],
+            output=Size(640, 480),
+        )
+        proc = _run(
+            [
+                "ffmpeg", "-v", "error", "-f", "lavfi",
+                "-i", "testsrc2=size=640x480:rate=10:duration=0.5",
+                "-vf", fragment, "-c:v", "libx264", "-f", "null", "-",
+            ]
+        )
+        assert proc.returncode == 0, proc.stderr[-600:]

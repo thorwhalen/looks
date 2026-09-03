@@ -338,6 +338,125 @@ def crop_fragment(keyframes: Sequence[Keyframe]) -> str:
     return f"{TIMEBASE_RESET},crop=w='{w}':h='{h}':x='{x}':y='{y}'"
 
 
+def is_source_shaped(keyframes: Sequence[Keyframe]) -> bool:
+    """Is every window geometrically similar to the whole frame?
+
+    The condition ``zoompan`` needs, in the units this module speaks. A window's
+    pixel aspect is ``(w*iw)/(h*ih)`` and the source's is ``iw/ih``, so the two
+    are similar exactly when the normalised ``w`` and ``h`` are equal — which is
+    why this reads as a suspiciously simple comparison.
+
+    >>> is_source_shaped([Keyframe(0, Window(0.1, 0.1, 0.5, 0.5))])
+    True
+    >>> is_source_shaped([Keyframe(0, Window(0, 0, 1.0, 0.5))])
+    False
+    """
+    frames = _check(keyframes)
+    return all(abs(k.window.w - k.window.h) <= EPSILON for k in frames)
+
+
+def reframe(
+    keyframes: Sequence[Keyframe],
+) -> tuple[Optional[Window], tuple[Keyframe, ...]]:
+    """Split a path into a static reframing crop and a path relative to it.
+
+    ``zoompan``'s ``zoom`` is one scalar, so it can only ever show a window
+    similar to its input. A Ken Burns path over a 4:3 still delivered at 16:9 is
+    therefore not directly compilable — and that is the headline case, not an
+    edge one.
+
+    The fix is derived geometry, which is why it lives here rather than with
+    whoever authored the path: nobody *chooses* the reframe, it falls out of the
+    mismatch between the source's shape and the delivery's. Crop the source once
+    to the windows' own aspect, then move within that — and the windows, being
+    that aspect, are similar to it.
+
+    The crop is the **bounding box of every window**, grown on one axis to reach
+    the required aspect and nudged to stay inside the frame. Bounding box rather
+    than a centred crop because a centred one can exclude a window the path
+    actually visits, which would silently reframe the shot.
+
+    Returns:
+        ``(None, keyframes)`` when no reframe is needed — so a path that already
+        worked compiles to the identical fragment it did before. Otherwise the
+        crop and the path re-expressed against it.
+
+    A path already shaped like its source needs nothing:
+
+    >>> reframe([Keyframe(0, Window(0.25, 0.25, 0.5, 0.5))])[0] is None
+    True
+
+    A 16:9-shaped window over a square-normalised frame is reframed, and the
+    re-expressed window comes out square — which is what ``zoompan`` requires:
+
+    >>> crop, path = reframe([Keyframe(0, Window(0.0, 0.25, 1.0, 0.5))])
+    >>> crop
+    Window(x=0.0, y=0.25, w=1.0, h=0.5)
+    >>> path[0].window
+    Window(x=0.0, y=0.0, w=1.0, h=1.0)
+
+    Raises:
+        MotionError: If the windows are not all the same shape (an anisotropic
+            zoom, which ``zoompan`` cannot express at all), or if the source
+            cannot supply a frame of the needed aspect containing the whole path.
+    """
+    frames = _check(keyframes)
+    if is_source_shaped(frames):
+        return None, frames
+
+    ratios = {round(k.window.w / k.window.h, 9) for k in frames}
+    if len(ratios) > 1:
+        raise MotionError(
+            "the windows are not all the same shape "
+            f"(aspect ratios {sorted(ratios)}), which is an anisotropic zoom. "
+            "`zoompan` scales both axes by one scalar, so no reframing makes "
+            "this expressible."
+        )
+    # The rounded set answers "are these all the same shape"; the geometry then
+    # uses the UNROUNDED ratio, because rounding it puts float noise into the
+    # emitted crop (measured: 0.6 became 0.6000000001).
+    ratio = frames[0].window.w / frames[0].window.h
+
+    left = min(k.window.x for k in frames)
+    top = min(k.window.y for k in frames)
+    right = max(k.window.x + k.window.w for k in frames)
+    bottom = max(k.window.y + k.window.h for k in frames)
+    width, height = right - left, bottom - top
+
+    # Grow the deficient axis to reach the required aspect. Growing (never
+    # shrinking) is what keeps every window inside the result.
+    if width / height < ratio:
+        width, height = height * ratio, height
+    else:
+        width, height = width, width / ratio
+    if width > 1 + EPSILON or height > 1 + EPSILON:
+        raise MotionError(
+            f"this path needs a {_num(width)} x {_num(height)} reframe of the "
+            "source to be expressible, which is larger than the source. The "
+            "path visits windows too far apart for a frame of that shape to "
+            "contain them all."
+        )
+
+    # Centre the growth on the bounding box, then slide back inside the frame.
+    x = min(max((left + right) / 2 - width / 2, 0.0), 1.0 - width)
+    y = min(max((top + bottom) / 2 - height / 2, 0.0), 1.0 - height)
+    crop = Window(x, y, width, height)
+
+    moved = tuple(
+        Keyframe(
+            k.t,
+            Window(
+                (k.window.x - x) / width,
+                (k.window.y - y) / height,
+                k.window.w / width,
+                k.window.h / height,
+            ),
+        )
+        for k in frames
+    )
+    return crop, moved
+
+
 def zoompan_fragment(keyframes: Sequence[Keyframe], *, output: Size, fps: float) -> str:
     """A path whose window size varies, compiled to ``zoompan``.
 
@@ -423,6 +542,16 @@ def compile_motion(
     ... ]))
     setpts=PTS-STARTPTS,crop=w='iw*0.5':h='ih*1':x='iw*(0+(0.5)*min(max((t-0)/2,0),1))':y='ih*0'
 
+    A pan given a delivery size is scaled to it, because ``crop`` otherwise
+    emits the window's own odd-numbered pixel size and the encoder refuses:
+
+    >>> compile_motion(
+    ...     [Keyframe(0.0, Window(0.0, 0.0, 0.5, 1.0)),
+    ...      Keyframe(2.0, Window(0.5, 0.0, 0.5, 1.0))],
+    ...     output=Size(1280, 720),
+    ... ).endswith(",scale=1280:720")
+    True
+
     A zoom compiles to ``zoompan``, and must be told the delivery size and the
     source's rate:
 
@@ -433,6 +562,18 @@ def compile_motion(
     >>> fragment.startswith("zoompan=d=1:s=1280x720:fps=25:")
     True
 
+    A zooming path whose windows are not the source's shape — the Ken Burns
+    case, a 4:3 still delivered at 16:9 — is **reframed** rather than refused:
+    a static crop to the windows' aspect is emitted first, and the motion runs
+    inside it. See :func:`reframe`.
+
+    >>> compile_motion(
+    ...     [Keyframe(0.0, Window(0.0, 0.2, 1.0, 0.5)),
+    ...      Keyframe(2.0, Window(0.1, 0.3, 0.8, 0.4))],
+    ...     output=Size(1920, 1080), fps=25,
+    ... ).startswith("crop=")
+    True
+
     Raises:
         MotionError: If a zoom is asked for without ``output`` and ``fps``.
             They are not defaultable: ``zoompan``'s own ``fps`` default retimes
@@ -440,7 +581,15 @@ def compile_motion(
     """
     frames = _check(keyframes)
     if not zooms(frames):
-        return crop_fragment(frames)
+        fragment = crop_fragment(frames)
+        if output is not None:
+            # `crop` emits the window's own pixel size, which is arbitrary: a
+            # drift over a 640x480 source emitted 575x431 and libx264 refused
+            # it outright ("width not divisible by 2"). Scaling to the delivery
+            # size is what every caller wants anyway, and doing it here means no
+            # consumer has to rediscover that failure.
+            fragment += f",scale={output.width}:{output.height}"
+        return fragment
     missing = [
         name for name, value in (("output", output), ("fps", fps)) if value is None
     ]
@@ -452,4 +601,8 @@ def compile_motion(
             "be guessed."
         )
     assert output is not None and fps is not None  # narrowed by `missing`
-    return zoompan_fragment(frames, output=output, fps=fps)
+    crop, moved = reframe(frames)
+    fragment = zoompan_fragment(moved, output=output, fps=fps)
+    if crop is None:
+        return fragment
+    return f"{crop_fragment([Keyframe(moved[0].t, crop)])},{fragment}"
