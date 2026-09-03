@@ -136,9 +136,17 @@ def gated(fragment: str, at: Optional[Span]) -> str:
     >>> gated("scale=2:2,crop=1:1", Span(0.0, 1.0))
     "scale=2:2:enable='between(t,0,1)',crop=1:1:enable='between(t,0,1)'"
     """
-    if at is None:
+    if at is None or (at.start is None and at.end is None):
+        # A Span open at BOTH ends bounds nothing, so it is not a gate. Emitting
+        # `enable=` for it would be a filter option that always evaluates true —
+        # noise in the string and a lie in a diff.
         return fragment
-    window = f"enable='between(t,{_num(at.start)},{_num(at.end)})'"
+    if at.start is None:
+        window = f"enable='lte(t,{_num(at.end)})'"
+    elif at.end is None:
+        window = f"enable='gte(t,{_num(at.start)})'"
+    else:
+        window = f"enable='between(t,{_num(at.start)},{_num(at.end)})'"
     return ",".join(
         f"{part}{':' if '=' in part else '='}{window}" for part in fragment.split(",")
     )

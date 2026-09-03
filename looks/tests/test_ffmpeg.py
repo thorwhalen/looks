@@ -392,3 +392,42 @@ class TestTheFilterStringItself:
 
     def test_no_options_is_the_bare_name(self):
         assert filter_string("null", {}) == "null"
+
+
+class TestAnOpenEndedSpanIsGatedNotCrashed:
+    """`Span` declares both ends `Optional`, and `gated` formatted them blind.
+
+    All three open forms raised a bare `TypeError: unsupported format string
+    passed to NoneType.__format__` — not a refusal, not a message, just the
+    formatter failing. This is the code path a fold's `enable=` rebase would
+    have taken, which is how it surfaced.
+    """
+
+    @pytest.mark.parametrize(
+        "span,expected",
+        [
+            (Span(1.0, 2.0), "gblur=sigma=2:enable='between(t,1,2)'"),
+            (Span(1.0, None), "gblur=sigma=2:enable='gte(t,1)'"),
+            (Span(None, 3.0), "gblur=sigma=2:enable='lte(t,3)'"),
+            (Span(None, None), "gblur=sigma=2"),
+            (None, "gblur=sigma=2"),
+        ],
+        ids=["closed", "open-end", "open-start", "open-both", "no-span"],
+    )
+    def test_every_form_of_span(self, span, expected):
+        assert gated("gblur=sigma=2", span) == expected
+
+    def test_a_span_open_at_both_ends_emits_no_gate(self):
+        """It bounds nothing, so `enable=` would be an option that always
+        evaluates true — noise in the string and a lie in a diff."""
+        assert "enable=" not in gated("gblur=sigma=2", Span(None, None))
+
+    @pytest.mark.parametrize(
+        "span", [Span(0.1, 0.3), Span(0.1, None), Span(None, 0.3)],
+        ids=["closed", "open-end", "open-start"],
+    )
+    def test_ffmpeg_accepts_each_one(self, span, env):
+        """The expressions are different per form, so each needs the binary's
+        opinion rather than one representative's."""
+        _ffmpeg_or_skip()
+        assert configure(gated("gblur=sigma=2", span)).returncode == 0

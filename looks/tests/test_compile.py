@@ -441,3 +441,53 @@ class TestTheRegistryIsAPlainDictOnPurpose:
         for step in plan.steps:
             assert all(not callable(v) for v in step.payload.values())
             assert not callable(step.impl)
+
+
+class TestACompiledPlanIsStillData:
+    """The composition nothing covered, and a real defect hid in the gap.
+
+    `compile_look` stored `env.fingerprint` — the bound METHOD — rather than
+    calling it. Every plan compiled with an env was therefore unhashable and
+    unserialisable, which is the one property a plan exists to have. 758 tests
+    passed: `test_compile.py` compiled with an env and never serialised,
+    `test_spec.py` serialised and never compiled, and the seam between them was
+    the only place the bug could live.
+    """
+
+    @pytest.fixture
+    def plan(self, registry, env, look):
+        return compile_look(look, clip=CLIP, env=env, registry=registry)
+
+    def test_the_env_is_a_fingerprint_not_a_method(self, plan):
+        from looks.environment import EnvFingerprint
+
+        assert isinstance(plan.env, EnvFingerprint), type(plan.env)
+
+    def test_it_hashes(self, plan):
+        from looks.spec import plan_hash
+
+        assert len(plan_hash(plan)) == 64
+
+    def test_it_serialises_and_comes_back_equal(self, plan, registry):
+        import json
+
+        from looks.spec import plan_from_dict, plan_hash, plan_to_dict
+
+        document = plan_to_dict(plan)
+        json.dumps(document)  # raises if anything in there is not plain data
+        impls = {s.impl.impl: s.impl for s in plan.steps}
+        again = plan_from_dict(json.loads(json.dumps(document)), impls=impls)
+        assert plan_hash(again) == plan_hash(plan)
+
+    def test_two_binaries_hash_differently(self, registry, env, look):
+        """Why the fingerprint is in the hash at all: the binary is part of
+        what determines the pixels."""
+        import dataclasses
+
+        from looks.environment import Licence
+        from looks.spec import plan_hash
+
+        one = compile_look(look, clip=CLIP, env=env, registry=registry)
+        other_env = dataclasses.replace(env, version="ffmpeg version 7.1")
+        other = compile_look(look, clip=CLIP, env=other_env, registry=registry)
+        assert plan_hash(one) != plan_hash(other)
