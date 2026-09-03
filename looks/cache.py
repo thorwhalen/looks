@@ -18,10 +18,19 @@ able to hand ffmpeg a half-written file. **A half-written `.cube` is not an
 error, it is a silently wrong picture**: ffmpeg reads what is there and
 interpolates the rest of the lattice from nothing.
 
-So a write is `mkstemp` in the destination directory plus :func:`os.replace`,
-which is atomic on POSIX and on Windows. A deterministic ``<key>.tmp`` path is
-**not** good enough — two writers would open the same temp file and interleave
-into it, which is the race in a costume rather than a fix.
+So a write is `mkstemp` in the destination directory plus :func:`os.replace`.
+A deterministic ``<key>.tmp`` path is **not** good enough — two writers would
+open the same temp file and interleave into it, which is the race in a costume
+rather than a fix.
+
+``os.replace`` is atomic on both POSIX and Windows, but it is not equally
+*total*: **Windows refuses the rename when the destination is open by anyone
+else**, where POSIX rename succeeds and leaves the reader on the old inode.
+Under the fan-out this package is built for that is a live race, and it made
+the Windows leg FLAKY rather than red — which is worse, because a flake gets
+re-run rather than read. :func:`_publish` treats a lost race as the success it
+is: the name is a hash of the content, so a writer that lost lost to bytes
+identical to its own.
 
 ## What is deliberately absent
 
@@ -103,6 +112,34 @@ class Materialised:
         return str(self.path)
 
 
+def _publish(temporary: str, path) -> None:
+    """Move a fully-written temp file into place, tolerating a lost race.
+
+    On POSIX this is exactly ``os.replace``. On Windows ``os.replace`` raises
+    ``PermissionError`` when another process holds the destination open — a
+    reader, typically, since this cache exists to be read concurrently — and
+    the loser of that race must not turn a healthy cache hit into an exception.
+    Measured: three `TestTheRace` tests failing on the Windows leg with
+    ``[WinError 5] Access is denied`` while the same commit passed on a re-run.
+
+    Losing is safe **because the name is a hash of the content**: whatever sits
+    at ``path`` is byte-for-byte what this call would have written, and it is
+    complete, since ``path`` only ever comes into existence through this
+    function. That reasoning does not transfer to a cache keyed on anything
+    else, which is why it is written down rather than assumed.
+    """
+    try:
+        os.replace(temporary, path)
+    except OSError:
+        if not os.path.exists(path):
+            raise
+        # Someone else published it first. Drop our copy and take theirs.
+        try:
+            os.unlink(temporary)
+        except OSError:
+            pass
+
+
 def cube_file(
     spec: Union[Ramp, GradientMap],
     *,
@@ -160,7 +197,7 @@ def cube_file(
             stream.write(text)
             stream.flush()
             os.fsync(stream.fileno())
-        os.replace(temporary, path)
+        _publish(temporary, path)
     except BaseException:
         Path(temporary).unlink(missing_ok=True)
         raise
