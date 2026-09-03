@@ -246,18 +246,28 @@ def materialize(plan, *, into: Optional[Union[str, Path]] = None):
     it twice writes nothing the second time.
 
     Examples:
+        A plan is built here by hand rather than by :func:`looks.compile_look`,
+        so this example needs no ffmpeg — the point is the verb, and a doctest
+        that needs a binary is a doctest that does not run in CI.
+
         >>> import tempfile
-        >>> from looks import ClipSpec, Effect, Look, compile_look, probe
-        >>> look = Look(steps=(Effect(name='gradient_map', params={
-        ...     'stops': [(8.2, '#2E0C18'), (100.0, '#FEF0DC')], 'size': 9}),))
-        >>> env = probe()
-        >>> clip = ClipSpec(width=64, height=48, fps=10)
-        >>> plan = compile_look(look, clip=clip, env=env)
+        >>> from looks.licence import Tier, terms_for
+        >>> from looks.spec import ImplRef, LookPlan, Step
+        >>> impl = ImplRef(effect='gradient_map', backend='ffmpeg',
+        ...                impl='gradient_map.ffmpeg.lut3d',
+        ...                terms=terms_for('ffmpeg')[0])
+        >>> request = {'stops': [[8.2, '#2E0C18'], [100.0, '#FEF0DC']],
+        ...            'size': 9, 'title': 'demo', 'contrast': 1.0, 'lift': 0.0,
+        ...            'key': 'unused', 'filter_template': 'lut3d=file={file}'}
+        >>> plan = LookPlan(steps=(Step(effect='gradient_map', impl=impl,
+        ...     tier=Tier.COPYLEFT_TOOL, payload={PENDING: request}),))
         >>> len(pending(plan))                      # not built yet
         1
         >>> with tempfile.TemporaryDirectory() as tmp:
         ...     ready = materialize(plan, into=tmp)
-        ...     pending(ready) == () and 'lut3d=file=' in ready.steps[0].payload['filter']
+        ...     pending(ready) == ()
+        True
+        >>> ready.steps[0].payload['filter'].startswith('lut3d=file=')
         True
     """
     import dataclasses
