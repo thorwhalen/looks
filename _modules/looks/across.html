@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.across &mdash; looks 0.0.10 documentation</title>
+  <title>looks.across &mdash; looks 0.0.11 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a83ce22a"></script>
+      <script src="../../_static/documentation_options.js?v=0c446633"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -333,7 +333,14 @@
 
     <span class="n">rows</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">candidates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">rows</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_read</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="n">statistic</span><span class="p">)),</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">group</span><span class="p">]</span>
+        <span class="c1"># The measured float is carried ALONGSIDE its log, never recovered</span>
+        <span class="c1"># from it. `exp(log(x))` is not `x`: 147 of 200 realistic sharpness</span>
+        <span class="c1"># values fail bit-equality, and 117.0 comes back as 117.00000000000003.</span>
+        <span class="c1"># This number reaches a wire document, and a package this careful about</span>
+        <span class="c1"># measurement identity must not report one it altered.</span>
+        <span class="n">rows</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">group</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_read</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">stats</span><span class="p">,</span> <span class="n">statistic</span><span class="p">),)</span>
+        <span class="p">]</span>
     <span class="k">return</span> <span class="n">rows</span>
 
 
@@ -351,7 +358,7 @@
     <span class="n">points</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
         <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">rows</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_measured</span><span class="p">,</span> <span class="n">_candidate</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">counts</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">have</span> <span class="o">=</span> <span class="mi">0</span>
@@ -443,6 +450,21 @@
         <span class="p">)</span>
 
     <span class="n">rows</span> <span class="o">=</span> <span class="n">_checked</span><span class="p">(</span><span class="n">candidates</span><span class="p">,</span> <span class="n">statistic</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># `looks.measure.dispersion` already refuses this exact quantity —</span>
+        <span class="c1"># "dispersion needs at least two measurements" — and two modules</span>
+        <span class="c1"># disagreeing about whether a one-element spread is a question is the</span>
+        <span class="c1"># drift this package's guards exist to catch. It is also the honest</span>
+        <span class="c1"># answer: with one clip every candidate scores 1.0, so any value</span>
+        <span class="c1"># returned would come from the tie-break rule and from nothing about</span>
+        <span class="c1"># the set. A confident answer to a question with no content.</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"a spread needs at least two clips to be a spread; got "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="si">}</span><span class="s2">). With one clip every candidate is "</span>
+            <span class="s2">"equally consistent, so the value returned would come from the "</span>
+            <span class="s2">"tie-break rule rather than from the set — which is why "</span>
+            <span class="s2">"looks.measure.dispersion refuses the same question."</span>
+        <span class="p">)</span>
     <span class="n">need</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">drop</span> <span class="k">if</span> <span class="n">dispersion</span> <span class="o">==</span> <span class="s2">"trimmed_range"</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">need</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
@@ -457,11 +479,13 @@
 
     <span class="n">choices</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">outside</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">source_id</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">rows</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="c1"># Sorted by source id, so two logically identical inputs presented in</span>
+    <span class="c1"># different orders give the same answer AND the same wire document.</span>
+    <span class="c1"># Insertion order would make `to_dict()` depend on how a caller happened to</span>
+    <span class="c1"># build its mapping, which is no part of the question asked.</span>
+    <span class="k">for</span> <span class="n">source_id</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
         <span class="n">inside</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">value</span><span class="p">,</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">group</span>
-            <span class="k">if</span> <span class="n">low</span> <span class="o">-</span> <span class="mf">1e-12</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="n">high</span> <span class="o">+</span> <span class="mf">1e-12</span>
+            <span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">[</span><span class="n">source_id</span><span class="p">]</span> <span class="k">if</span> <span class="n">low</span> <span class="o">-</span> <span class="mf">1e-12</span> <span class="o">&lt;=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">high</span> <span class="o">+</span> <span class="mf">1e-12</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">inside</span><span class="p">:</span>
             <span class="n">outside</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">source_id</span><span class="p">)</span>
@@ -469,18 +493,25 @@
         <span class="c1"># The smallest measurement inside the window, deterministically. Any</span>
         <span class="c1"># candidate in the window gives the same objective; picking by rule</span>
         <span class="c1"># rather than by iteration order is what keeps the answer stable.</span>
-        <span class="n">value</span><span class="p">,</span> <span class="n">candidate</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">_value</span><span class="p">,</span> <span class="n">measured</span><span class="p">,</span> <span class="n">candidate</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">inside</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">choices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="n">Choice</span><span class="p">(</span>
-                <span class="n">source_id</span><span class="o">=</span><span class="n">source_id</span><span class="p">,</span>
-                <span class="n">value</span><span class="o">=</span><span class="n">candidate</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                <span class="n">statistic</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="n">Choice</span><span class="p">(</span><span class="n">source_id</span><span class="o">=</span><span class="n">source_id</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">candidate</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">statistic</span><span class="o">=</span><span class="n">measured</span><span class="p">)</span>
         <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OverflowError</span><span class="p">:</span>
+        <span class="c1"># Reachable above log_spread ~709, which needs measurements ~10**308</span>
+        <span class="c1"># apart. Absurd — and the point is that it must not surface as a bare</span>
+        <span class="c1"># OverflowError in a module where every other failure is an AcrossError.</span>
+        <span class="k">raise</span> <span class="n">AcrossError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"the log spread is </span><span class="si">{</span><span class="n">width</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, so the ratio overflows a float. "</span>
+            <span class="s2">"These measurements are not describing the same kind of thing."</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
     <span class="k">return</span> <span class="n">Spread</span><span class="p">(</span>
         <span class="n">choices</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">choices</span><span class="p">),</span>
-        <span class="n">ratio</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">width</span><span class="p">),</span>
+        <span class="n">ratio</span><span class="o">=</span><span class="n">ratio</span><span class="p">,</span>
         <span class="n">log_spread</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
         <span class="n">dispersion</span><span class="o">=</span><span class="n">dispersion</span><span class="p">,</span>
         <span class="n">statistic</span><span class="o">=</span><span class="n">statistic</span><span class="p">,</span>
