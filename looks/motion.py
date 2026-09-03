@@ -90,6 +90,14 @@ MAX_ZOOM = 10.0
 #: The consequence of :data:`MAX_ZOOM`, in the units this module speaks.
 MIN_WINDOW_FRACTION = 1.0 / MAX_ZOOM
 
+#: How far two windows' aspect ratios may differ, relatively, and still count as
+#: the same shape. Float noise only — this is NOT a place to absorb quantisation.
+#: A caller reading windows out of integer pixel boxes (burns' `sample_box` does)
+#: gets ratios spread by up to a pixel's worth, and the fix is for that caller to
+#: normalise the aspect it intended, not for this to look the other way: widening
+#: it here would silently render a shape nobody asked for.
+ASPECT_TOLERANCE = 1e-6
+
 #: Prepended to a moving ``crop`` and never to a static one. ``t`` must start at
 #: 0 for a ramp to mean anything; adding it unconditionally would change a path
 #: that already works. Inherited verbatim, reason included, from
@@ -357,6 +365,8 @@ def is_source_shaped(keyframes: Sequence[Keyframe]) -> bool:
 
 def reframe(
     keyframes: Sequence[Keyframe],
+    *,
+    aspect_tolerance: float = ASPECT_TOLERANCE,
 ) -> tuple[Optional[Window], tuple[Keyframe, ...]]:
     """Split a path into a static reframing crop and a path relative to it.
 
@@ -404,18 +414,19 @@ def reframe(
     if is_source_shaped(frames):
         return None, frames
 
-    ratios = {round(k.window.w / k.window.h, 9) for k in frames}
-    if len(ratios) > 1:
-        raise MotionError(
-            "the windows are not all the same shape "
-            f"(aspect ratios {sorted(ratios)}), which is an anisotropic zoom. "
-            "`zoompan` scales both axes by one scalar, so no reframing makes "
-            "this expressible."
-        )
-    # The rounded set answers "are these all the same shape"; the geometry then
-    # uses the UNROUNDED ratio, because rounding it puts float noise into the
-    # emitted crop (measured: 0.6 became 0.6000000001).
     ratio = frames[0].window.w / frames[0].window.h
+    spread = max(abs(k.window.w / k.window.h - ratio) / ratio for k in frames)
+    if spread > aspect_tolerance:
+        seen = sorted({round(k.window.w / k.window.h, 6) for k in frames})
+        raise MotionError(
+            f"the windows are not all the same shape — aspect ratios spread by "
+            f"{spread:.2e} relative (seen: {seen[:4]}{'...' if len(seen) > 4 else ''}), "
+            f"over a tolerance of {aspect_tolerance:.0e}. `zoompan` scales both "
+            "axes by one scalar, so no reframing makes an anisotropic zoom "
+            "expressible. If these came from integer pixel boxes, normalise "
+            "them to the aspect you meant before compiling — do not widen the "
+            "tolerance, which would render a shape nobody asked for."
+        )
 
     left = min(k.window.x for k in frames)
     top = min(k.window.y for k in frames)
@@ -522,6 +533,7 @@ def compile_motion(
     *,
     output: Optional[Size] = None,
     fps: Optional[float] = None,
+    aspect_tolerance: float = ASPECT_TOLERANCE,
 ) -> str:
     """A camera path to an ffmpeg fragment, filter chosen by what the path does.
 
@@ -601,7 +613,7 @@ def compile_motion(
             "be guessed."
         )
     assert output is not None and fps is not None  # narrowed by `missing`
-    crop, moved = reframe(frames)
+    crop, moved = reframe(frames, aspect_tolerance=aspect_tolerance)
     fragment = zoompan_fragment(moved, output=output, fps=fps)
     if crop is None:
         return fragment

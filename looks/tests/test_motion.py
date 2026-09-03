@@ -581,3 +581,64 @@ class TestAPanIsScaledToItsDeliverySize:
             ]
         )
         assert proc.returncode == 0, proc.stderr[-600:]
+
+
+class TestTheAspectToleranceIsNarrowOnPurpose:
+    """Windows read out of INTEGER pixel boxes do not share an exact aspect.
+
+    That is the shape every real consumer hands over — `burns.sample_box`
+    returns integer boxes for array slicing — and it is precisely the case this
+    tolerance must NOT quietly absorb. Widening it here would accept a genuinely
+    anisotropic path and render a shape nobody asked for; the caller's job is to
+    normalise the aspect it meant. burns does exactly that.
+    """
+
+    def _quantised(self, img_w=640, img_h=480, out_w=1280, out_h=720, n=9):
+        """Windows with the output's aspect, rounded to whole source pixels."""
+        target = out_w / out_h
+        frames = []
+        for i in range(n):
+            zoom = 1.0 + 0.35 * (i / (n - 1))
+            box_w = round(img_w / zoom)
+            box_h = round(box_w / target)
+            frames.append(
+                Keyframe(
+                    float(i),
+                    Window(
+                        round((img_w - box_w) / 2) / img_w,
+                        round((img_h - box_h) / 2) / img_h,
+                        box_w / img_w,
+                        box_h / img_h,
+                    ),
+                )
+            )
+        return frames
+
+    def test_quantised_windows_do_not_share_an_exact_aspect(self):
+        frames = self._quantised()
+        ratios = {round(k.window.w / k.window.h, 9) for k in frames}
+        assert len(ratios) > 1, "the premise of this whole class"
+
+    def test_the_default_tolerance_refuses_them(self):
+        with pytest.raises(MotionError, match="spread by"):
+            reframe(self._quantised())
+
+    def test_and_the_refusal_says_what_to_do_about_it(self):
+        """Not merely that it failed — a caller hitting this needs to be told
+        to normalise, not to loosen."""
+        with pytest.raises(MotionError, match="normalise them to the aspect"):
+            reframe(self._quantised())
+
+    def test_a_caller_who_knows_better_can_widen_it(self):
+        crop, moved = reframe(self._quantised(), aspect_tolerance=1e-2)
+        assert crop is not None and len(moved) == 9
+
+    def test_float_noise_alone_passes_the_default(self):
+        """The tolerance exists for this and only this: two windows that are
+        the same shape but not the same float."""
+        frames = [
+            Keyframe(0.0, Window(0.0, 0.1, 0.8, 0.6)),
+            Keyframe(1.0, Window(0.1, 0.2, 0.8 * (1 + 1e-12), 0.6)),
+        ]
+        crop, moved = reframe(frames)
+        assert crop is not None
