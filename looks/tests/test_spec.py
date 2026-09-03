@@ -460,3 +460,28 @@ class TestImplRefDeclaresTermsNotATier:
         impl = an_impl()
         assert impl.tier is not None
         assert impl.tier == an_impl().tier
+
+
+def test_no_dataclass_field_defaults_to_a_shared_mapping_instance():
+    """Python 3.10's dataclasses refuse ANY dict subclass as a default — the
+    "mutable default" check only started consulting `__hash__` in 3.11. So a
+    `FrozenMap` default imports fine on 3.12 and raises `ValueError` at class
+    creation on 3.10, which is 47 collection errors and no obvious cause.
+
+    Pinned as a test rather than a comment because the failure is a whole-suite
+    collapse on one interpreter, and the fix (a `default_factory`) is easy to
+    undo while reading only the 3.12 result.
+    """
+    import dataclasses
+
+    from looks.spec import ClipSpec, Effect, ImplRef, Look, LookPlan, Step
+
+    offenders = []
+    for cls in (Effect, Look, Step, LookPlan, ClipSpec, ImplRef):
+        for f in dataclasses.fields(cls):
+            if f.default is not dataclasses.MISSING and isinstance(f.default, dict):
+                offenders.append(f"{cls.__name__}.{f.name}")
+    assert not offenders, (
+        f"these default to a shared mapping instance: {offenders}. Python 3.10 "
+        "refuses it at class-creation time; use field(default_factory=FrozenMap)."
+    )

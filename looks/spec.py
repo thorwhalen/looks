@@ -52,7 +52,7 @@ from __future__ import annotations
 import enum
 import hashlib
 import json
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, replace, field
 from types import MappingProxyType
 from typing import Any, Iterator, Mapping, Optional, Sequence
 
@@ -506,11 +506,11 @@ class Effect:
     """
 
     name: str
-    params: Mapping[str, Any] = EMPTY
+    params: Mapping[str, Any] = field(default_factory=FrozenMap)
     at: Optional[Span] = None
     impl: Optional[str] = None
     backend: Optional[str] = None
-    metadata: Mapping[str, Any] = EMPTY
+    metadata: Mapping[str, Any] = field(default_factory=FrozenMap)
 
     def __post_init__(self) -> None:
         if not self.name:
@@ -592,7 +592,7 @@ class Look:
     name: str = ""
     policy: Policy = DFLT_POLICY
     target: Target = Target.EXTERNAL
-    metadata: Mapping[str, Any] = EMPTY
+    metadata: Mapping[str, Any] = field(default_factory=FrozenMap)
     version: int = LOOK_VERSION
 
     def __post_init__(self) -> None:
@@ -900,11 +900,11 @@ class Step:
     effect: str
     impl: ImplRef
     tier: Tier
-    params: Mapping[str, Any] = EMPTY
+    params: Mapping[str, Any] = field(default_factory=FrozenMap)
     at: Optional[Span] = None
-    payload: Mapping[str, Any] = EMPTY
+    payload: Mapping[str, Any] = field(default_factory=FrozenMap)
     cpu_seconds: Optional[float] = None
-    metadata: Mapping[str, Any] = EMPTY
+    metadata: Mapping[str, Any] = field(default_factory=FrozenMap)
 
     def __post_init__(self) -> None:
         leftover = [r for v in self.params.values() for r in _refs_in(v)]
@@ -957,8 +957,8 @@ class LookPlan:
     env: Optional[EnvFingerprint] = None
     look_name: str = ""
     policy: Policy = DFLT_POLICY
-    probe: Mapping[str, Any] = EMPTY
-    metadata: Mapping[str, Any] = EMPTY
+    probe: Mapping[str, Any] = field(default_factory=FrozenMap)
+    metadata: Mapping[str, Any] = field(default_factory=FrozenMap)
     version: int = PLAN_VERSION
 
     def __post_init__(self) -> None:
