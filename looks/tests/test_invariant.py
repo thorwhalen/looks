@@ -377,3 +377,129 @@ def test_no_module_doctest_needs_ffmpeg():
         "a module doctest needs ffmpeg, so CI will not run it:\n"
         + proc.stdout[-2500:]
     )
+
+
+
+def _guarded_imports(tree) -> set:
+    """Import nodes sitting inside a `try` with an `ImportError` handler.
+
+    Identity, not position: the same import written twice in one file is two
+    nodes, and only the guarded one should be excused.
+    """
+    guarded = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Try):
+            continue
+        catches_import = any(
+            h.type is not None
+            and (
+                (isinstance(h.type, ast.Name) and h.type.id in _IMPORT_ERRORS)
+                or (
+                    isinstance(h.type, ast.Tuple)
+                    and any(
+                        isinstance(e, ast.Name) and e.id in _IMPORT_ERRORS
+                        for e in h.type.elts
+                    )
+                )
+            )
+            for h in node.handlers
+        )
+        if not catches_import:
+            continue
+        for stmt in node.body:
+            for inner in ast.walk(stmt):
+                if isinstance(inner, (ast.Import, ast.ImportFrom)):
+                    guarded.add(inner)
+    return guarded
+
+
+_IMPORT_ERRORS = {"ImportError", "ModuleNotFoundError", "Exception"}
+
+
+class TestZeroDependencyIsEnforcedNotDeclared:
+    """`looks` declares `dependencies = []`, and that is only true if nothing
+    in the package — tests included — imports a third-party module.
+
+    A developer machine in this federation has every sibling package installed,
+    so an accidental `from burns import Rect` in a test passes locally and fails
+    only in CI, where it reads as a broken package rather than a stray import.
+    That happened: three motion tests imported `burns` and went red on 3.10 and
+    Windows alike. An AST scan is the cheap way to catch it before the push.
+    """
+
+    @staticmethod
+    def _declared() -> set:
+        """Every distribution this package declares, in any extra.
+
+        DERIVED from pyproject rather than listed here, so adding a dependency
+        permits it automatically and removing one starts failing — a hand-kept
+        allowlist beside a declaration is a second source of truth that drifts.
+        Uses the package's own small reader, which is also what the licence
+        guards use on 3.10.
+        """
+        from looks.tests import _pyproject
+
+        names = set()
+        for specs in _pyproject.optional_dependencies().values():
+            names |= _pyproject.distribution_names(specs)
+        return {n.replace("-", "_") for n in names}
+
+    @staticmethod
+    def _stdlib() -> set:
+        import sys
+
+        # 3.10 has `sys.stdlib_module_names`; nothing older is supported.
+        return set(sys.stdlib_module_names)
+
+    def test_no_module_imports_an_undeclared_package(self):
+        allowed = self._stdlib() | self._declared() | {"looks"}
+        offenders = []
+        scanned = 0
+        # TESTS INCLUDED — `_python_files()` excludes them, and the tests are
+        # exactly where the stray import was.
+        for path in sorted(PACKAGE_ROOT.rglob("*.py")):
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+            scanned += 1
+            guarded = _guarded_imports(tree)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import):
+                    names = [a.name for a in node.names]
+                elif isinstance(node, ast.ImportFrom):
+                    # A relative import names no package.
+                    names = [node.module] if node.level == 0 and node.module else []
+                else:
+                    continue
+                if node in guarded:
+                    # `try: import x / except ImportError: pytest.skip(...)` is
+                    # the sanctioned pattern for an OPTIONAL cross-check — the
+                    # test skips where the package is absent instead of
+                    # reddening the run. A bare import has no such fallback and
+                    # is what this guard is for.
+                    continue
+                for name in names:
+                    root = name.split(".")[0]
+                    if root not in allowed:
+                        offenders.append(f"{path.name}:{node.lineno} imports {name}")
+        assert not offenders, (
+            "`looks` declares no dependencies, so every import must be the "
+            "standard library, `looks` itself, or an allowed dev extra. These "
+            "pass on a machine that happens to have the package installed and "
+            f"fail in CI:\n  " + "\n  ".join(offenders)
+        )
+        assert scanned > 20, (
+            f"the scan only read {scanned} files — it has stopped covering the "
+            "package it is supposed to cover"
+        )
+
+    def test_the_scan_would_catch_one(self):
+        """The positive control. Without it the sweep above proves nothing on
+        the day it stops finding files."""
+        tree = ast.parse("from burns import Rect\nimport numpy as np\n")
+        allowed = self._stdlib() | self._declared() | {"looks"}
+        found = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                found |= {a.name.split(".")[0] for a in node.names}
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                found.add(node.module.split(".")[0])
+        assert {n for n in found if n not in allowed} == {"burns", "numpy"}

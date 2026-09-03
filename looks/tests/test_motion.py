@@ -654,11 +654,15 @@ class TestTheAspectToleranceIsNotInert:
 
     @staticmethod
     def _drifting():
-        from burns import Rect
-
+        """Two windows whose aspect ratios differ by 5e-7 — inside the
+        documented 1e-6 default and outside the hardcoded 1e-9 that used to
+        override it. `looks.motion.Window`, not `burns.Rect`: this package
+        declares no dependencies, so a test that imports one fails in CI while
+        passing on a developer machine that happens to have it.
+        """
         return [
-            Keyframe(t=0.0, window=Rect(0.1, 0.1, 0.5, 0.5)),
-            Keyframe(t=1.0, window=Rect(0.2, 0.2, 0.4, 0.4 + 2e-7)),
+            Keyframe(t=0.0, window=Window(0.1, 0.1, 0.5, 0.5)),
+            Keyframe(t=1.0, window=Window(0.2, 0.2, 0.4, 0.4 + 2e-7)),
         ]
 
     def test_the_default_tolerance_admits_a_drift_below_it(self):
