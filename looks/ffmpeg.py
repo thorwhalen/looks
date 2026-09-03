@@ -431,9 +431,9 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         tags=("gpl-gated",),
     )
     add(
-        "contrast.ffmpeg.colorlevels",
-        ("colorlevels",),
-        _simple("colorlevels", _contrast_levels),
+        "contrast.ffmpeg.lutyuv",
+        ("lutyuv",),
+        _simple("lutyuv", _contrast_luma),
     )
     add(
         "contrast.ffmpeg.eq",
@@ -547,77 +547,54 @@ def _saturation_matrix(params) -> Mapping[str, Any]:
     }
 
 
-def _contrast_levels(params) -> Mapping[str, Any]:
-    r"""Contrast as a clipped linear remap about mid-grey: ``y = 0.5 + a(x - 0.5)``.
+def _contrast_luma(params) -> Mapping[str, Any]:
+    r"""Contrast as a linear remap of LUMA: ``y = 128 + a(val - 128)``, clipped.
 
     The LGPL answer to ``eq=contrast=``, and it must agree with it — the two are
-    implementations of one effect, chosen by licence tier, so a caller who
-    cannot use GPL must not get a different picture. Measured against
-    ``eq=contrast=`` on a 256-step ramp: within 5/255 through ``amount <= 2``.
+    implementations of one effect chosen by licence tier, so a caller who cannot
+    use GPL must not get a different picture (rule 29b).
 
-    **Why not ``curves``.** This transfer is a straight line, and ``curves`` is a
-    spline. Drawing a line with a spline was the source of three defects at once
-    (all measured, all shipped in 0.0.4-0.0.12):
+    **On the same plane, which is the whole point.** ``eq`` adjusts the luma
+    plane and leaves chroma alone. Anything that works per RGB channel — the
+    original ``curves=all=``, and the ``colorlevels`` that briefly replaced it —
+    changes SATURATION as it changes contrast, so it agrees on grey and diverges
+    on everything else. Measured against ``eq`` on a colour test pattern:
 
-    * The spline eased through the clip corner instead of turning it, putting
-      the emitted picture up to 45/255 away from ``eq``'s at the same amount.
-    * Under ffmpeg's default ``interp=natural`` it rang: 89 non-monotone steps
-      out of 255 at ``amount=1.8``, dropping 2 LSB each. That is rule 26, which
-      this package stated and then did not honour. ``interp=pchip`` reduced it
-      to 1-LSB rounding, but only ``colorlevels`` — which interpolates nothing —
-      reaches zero.
-    * At ``amount >= 2`` the clamp collided the interior points with the
-      endpoints, and ffmpeg **refused the render**: "Invalid argument", nothing
-      written. A contrast of 2 is not exotic.
+    ========  ==============  ==========
+    amount    ``colorlevels``  ``lutyuv``
+    ========  ==============  ==========
+    0.5       74/255          2/255
+    1.5       77/255          2/255
+    2.0       134/255         2/255
+    3.0       178/255         2/255
+    ========  ==============  ==========
 
-    ``colorlevels`` has none of them because it is the shape of the transfer
-    rather than an approximation to it, and it is equally LGPL-clean.
+    On a grey ramp both are within 5 **through amount <= 2** (measured: 1, 4, 5
+    at 0.5, 1.5, 2.0; the per-channel form widens to 9 at amount 3 and 26 at
+    10). That narrow agreement on grey is why a greyscale-only test suite called
+    the per-channel version interchangeable and shipped it. The tests now render
+    colour, and compare all three channels rather than one.
 
-    The direction was also inverted, which is the defect that mattered most: the
-    old form widened the input band as ``amount`` grew, so ``contrast`` with
-    ``amount=1.5`` FLATTENED the picture (measured slope 0.45) while the GPL
-    sibling ``eq=contrast=1.5`` steepened it (1.48). The algebra wants ``0.5/a``,
-    not ``0.25*a``.
+    Verified equally on **limited-range** input (``scale=out_range=limited``),
+    where a luma pivot could have gone wrong and does not: still within 2/255.
 
-    >>> _contrast_levels({"amount": 1.0})["rimin"]
-    0.0
-    >>> round(_contrast_levels({"amount": 2.0})["rimin"], 4)
-    0.25
-    >>> round(_contrast_levels({"amount": 0.5})["romin"], 4)
-    0.25
+    A LUT, not a spline, so it also carries none of the three defects the
+    original ``curves`` form had — no ringing (rule 26), no degenerate clamp,
+    and no eased clip corner. Zero non-monotone steps at every amount measured.
+
+    >>> _contrast_luma({"amount": 1.0})["y"]
+    'clip(128+1*(val-128),0,255)'
+    >>> _contrast_luma({"amount": 1.5})["y"]
+    'clip(128+1.5*(val-128),0,255)'
     """
+    # The non-negativity of `amount` is an EFFECT-level constraint and lives in
+    # `looks.compile.EFFECT_PARAM_CHECKS`, not here: a check inside one compiler
+    # is a check the licence tier can switch off.
     amount = float(params.get("amount", 1.0))
-    if amount < 0:
-        raise SpecError(
-            f"contrast amount must not be negative; got {amount!r}. A negative "
-            "amount would invert the picture, which is a different effect than "
-            "the one being asked for."
-        )
-    if amount >= 1.0:
-        # Steepen: narrow the INPUT band that reaches full range. The band is
-        # 1/amount wide about mid-grey, so amount is exactly the slope.
-        half = 0.5 / amount
-        lo, hi = round(0.5 - half, 6), round(0.5 + half, 6)
-        return {
-            "rimin": lo,
-            "gimin": lo,
-            "bimin": lo,
-            "rimax": hi,
-            "gimax": hi,
-            "bimax": hi,
-        }
-    # Flatten: the input still spans the range, but the OUTPUT is compressed
-    # about mid-grey. Doing this on the input side instead would need a band
-    # wider than the unit interval, which colorlevels cannot express.
-    lo, hi = round(0.5 - 0.5 * amount, 6), round(0.5 + 0.5 * amount, 6)
-    return {
-        "romin": lo,
-        "gomin": lo,
-        "bomin": lo,
-        "romax": hi,
-        "gomax": hi,
-        "bomax": hi,
-    }
+    # `%g` so 1.0 stays "1" and 1.5 stays "1.5": the expression reaches the
+    # plan hash, and an amount that round-trips through a float repr would make
+    # two identical Looks hash differently.
+    return {"y": f"clip(128+{amount:g}*(val-128),0,255)"}
 
 
 def _motion_compiler(params, *, clip=None, env=None, **_kw):

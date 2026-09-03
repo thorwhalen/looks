@@ -642,3 +642,40 @@ class TestTheAspectToleranceIsNarrowOnPurpose:
         ]
         crop, moved = reframe(frames)
         assert crop is not None
+
+
+class TestTheAspectToleranceIsNotInert:
+    """`compile_motion` documents and accepts an `aspect_tolerance`, and
+    `zoompan_fragment` used to re-check with a hardcoded EPSILON of 1e-9 —
+    so a caller who widened the tolerance was refused anyway, by a message
+    about the wrong thing (it named the window's SIZE where the real
+    complaint was a 5e-7 aspect drift).
+    """
+
+    @staticmethod
+    def _drifting():
+        from burns import Rect
+
+        return [
+            Keyframe(t=0.0, window=Rect(0.1, 0.1, 0.5, 0.5)),
+            Keyframe(t=1.0, window=Rect(0.2, 0.2, 0.4, 0.4 + 2e-7)),
+        ]
+
+    def test_the_default_tolerance_admits_a_drift_below_it(self):
+        got = compile_motion(
+            self._drifting(), fps=25, output=Size(640, 640)
+        )
+        assert got, "a 5e-7 drift is inside the documented 1e-6 default"
+
+    def test_a_widened_tolerance_is_honoured(self):
+        assert compile_motion(
+            self._drifting(), fps=25, output=Size(640, 640), aspect_tolerance=1e-3
+        )
+
+    def test_a_narrowed_tolerance_still_refuses(self):
+        """The knob works in both directions, or it is not a knob."""
+        with pytest.raises(MotionError, match="same shape"):
+            compile_motion(
+                self._drifting(), fps=25, output=Size(640, 640),
+                aspect_tolerance=1e-9,
+            )
