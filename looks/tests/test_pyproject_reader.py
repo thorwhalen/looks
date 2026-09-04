@@ -119,4 +119,8 @@ class TestTheShapesTheRealFileUses:
 
     def test_a_multiline_array_is_read_whole(self):
         dev = _pyproject.optional_dependencies()["dev"]
-        assert len(dev) >= 4 and "cw" in dev
+        # Match on the distribution name, not the whole requirement: this test is
+        # about the reader seeing every element of a multi-line array, and must not
+        # fail the next time the `cw` pin moves.
+        assert len(dev) >= 4
+        assert any(_pyproject.distribution_names([r]) == {"cw"} for r in dev)

@@ -201,8 +201,12 @@ def _key_path(raw: str) -> list[str]:
 def optional_dependencies(path: Path = PYPROJECT) -> dict[str, list[str]]:
     """The extras, ``{name: [requirement, ...]}``.
 
-    >>> optional_dependencies()["cli"]
-    ['cw']
+    The requirement strings are returned verbatim, version specifier and all, so
+    this asserts the shape rather than the pin -- otherwise every pin bump in
+    ``pyproject.toml`` breaks a test of the *reader*.
+
+    >>> optional_dependencies()["cli"]  # doctest: +ELLIPSIS
+    ['cw...']
     """
     got = tables(path).get("project.optional-dependencies", {})
     return {name: list(specs) for name, specs in got.items()}
