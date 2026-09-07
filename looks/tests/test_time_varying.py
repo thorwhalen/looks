@@ -231,7 +231,7 @@ class TestDeclarationAgreesWithMeasurement:
         )
 
 
-class TestTheStillProbeCannotSeeAMovingCropWindow:
+class TestTheStillProbeSeesAMovingCropWindow:
     """The formerly-blind case (issue #20), now measured correctly.
 
     `motion.ffmpeg.crop`'s window position is a function of `t`.
