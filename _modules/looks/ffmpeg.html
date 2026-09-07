@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.ffmpeg &mdash; looks 0.0.17 documentation</title>
+  <title>looks.ffmpeg &mdash; looks 0.0.18 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=63b572e7"></script>
+      <script src="../../_static/documentation_options.js?v=8bafd125"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -85,6 +85,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_time_varying.html">looks.tests.test_time_varying</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_transition.html">looks.tests.test_transition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/transition.html">looks.transition</a></li>
 </ul>
@@ -263,10 +264,12 @@
 <span class="sd">    &gt;&gt;&gt; gated("scale=2:2,crop=1:1", Span(0.0, 1.0))</span>
 <span class="sd">    "scale=2:2:enable='between(t,0,1)',crop=1:1:enable='between(t,0,1)'"</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">at</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">at</span><span class="o">.</span><span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># A Span open at BOTH ends bounds nothing, so it is not a gate. Emitting</span>
-        <span class="c1"># `enable=` for it would be a filter option that always evaluates true —</span>
-        <span class="c1"># noise in the string and a lie in a diff.</span>
+    <span class="k">if</span> <span class="n">at</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">at</span><span class="o">.</span><span class="n">is_whole</span><span class="p">:</span>
+        <span class="c1"># A Span open at BOTH ends (`Span.is_whole`) bounds nothing, so it is</span>
+        <span class="c1"># not a gate. Emitting `enable=` for it would be a filter option that</span>
+        <span class="c1"># always evaluates true — noise in the string and a lie in a diff.</span>
+        <span class="c1"># `looks.spec.Step.time_varying` asks this exact question through the</span>
+        <span class="c1"># same predicate, on purpose: one decision, shared rather than copied.</span>
         <span class="k">return</span> <span class="n">fragment</span>
     <span class="k">if</span> <span class="n">at</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">window</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"enable='lte(t,</span><span class="si">{</span><span class="n">_num</span><span class="p">(</span><span class="n">at</span><span class="o">.</span><span class="n">end</span><span class="p">)</span><span class="si">}</span><span class="s2">)'"</span>
@@ -524,7 +527,21 @@
         <span class="k">return</span> <span class="n">reg</span>
     <span class="n">terms</span> <span class="o">=</span> <span class="n">_ffmpeg_terms</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">compiler</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">preference</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">timeline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">()):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span>
+        <span class="n">key</span><span class="p">,</span>
+        <span class="n">filters</span><span class="p">,</span>
+        <span class="n">compiler</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">time_varying</span><span class="p">,</span>
+        <span class="n">preference</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">timeline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">=</span><span class="p">(),</span>
+    <span class="p">):</span>
+        <span class="c1"># `time_varying` has no default, deliberately: `ImplRef.time_varying`</span>
+        <span class="c1"># is unknown (`None`) unless declared, and unknown is not the same</span>
+        <span class="c1"># claim as "does not read the clock". Forcing every built-in</span>
+        <span class="c1"># registration to say which is how this module avoids shipping a</span>
+        <span class="c1"># silent `False` for something nobody checked.</span>
         <span class="n">effect</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">_variant</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
         <span class="n">reg</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
             <span class="n">ImplRef</span><span class="p">(</span>
@@ -535,6 +552,7 @@
                 <span class="n">requires_filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span>
                 <span class="n">preference</span><span class="o">=</span><span class="n">preference</span><span class="p">,</span>
                 <span class="n">timeline</span><span class="o">=</span><span class="n">timeline</span><span class="p">,</span>
+                <span class="n">time_varying</span><span class="o">=</span><span class="n">time_varying</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">compiler</span><span class="p">,</span>
             <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">,</span>
@@ -545,6 +563,7 @@
         <span class="s2">"gradient_map.ffmpeg.lut3d"</span><span class="p">,</span>
         <span class="p">(</span><span class="s2">"lut3d"</span><span class="p">,),</span>
         <span class="n">_gradient_map_compiler</span><span class="p">,</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"lut3d.ffmpeg.default"</span><span class="p">,</span>
@@ -553,11 +572,13 @@
             <span class="s2">"lut3d"</span><span class="p">,</span>
             <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"file"</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="s2">"cube"</span><span class="p">],</span> <span class="s2">"interp"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"interp"</span><span class="p">,</span> <span class="s2">"tetrahedral"</span><span class="p">)},</span>
         <span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"saturation.ffmpeg.colorchannelmixer"</span><span class="p">,</span>
         <span class="p">(</span><span class="s2">"colorchannelmixer"</span><span class="p">,),</span>
         <span class="n">_simple</span><span class="p">(</span><span class="s2">"colorchannelmixer"</span><span class="p">,</span> <span class="n">_saturation_matrix</span><span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"saturation.ffmpeg.eq"</span><span class="p">,</span>
@@ -565,11 +586,13 @@
         <span class="n">_simple</span><span class="p">(</span><span class="s2">"eq"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"saturation"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}),</span>
         <span class="n">preference</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s2">"gpl-gated"</span><span class="p">,),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"contrast.ffmpeg.lutyuv"</span><span class="p">,</span>
         <span class="p">(</span><span class="s2">"lutyuv"</span><span class="p">,),</span>
         <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutyuv"</span><span class="p">,</span> <span class="n">_contrast_luma</span><span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"contrast.ffmpeg.eq"</span><span class="p">,</span>
@@ -577,8 +600,14 @@
         <span class="n">_simple</span><span class="p">(</span><span class="s2">"eq"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"contrast"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)}),</span>
         <span class="n">preference</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s2">"gpl-gated"</span><span class="p">,),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">add</span><span class="p">(</span><span class="s2">"gamma.ffmpeg.lutrgb"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,),</span> <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,</span> <span class="n">_gamma_expression</span><span class="p">))</span>
+    <span class="n">add</span><span class="p">(</span>
+        <span class="s2">"gamma.ffmpeg.lutrgb"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,</span> <span class="n">_gamma_expression</span><span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"levels.ffmpeg.colorlevels"</span><span class="p">,</span>
         <span class="p">(</span><span class="s2">"colorlevels"</span><span class="p">,),</span>
@@ -593,9 +622,13 @@
                 <span class="s2">"bimax"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"white"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
             <span class="p">},</span>
         <span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
-        <span class="s2">"posterize.ffmpeg.lutrgb"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,),</span> <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,</span> <span class="n">_posterize_expression</span><span class="p">)</span>
+        <span class="s2">"posterize.ffmpeg.lutrgb"</span><span class="p">,</span>
+        <span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,),</span>
+        <span class="n">_simple</span><span class="p">(</span><span class="s2">"lutrgb"</span><span class="p">,</span> <span class="n">_posterize_expression</span><span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"flatten.ffmpeg.bilateral"</span><span class="p">,</span>
@@ -611,6 +644,7 @@
                 <span class="s2">"planes"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"planes"</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
             <span class="p">},</span>
         <span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># --- spatial ------------------------------------------------------------</span>
@@ -618,6 +652,7 @@
         <span class="s2">"blur.ffmpeg.gblur"</span><span class="p">,</span>
         <span class="p">(</span><span class="s2">"gblur"</span><span class="p">,),</span>
         <span class="n">_simple</span><span class="p">(</span><span class="s2">"gblur"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"sigma"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"sigma"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"blur.ffmpeg.boxblur"</span><span class="p">,</span>
@@ -625,6 +660,7 @@
         <span class="n">_simple</span><span class="p">(</span><span class="s2">"boxblur"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"luma_radius"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"radius"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}),</span>
         <span class="n">preference</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s2">"gpl-gated"</span><span class="p">,),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">add</span><span class="p">(</span>
         <span class="s2">"sharpen.ffmpeg.unsharp"</span><span class="p">,</span>
@@ -636,6 +672,7 @@
             <span class="c1"># the registry sweep, which is what that sweep is for.</span>
             <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">{</span><span class="s2">"luma_amount"</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)},</span>
         <span class="p">),</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># --- geometry, wrapping looks.geometry ----------------------------------</span>
@@ -646,7 +683,13 @@
         <span class="c1"># its own registry data — the refusal existed and never fired, and the</span>
         <span class="c1"># binary rejected the command instead. A gated geometry step is now</span>
         <span class="c1"># refused at SELECTION, which is where a caller can act on it.</span>
-        <span class="n">add</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">.ffmpeg.scale"</span><span class="p">,</span> <span class="p">(</span><span class="s2">"scale"</span><span class="p">,),</span> <span class="n">_geometry</span><span class="p">(</span><span class="n">mode</span><span class="p">),</span> <span class="n">timeline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">add</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">.ffmpeg.scale"</span><span class="p">,</span>
+            <span class="p">(</span><span class="s2">"scale"</span><span class="p">,),</span>
+            <span class="n">_geometry</span><span class="p">(</span><span class="n">mode</span><span class="p">),</span>
+            <span class="n">timeline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="c1"># --- motion, wrapping looks.motion --------------------------------------</span>
     <span class="n">add</span><span class="p">(</span>
@@ -654,6 +697,12 @@
         <span class="p">(</span><span class="s2">"crop"</span><span class="p">,</span> <span class="s2">"setpts"</span><span class="p">),</span>
         <span class="n">_motion_compiler</span><span class="p">,</span>
         <span class="n">timeline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="c1"># `zoompan`/`crop` compile to expressions that reference `in_time` —</span>
+        <span class="c1"># the one implementation registered here that reads the clock</span>
+        <span class="c1"># regardless of any Effect.at span. See issue #17: `timeline=False`</span>
+        <span class="c1"># (above) answers "can it be gated to a span", which is a different</span>
+        <span class="c1"># and close-to-inverse question.</span>
+        <span class="n">time_varying</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">reg</span></div>
 

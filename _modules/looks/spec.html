@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.spec &mdash; looks 0.0.17 documentation</title>
+  <title>looks.spec &mdash; looks 0.0.18 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=63b572e7"></script>
+      <script src="../../_static/documentation_options.js?v=8bafd125"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -85,6 +85,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_spec.html">looks.tests.test_spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_time_varying.html">looks.tests.test_time_varying</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/tests/test_transition.html">looks.tests.test_transition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/looks/transition.html">looks.transition</a></li>
 </ul>
@@ -887,7 +888,30 @@
 <span class="sd">        impl_version: A behaviour lock, not a receipt — "same interface,</span>
 <span class="sd">            changed behaviour" bumps it, and it enters :func:`plan_hash`</span>
 <span class="sd">            **unconditionally**.</span>
-<span class="sd">        timeline: Whether it can be gated to an :attr:`Effect.at`.</span>
+<span class="sd">        timeline: Whether it can be gated to an :attr:`Effect.at`. Answers a</span>
+<span class="sd">            different question from :attr:`time_varying` and the two are close</span>
+<span class="sd">            to inverses in practice: ``motion.ffmpeg.crop`` compiles to</span>
+<span class="sd">            ``zoompan``/``crop`` expressions that read ``in_time`` and has</span>
+<span class="sd">            **no** timeline support (``timeline=False``), while every static</span>
+<span class="sd">            grade has timeline support (``timeline=True``) and never reads the</span>
+<span class="sd">            clock. See issue #17.</span>
+<span class="sd">        time_varying: Whether this implementation's own fragment reads the</span>
+<span class="sd">            clock **regardless of any span** — true only for a camera move</span>
+<span class="sd">            whose expressions reference ``in_time``. Distinct from</span>
+<span class="sd">            :attr:`Step.time_varying`, which also accounts for an</span>
+<span class="sd">            :attr:`Effect.at` Span gating an otherwise-static filter with</span>
+<span class="sd">            ``enable='between(t,...)'``.</span>
+
+<span class="sd">            **Tri-state, and ``None`` is not ``False``.** The same rule as</span>
+<span class="sd">            :attr:`Step.cpu_seconds` and</span>
+<span class="sd">            :attr:`~looks.frame_dependency.DependencyReport.can_flicker`:</span>
+<span class="sd">            "we were not told" and "it does not" are different claims, and only</span>
+<span class="sd">            one of them is a guarantee a caller may act on. An implementation</span>
+<span class="sd">            registered without declaring this reads as **unknown**, never as</span>
+<span class="sd">            "does not read the clock" — a silent ``False`` here is exactly the</span>
+<span class="sd">            false permission that would let muvid#73's ramp restart ship</span>
+<span class="sd">            unwarned. :func:`looks.ffmpeg.register_defaults` requires every</span>
+<span class="sd">            built-in implementation to declare it explicitly for this reason.</span>
 <span class="sd">        preference: Explicit tiebreak within one tier; lower wins.</span>
 
 <span class="sd">    Examples:</span>
@@ -899,6 +923,8 @@
 <span class="sd">        '1'</span>
 <span class="sd">        &gt;&gt;&gt; impl.timeline</span>
 <span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; impl.time_varying is None      # undeclared is unknown, not False</span>
+<span class="sd">        True</span>
 <span class="sd">    """</span>
 
     <span class="n">effect</span><span class="p">:</span> <span class="nb">str</span>
@@ -908,6 +934,7 @@
     <span class="n">requires_filters</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
     <span class="n">impl_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"1"</span>
     <span class="n">timeline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">time_varying</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">preference</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1064,6 +1091,22 @@
 <span class="sd">        'lut3d=look.cube'</span>
 <span class="sd">        &gt;&gt;&gt; s.cpu_seconds is None            # unknown, not free</span>
 <span class="sd">        True</span>
+
+<span class="sd">        An impl that declares it does not read the clock stays that way — gate</span>
+<span class="sd">        it to a span and it does, regardless (issue #17, the question</span>
+<span class="sd">        ``ImplRef.timeline`` looks like but is not):</span>
+
+<span class="sd">        &gt;&gt;&gt; from dataclasses import replace</span>
+<span class="sd">        &gt;&gt;&gt; static = replace(s, impl=replace(impl, time_varying=False))</span>
+<span class="sd">        &gt;&gt;&gt; static.time_varying</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; replace(static, at=Span(1.0, 2.0)).time_varying</span>
+<span class="sd">        True</span>
+
+<span class="sd">        An impl that never declared it reads as **unknown**, not ``False``:</span>
+
+<span class="sd">        &gt;&gt;&gt; s.time_varying is None</span>
+<span class="sd">        True</span>
 <span class="sd">    """</span>
 
     <span class="n">effect</span><span class="p">:</span> <span class="nb">str</span>
@@ -1089,7 +1132,31 @@
             <span class="p">)</span>
         <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
         <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"payload"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">payload</span><span class="p">))</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span></div>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">,</span> <span class="n">_freeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">time_varying</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Whether this compiled fragment reads the clock (issue #17).</span>
+
+<span class="sd">        Not ``not self.impl.timeline`` — that field means "can be gated to a</span>
+<span class="sd">        span", which is close to the *inverse* of this question: the one</span>
+<span class="sd">        genuinely clock-reading implementation registered today</span>
+<span class="sd">        (``motion.ffmpeg.crop``, whose ``zoompan``/``crop`` expressions</span>
+<span class="sd">        reference ``in_time``) has **no** timeline support, while every static</span>
+<span class="sd">        grade has it and never reads the clock.</span>
+
+<span class="sd">        **Tri-state.** A span that actually bounds something is a *certain*</span>
+<span class="sd">        ``True`` regardless of what the implementation declares — it compiles</span>
+<span class="sd">        with ``enable='between(t,...)'`` no matter what — using the same</span>
+<span class="sd">        predicate :func:`looks.ffmpeg.gated` uses to decide whether to emit</span>
+<span class="sd">        one (:attr:`Span.is_whole`, so the two never drift apart). Absent</span>
+<span class="sd">        that, the answer is exactly :attr:`ImplRef.time_varying`, unknown</span>
+<span class="sd">        included: an implementation that never declared it does not become</span>
+<span class="sd">        "does not read the clock" just because no span was given either.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">at</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">at</span><span class="o">.</span><span class="n">is_whole</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">time_varying</span></div>
 
 
 
@@ -1173,6 +1240,33 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">has_unknown_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Whether anything is unpriced. A gate reads this, not the sum."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_step_count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">time_varying</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Whether any compiled step reads the clock — see :attr:`Step.time_varying`.</span>
+
+<span class="sd">        The question issue #17 was filed for: a consumer that renders a blend</span>
+<span class="sd">        as a separate input-seeked invocation (input-side ``-ss`` rebases the</span>
+<span class="sd">        filter clock to 0) needs to know, per compiled fragment, whether that</span>
+<span class="sd">        rebasing can affect it. ``not impl.timeline`` answers a different</span>
+<span class="sd">        question and gets it wrong on three of the four filters that matter —</span>
+<span class="sd">        this property is the one to ask instead.</span>
+
+<span class="sd">        **Tri-state, and a known ``True`` wins over an unknown step.** One</span>
+<span class="sd">        step that certainly reads the clock makes the plan ``True`` even if</span>
+<span class="sd">        another step's implementation never declared itself — a plan is not</span>
+<span class="sd">        "unknown" about the one thing it is sure of. Absent any certain</span>
+<span class="sd">        ``True``, an unknown step poisons the answer to ``None``: "every step</span>
+<span class="sd">        we could classify does not read the clock" is not "nothing here</span>
+<span class="sd">        reads the clock", the same asymmetry :attr:`has_unknown_costs` keeps</span>
+<span class="sd">        separate from :attr:`total_cpu_seconds`.</span>
+<span class="sd">        """</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">time_varying</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">realtime_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>

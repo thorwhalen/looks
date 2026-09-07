@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.spec &mdash; looks 0.0.17 documentation</title>
+  <title>looks.spec &mdash; looks 0.0.18 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=63b572e7"></script>
+      <script src="../../_static/documentation_options.js?v=8bafd125"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -88,6 +88,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.requires_filters"><code class="docutils literal notranslate"><span class="pre">ImplRef.requires_filters</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.impl_version"><code class="docutils literal notranslate"><span class="pre">ImplRef.impl_version</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.timeline"><code class="docutils literal notranslate"><span class="pre">ImplRef.timeline</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.time_varying"><code class="docutils literal notranslate"><span class="pre">ImplRef.time_varying</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.preference"><code class="docutils literal notranslate"><span class="pre">ImplRef.preference</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.ImplRef.tier"><code class="docutils literal notranslate"><span class="pre">ImplRef.tier</span></code></a></li>
 </ul>
@@ -103,6 +104,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.has_unknown_costs"><code class="docutils literal notranslate"><span class="pre">LookPlan.has_unknown_costs</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.known_cpu_seconds"><code class="docutils literal notranslate"><span class="pre">LookPlan.known_cpu_seconds</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.realtime_factor"><code class="docutils literal notranslate"><span class="pre">LookPlan.realtime_factor</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.time_varying"><code class="docutils literal notranslate"><span class="pre">LookPlan.time_varying</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.total_cpu_seconds"><code class="docutils literal notranslate"><span class="pre">LookPlan.total_cpu_seconds</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#looks.spec.LookPlan.unknown_step_count"><code class="docutils literal notranslate"><span class="pre">LookPlan.unknown_step_count</span></code></a></li>
 </ul>
@@ -121,7 +123,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#looks.spec.SpanUnsupported"><code class="docutils literal notranslate"><span class="pre">SpanUnsupported</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#looks.spec.SpecError"><code class="docutils literal notranslate"><span class="pre">SpecError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Step"><code class="docutils literal notranslate"><span class="pre">Step</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#looks.spec.Step"><code class="docutils literal notranslate"><span class="pre">Step</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#looks.spec.Step.time_varying"><code class="docutils literal notranslate"><span class="pre">Step.time_varying</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#looks.spec.Target"><code class="docutils literal notranslate"><span class="pre">Target</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#looks.spec.UnresolvedParameter"><code class="docutils literal notranslate"><span class="pre">UnresolvedParameter</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#looks.spec.look_from_dict"><code class="docutils literal notranslate"><span class="pre">look_from_dict()</span></code></a></li>
@@ -157,6 +162,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tests/test_pyproject_reader.html">looks.tests.test_pyproject_reader</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_smoke.html">looks.tests.test_smoke</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_spec.html">looks.tests.test_spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests/test_time_varying.html">looks.tests.test_time_varying</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests/test_transition.html">looks.tests.test_transition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transition.html">looks.transition</a></li>
 </ul>
@@ -356,7 +362,7 @@ may have it.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="looks.spec.ImplRef">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">ImplRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">requires_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#ImplRef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.ImplRef" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">looks.spec.</span></span><span class="sig-name descname"><span class="pre">ImplRef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="licence.html#looks.licence.Terms" title="looks.licence.Terms"><span class="pre">Terms</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">requires_filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_varying</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/looks/spec.html#ImplRef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#looks.spec.ImplRef" title="Link to this definition"></a></dt>
 <dd><p>What an implementation declares about itself — <strong>terms, never a tier</strong>.</p>
 <p>A tier is a position on a policy ladder; terms are what was observed. An
 implementation that could declare its own tier could declare itself
@@ -432,10 +438,42 @@ changed behaviour” bumps it, and it enters <a class="reference internal" href=
 <dl class="py attribute">
 <dt class="sig sig-object py" id="looks.spec.ImplRef.timeline">
 <span class="sig-name descname"><span class="pre">timeline</span></span><a class="headerlink" href="#looks.spec.ImplRef.timeline" title="Link to this definition"></a></dt>
-<dd><p>Whether it can be gated to an <code class="xref py py-attr docutils literal notranslate"><span class="pre">Effect.at</span></code>.</p>
+<dd><p>Whether it can be gated to an <code class="xref py py-attr docutils literal notranslate"><span class="pre">Effect.at</span></code>. Answers a
+different question from <a class="reference internal" href="#looks.spec.ImplRef.time_varying" title="looks.spec.ImplRef.time_varying"><code class="xref py py-attr docutils literal notranslate"><span class="pre">time_varying</span></code></a> and the two are close
+to inverses in practice: <code class="docutils literal notranslate"><span class="pre">motion.ffmpeg.crop</span></code> compiles to
+<code class="docutils literal notranslate"><span class="pre">zoompan</span></code>/<code class="docutils literal notranslate"><span class="pre">crop</span></code> expressions that read <code class="docutils literal notranslate"><span class="pre">in_time</span></code> and has
+<strong>no</strong> timeline support (<code class="docutils literal notranslate"><span class="pre">timeline=False</span></code>), while every static
+grade has timeline support (<code class="docutils literal notranslate"><span class="pre">timeline=True</span></code>) and never reads the
+clock. See issue #17.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="looks.spec.ImplRef.time_varying">
+<span class="sig-name descname"><span class="pre">time_varying</span></span><a class="headerlink" href="#looks.spec.ImplRef.time_varying" title="Link to this definition"></a></dt>
+<dd><p>Whether this implementation’s own fragment reads the
+clock <strong>regardless of any span</strong> — true only for a camera move
+whose expressions reference <code class="docutils literal notranslate"><span class="pre">in_time</span></code>. Distinct from
+<a class="reference internal" href="#looks.spec.Step.time_varying" title="looks.spec.Step.time_varying"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Step.time_varying</span></code></a>, which also accounts for an
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Effect.at</span></code> Span gating an otherwise-static filter with
+<code class="docutils literal notranslate"><span class="pre">enable='between(t,...)'</span></code>.</p>
+<p><strong>Tri-state, and ``None`` is not ``False``.</strong> The same rule as
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Step.cpu_seconds</span></code> and
+<a class="reference internal" href="frame_dependency.html#looks.frame_dependency.DependencyReport.can_flicker" title="looks.frame_dependency.DependencyReport.can_flicker"><code class="xref py py-attr docutils literal notranslate"><span class="pre">can_flicker</span></code></a>:
+“we were not told” and “it does not” are different claims, and only
+one of them is a guarantee a caller may act on. An implementation
+registered without declaring this reads as <strong>unknown</strong>, never as
+“does not read the clock” — a silent <code class="docutils literal notranslate"><span class="pre">False</span></code> here is exactly the
+false permission that would let muvid#73’s ramp restart ship
+unwarned. <a class="reference internal" href="ffmpeg.html#looks.ffmpeg.register_defaults" title="looks.ffmpeg.register_defaults"><code class="xref py py-func docutils literal notranslate"><span class="pre">looks.ffmpeg.register_defaults()</span></code></a> requires every
+built-in implementation to declare it explicitly for this reason.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -459,6 +497,8 @@ changed behaviour” bumps it, and it enters <a class="reference internal" href=
 <span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span><span class="o">.</span><span class="n">impl_version</span>
 <span class="go">'1'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span><span class="o">.</span><span class="n">timeline</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impl</span><span class="o">.</span><span class="n">time_varying</span> <span class="ow">is</span> <span class="kc">None</span>      <span class="c1"># undeclared is unknown, not False</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -571,6 +611,26 @@ must be total to compose, but a headline ratio a human acts on must not
 fabricate. Returning <code class="docutils literal notranslate"><span class="pre">0.0</span></code> for “we did not know” is reelee#208’s
 failure mode, where a <code class="docutils literal notranslate"><span class="pre">$0.00</span></code>-because-unknown read as “under the
 threshold, spend freely”.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.LookPlan.time_varying">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">time_varying</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.spec.LookPlan.time_varying" title="Link to this definition"></a></dt>
+<dd><p>Whether any compiled step reads the clock — see <a class="reference internal" href="#looks.spec.Step.time_varying" title="looks.spec.Step.time_varying"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Step.time_varying</span></code></a>.</p>
+<p>The question issue #17 was filed for: a consumer that renders a blend
+as a separate input-seeked invocation (input-side <code class="docutils literal notranslate"><span class="pre">-ss</span></code> rebases the
+filter clock to 0) needs to know, per compiled fragment, whether that
+rebasing can affect it. <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">impl.timeline</span></code> answers a different
+question and gets it wrong on three of the four filters that matter —
+this property is the one to ask instead.</p>
+<p><strong>Tri-state, and a known ``True`` wins over an unknown step.</strong> One
+step that certainly reads the clock makes the plan <code class="docutils literal notranslate"><span class="pre">True</span></code> even if
+another step’s implementation never declared itself — a plan is not
+“unknown” about the one thing it is sure of. Absent any certain
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, an unknown step poisons the answer to <code class="docutils literal notranslate"><span class="pre">None</span></code>: “every step
+we could classify does not read the clock” is not “nothing here
+reads the clock”, the same asymmetry <a class="reference internal" href="#looks.spec.LookPlan.has_unknown_costs" title="looks.spec.LookPlan.has_unknown_costs"><code class="xref py py-attr docutils literal notranslate"><span class="pre">has_unknown_costs</span></code></a> keeps
+separate from <a class="reference internal" href="#looks.spec.LookPlan.total_cpu_seconds" title="looks.spec.LookPlan.total_cpu_seconds"><code class="xref py py-attr docutils literal notranslate"><span class="pre">total_cpu_seconds</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -715,6 +775,42 @@ tag.</p>
 <span class="go">True</span>
 </pre></div>
 </div>
+<p>An impl that declares it does not read the clock stays that way — gate
+it to a span and it does, regardless (issue #17, the question
+<code class="docutils literal notranslate"><span class="pre">ImplRef.timeline</span></code> looks like but is not):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">static</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">impl</span><span class="o">=</span><span class="n">replace</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">time_varying</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">static</span><span class="o">.</span><span class="n">time_varying</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">replace</span><span class="p">(</span><span class="n">static</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="n">Span</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span><span class="o">.</span><span class="n">time_varying</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>An impl that never declared it reads as <strong>unknown</strong>, not <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">time_varying</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="looks.spec.Step.time_varying">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">time_varying</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#looks.spec.Step.time_varying" title="Link to this definition"></a></dt>
+<dd><p>Whether this compiled fragment reads the clock (issue #17).</p>
+<p>Not <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">self.impl.timeline</span></code> — that field means “can be gated to a
+span”, which is close to the <em>inverse</em> of this question: the one
+genuinely clock-reading implementation registered today
+(<code class="docutils literal notranslate"><span class="pre">motion.ffmpeg.crop</span></code>, whose <code class="docutils literal notranslate"><span class="pre">zoompan</span></code>/<code class="docutils literal notranslate"><span class="pre">crop</span></code> expressions
+reference <code class="docutils literal notranslate"><span class="pre">in_time</span></code>) has <strong>no</strong> timeline support, while every static
+grade has it and never reads the clock.</p>
+<p><strong>Tri-state.</strong> A span that actually bounds something is a <em>certain</em>
+<code class="docutils literal notranslate"><span class="pre">True</span></code> regardless of what the implementation declares — it compiles
+with <code class="docutils literal notranslate"><span class="pre">enable='between(t,...)'</span></code> no matter what — using the same
+predicate <a class="reference internal" href="ffmpeg.html#looks.ffmpeg.gated" title="looks.ffmpeg.gated"><code class="xref py py-func docutils literal notranslate"><span class="pre">looks.ffmpeg.gated()</span></code></a> uses to decide whether to emit
+one (<a class="reference internal" href="#looks.spec.Span.is_whole" title="looks.spec.Span.is_whole"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Span.is_whole</span></code></a>, so the two never drift apart). Absent
+that, the answer is exactly <a class="reference internal" href="#looks.spec.ImplRef.time_varying" title="looks.spec.ImplRef.time_varying"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ImplRef.time_varying</span></code></a>, unknown
+included: an implementation that never declared it does not become
+“does not read the clock” just because no span was given either.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
