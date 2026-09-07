@@ -179,6 +179,7 @@ class ImplRef:
     requires_filters: tuple[str, ...] = () # ffmpeg filters this impl emits
     impl_version: str = "1"                # behaviour lock; enters plan_hash UNCONDITIONALLY
     timeline: bool = True                  # can this be gated to an Effect.at?
+    time_varying: bool | None = None       # does its OWN fragment read the clock? None = undeclared
     preference: int = 0                    # explicit tiebreak within one tier; lower wins
     lossy_substitute_for: tuple[str, ...] = ()   # see rule 12
 ```
@@ -188,6 +189,8 @@ class ImplRef:
 **`preference` exists because the tiebreak is the common case, not the exception.** Every ffmpeg implementation of a capability sits at the same rung, so "prefer the lowest tier, ties by registration order" resolves to *import order* for exactly the family it is most often asked about. Make the tiebreak legible or refuse the ambiguity; do not let it be a side effect of import order. [R3]
 
 **`timeline` is a candidate FILTER, not a post-check.** Verified on ffmpeg 8.1: `lut3d`, `lutrgb`, `curves`, `unsharp`, `gblur`, `colorchannelmixer`, `colorlevels`, `geq` carry the `T` flag; `scale`, `crop`, `elbg`, `palettegen`, `zoompan` do not, and `xfade` does not. If `Effect.at` is set, ungateable candidates are dropped in step 1 alongside the `impl`/`backend` pins — checking it *after* tier selection discards a perfectly good gateable candidate and then refuses. [R3][2]
+
+**`time_varying` answers a different question from `timeline`, and the two are close to inverses in practice (issue #17).** `timeline` means "can be gated to an `Effect.at`"; `time_varying` means "does the fragment read the clock regardless of any span". `motion.ffmpeg.crop` compiles to `zoompan`/`crop` expressions that reference `in_time` — the one implementation registered here that reads the clock — and it has `timeline=False`, while every static grade has `timeline=True` and never reads the clock. **Tri-state, and `None` is not `False`**, for the same reason `Step.cpu_seconds` and `DependencyReport.can_flicker` are tri-state: an implementation nobody declared this for is *unknown*, not "does not read the clock" — a silent `False` would let a consumer like muvid#73 ship an unwarned ramp restart across a transitioned boundary. `register_defaults` therefore requires every built-in implementation to declare it explicitly, with no default. `Step.time_varying` ORs it with "this step carries an `at` Span that actually bounds something" (`Span.is_whole`, shared with `looks.ffmpeg.gated`'s own emission check, so the two decisions cannot drift apart) — a certain span-gate is `True` even over an undeclared impl. `LookPlan.time_varying` aggregates: one certain `True` step wins outright; otherwise any unknown step poisons the answer to `None`, mirroring `has_unknown_costs`/`total_cpu_seconds`. Measured: `frame_dependency.classify`'s own TIME_VARYING probe is a spatially uniform still, so it cannot see a moving crop window — `motion.ffmpeg.crop` reads `time_delta=0.0` against it and is classified `CONTENT_ADAPTIVE` instead, a blind spot in that probe's still rather than a wrong declaration (confirmed independently by compiling the effect and reading `LookPlan.time_varying`).
 
 ### 4.6 The compiled form: `Step` and `LookPlan`
 
