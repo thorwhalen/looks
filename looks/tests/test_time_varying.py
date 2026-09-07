@@ -30,7 +30,7 @@ from looks.cache import materialize
 from looks.compile import compile_look
 from looks.environment import probe
 from looks.ffmpeg import vf
-from looks.frame_dependency import Dependency, classify
+from looks.frame_dependency import NOISE_FLOOR, Dependency, classify
 from looks.licence import terms_for
 from looks.registry import REGISTRY
 from looks.spec import ClipSpec, Effect, ImplRef, Look, LookPlan, Span, Step
@@ -217,6 +217,12 @@ class TestDeclarationAgreesWithMeasurement:
     measured dependency class agree with what this PR just declared about it".
     """
 
+    def test_every_effect_has_parameters_here(self):
+        """So the sweep cannot quietly stop covering a new effect."""
+        assert set(looks.effects()) == set(PARAMS), (
+            "an effect was registered without being added to this sweep's PARAMS"
+        )
+
     @pytest.mark.parametrize(
         "impl",
         [i for i in ALL_IMPLS if i.impl not in _BLIND_TO_THE_STILL_PROBE],
@@ -226,8 +232,9 @@ class TestDeclarationAgreesWithMeasurement:
         self, impl, env, cube, tmp_path_factory
     ):
         _ffmpeg_or_skip()
-        if impl.effect not in PARAMS:
-            pytest.skip(f"{impl.effect!r} has no params fixture in this sweep")
+        # No `pytest.skip` for a missing PARAMS entry here: `PARAMS` is
+        # asserted complete above, so a gap would silently drop an impl out of
+        # this sweep rather than reddening.
         params = dict(PARAMS[impl.effect])
         if impl.effect == "lut3d":
             params["cube"] = str(cube)
@@ -275,7 +282,10 @@ class TestTheStillProbeCannotSeeAMovingCropWindow:
         )
         plan = compile_look(look, clip=CLIP, env=env)
         report = classify(vf(plan))
-        assert report.time_delta == 0.0
+        # <= NOISE_FLOOR, not exact equality: this asserts the probe still
+        # cannot see the moving window, and reddens the day it can (rather
+        # than the day a measured value moves by rounding noise).
+        assert report.time_delta <= NOISE_FLOOR
         assert report.dependency is not Dependency.TIME_VARYING
         # The impl still declares (and LookPlan.time_varying still reports)
         # the true answer — the probe's blind spot does not leak into it.
