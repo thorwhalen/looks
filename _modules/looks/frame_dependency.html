@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.frame_dependency &mdash; looks 0.0.18 documentation</title>
+  <title>looks.frame_dependency &mdash; looks 0.0.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=8bafd125"></script>
+      <script src="../../_static/documentation_options.js?v=2fd7553c"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -187,20 +187,6 @@
 <span class="sd">serves renders one bounded ffmpeg *per cut*, so a temporal filter meets a hard</span>
 <span class="sd">discontinuity at every cut. Do not read that as making the gap harmless —</span>
 <span class="sd">it means the gap is not currently load-bearing, not that it is closed.</span>
-
-<span class="sd">**A purely positional clock-reader can be misclassified `CONTENT_ADAPTIVE`.**</span>
-<span class="sd">The TIME_VARYING probe's still (`_still_source`) is spatially UNIFORM</span>
-<span class="sd">(`color=c=gray`), so an effect whose output depends on the clock only through</span>
-<span class="sd">*where* it samples — a moving crop window, say — produces zero luma</span>
-<span class="sd">difference against it: there is nothing for a diff to see when every pixel is</span>
-<span class="sd">the same colour regardless of position. Measured on</span>
-<span class="sd">``looks.ffmpeg``'s ``motion.ffmpeg.crop`` (a `crop` whose x/y expressions</span>
-<span class="sd">read `t`): `time_delta == 0.0` against this probe. The asymmetric content</span>
-<span class="sd">probe incidentally reacts to the moving window (`content_delta` nonzero,</span>
-<span class="sd">because the window drifts into the varying half), so the effect is reported</span>
-<span class="sd">`CONTENT_ADAPTIVE` rather than `TIME_VARYING` — the wrong class for the right</span>
-<span class="sd">reason. See `looks` issue #20 and `looks/tests/test_time_varying.py`'s</span>
-<span class="sd">``TestTheStillProbeCannotSeeAMovingCropWindow`` for the full measurement.</span>
 
 <span class="sd">**And an `INDEPENDENT` verdict is evidence, not proof.** It says: none of three</span>
 <span class="sd">probes could make this effect change a pixel it should not have touched. An</span>
@@ -405,8 +391,19 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_still_source</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A still that is spatially non-uniform, so a positional clock-reader has</span>
+<span class="sd">    something to read.</span>
+
+<span class="sd">    ``rgbtestsrc`` is a static RGB test pattern: deterministic (no ``seed``),</span>
+<span class="sd">    invariant across frames (no ``speed``, and measured bit-identical frame</span>
+<span class="sd">    to frame — issue #20), and spatially varying (YMIN 16 / YMAX 141 at this</span>
+<span class="sd">    probe's size), unlike the flat ``color=c=gray`` it replaces. A purely</span>
+<span class="sd">    positional effect — a crop window whose x/y read ``t`` — samples different</span>
+<span class="sd">    pixels of this pattern at different times and so registers a nonzero</span>
+<span class="sd">    ``time_delta``, where a flat still would show it nothing to diff.</span>
+<span class="sd">    """</span>
     <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">PROBE_SIZE</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"color=c=gray:s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=</span><span class="si">{</span><span class="n">PROBE_DURATION</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"rgbtestsrc=s=</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">:r=</span><span class="si">{</span><span class="n">PROBE_RATE</span><span class="si">}</span><span class="s2">:d=</span><span class="si">{</span><span class="n">PROBE_DURATION</span><span class="si">}</span><span class="s2">"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_split_sources</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>

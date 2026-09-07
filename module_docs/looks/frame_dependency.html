@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>looks.frame_dependency &mdash; looks 0.0.18 documentation</title>
+  <title>looks.frame_dependency &mdash; looks 0.0.19 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=8bafd125"></script>
+      <script src="../../_static/documentation_options.js?v=2fd7553c"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -206,19 +206,6 @@ temporal filter is out of scope</strong>, because the execution model this packa
 serves renders one bounded ffmpeg <em>per cut</em>, so a temporal filter meets a hard
 discontinuity at every cut. Do not read that as making the gap harmless —
 it means the gap is not currently load-bearing, not that it is closed.</p>
-<p><strong>A purely positional clock-reader can be misclassified `CONTENT_ADAPTIVE`.</strong>
-The TIME_VARYING probe’s still (<cite>_still_source</cite>) is spatially UNIFORM
-(<cite>color=c=gray</cite>), so an effect whose output depends on the clock only through
-<em>where</em> it samples — a moving crop window, say — produces zero luma
-difference against it: there is nothing for a diff to see when every pixel is
-the same colour regardless of position. Measured on
-<code class="docutils literal notranslate"><span class="pre">looks.ffmpeg</span></code>’s <code class="docutils literal notranslate"><span class="pre">motion.ffmpeg.crop</span></code> (a <cite>crop</cite> whose x/y expressions
-read <cite>t</cite>): <cite>time_delta == 0.0</cite> against this probe. The asymmetric content
-probe incidentally reacts to the moving window (<cite>content_delta</cite> nonzero,
-because the window drifts into the varying half), so the effect is reported
-<cite>CONTENT_ADAPTIVE</cite> rather than <cite>TIME_VARYING</cite> — the wrong class for the right
-reason. See <cite>looks</cite> issue #20 and <cite>looks/tests/test_time_varying.py</cite>’s
-<code class="docutils literal notranslate"><span class="pre">TestTheStillProbeCannotSeeAMovingCropWindow</span></code> for the full measurement.</p>
 <p><strong>And an `INDEPENDENT` verdict is evidence, not proof.</strong> It says: none of three
 probes could make this effect change a pixel it should not have touched. An
 effect adapting to a statistic none of them moves would pass, and so would
