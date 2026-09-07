@@ -71,20 +71,6 @@ serves renders one bounded ffmpeg *per cut*, so a temporal filter meets a hard
 discontinuity at every cut. Do not read that as making the gap harmless —
 it means the gap is not currently load-bearing, not that it is closed.
 
-**A purely positional clock-reader can be misclassified `CONTENT_ADAPTIVE`.**
-The TIME_VARYING probe's still (`_still_source`) is spatially UNIFORM
-(`color=c=gray`), so an effect whose output depends on the clock only through
-*where* it samples — a moving crop window, say — produces zero luma
-difference against it: there is nothing for a diff to see when every pixel is
-the same colour regardless of position. Measured on
-``looks.ffmpeg``'s ``motion.ffmpeg.crop`` (a `crop` whose x/y expressions
-read `t`): `time_delta == 0.0` against this probe. The asymmetric content
-probe incidentally reacts to the moving window (`content_delta` nonzero,
-because the window drifts into the varying half), so the effect is reported
-`CONTENT_ADAPTIVE` rather than `TIME_VARYING` — the wrong class for the right
-reason. See `looks` issue #20 and `looks/tests/test_time_varying.py`'s
-``TestTheStillProbeCannotSeeAMovingCropWindow`` for the full measurement.
-
 **And an `INDEPENDENT` verdict is evidence, not proof.** It says: none of three
 probes could make this effect change a pixel it should not have touched. An
 effect adapting to a statistic none of them moves would pass, and so would
@@ -282,8 +268,19 @@ def _max_luma_delta(
 
 
 def _still_source() -> str:
+    """A still that is spatially non-uniform, so a positional clock-reader has
+    something to read.
+
+    ``rgbtestsrc`` is a static RGB test pattern: deterministic (no ``seed``),
+    invariant across frames (no ``speed``, and measured bit-identical frame
+    to frame — issue #20), and spatially varying (YMIN 16 / YMAX 141 at this
+    probe's size), unlike the flat ``color=c=gray`` it replaces. A purely
+    positional effect — a crop window whose x/y read ``t`` — samples different
+    pixels of this pattern at different times and so registers a nonzero
+    ``time_delta``, where a flat still would show it nothing to diff.
+    """
     w, h = PROBE_SIZE
-    return f"color=c=gray:s={w}x{h}:r={PROBE_RATE}:d={PROBE_DURATION}"
+    return f"rgbtestsrc=s={w}x{h}:r={PROBE_RATE}:d={PROBE_DURATION}"
 
 
 def _split_sources() -> tuple[str, ...]:

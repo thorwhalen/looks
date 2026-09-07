@@ -191,24 +191,6 @@ class TestEveryBuiltInImplementationDeclaresItExplicitly:
         )
 
 
-#: `frame_dependency.classify`'s TIME_VARYING probe (`_still_source`) is a
-#: spatially UNIFORM still (`color=c=gray`). Measured here: a `crop` whose
-#: window position reads `t` produces `time_delta == 0.0` against it, because
-#: cropping a flat colour is invariant to where the window sits — there is
-#: nothing for a luma diff to see. The classifier's decision order checks
-#: `time_delta` first, so a purely positional clock-reader that the time probe
-#: cannot see falls through to whichever of `temporal_delta`/`content_delta`
-#: its *content* probe (a spatially split source) happens to catch instead —
-#: measured as `CONTENT_ADAPTIVE` (`content_delta=83.0`) for
-#: `motion.ffmpeg.crop`, not `TIME_VARYING`. That is a blind spot in the
-#: probe's still, not a wrong declaration: `TestAgainstTheRealRegistry` below
-#: confirms `time_varying=True` for this impl a different way, by compiling it
-#: and reading `LookPlan.time_varying` directly. Excluded from the
-#: measurement sweep for that reason, with the finding recorded rather than
-#: silently skipped.
-_BLIND_TO_THE_STILL_PROBE = frozenset({"motion.ffmpeg.crop"})
-
-
 class TestDeclarationAgreesWithMeasurement:
     """The declaration is an assertion; frame_dependency.classify is the check.
 
@@ -223,11 +205,7 @@ class TestDeclarationAgreesWithMeasurement:
             "an effect was registered without being added to this sweep's PARAMS"
         )
 
-    @pytest.mark.parametrize(
-        "impl",
-        [i for i in ALL_IMPLS if i.impl not in _BLIND_TO_THE_STILL_PROBE],
-        ids=lambda i: i.impl,
-    )
+    @pytest.mark.parametrize("impl", ALL_IMPLS, ids=lambda i: i.impl)
     def test_declared_time_varying_matches_the_probed_dependency(
         self, impl, env, cube, tmp_path_factory
     ):
@@ -253,19 +231,18 @@ class TestDeclarationAgreesWithMeasurement:
         )
 
 
-class TestTheStillProbeCannotSeeAMovingCropWindow:
-    """The excluded case, measured and named rather than silently skipped.
+class TestTheStillProbeSeesAMovingCropWindow:
+    """The formerly-blind case (issue #20), now measured correctly.
 
-    `motion.ffmpeg.crop`'s window position is a function of `t`, but
-    `frame_dependency.classify`'s time probe runs it over a spatially uniform
-    still, where no crop window produces a different pixel. The mismatch is in
-    the probe's still, not in this PR's `time_varying=True` declaration —
-    confirmed independently in `TestAgainstTheRealRegistry`, which reads
-    `LookPlan.time_varying` off a real compiled plan rather than inferring it
-    from `frame_dependency.classify`.
+    `motion.ffmpeg.crop`'s window position is a function of `t`.
+    `frame_dependency.classify`'s time probe used to run it over a spatially
+    uniform still (`color=c=gray`), where no crop window produces a different
+    pixel — a false `CONTENT_ADAPTIVE` verdict. The still is now `rgbtestsrc`,
+    spatially non-uniform, so a moving crop samples different pixels frame to
+    frame and the probe sees it.
     """
 
-    def test_a_flat_still_cannot_reveal_a_moving_crop_window(self, env, tmp_path):
+    def test_a_non_uniform_still_reveals_a_moving_crop_window(self, env, tmp_path):
         _ffmpeg_or_skip()
         look = Look(
             steps=(
@@ -282,13 +259,9 @@ class TestTheStillProbeCannotSeeAMovingCropWindow:
         )
         plan = compile_look(look, clip=CLIP, env=env)
         report = classify(vf(plan))
-        # <= NOISE_FLOOR, not exact equality: this asserts the probe still
-        # cannot see the moving window, and reddens the day it can (rather
-        # than the day a measured value moves by rounding noise).
-        assert report.time_delta <= NOISE_FLOOR
-        assert report.dependency is not Dependency.TIME_VARYING
-        # The impl still declares (and LookPlan.time_varying still reports)
-        # the true answer — the probe's blind spot does not leak into it.
+        assert report.time_delta > NOISE_FLOOR
+        assert report.dependency is Dependency.TIME_VARYING
+        # The impl's own declaration (and LookPlan.time_varying) agree.
         assert plan.time_varying is True
 
 
