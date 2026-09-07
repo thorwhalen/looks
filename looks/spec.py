@@ -724,7 +724,19 @@ class ImplRef:
         impl_version: A behaviour lock, not a receipt — "same interface,
             changed behaviour" bumps it, and it enters :func:`plan_hash`
             **unconditionally**.
-        timeline: Whether it can be gated to an :attr:`Effect.at`.
+        timeline: Whether it can be gated to an :attr:`Effect.at`. Answers a
+            different question from :attr:`time_varying` and the two are close
+            to inverses in practice: ``motion.ffmpeg.crop`` compiles to
+            ``zoompan``/``crop`` expressions that read ``in_time`` and has
+            **no** timeline support (``timeline=False``), while every static
+            grade has timeline support (``timeline=True``) and never reads the
+            clock. See issue #17.
+        time_varying: Whether this implementation's own fragment reads the
+            clock **regardless of any span** — true only for a camera move
+            whose expressions reference ``in_time``. Distinct from
+            :attr:`Step.time_varying`, which also accounts for an
+            :attr:`Effect.at` Span gating an otherwise-static filter with
+            ``enable='between(t,...)'``.
         preference: Explicit tiebreak within one tier; lower wins.
 
     Examples:
@@ -736,6 +748,8 @@ class ImplRef:
         '1'
         >>> impl.timeline
         True
+        >>> impl.time_varying
+        False
     """
 
     effect: str
@@ -745,6 +759,7 @@ class ImplRef:
     requires_filters: tuple[str, ...] = ()
     impl_version: str = "1"
     timeline: bool = True
+    time_varying: bool = False
     preference: int = 0
 
     def __post_init__(self) -> None:
@@ -895,6 +910,15 @@ class Step:
         'lut3d=look.cube'
         >>> s.cpu_seconds is None            # unknown, not free
         True
+
+        A static grade does not read the clock; gate it to a span and it does
+        (issue #17, the question ``ImplRef.timeline`` looks like but is not):
+
+        >>> s.time_varying
+        False
+        >>> from dataclasses import replace
+        >>> replace(s, at=Span(1.0, 2.0)).time_varying
+        True
     """
 
     effect: str
@@ -921,6 +945,29 @@ class Step:
         object.__setattr__(self, "params", _freeze(self.params))
         object.__setattr__(self, "payload", _freeze(self.payload))
         object.__setattr__(self, "metadata", _freeze(self.metadata))
+
+    @property
+    def time_varying(self) -> bool:
+        """Whether this compiled fragment reads the clock (issue #17).
+
+        Not ``not self.impl.timeline`` — that field means "can be gated to a
+        span", which is close to the *inverse* of this question: the one
+        genuinely clock-reading implementation registered today
+        (``motion.ffmpeg.crop``, whose ``zoompan``/``crop`` expressions
+        reference ``in_time``) has **no** timeline support, while every static
+        grade has it and never reads the clock.
+
+        True in either of two independent cases, mirroring
+        :func:`looks.ffmpeg.gated`:
+
+        - :attr:`ImplRef.time_varying` — the implementation itself is
+          clock-driven, span or no span; or
+        - this step carries an :attr:`at` Span that actually bounds
+          something, so it compiles with ``enable='between(t,...)'``. A Span
+          open at both ends bounds nothing and :func:`~looks.ffmpeg.gated`
+          does not emit ``enable=`` for it, so it does not count here either.
+        """
+        return self.impl.time_varying or (self.at is not None and not self.at.is_whole)
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1001,6 +1048,19 @@ class LookPlan:
     def has_unknown_costs(self) -> bool:
         """Whether anything is unpriced. A gate reads this, not the sum."""
         return self.unknown_step_count > 0
+
+    @property
+    def time_varying(self) -> bool:
+        """Whether any compiled step reads the clock — see :attr:`Step.time_varying`.
+
+        The question issue #17 was filed for: a consumer that renders a blend
+        as a separate input-seeked invocation (input-side ``-ss`` rebases the
+        filter clock to 0) needs to know, per compiled fragment, whether that
+        rebasing can affect it. ``not impl.timeline`` answers a different
+        question and gets it wrong on three of the four filters that matter —
+        this property is the one to ask instead.
+        """
+        return any(s.time_varying for s in self.steps)
 
     @property
     def realtime_factor(self) -> Optional[float]:

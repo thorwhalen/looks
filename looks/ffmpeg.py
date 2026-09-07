@@ -388,7 +388,16 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         return reg
     terms = _ffmpeg_terms()
 
-    def add(key, filters, compiler, *, preference=0, timeline=True, tags=()):
+    def add(
+        key,
+        filters,
+        compiler,
+        *,
+        preference=0,
+        timeline=True,
+        time_varying=False,
+        tags=(),
+    ):
         effect, backend, _variant = key.split(".")
         reg.register(
             ImplRef(
@@ -399,6 +408,7 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
                 requires_filters=filters,
                 preference=preference,
                 timeline=timeline,
+                time_varying=time_varying,
             ),
             compiler,
             tags=tags,
@@ -518,6 +528,12 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         ("crop", "setpts"),
         _motion_compiler,
         timeline=False,
+        # `zoompan`/`crop` compile to expressions that reference `in_time` —
+        # the one implementation registered here that reads the clock
+        # regardless of any Effect.at span. See issue #17: `timeline=False`
+        # (above) answers "can it be gated to a span", which is a different
+        # and close-to-inverse question.
+        time_varying=True,
     )
     return reg
 
