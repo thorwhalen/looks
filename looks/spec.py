@@ -724,7 +724,30 @@ class ImplRef:
         impl_version: A behaviour lock, not a receipt — "same interface,
             changed behaviour" bumps it, and it enters :func:`plan_hash`
             **unconditionally**.
-        timeline: Whether it can be gated to an :attr:`Effect.at`.
+        timeline: Whether it can be gated to an :attr:`Effect.at`. Answers a
+            different question from :attr:`time_varying` and the two are close
+            to inverses in practice: ``motion.ffmpeg.crop`` compiles to
+            ``zoompan``/``crop`` expressions that read ``in_time`` and has
+            **no** timeline support (``timeline=False``), while every static
+            grade has timeline support (``timeline=True``) and never reads the
+            clock. See issue #17.
+        time_varying: Whether this implementation's own fragment reads the
+            clock **regardless of any span** — true only for a camera move
+            whose expressions reference ``in_time``. Distinct from
+            :attr:`Step.time_varying`, which also accounts for an
+            :attr:`Effect.at` Span gating an otherwise-static filter with
+            ``enable='between(t,...)'``.
+
+            **Tri-state, and ``None`` is not ``False``.** The same rule as
+            :attr:`Step.cpu_seconds` and
+            :attr:`~looks.frame_dependency.DependencyReport.can_flicker`:
+            "we were not told" and "it does not" are different claims, and only
+            one of them is a guarantee a caller may act on. An implementation
+            registered without declaring this reads as **unknown**, never as
+            "does not read the clock" — a silent ``False`` here is exactly the
+            false permission that would let muvid#73's ramp restart ship
+            unwarned. :func:`looks.ffmpeg.register_defaults` requires every
+            built-in implementation to declare it explicitly for this reason.
         preference: Explicit tiebreak within one tier; lower wins.
 
     Examples:
@@ -736,6 +759,8 @@ class ImplRef:
         '1'
         >>> impl.timeline
         True
+        >>> impl.time_varying is None      # undeclared is unknown, not False
+        True
     """
 
     effect: str
@@ -745,6 +770,7 @@ class ImplRef:
     requires_filters: tuple[str, ...] = ()
     impl_version: str = "1"
     timeline: bool = True
+    time_varying: Optional[bool] = None
     preference: int = 0
 
     def __post_init__(self) -> None:
@@ -895,6 +921,22 @@ class Step:
         'lut3d=look.cube'
         >>> s.cpu_seconds is None            # unknown, not free
         True
+
+        An impl that declares it does not read the clock stays that way — gate
+        it to a span and it does, regardless (issue #17, the question
+        ``ImplRef.timeline`` looks like but is not):
+
+        >>> from dataclasses import replace
+        >>> static = replace(s, impl=replace(impl, time_varying=False))
+        >>> static.time_varying
+        False
+        >>> replace(static, at=Span(1.0, 2.0)).time_varying
+        True
+
+        An impl that never declared it reads as **unknown**, not ``False``:
+
+        >>> s.time_varying is None
+        True
     """
 
     effect: str
@@ -921,6 +963,30 @@ class Step:
         object.__setattr__(self, "params", _freeze(self.params))
         object.__setattr__(self, "payload", _freeze(self.payload))
         object.__setattr__(self, "metadata", _freeze(self.metadata))
+
+    @property
+    def time_varying(self) -> Optional[bool]:
+        """Whether this compiled fragment reads the clock (issue #17).
+
+        Not ``not self.impl.timeline`` — that field means "can be gated to a
+        span", which is close to the *inverse* of this question: the one
+        genuinely clock-reading implementation registered today
+        (``motion.ffmpeg.crop``, whose ``zoompan``/``crop`` expressions
+        reference ``in_time``) has **no** timeline support, while every static
+        grade has it and never reads the clock.
+
+        **Tri-state.** A span that actually bounds something is a *certain*
+        ``True`` regardless of what the implementation declares — it compiles
+        with ``enable='between(t,...)'`` no matter what — using the same
+        predicate :func:`looks.ffmpeg.gated` uses to decide whether to emit
+        one (:attr:`Span.is_whole`, so the two never drift apart). Absent
+        that, the answer is exactly :attr:`ImplRef.time_varying`, unknown
+        included: an implementation that never declared it does not become
+        "does not read the clock" just because no span was given either.
+        """
+        if self.at is not None and not self.at.is_whole:
+            return True
+        return self.impl.time_varying
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1001,6 +1067,33 @@ class LookPlan:
     def has_unknown_costs(self) -> bool:
         """Whether anything is unpriced. A gate reads this, not the sum."""
         return self.unknown_step_count > 0
+
+    @property
+    def time_varying(self) -> Optional[bool]:
+        """Whether any compiled step reads the clock — see :attr:`Step.time_varying`.
+
+        The question issue #17 was filed for: a consumer that renders a blend
+        as a separate input-seeked invocation (input-side ``-ss`` rebases the
+        filter clock to 0) needs to know, per compiled fragment, whether that
+        rebasing can affect it. ``not impl.timeline`` answers a different
+        question and gets it wrong on three of the four filters that matter —
+        this property is the one to ask instead.
+
+        **Tri-state, and a known ``True`` wins over an unknown step.** One
+        step that certainly reads the clock makes the plan ``True`` even if
+        another step's implementation never declared itself — a plan is not
+        "unknown" about the one thing it is sure of. Absent any certain
+        ``True``, an unknown step poisons the answer to ``None``: "every step
+        we could classify does not read the clock" is not "nothing here
+        reads the clock", the same asymmetry :attr:`has_unknown_costs` keeps
+        separate from :attr:`total_cpu_seconds`.
+        """
+        values = [s.time_varying for s in self.steps]
+        if any(v is True for v in values):
+            return True
+        if any(v is None for v in values):
+            return None
+        return False
 
     @property
     def realtime_factor(self) -> Optional[float]:

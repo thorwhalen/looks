@@ -136,10 +136,12 @@ def gated(fragment: str, at: Optional[Span]) -> str:
     >>> gated("scale=2:2,crop=1:1", Span(0.0, 1.0))
     "scale=2:2:enable='between(t,0,1)',crop=1:1:enable='between(t,0,1)'"
     """
-    if at is None or (at.start is None and at.end is None):
-        # A Span open at BOTH ends bounds nothing, so it is not a gate. Emitting
-        # `enable=` for it would be a filter option that always evaluates true —
-        # noise in the string and a lie in a diff.
+    if at is None or at.is_whole:
+        # A Span open at BOTH ends (`Span.is_whole`) bounds nothing, so it is
+        # not a gate. Emitting `enable=` for it would be a filter option that
+        # always evaluates true — noise in the string and a lie in a diff.
+        # `looks.spec.Step.time_varying` asks this exact question through the
+        # same predicate, on purpose: one decision, shared rather than copied.
         return fragment
     if at.start is None:
         window = f"enable='lte(t,{_num(at.end)})'"
@@ -388,7 +390,21 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         return reg
     terms = _ffmpeg_terms()
 
-    def add(key, filters, compiler, *, preference=0, timeline=True, tags=()):
+    def add(
+        key,
+        filters,
+        compiler,
+        *,
+        time_varying,
+        preference=0,
+        timeline=True,
+        tags=(),
+    ):
+        # `time_varying` has no default, deliberately: `ImplRef.time_varying`
+        # is unknown (`None`) unless declared, and unknown is not the same
+        # claim as "does not read the clock". Forcing every built-in
+        # registration to say which is how this module avoids shipping a
+        # silent `False` for something nobody checked.
         effect, backend, _variant = key.split(".")
         reg.register(
             ImplRef(
@@ -399,6 +415,7 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
                 requires_filters=filters,
                 preference=preference,
                 timeline=timeline,
+                time_varying=time_varying,
             ),
             compiler,
             tags=tags,
@@ -409,6 +426,7 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         "gradient_map.ffmpeg.lut3d",
         ("lut3d",),
         _gradient_map_compiler,
+        time_varying=False,
     )
     add(
         "lut3d.ffmpeg.default",
@@ -417,11 +435,13 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
             "lut3d",
             lambda p: {"file": p["cube"], "interp": p.get("interp", "tetrahedral")},
         ),
+        time_varying=False,
     )
     add(
         "saturation.ffmpeg.colorchannelmixer",
         ("colorchannelmixer",),
         _simple("colorchannelmixer", _saturation_matrix),
+        time_varying=False,
     )
     add(
         "saturation.ffmpeg.eq",
@@ -429,11 +449,13 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         _simple("eq", lambda p: {"saturation": p.get("amount", 1.0)}),
         preference=1,
         tags=("gpl-gated",),
+        time_varying=False,
     )
     add(
         "contrast.ffmpeg.lutyuv",
         ("lutyuv",),
         _simple("lutyuv", _contrast_luma),
+        time_varying=False,
     )
     add(
         "contrast.ffmpeg.eq",
@@ -441,8 +463,14 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         _simple("eq", lambda p: {"contrast": p.get("amount", 1.0)}),
         preference=1,
         tags=("gpl-gated",),
+        time_varying=False,
     )
-    add("gamma.ffmpeg.lutrgb", ("lutrgb",), _simple("lutrgb", _gamma_expression))
+    add(
+        "gamma.ffmpeg.lutrgb",
+        ("lutrgb",),
+        _simple("lutrgb", _gamma_expression),
+        time_varying=False,
+    )
     add(
         "levels.ffmpeg.colorlevels",
         ("colorlevels",),
@@ -457,9 +485,13 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
                 "bimax": p.get("white", 1),
             },
         ),
+        time_varying=False,
     )
     add(
-        "posterize.ffmpeg.lutrgb", ("lutrgb",), _simple("lutrgb", _posterize_expression)
+        "posterize.ffmpeg.lutrgb",
+        ("lutrgb",),
+        _simple("lutrgb", _posterize_expression),
+        time_varying=False,
     )
     add(
         "flatten.ffmpeg.bilateral",
@@ -475,6 +507,7 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
                 "planes": p.get("planes", 7),
             },
         ),
+        time_varying=False,
     )
 
     # --- spatial ------------------------------------------------------------
@@ -482,6 +515,7 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         "blur.ffmpeg.gblur",
         ("gblur",),
         _simple("gblur", lambda p: {"sigma": p.get("sigma", 2)}),
+        time_varying=False,
     )
     add(
         "blur.ffmpeg.boxblur",
@@ -489,6 +523,7 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         _simple("boxblur", lambda p: {"luma_radius": p.get("radius", 2)}),
         preference=1,
         tags=("gpl-gated",),
+        time_varying=False,
     )
     add(
         "sharpen.ffmpeg.unsharp",
@@ -500,6 +535,7 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
             # the registry sweep, which is what that sweep is for.
             lambda p: {"luma_amount": p.get("amount", 1.0)},
         ),
+        time_varying=False,
     )
 
     # --- geometry, wrapping looks.geometry ----------------------------------
@@ -510,7 +546,13 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         # its own registry data — the refusal existed and never fired, and the
         # binary rejected the command instead. A gated geometry step is now
         # refused at SELECTION, which is where a caller can act on it.
-        add(f"{mode}.ffmpeg.scale", ("scale",), _geometry(mode), timeline=False)
+        add(
+            f"{mode}.ffmpeg.scale",
+            ("scale",),
+            _geometry(mode),
+            timeline=False,
+            time_varying=False,
+        )
 
     # --- motion, wrapping looks.motion --------------------------------------
     add(
@@ -518,6 +560,12 @@ def register_defaults(registry: Optional[EffectRegistry] = None) -> EffectRegist
         ("crop", "setpts"),
         _motion_compiler,
         timeline=False,
+        # `zoompan`/`crop` compile to expressions that reference `in_time` —
+        # the one implementation registered here that reads the clock
+        # regardless of any Effect.at span. See issue #17: `timeline=False`
+        # (above) answers "can it be gated to a span", which is a different
+        # and close-to-inverse question.
+        time_varying=True,
     )
     return reg
 
