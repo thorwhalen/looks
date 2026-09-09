@@ -675,3 +675,25 @@ At the measured 0.5–0.75 flattening scale this is still 40–165 s **per frame
 ### Net
 
 The note's central finding is real, reproducible, worse than the metadata admits, and now confirmed to persist into 5.0.0.93. Its methodology section is the right one and is mostly honoured. The corrections needed are: the platform rule is a **wheel** rule with at least three values including a clean macOS one; the probe needs a third state and better globs; `flatten-permissive` is mislabelled; and recommendation 4 should port two transitions, not six.
+
+---
+
+## Correction (2026-09-09, `thorwhalen/looks#21`)
+
+**R3 — every macOS x86_64 measurement in this note, including the adversarial review's R1 and R2, is of `opencv-python-headless`, never of `opencv-python` itself. The two distributions do not agree on that platform, and a summary that drops "headless" is a false permission for `opencv-python`.**
+
+`CLAUDE.md` and `docs/research/README.md` had both generalised R1's headless finding to "`opencv-python`'s macOS x86_64 wheel bundles no FFmpeg at all". Downloaded from PyPI and inspected (nothing installed, nothing run — same method as R1/R2):
+
+```
+opencv_python-4.12.0.88-cp37-abi3-macosx_13_0_x86_64.whl
+  cv2/.dylibs: 93 dylibs incl. libx264.164.dylib, libx265.215.dylib, libavcodec.61.19.101.dylib
+  libavutil license string: "GPL version 3 or later"
+  libavcodec configure string: --enable-gpl --enable-version3 --enable-libx264 --enable-libx265
+
+opencv_python-5.0.0.93-cp37-abi3-macosx_14_0_x86_64.whl
+  cv2/.dylibs: 11 dylibs (aom, avif, dav1d, deflate, OpenEXR/Imath, openjph, vmaf) — no FFmpeg, same set as headless
+```
+
+So on macOS x86_64, `opencv-python` (non-headless) at 4.12.0.88 bundles the **same GPL-3.0-or-later ffmpeg as arm64** — R2's table is only true of `opencv_python_headless`, and its row would read `gpl`, not `permissive`, for the non-headless distribution at that version. The FFmpeg-free build this note documents for headless reached the non-headless distribution too, but not until somewhere between 4.12.0.88 and 5.0.0.93 (unmeasured; both are PyPI endpoints, nothing in between was downloaded). Independently corroborated for 4.12.0.88 in `thorwhalen/paces#19`.
+
+This does not change the note's central finding (arm64 is GPL, manylinux is LGPL) or its recommendations — it narrows exactly one cell of R2's table, which was mislabelled by distribution rather than by fact. `looks/data/provider_terms.json` now carries both measured `opencv-python` x86_64 rows, version-pinned, and `classify()` derives `UNKNOWN` for 4.12.0.88 (same open in-process-coupling question as arm64) and `PERMISSIVE` for 5.0.0.93.

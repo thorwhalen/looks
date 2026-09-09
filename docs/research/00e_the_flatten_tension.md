@@ -35,3 +35,5 @@ Which is the same shape as the ffmpeg finding one layer up: there is not one ffm
 ## Status
 
 **Reasoned, not re-measured here.** The per-platform wheel contents come from note 08 and its adversarial review, both of which downloaded and inspected real wheels. The synthesis should carry the qualification; if it cannot be confirmed, the unqualified form in note 13 is the safe one to publish, since it errs toward refusal.
+
+**Correction (2026-09-09, `thorwhalen/looks#21`):** the `macosx_14_0_x86_64` row in the table above is `opencv-python-headless`, and it does not generalise to `opencv-python` at large — non-headless `opencv-python==4.12.0.88` on that same platform bundles the *same* GPL ffmpeg as arm64; only `opencv-python==5.0.0.93` is FFmpeg-free there. See note 08's correction section for the measurement. The argument in "What this changes" and "The rule this argues for" is unaffected — it becomes an argument for keying the tier on the exact wheel (distribution *and* version), not merely the platform.

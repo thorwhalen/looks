@@ -799,6 +799,16 @@ class TestTheLedger:
             ),
             (
                 "opencv",
+                "pypi:opencv-python==4.12.0.88@macosx_x86_64",
+                "bundled-ffmpeg",
+            ): Verdict.UNKNOWN,
+            (
+                "opencv",
+                "pypi:opencv-python==5.0.0.93@macosx_x86_64",
+                "bundled-ffmpeg",
+            ): Tier.PERMISSIVE,
+            (
+                "opencv",
                 "pypi:opencv-python-headless@macosx_arm64",
                 "bundled-ffmpeg",
             ): Verdict.UNKNOWN,
@@ -937,6 +947,28 @@ class TestTheLedger:
         assert by_platform["macosx_arm64"].verdict is Verdict.UNKNOWN
         assert by_platform["macosx_14_0_x86_64"].tier is Tier.PERMISSIVE
         assert by_platform["manylinux"].tier is Tier.WEAK_COPYLEFT
+
+    def test_the_same_platform_disagrees_across_wheel_versions(self):
+        """macOS x86_64 opencv-python is not one answer — issue #21.
+
+        CLAUDE.md once generalised the headless-only 'x86_64 has no FFmpeg'
+        finding to opencv-python at large. 4.12.0.88 ships the same GPL
+        ffmpeg as arm64; only by 5.0.0.93 does x86_64 go FFmpeg-free. A
+        realisation keyed on platform alone cannot hold both facts.
+        """
+        by_version = {
+            t.realisation: classify(t)
+            for t in terms_for("opencv", component="bundled-ffmpeg")
+            if t.realisation.startswith("pypi:opencv-python==") and "x86_64" in t.realisation
+        }
+        assert (
+            by_version["pypi:opencv-python==4.12.0.88@macosx_x86_64"].verdict
+            is Verdict.UNKNOWN
+        )
+        assert (
+            by_version["pypi:opencv-python==5.0.0.93@macosx_x86_64"].tier
+            is Tier.PERMISSIVE
+        )
 
     def test_a_bad_schema_tag_is_refused_loudly(self):
         import looks.licence as module
