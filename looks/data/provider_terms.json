@@ -9,7 +9,7 @@
     "What licence THIS machine's ffmpeg carries. That is looks.environment.probe -> FfmpegEnv.licence, consumed by looks.licence.ffmpeg_terms(env). The ffmpeg/system row below is one dated observation, never a lookup: there is not one ffmpeg on a machine."
   ],
   "unverified": [
-    "The macOS x86_64 and Windows opencv wheel contents beyond what research note 08's review inspected.",
+    "opencv-python's macOS x86_64 wheel contents for any version strictly between 4.12.0.88 (measured: bundles GPL ffmpeg) and 5.0.0.93 (measured: bundles none) — where the wheel stopped bundling FFmpeg on that platform. The Windows opencv wheel contents beyond what research note 08's review inspected.",
     "libzimg and libplacebo's own LICENSE files. Both are LGPL-2.1+ as FFmpeg *wrapper* code and absent from every gate list, which is FFmpeg's assertion rather than a verification. (Note 07's review did read libzimg's COPYING directly: WTFPL-2.0, GPL-compatible but outside the MIT/BSD/Apache/ISC set this ecosystem's policy names, with no warranty disclaimer and no patent grant.)",
     "torchvision keypoint R-CNN WEIGHTS provenance.",
     "Whether a source build with -DWITH_FFMPEG=OFF actually yields an FFmpeg-free cv2.",
@@ -585,6 +585,47 @@
         }
       ],
       "note": "COUPLING IS DELIBERATELY UNKNOWN, AND THAT IS THE ANSWER, NOT A GAP. Whether cv2's dynamic linkage of its bundled GPL libavcodec counts as looks' own in-process coupling is the open question in decisions section 11: read one way the row is FORBIDDEN at every ceiling, read the other it is COPYLEFT_SHIPPED and merely above the default. That adjudication is exactly what the honesty rule forbids looks from making, so this row refuses as UNKNOWN. Section 5.7's Tier column records COPYLEFT_SHIPPED; the two readings are indistinguishable under the default ceiling and differ only at max_tier=COPYLEFT_SHIPPED. Settle it with the owner, or make it moot: -DWITH_FFMPEG=OFF, a non-OpenCV mean-shift, or an ffmpeg-native flattener."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "pypi:opencv-python==4.12.0.88@macosx_x86_64",
+      "component": "bundled-ffmpeg",
+      "spdx": "GPL-3.0-or-later",
+      "coupling": "unknown",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect+strings",
+          "command": "pip download --platform macosx_13_0_x86_64 opencv-python==4.12.0.88; unzip; ls cv2/.dylibs; strings libavutil.*.dylib | grep license; strings libavcodec.*.dylib | grep enable-",
+          "observed": "opencv_python-4.12.0.88-cp37-abi3-macosx_13_0_x86_64.whl bundles the same GPL ffmpeg as the arm64 wheel: cv2/.dylibs carries libx264.164.dylib and libx265.215.dylib, avutil_license() says 'GPL version 3 or later', configuration --enable-gpl --enable-version3 --enable-libx264 --enable-libx265. Independently corroborated in thorwhalen/paces#19.",
+          "source_url": "https://pypi.org/project/opencv-python/4.12.0.88/",
+          "observed_on": "2026-09-09"
+        }
+      ],
+      "note": "CORRECTS thorwhalen/looks#21: CLAUDE.md previously generalised the headless-only 'x86_64 has no FFmpeg' finding below to opencv-python at large. It never held for this version. Same open coupling question as the arm64 row, same UNKNOWN. The next row shows the answer is ALSO version-dependent on this one platform, which is why the realisation pins the exact version rather than just the platform."
+    },
+    {
+      "provider": "opencv",
+      "realisation": "pypi:opencv-python==5.0.0.93@macosx_x86_64",
+      "component": "bundled-ffmpeg",
+      "spdx": "MIT",
+      "coupling": "in_process",
+      "conveyance": "conveys",
+      "field_of_use": "unrestricted",
+      "reach": "none",
+      "verified": true,
+      "evidence": [
+        {
+          "method": "inspect",
+          "command": "pip download --platform macosx_14_0_x86_64 opencv-python==5.0.0.93; unzip; ls cv2/.dylibs",
+          "observed": "opencv_python-5.0.0.93-cp37-abi3-macosx_14_0_x86_64.whl bundles NO FFmpeg at all: cv2/.dylibs holds 11 vendored dylibs (aom, avif, dav1d, deflate, OpenEXR/Imath, openjph, vmaf), all permissive, same set as the headless x86_64 wheel.",
+          "source_url": "https://pypi.org/project/opencv-python/5.0.0.93/",
+          "observed_on": "2026-09-09"
+        }
+      ],
+      "note": "The FFmpeg-free build reached non-headless too by 5.0.0.93, but NOT at 4.12.0.88 (row above) — so on macOS x86_64 the tier is a property of the wheel VERSION, not just the platform or the headless/non-headless split. A caller pinning 'macosx x86_64 opencv-python is clean' from this row alone would be wrong for every version before 5.x; nothing between 4.12.0.88 and 5.0.0.93 was measured."
     },
     {
       "provider": "opencv",
