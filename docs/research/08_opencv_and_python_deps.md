@@ -686,7 +686,7 @@ The note's central finding is real, reproducible, worse than the metadata admits
 
 ```
 opencv_python-4.12.0.88-cp37-abi3-macosx_13_0_x86_64.whl
-  cv2/.dylibs: 93 dylibs incl. libx264.164.dylib, libx265.215.dylib, libavcodec.61.19.101.dylib
+  cv2/.dylibs: 66 dylibs incl. libx264.164.dylib, libx265.215.dylib, libavcodec.61.19.101.dylib
   libavutil license string: "GPL version 3 or later"
   libavcodec configure string: --enable-gpl --enable-version3 --enable-libx264 --enable-libx265
 

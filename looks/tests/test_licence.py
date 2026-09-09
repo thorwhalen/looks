@@ -959,7 +959,8 @@ class TestTheLedger:
         by_version = {
             t.realisation: classify(t)
             for t in terms_for("opencv", component="bundled-ffmpeg")
-            if t.realisation.startswith("pypi:opencv-python==") and "x86_64" in t.realisation
+            if t.realisation.startswith("pypi:opencv-python==")
+            and "x86_64" in t.realisation
         }
         assert (
             by_version["pypi:opencv-python==4.12.0.88@macosx_x86_64"].verdict
