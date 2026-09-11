@@ -28,7 +28,7 @@ Background: **thorwhalen/muvid#63** is the proposal issue and has a long comment
 ## Non-negotiables
 
 - **Zero hard media dependencies.** `pyproject.toml` declares nothing but stdlib; every backend is an optional extra. Specifically **never** depend on `av` (its wheel bundles `libx264`/`libx265` GPL-2.0+ dylibs under BSD-3 metadata) and **never** on `imageio-ffmpeg` (bundles an `--enable-gpl` binary). ffmpeg is *shelled out to*, never linked.
-- **The licence tier is a refusal, not a warning**, and it is the default ceiling. `Look.max_tier` defaults to "shells out to a copyleft binary is fine"; a restricted-tier effect **raises** unless explicitly opted into. Same rule the video_gen group states for the falaw licence ledger: unknown is a refusal.
+- **The licence tier is a refusal, not a warning**, and it is the default ceiling. `Look.max_tier` defaults to "shells out to a copyleft binary is fine"; a restricted-tier effect **raises** unless explicitly opted into. Same rule the `av` group (formerly `video_gen`) states for the falaw licence ledger: unknown is a refusal.
 - **Keep two things out** or this becomes a second muvid:
   - **Execution and muxing.** muvid's `assemble.py` owns a bounded-memory invariant won after 30-cut OOM kills. A convenience `looks.render(clip, look)` *will* get used and *will* rebuild one big `-filter_complex`.
   - **Cut/EDL decisions.** An `Effect.at` says *where a look applies*, never *where a cut is*.
