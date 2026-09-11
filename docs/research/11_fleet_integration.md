@@ -336,9 +336,9 @@ L13 deserves the last word because it is the rule most likely to be violated by 
 
 ## REFERENCES
 
-[1] video_gen group session root — `CLAUDE.md` (federation notes, the ComfyUI decisions of record, `an`'s StylePack boundary). Path: `$PP/t/priv/data/groups/video_gen/CLAUDE.md`.
+[1] `av` group (formerly `video_gen`) session root — `CLAUDE.md` (federation notes, the ComfyUI decisions of record, `an`'s StylePack boundary). Path: `$PP/g/av/CLAUDE.md`.
 
-[2] video_gen workspace overview — `$PP/t/priv/data/groups/video_gen/workspace_overview.md` (last truth-verified 2026-08-15): the big-picture diagram, the per-package state table, the "where does this go?" decision guide, the cross-cutting invariants, and the `xdol.Registry` convention.
+[2] `av` workspace overview — `$PP/g/av/workspace_overview.md` (last truth-verified 2026-08-15): the big-picture diagram, the per-package state table, the "where does this go?" decision guide, the cross-cutting invariants, and the `xdol.Registry` convention.
 
 [3] `nw.transforms` — the `Transform` Protocol (`input_kinds` / `output_kind` / `is_batch` / `impl_version` / `params_model` / `generate_when`), `BaseTransform.execute`, `register_transform`'s validation, `stamp_transform_identity`, and `cache_key` (nw#54). Path: `$PP/t/nw/nw/transforms/__init__.py`. Repo: [thorwhalen/nw](https://github.com/thorwhalen/nw).
 
